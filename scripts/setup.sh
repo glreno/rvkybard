@@ -6,12 +6,12 @@
 \cp /etc/modules backup
 \cp /etc/rc.local backup
 
-if grep -q "dt_overlay=dwc2" /boot/config.txt
+if grep -q "dtoverlay=dwc2" /boot/config.txt
 then
     echo /boot/config.txt already up to date
 else
     echo Updating /boot/config.txt 
-    echo "dt_overlay=dwc2" >> /boot/config.txt
+    echo "dtoverlay=dwc2" >> /boot/config.txt
 fi
 
 if grep -q "dwc2" /etc/modules
