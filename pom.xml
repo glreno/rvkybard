@@ -16,6 +16,7 @@
 <groupId>rvkybard</groupId>
 <artifactId>rvkybard</artifactId>
 <version>0.01-SNAPSHOT</version>
+<packaging>war</packaging>
 
 <name>relay</name>
 <description>Relay circuit simulator</description>
@@ -57,24 +58,6 @@
         <scope>compile</scope>
     </dependency>
 </dependencies>
-
-<build>
-    <defaultGoal>install</defaultGoal>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>3.1.1</version>
-            <configuration>
-                <archive>
-                    <manifestEntries>
-                        <Main-Class>com.rfacad.rvkybard.Sample</Main-Class>
-                    </manifestEntries>
-                </archive>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
 
 
 </project>
