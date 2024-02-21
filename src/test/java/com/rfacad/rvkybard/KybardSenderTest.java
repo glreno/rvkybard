@@ -43,8 +43,8 @@ public class KybardSenderTest
 		assertEquals(8,b.length);
 		assertEquals(32,b[0]);
 		assertEquals(0,b[1]);
-		assertEquals(0,b[2]);
-		assertEquals(5,b[3]);
+		assertEquals(5,b[2]);
+		assertEquals(0,b[3]);
 		assertEquals(0,b[4]);
 		assertEquals(0,b[5]);
 		assertEquals(0,b[6]);
@@ -61,8 +61,8 @@ public class KybardSenderTest
 		assertEquals(8,b.length);
 		assertEquals(0,b[0]);
 		assertEquals(0,b[1]);
-		assertEquals(0,b[2]);
-		assertEquals(6,b[3]);
+		assertEquals(6,b[2]);
+		assertEquals(0,b[3]);
 		assertEquals(0,b[4]);
 		assertEquals(0,b[5]);
 		assertEquals(0,b[6]);

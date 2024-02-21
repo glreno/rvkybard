@@ -40,7 +40,7 @@ public class KybardSender
 	{
 		LOG.info("SEND {} {}",flags,keycode);
 		buf[0]=flags;
-		buf[3]=keycode;
+		buf[2]=keycode;
 		out.write(buf);
 	}
 	

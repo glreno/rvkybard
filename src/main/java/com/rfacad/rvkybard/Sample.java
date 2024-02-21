@@ -37,8 +37,7 @@ public class Sample extends HttpServlet
         	pause();
         	sender.sendReleaseAllKeys();
         	pause();
-        	sender.sendKey(KybardFlags.SHIFT.getBits(),(byte)5); // B
-        	pause();
+        	sender.sendKey(KybardFlags.SHIFT.getBits(),(byte)14); // J
         	sender.sendReleaseAllKeys();
         }
     }
