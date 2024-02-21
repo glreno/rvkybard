@@ -2,6 +2,12 @@ package com.rfacad.rvkybard;
 
 import java.io.*;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 //
 // Copyright (c) 2024 Gerald Reno, Jr.
 //
@@ -12,12 +18,12 @@ import java.io.*;
 //  http://www.apache.org/licenses/LICENSE-2.0
 //
 
-public class Sample
+public class Sample extends HttpServlet
 {
-    public static void main(String [] args) throws IOException
+    private static final long serialVersionUID = 1L;
+
+	public static void main(String [] args) throws IOException
     {
-        byte [] allUp = new byte[] { 0,0,0,0, 0,0,0,0 };
-        byte [] buf = new byte[8];
         String dest = "/dev/hidg0";
         if ( args.length > 0 )
         {
@@ -25,12 +31,37 @@ public class Sample
         }
         try ( OutputStream out = new FileOutputStream(dest) )
         {
-            buf[0]=0; buf[3]=4; // a
-            out.write(buf);
-            out.write(allUp);
-            buf[0]=32; buf[3]=5; // B
-            out.write(buf);
-            out.write(allUp);
+        	KybardSender sender = new KybardSender(out);
+        	pause();
+        	sender.sendKey((byte)4); // a
+        	pause();
+        	sender.sendReleaseAllKeys();
+        	pause();
+        	sender.sendKey(KybardFlags.SHIFT.getBits(),(byte)5); // B
+        	pause();
+        	sender.sendReleaseAllKeys();
         }
+    }
+    private static void pause()
+    {
+		try
+		{
+			Thread.sleep(1000);
+		}
+		catch(InterruptedException e)
+		{
+			
+		}
+		
+	}
+	@Override
+    public void init(ServletConfig config) throws ServletException
+    {
+    
+    }
+    @Override
+    protected void doGet( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+    	Sample.main(new String[0]);
     }
 }
