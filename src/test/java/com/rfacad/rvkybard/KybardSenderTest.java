@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import com.rfacad.rvkybard.interfaces.KybardFlags;
+
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
 //
@@ -38,7 +40,7 @@ public class KybardSenderTest
 	{
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		KybardSender ks = new KybardSender(out);
-		ks.sendKey(KybardFlags.SHIFT.getBits(),(byte)5); // B
+		ks.sendKey(KybardFlags.RIGHT_SHIFT.getBits(),(byte)5); // B
 		byte [] b = out.toByteArray();
 		assertEquals(8,b.length);
 		assertEquals(32,b[0]);

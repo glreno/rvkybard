@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.rfacad.rvkybard.interfaces.KybardFlags;
+
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
 //

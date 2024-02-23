@@ -1,4 +1,4 @@
-package com.rfacad.rvkybard;
+package com.rfacad.rvkybard.interfaces;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -11,18 +11,29 @@ package com.rfacad.rvkybard;
 //
 
 /** The bit flags that represent shift,ctrl,alt,etc in byte 0 of the key message */
-public enum KybardFlags {
-	NONE(0),
-	SHIFT(32);
+public enum KybardLeds {
+	UNDEFINED(0,"undefined"),
+	NUMLOCK(0x01,"Num Lock"),
+	CAPSLOCK(0x02,"Caps Lock"),
+	SCROLLLOCK(0x04,"Scroll Lock"),
+	COMPOSE(0x08,"Compose"),
+	KANA(0x10,"Kana");
 
 	private byte bits;
-	KybardFlags(int bits)
+    private String name;
+	KybardLeds(int bits,String name)
 	{
 		this.bits=(byte)(bits&0xff);
+        this.name=name;
 	}
 
 	public byte getBits()
 	{
 		return this.bits;
 	}
+
+    public String getName()
+    {
+        return this.name;
+    }
 }
