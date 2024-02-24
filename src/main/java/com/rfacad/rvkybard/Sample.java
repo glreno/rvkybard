@@ -24,45 +24,49 @@ public class Sample extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
 
-	public static void main(String [] args) throws IOException
+    public static void main(String [] args) throws IOException
     {
         String dest = "/dev/hidg0";
         if ( args.length > 0 )
         {
             dest = args[0];
         }
-        try ( OutputStream out = new FileOutputStream(dest) )
-        {
-        	KybardSender sender = new KybardSender(out);
-        	pause();
-        	sender.sendKey((byte)4); // a
-        	pause();
-        	sender.sendReleaseAllKeys();
-        	pause();
-        	sender.sendKey(KybardFlag.LEFT_SHIFT.getBits(),(byte)14); // J
-        	sender.sendReleaseAllKeys();
-        }
+        KybardSender sender = new KybardSender(dest);
+        pause();
+        sender.sendKey((byte)4); // a
+        pause();
+        sender.sendReleaseAllKeys();
+        pause();
+        sender.sendKey(KybardFlag.LEFT_SHIFT.getBits(),(byte)14); // J
+        sender.sendReleaseAllKeys();
+        sender.shutdown();
     }
+
     private static void pause()
     {
-		try
-		{
-			Thread.sleep(1000);
-		}
-		catch(InterruptedException e)
-		{
-			
-		}
-		
-	}
-	@Override
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch(InterruptedException e)
+        {
+        }
+    }
+
+    @Override
     public void init(ServletConfig config) throws ServletException
     {
-    
     }
+
+    @Override
+    public void destroy() 
+    {
+        // Probably need to call KybardSender.shutdown() or something like that
+    }
+
     @Override
     protected void doGet( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-    	Sample.main(new String[0]);
+        Sample.main(new String[0]);
     }
 }

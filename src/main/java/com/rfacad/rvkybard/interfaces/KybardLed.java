@@ -10,7 +10,7 @@ package com.rfacad.rvkybard.interfaces;
 //http://www.apache.org/licenses/LICENSE-2.0
 //
 
-/** The bit flags that represent shift,ctrl,alt,etc in byte 0 of the key message */
+/** The bit flags that represent the LEDs in a key message */
 public enum KybardLed {
 	UNDEFINED(0,"undefined"),
 	NUMLOCK(0x01,"Num Lock"),

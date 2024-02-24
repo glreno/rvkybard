@@ -1,5 +1,6 @@
 package com.rfacad.rvkybard;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -20,34 +21,63 @@ import com.rfacad.rvkybard.interfaces.KybardFlag;
 
 public class KybardSender
 {
-	Logger LOG = LoggerFactory.getLogger(KybardSender.class);
+    Logger LOG = LoggerFactory.getLogger(KybardSender.class);
     private static final byte [] ALLUP = new byte[] { 0,0,0,0, 0,0,0,0 };
 
-    private byte [] buf = new byte[8];
+    private byte [] buf = new byte[8]; // reusable buffer
+    private String dev;
+    private OutputStream out; // very much NOT buffered
 
-	private OutputStream out;
+    public KybardSender(String dev)
+    {
+        this.dev = dev;
+    }
 
-	public KybardSender(OutputStream out)
-	{
-		this.out = out;
-	}
+    protected void send(byte [] b) throws IOException
+    {
+        if ( out == null  )
+        {
+            out = new FileOutputStream(dev);
+        }
+        out.write(b);
+        out.flush();
+    }
 
-	public synchronized void sendReleaseAllKeys() throws IOException
-	{
-		LOG.info("SEND RELEASE ALL");
-		out.write(ALLUP);
-	}
+    protected void doClose()
+    {
+        OutputStream o = out;
+        out = null;
+        try
+        {
+            o.close();
+        }
+        catch (IOException e)
+        {
+            LOG.error("Failed to close stream",e);
+        }
+    }
 
-	public synchronized void sendKey(byte flags,byte keycode) throws IOException
-	{
-		LOG.info("SEND {} {}",flags,keycode);
-		buf[0]=flags;
-		buf[2]=keycode;
-		out.write(buf);
-	}
-	
-	public void sendKey(byte keycode) throws IOException
-	{
-		sendKey(KybardFlag.NONE.getBits(),keycode);
-	}
+    public synchronized void shutdown()
+    {
+        doClose();
+    }
+
+    public synchronized void sendReleaseAllKeys() throws IOException
+    {
+        LOG.info("SEND RELEASE ALL");
+        send(ALLUP);
+    }
+
+    public synchronized void sendKey(byte flags,byte keycode) throws IOException
+    {
+        LOG.info("SEND {} {}",flags,keycode);
+        buf[0]=flags;
+        buf[2]=keycode;
+        send(buf);
+    }
+
+    public void sendKey(byte keycode) throws IOException
+    {
+        sendKey(KybardFlag.NONE.getBits(),keycode);
+    }
 }

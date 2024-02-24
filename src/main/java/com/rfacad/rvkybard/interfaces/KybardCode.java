@@ -13,7 +13,6 @@ import java.util.Map;
 //http://www.apache.org/licenses/LICENSE-2.0
 //
 
-/** The bit flags that represent shift,ctrl,alt,etc in byte 0 of the key message */
 public enum KybardCode {
 	RESERVED(0x00,"Reserved"),
 	ROLLOVER(0x01,"ErrorRollOver"),
