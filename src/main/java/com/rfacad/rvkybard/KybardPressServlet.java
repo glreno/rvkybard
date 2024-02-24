@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.rfacad.rvkybard.interfaces.KybardCode;
 import com.rfacad.rvkybard.interfaces.KybardFlag;
@@ -23,7 +26,7 @@ import com.rfacad.rvkybard.interfaces.KybardFlag;
 //
 //  http://www.apache.org/licenses/LICENSE-2.0
 //
-
+@Configurable
 public class KybardPressServlet extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
@@ -32,11 +35,14 @@ public class KybardPressServlet extends HttpServlet
 
     Logger LOG = LoggerFactory.getLogger(KybardPressServlet.class);
 
+    @Autowired
     protected KybardSender kybardSender;
 
     @Override
     public void init(ServletConfig config) throws ServletException
     {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     public void setKybardSender(KybardSender kybardSender)

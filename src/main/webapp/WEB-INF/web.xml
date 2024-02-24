@@ -27,7 +27,9 @@
       more information.
     </description>
 
-
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
     <!-- Servlet definitions for the servlets that make up
          your web application, including initialization
@@ -72,7 +74,8 @@
         To release a key, just send another call without that key.
         The call with no query params is the same as releasing all keys.
       </description>
-      <servlet-class>com.rfacad.rvkybard.kybardPressServlet</servlet-class>
+      <servlet-class>com.rfacad.rvkybard.KybardPressServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
     </servlet>
 
 

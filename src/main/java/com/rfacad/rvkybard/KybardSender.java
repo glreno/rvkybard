@@ -32,6 +32,16 @@ public class KybardSender
         this.dev = dev;
     }
 
+    public KybardSender()
+    {
+        this.dev="";
+    }
+
+    public void setDev(String dev)
+    {
+        this.dev=dev;
+    }
+
     protected void send(byte [] b) throws IOException
     {
         if ( out == null  )
