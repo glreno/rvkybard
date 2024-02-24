@@ -77,7 +77,7 @@ public class KybardSenderTest
     public void shouldSendShift() throws IOException
     {
         KybardSender ks = new KybardSender(fn);
-        ks.sendKey(KybardFlag.RIGHT_SHIFT.getBits(),(byte)5); // B
+        ks.sendKeys(KybardFlag.RIGHT_SHIFT.getBits(),new byte[] {5} ); // B
         ks.shutdown();
         byte [] b = readTestFile();
 
@@ -109,6 +109,26 @@ public class KybardSenderTest
         assertEquals(0,b[5]);
         assertEquals(0,b[6]);
         assertEquals(0,b[7]);
+    }
+
+    @Test
+    public void shouldSendKeys() throws IOException
+    {
+        KybardSender ks = new KybardSender(fn);
+        ks.sendKeys((byte)32,new byte[] {6,7,8,9,10,11,12}); // shift c d e f g h i
+        ks.shutdown();
+
+        byte [] b = readTestFile();
+        assertEquals(8,b.length);
+        assertEquals(32,b[0]);
+        assertEquals(0,b[1]);
+        assertEquals(6,b[2]);
+        assertEquals(7,b[3]);
+        assertEquals(8,b[4]);
+        assertEquals(9,b[5]);
+        assertEquals(10,b[6]);
+        assertEquals(11,b[7]); // h
+        // The i will not be sent -- max six keys
     }
 
 }

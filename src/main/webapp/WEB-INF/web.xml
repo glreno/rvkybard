@@ -62,6 +62,19 @@
       <servlet-class>com.rfacad.rvkybard.Sample</servlet-class>
     </servlet>
 
+    <servlet>
+      <servlet-name>kybardPress</servlet-name>
+      <description>
+        This servlet accepts a key name, and sends the relevent key code.
+        Parameters are:
+        f: comma separated list of LEFT_SHIFT, etc. LEFT/RIGHT _ SHIFT/CTRL/ALT/GUI
+        k: comma separated list of keys that are being pressed
+        To release a key, just send another call without that key.
+        The call with no query params is the same as releasing all keys.
+      </description>
+      <servlet-class>com.rfacad.rvkybard.kybardPressServlet</servlet-class>
+    </servlet>
+
 
     <!-- Define mappings that are used by the servlet container to
          translate a particular request URI (context-relative) to a
@@ -84,6 +97,11 @@
     <servlet-mapping>
       <servlet-name>sample</servlet-name>
       <url-pattern>/sample</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>kybardPress</servlet-name>
+      <url-pattern>/k</url-pattern>
     </servlet-mapping>
 
 

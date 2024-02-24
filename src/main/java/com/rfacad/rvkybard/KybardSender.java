@@ -24,7 +24,6 @@ public class KybardSender
     Logger LOG = LoggerFactory.getLogger(KybardSender.class);
     private static final byte [] ALLUP = new byte[] { 0,0,0,0, 0,0,0,0 };
 
-    private byte [] buf = new byte[8]; // reusable buffer
     private String dev;
     private OutputStream out; // very much NOT buffered
 
@@ -68,16 +67,21 @@ public class KybardSender
         send(ALLUP);
     }
 
-    public synchronized void sendKey(byte flags,byte keycode) throws IOException
+    public synchronized void sendKeys(byte flags,byte [] keycodes) throws IOException
     {
-        LOG.info("SEND {} {}",flags,keycode);
+        byte [] buf = new byte[8];
+        LOG.info("SEND {} {}",flags,keycodes);
         buf[0]=flags;
-        buf[2]=keycode;
+        int n = keycodes.length > 6 ? 6 : keycodes.length;
+        for(int i=0; i < n; i++)
+        {
+            buf[i+2]=keycodes[i];
+        }
         send(buf);
     }
 
     public void sendKey(byte keycode) throws IOException
     {
-        sendKey(KybardFlag.NONE.getBits(),keycode);
+        sendKeys(KybardFlag.NONE.getBits(),new byte[] {keycode});
     }
 }

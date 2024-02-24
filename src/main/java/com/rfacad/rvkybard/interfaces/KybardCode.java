@@ -68,7 +68,7 @@ public enum KybardCode {
 	KB_SEMICOLON(0x33,";",":"),
 	KB_OPENQUOTE(0x34,"\u2019"), // and open double-quote
 	KB_BACKQUOTE(0x35,"`","~"),
-	KB_COMMA(0x36,",","<"),
+	KB_COMMA(0x36,",","Comma","<"), // note that this string is going to be sent in a comma-separated list!
 	KB_DOT(0x37,".",">"),
 	KB_SLASH(0x38,"/","?"),
 	KB_CAPSLOCK(0x39,"Caps Lock"), // Use the flag instead
