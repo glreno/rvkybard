@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.rfacad.rvkybard.interfaces.KybardFlags;
+import com.rfacad.rvkybard.interfaces.KybardFlag;
 
 //
 // Copyright (c) 2024 Gerald Reno, Jr.
@@ -39,7 +39,7 @@ public class Sample extends HttpServlet
         	pause();
         	sender.sendReleaseAllKeys();
         	pause();
-        	sender.sendKey(KybardFlags.LEFT_SHIFT.getBits(),(byte)14); // J
+        	sender.sendKey(KybardFlag.LEFT_SHIFT.getBits(),(byte)14); // J
         	sender.sendReleaseAllKeys();
         }
     }

@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.rfacad.rvkybard.interfaces.KybardFlags;
+import com.rfacad.rvkybard.interfaces.KybardFlag;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -48,6 +48,6 @@ public class KybardSender
 	
 	public void sendKey(byte keycode) throws IOException
 	{
-		sendKey(KybardFlags.NONE.getBits(),keycode);
+		sendKey(KybardFlag.NONE.getBits(),keycode);
 	}
 }

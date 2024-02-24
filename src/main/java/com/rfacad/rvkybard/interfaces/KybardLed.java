@@ -11,21 +11,17 @@ package com.rfacad.rvkybard.interfaces;
 //
 
 /** The bit flags that represent shift,ctrl,alt,etc in byte 0 of the key message */
-public enum KybardFlags {
-	NONE(0,""),
-	LEFT_CTRL(0x01,"Left Control"),
-	LEFT_SHIFT(0x02,"Left Shift"),
-	LEFT_ALT(0x04,"Left Alt"),
-	LEFT_GUI(0x08,"Left Gui"), // Windows, Apple, etc
-	RIGHT_CTRL(0x10,"Right Control"),
-	RIGHT_SHIFT(0x20,"Right Shift"),
-	RIGHT_ALT(0x40,"Right Alt"),
-	RIGHT_GUI(0x80,"Right Gui"); // Windows, Apple, etc
+public enum KybardLed {
+	UNDEFINED(0,"undefined"),
+	NUMLOCK(0x01,"Num Lock"),
+	CAPSLOCK(0x02,"Caps Lock"),
+	SCROLLLOCK(0x04,"Scroll Lock"),
+	COMPOSE(0x08,"Compose"),
+	KANA(0x10,"Kana");
 
 	private byte bits;
     private String name;
-
-	KybardFlags(int bits, String name)
+	KybardLed(int bits,String name)
 	{
 		this.bits=(byte)(bits&0xff);
         this.name=name;
