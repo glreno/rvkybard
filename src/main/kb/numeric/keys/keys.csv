@@ -1,0 +1,24 @@
+DEFAULTS,,W=64,W-8=56,W-16=48,H=64,H-8=56,H-16=48
+KP_1.svg,keypad.svgt,L=1,S=End
+KP_2.svg,keypad.svgt,L=2,S=&#x25BC; // DOWN
+KP_3.svg,keypad.svgt,L=3,S=Pg Dn
+KP_4.svg,keypad.svgt,L=4,S=&#x25C0; // LEFT
+KP_5.svg,keypad.svgt,L=5
+KP_6.svg,keypad.svgt,L=6,S=&#x25B6; // RIGHT
+KP_7.svg,keypad.svgt,L=7,S=Home
+KP_8.svg,keypad.svgt,L=8,S=&#x25B2; // UP
+KP_9.svg,keypad.svgt,L=9,S=Pg Up
+KP_0.svg,keypad.svgt,L=0,S=Insert,W=132,W-8=124,W-16=116 // Double width
+KP_DOT.svg,keypad.svgt,L=.,S=Del
+KP_NUMLOCK.svg,keypad.svgt,S=Num Lock
+KP_DIVIDE.svg,key.svgt,L=/
+KP_MULTIPLY.svg,key.svgt,L=*
+KP_MINUS.svg,key.svgt,L=-
+KP_PLUS.svg,key.svgt,L=+,H=132,H-8=124,H-16=116 // double height
+KP_ENTER.svg,keypad.svgt,S=Enter,H=132,H-8=124,H-16=116 // double height
+
+// Defaults are defined in the DEFAULTS row. Everything else defaults to null.
+// We don't support MATH in here -- and neither does SVG. If you want H-8 in your svg, then define and override H-8
+// And remember when doubling you've got a 4 pixel gutter to add in.
+// Note that , and // are not allowed in the text;
+// Use &#x2C; for comma and just don't have two slashes

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+td {
+-webkit-user-select: none;
+-webkit-touch-callout: none;
+}
+img {
+-webkit-user-select: none;
+-webkit-touch-callout: none;
+}
+</style>
+<script type="text/javascript" language="javascript">
+let flagsdown = new Set();
+let keysdown = new Set();
+
+const send = async () => {
+    //console.log(flagsdown);
+    //console.log(keysdown);
+    let u='../../k?f=';
+    flagsdown.forEach((x)=>{u=u+x+','});
+    u=u+'&k=';
+    keysdown.forEach((x)=>{u=u+x+','});
+    //console.log(u);
+    response = await fetch(u);
+}
+
+function flagDown(key) {
+    flagsdown.add(key);
+    send();
+}
+function flagUp(key) {
+    flagsdown.delete(key);
+    send();
+}
+function keyDown(key) {
+    keysdown.add(key);
+    send();
+}
+function keyUp(key) {
+    keysdown.delete(key);
+    send();
+}
+</script>
+</head>
+<body>
+<table>
+
+<tr>
+<!-- TOP ROW    Numlock   /  *  - -->
+<td>
+<img ontouchstart="keyDown('KP_NUMLOCK')" ontouchend="keyUp('KP_NUMLOCK')" src='keys/KP_NUMLOCK.svg' />
+</td>
+<td>
+<img ontouchstart="keyDown('Divide')" ontouchend="keyUp('Divide')" src='keys/KP_DIVIDE.svg' />
+</td>
+<td>
+<img ontouchstart="keyDown('Multiply')" ontouchend="keyUp('Multiply')" src='keys/KP_MULTIPLY.svg' />
+</td>
+<td>
+<img ontouchstart="keyDown('Minus')" ontouchend="keyUp('Minus')" src='keys/KP_MINUS.svg' />
+</td>
+</tr>
+
+<tr>
+<!-- 7 8 9 + (+ is two rows) -->
+<td>
+<img ontouchstart="keyDown('KP_7')" ontouchend="keyUp('KP_7')" src='keys/KP_7.svg' />
+</td>
+<td>
+<img ontouchstart="keyDown('KP_8')" ontouchend="keyUp('KP_8')" src='keys/KP_8.svg' />
+</td>
+<td>
+<img ontouchstart="keyDown('KP_9')" ontouchend="keyUp('KP_9')" src='keys/KP_9.svg' />
+</td>
+<td rowspan=2>
+<img ontouchstart="keyDown('KP_ADD')" ontouchend="keyUp('KP_ADD')" src='keys/KP_PLUS.svg' />
+</td>
+</tr>
+
+<tr>
+<!-- 4 5 6 (+ is two rows) -->
+<td>
+<img ontouchstart="keyDown('KP_4')" ontouchend="keyUp('KP_4')" src='keys/KP_4.svg' />
+</td>
+<td>
+<img ontouchstart="keyDown('KP_5')" ontouchend="keyUp('KP_5')" src='keys/KP_5.svg' />
+</td>
+<td>
+<img ontouchstart="keyDown('KP_6')" ontouchend="keyUp('KP_6')" src='keys/KP_6.svg' />
+</td>
+</tr>
+
+<tr>
+<!-- 1 2 3 enter (enter is two rows) -->
+<td>
+<img ontouchstart="keyDown('KP_1')" ontouchend="keyUp('KP_1')" src='keys/KP_1.svg' />
+</td>
+<td>
+<img ontouchstart="keyDown('KP_2')" ontouchend="keyUp('KP_2')" src='keys/KP_2.svg' />
+</td>
+<td>
+<img ontouchstart="keyDown('KP_3')" ontouchend="keyUp('KP_3')" src='keys/KP_3.svg' />
+</td>
+<td rowspan=2>
+<img ontouchstart="keyDown('Enter')" ontouchend="keyUp('Enter')" src='keys/KP_ENTER.svg' />
+</td>
+</tr>
+
+<tr>
+<!-- 0 . (0 is two cols, Enter is two rows) -->
+<td colspan=2>
+<img ontouchstart="keyDown('KP_0')" ontouchend="keyUp('KP_0')" src='keys/KP_0.svg' />
+</td>
+<td>
+<img ontouchstart="keyDown('KP_DOT')" ontouchend="keyUp('KP_DOT')" src='keys/KP_DOT.svg' />
+</td>
+</tr>
+
+</table>
+</body>
+</html>
