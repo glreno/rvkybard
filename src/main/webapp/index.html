@@ -1,20 +1,44 @@
+<!DOCTYPE html>
 <html>
-<body>
-<script type="text/javascript" language="javascript">
-const down = async (key) => {
-  const response1 = await fetch('k?k='+key );
+<head>
+<style>
+td {
+-webkit-user-select: none;
+-webkit-touch-callout: none;
 }
+img {
+-webkit-user-select: none;
+-webkit-touch-callout: none;
+}
+</style>
+<script type="text/javascript" language="javascript">
+mods='';
+const shift = async (key) => {
+    mods = key;
+}
+const down = async (key) => {
+    response = await fetch('k?f='+mods+'&k='+key );
+}
+
 const up = async (key) => {
-  const response2 = await fetch('k?k=');
+    response = await fetch('k?f='+mods+'&k=' );
 }
 </script>
+</head>
+<body>
 <table>
 <tr>
 <td>
-<button onmousedown="down('x')" onmouseup="up('x')">X</button>
+<button ontouchstart="shift('LEFT_SHIFT')" ontouchend="shift('')"><img src='1.GIF'/></button>
 </td>
 <td>
-<button onmousedown="down('KP_1')" onmouseup="up('KP_1')">1</button>
+<button ontouchstart="down('x')" ontouchend="up('x')">X</button>
+</td>
+<td>
+<button ontouchstart="down('KB_1')" ontouchend="up('KB_1')">1</button>
+</td>
+<td>
+<button ontouchstart="down('')" ontouchend="up('')">clear</button>
 </td>
 </tr>
 </table>
