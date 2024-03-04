@@ -1,6 +1,10 @@
 package com.rfacad.rvkybard;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Writer;
+import java.net.URL;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -13,8 +17,35 @@ import java.io.Writer;
 //
 public class KybardJspHelper
 {
+    private Writer out;
+
     public KybardJspHelper(Writer out, String title,String favIcoFn)
     {
+        this.out = out;
+    }
+
+    private void println(String s) throws IOException
+    {
+        out.write(s);
+        out.write("\r\n");
+        out.flush();
+    }
+
+    private void copyResource(String resourceName)
+    {
+        URL resource = this.getClass().getResource(resourceName);
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(resource.openStream())))
+        {
+            String s;
+            while( (s=in.readLine()) != null )
+            {
+                println(s);
+            }
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void setDefaultSvg(String templateFn, int keyWidthPixels, int keyHeightPixels, int keySpanCols, int keySpanRows, String ... defaultParams)
@@ -32,47 +63,40 @@ public class KybardJspHelper
      * To set additional style settings, call addStyle() first.
      * To add more javascript, just write it in the .jsp between startHtml() and startKeyboard().
      */
-    public String startHtml()
+    public void startHtml()
     {
-        return "";
     }
 
     /** The end of the javascript and header HTML, and the beginning of the keyboard.
      * Basically </script></head><body><table>
-     * @return
      */
-    public String startKeyboard()
+    public void startKeyboard()
     {
-        return "";
     }
 
     /** Start a row for the keyboard, i.e., <tr> */
-    public String startRow()
+    public void startRow()
     {
-        return "";
     }
 
-    public String key(String keycode)
+    public void key(String keycode)
     {
-        return "";
     }
 
     /** Start a row for the keyboard, i.e., </tr> */
-    public String endRow()
+    public void endRow()
     {
-        return "";
     }
 
     /** The end of the keyboard, i.e. </table> */
-    public String endKeyboard()
+    public void endKeyboard()
     {
-        return "";
     }
 
     /** The end of the html, i.e. </body></html> */
-    public String endHtml()
+    public void endHtml()
     {
-        return "";
+        copyResource("/endPage.htmlt");
     }
 
 }
