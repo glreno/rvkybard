@@ -1,3 +1,13 @@
+//
+//Copyright (c) 2024 Gerald Reno, Jr.
+//
+//Licensed under the Apache License, Version 2.0 (the "License");
+//you may not use this file except in compliance with the License.
+//You may obtain a copy of the License at
+//
+//http://www.apache.org/licenses/LICENSE-2.0
+//
+
 DEFAULTS,,W=64,W-8=56,W-16=48,H=64,H-8=56,H-16=48
 KP_1.svg,keypad.svgt,L=1,S=End
 KP_2.svg,keypad.svgt,L=2,S=&#x25BC; // DOWN

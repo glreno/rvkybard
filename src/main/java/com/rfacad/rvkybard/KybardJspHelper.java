@@ -1,8 +1,19 @@
 package com.rfacad.rvkybard;
 
+import java.io.Writer;
+
+//
+//Copyright (c) 2024 Gerald Reno, Jr.
+//
+//Licensed under the Apache License, Version 2.0 (the "License");
+//you may not use this file except in compliance with the License.
+//You may obtain a copy of the License at
+//
+//http://www.apache.org/licenses/LICENSE-2.0
+//
 public class KybardJspHelper
 {
-    public KybardJspHelper(String title,String favIcoFn)
+    public KybardJspHelper(Writer out, String title,String favIcoFn)
     {
     }
 
