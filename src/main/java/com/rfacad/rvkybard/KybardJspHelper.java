@@ -118,47 +118,88 @@ public class KybardJspHelper
         }
     }
 
+    /**
+     * This is the easy version, so you can just do key("A");
+     * @param letter to appear on the key
+     */
     public void key(String keycode)
     {
-        key(keycode,keycode);
+        key(keycode,keycode,3,3,null,null,"",null,"");
     }
+
+    /**
+     * This is the simple version, so you can just do key("/","KP_DIVIDE");
+     * @param letter to appear on the key
+     */
+    public void key(String name,String keycode)
+    {
+        key(name,keycode,3,3,null,null,"",null,"");
+    }
+
     // A fully-detailed key would be:
-    // kb.key("Tab",KB_TAB,5,3,"custTabDown('KB_Tab')","custTabUp('KB_Tab')","background='green' foreground='red'","kbtab.svgt","W=128");
+    // kb.key("Tab","KB_TAB",5,3,"custTabDown('KB_Tab')","custTabUp('KB_Tab')","background='green' foreground='red'","kbtab.svgt","W=128");
     //      "Tab" -- name of key; default text in SVG, keycode unless otherwise specified
-    //      KB_TAB -- Keycode to send, unless custom method used
+    //      "KB_TAB" -- Keycode to send, unless custom method used; this is sent as a String to the servlet, which will use KybardCode.valueOf to find the actual byte to e
     //      5,3 -- column span and height
     //      custom down and up methods
     //      "background='green' foreground='red'" css style overrides for the <button>
     //      kbtab.svgt -- image template to use if not default
     //      "W=128" -- image parameter overrides
-    public void key(String keycode,String svgText)
+    /**
+     * 
+     * @param keycode
+     * @param svgText
+     */
+    public void key(String name,String keycode,int colspan,int rowspan,String custDown,String custUp,String css,String svgTemplateFn,String svgParams)
     {
         try
         {
-            // TODO parameterize size
-            println("<td colspan=3 rowspan=3>");
             StringBuilder buf = new StringBuilder();
+            buf.append("<td colspan=");
+            buf.append(colspan);
+            buf.append(" rowspan=");
+            buf.append(rowspan);
+            buf.append(">");
             buf.append("<button ontouchstart=");
             buf.append('"');
-            buf.append("keyDown('");
-            buf.append(keycode);
-            buf.append("')");
+            if ( custDown != null )
+            {
+                buf.append(custDown);
+            }
+            else
+            {
+                buf.append("keyDown('");
+                buf.append(keycode);
+                buf.append("')");
+            }
             buf.append('"');
             buf.append(" ontouchend=");
             buf.append('"');
-            buf.append("keyUp('");
-            buf.append(keycode);
-            buf.append("')");
+            if ( custUp != null )
+            {
+                buf.append(custUp);
+            }
+            else
+            {
+                buf.append("keyUp('");
+                buf.append(keycode);
+                buf.append("')");
+            }
             buf.append('"');
-            // TODO read image from svgt file
-            buf.append("><svg width='64' height='64'>");
-            buf.append("<text x='50%' y='32' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='#fff' font-family='sans-serif'>");
-            buf.append(svgText);
-            buf.append("</text>");
+            buf.append(' ');
+            buf.append(css);
+            buf.append(">");
 
-            buf.append("</svg></button>");
+            // TODO read image from svgt file
+            buf.append("<svg width='64' height='64'>");
+            buf.append("<text x='50%' y='32' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='#fff' font-family='sans-serif'>");
+            buf.append(name);
+            buf.append("</text>");
+            buf.append("</svg>");
+
+            buf.append("</button>");
+            buf.append("</td>");
             println(buf.toString());
-            println("</td>");
         }
         catch (IOException e) {
             handleException(e);

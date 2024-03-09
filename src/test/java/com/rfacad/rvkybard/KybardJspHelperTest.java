@@ -24,7 +24,7 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.startHtml();
         String s = out.toString();
-        assertTrue(s.startsWith("<!DOCTYPE html>\r\n<html lang='en'>\r\n"));
+        assertTrue(s,s.startsWith("<!DOCTYPE html>\r\n<html lang='en'>\r\n"));
     }
 
     @Test
@@ -34,8 +34,8 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.startKeyboard();
         String s = out.toString();
-        assertTrue(s.startsWith("</head>\r\n<body>\r\n"));
-        assertTrue(s.endsWith("<table cellspacing=0 cellpadding=0 border=1>\r\n"));
+        assertTrue(s,s.startsWith("</head>\r\n<body>\r\n"));
+        assertTrue(s,s.endsWith("<table cellspacing=0 cellpadding=0 border=1>\r\n"));
     }
 
     @Test
@@ -45,7 +45,21 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.startRow();
         String s = out.toString();
-        assertTrue(s.startsWith("<tr>\r\n"));
+        assertTrue(s,s.startsWith("<tr>\r\n"));
+    }
+
+    @Test
+    public void shouldWriteEasyKey()
+    {
+        StringWriter out = new StringWriter();
+        KybardJspHelper h = new KybardJspHelper(out, "", "");
+        h.key("a");
+        String s = out.toString();
+        assertTrue(s,s.startsWith("<td colspan=3 rowspan=3><button"));
+        assertTrue(s,s.contains("keyDown('a')"));
+        assertTrue(s,s.contains("keyUp('a')"));
+        assertTrue(s,s.contains(">a</text>"));
+        assertTrue(s,s.endsWith("</button></td>\r\n"));
     }
 
     @Test
@@ -53,11 +67,13 @@ public class KybardJspHelperTest
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
-        h.key("a");
+        h.key("/","KP_DIVIDE");
         String s = out.toString();
-        assertTrue(s.startsWith("<td colspan=3 rowspan=3>\r\n"));
-        assertTrue(s.contains("<button"));
-        assertTrue(s.endsWith("</td>\r\n"));
+        assertTrue(s,s.startsWith("<td colspan=3 rowspan=3><button"));
+        assertTrue(s,s.contains("keyDown('KP_DIVIDE')"));
+        assertTrue(s,s.contains("keyUp('KP_DIVIDE')"));
+        assertTrue(s,s.contains(">/</text>"));
+        assertTrue(s,s.endsWith("</button></td>\r\n"));
     }
 
     @Test
@@ -67,7 +83,7 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.endRow();
         String s = out.toString();
-        assertTrue(s.endsWith("</tr>\r\n"));
+        assertTrue(s,s.endsWith("</tr>\r\n"));
     }
 
     @Test
