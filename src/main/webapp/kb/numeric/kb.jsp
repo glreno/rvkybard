@@ -22,7 +22,7 @@
     // Top Row
     kb.startRow();
     kb.key("KP_NUMLOCK");
-    kb.key("KP_DIVIDE",);
+    kb.key("KP_DIVIDE");
     kb.key("KP_MULTIPLY");
     kb.key("KP_MINUS");
     kb.endRow();
@@ -30,22 +30,22 @@
     // 7 8 9 + (+ is two rows)
     kb.startRow();
     kb.key("KP_7");
-    kb.key("KP_8",);
+    kb.key("KP_8");
     kb.key("KP_9");
-    kb.key("KP_PLUS");
+    kb.key("KP_ADD");
     kb.endRow();
 
     // 4 5 6 (+ is two rows)
     kb.startRow();
     kb.key("KP_4");
-    kb.key("KP_5",);
+    kb.key("KP_5");
     kb.key("KP_6");
     kb.endRow();
 
     // 1 2 3 Enter (Enter is two rows)
     kb.startRow();
     kb.key("KP_1");
-    kb.key("KP_2",);
+    kb.key("KP_2");
     kb.key("KP_3");
     kb.key("KP_ENTER");
     kb.endRow();
