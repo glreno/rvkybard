@@ -2,12 +2,18 @@ package com.rfacad.rvkybard;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.rfacad.rvkybard.util.TemplateFiller;
+import com.rfacad.rvkybard.util.TemplateProcessor;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -23,6 +29,11 @@ public class KybardJspHelper
     private static Logger LOG = LoggerFactory.getLogger(KybardJspHelper.class);
 
     private Writer out;
+
+    private String templateFn=null;
+    private int keyColSpan=3;
+    private int keyRowSpan=3;
+    TemplateProcessor templateProcessor = new TemplateProcessor();
 
     public KybardJspHelper(Writer out, String title,String favIcoFn)
     {
@@ -59,8 +70,14 @@ public class KybardJspHelper
         }
     }
 
-    public void setDefaultSvg(String templateFn, int keyWidthPixels, int keyHeightPixels, int keySpanCols, int keySpanRows, String ... defaultParams)
+    public void setDefaultSvg(String templateFn, int keyWidthPixels, int keyHeightPixels, int keyColSpan, int keyRowSpan, String ... svgParams)
     {
+        this.templateFn = templateFn;
+        this.keyColSpan = keyColSpan;
+        this.keyRowSpan = keyRowSpan;
+        templateProcessor.loadDefault("W",""+keyWidthPixels);
+        templateProcessor.loadDefault("H",""+keyHeightPixels);
+        templateProcessor.loadDefaults(svgParams);
     }
 
     public void addStyle(String cls, String key, String value)
@@ -95,7 +112,7 @@ public class KybardJspHelper
         {
             println("</head>");
             println("<body>");
-            println("<table cellspacing=0 cellpadding=0 border=1>");
+            println("<table cellspacing=0 cellpadding=0 >");
         }
         catch (IOException e) {
             handleException(e);
@@ -124,7 +141,7 @@ public class KybardJspHelper
      */
     public void key(String keycode)
     {
-        key(keycode,keycode,3,3,null,null,"",null,"");
+        key(keycode,keycode,keyColSpan,keyRowSpan,null,null,"",null);
     }
 
     /**
@@ -133,7 +150,7 @@ public class KybardJspHelper
      */
     public void key(String name,String keycode)
     {
-        key(name,keycode,3,3,null,null,"",null,"");
+        key(name,keycode,keyColSpan,keyRowSpan,null,null,"",null);
     }
 
     // A fully-detailed key would be:
@@ -150,7 +167,7 @@ public class KybardJspHelper
      * @param keycode
      * @param svgText
      */
-    public void key(String name,String keycode,int colspan,int rowspan,String custDown,String custUp,String css,String svgTemplateFn,String svgParams)
+    public void key(String name,String keycode,int colspan,int rowspan,String custDown,String custUp,String css,String svgTemplateFn,String ... svgParams)
     {
         try
         {
@@ -189,20 +206,35 @@ public class KybardJspHelper
             buf.append(' ');
             buf.append(css);
             buf.append(">");
+            out.write(buf.toString());
 
-            // TODO read image from svgt file
-            buf.append("<svg width='64' height='64'>");
-            buf.append("<text x='50%' y='32' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='#fff' font-family='sans-serif'>");
-            buf.append(name);
-            buf.append("</text>");
-            buf.append("</svg>");
+            embedSvg(name,svgTemplateFn,svgParams);
 
-            buf.append("</button>");
-            buf.append("</td>");
-            println(buf.toString());
+            println("</button></td>");
         }
         catch (IOException e) {
             handleException(e);
+        }
+    }
+
+    protected void embedSvg(String name, String svgTemplateFn, String[] svgParams) throws IOException
+    {
+        String fn = (svgTemplateFn==null)?this.templateFn:svgTemplateFn;
+        
+        InputStream rsrc=getClass().getResourceAsStream(fn);
+        if  ( rsrc == null )
+        {
+            out.write(fn);
+        }
+        else
+        {
+            try (BufferedReader in=new BufferedReader(new InputStreamReader(rsrc)) )
+            {
+                Map<String, String> params = new HashMap<>();
+                params.put("L", name);
+                params.putAll(templateProcessor.parseParams(svgParams));
+                templateProcessor.processStream(in, out, params);
+            }
         }
     }
 

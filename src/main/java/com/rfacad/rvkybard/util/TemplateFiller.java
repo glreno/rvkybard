@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +17,7 @@ import java.util.Map;
 //
 //http://www.apache.org/licenses/LICENSE-2.0
 //
-public class TemplateFiller
+public class TemplateFiller extends TemplateProcessor
 {
     public static void main(String [] args) throws IOException
     {
@@ -28,10 +27,9 @@ public class TemplateFiller
     protected File srcdir;
     protected File destdir;
 
-    private Map<String,String> defaultParams;
-
     public TemplateFiller(String srcdir, String destdir)
     {
+        super();
         this.srcdir=new File(srcdir);
         this.destdir=new File(destdir);
         this.defaultParams=new HashMap<>();
@@ -71,26 +69,6 @@ public class TemplateFiller
         generate(descArray);
     }
 
-
-    protected void loadDefaults(String [] descArray)
-    {
-        defaultParams.putAll(parseParams(descArray));
-    }
-
-    protected Map<String,String> parseParams(String[] descArray)
-    {
-        Map<String,String> ret = new HashMap<>();
-        for(String s : descArray)
-        {
-            int eq=s.indexOf("=");
-            if ( eq > 0 )
-            {
-                ret.put(s.substring(0,eq), s.substring(eq+1));
-            }
-        }
-        return ret;
-    }
-
     protected void generate(String [] descArray)
     {
         File dest=new File(destdir,descArray[0]);
@@ -103,64 +81,14 @@ public class TemplateFiller
     {
         try(BufferedReader in=new BufferedReader(new FileReader(src)))
         {
-            try(PrintWriter out=new PrintWriter(new FileWriter(dest)) )
+            try(FileWriter out=new FileWriter(dest))
             {
-                String s;
-                while((s=in.readLine()) != null)
-                {
-                    out.println(processLine(s,params));
-                }
+                processStream(in,out,params);
             }
         }
         catch(IOException e)
         {
             e.printStackTrace();
         }
-    }
-
-    protected String processLine(String s,Map<String,String> params)
-    {
-        StringBuilder b = new StringBuilder(s.length());
-        int x=0;
-        int end=s.length();
-        while ( x < end )
-        {
-            int open = s.indexOf('{',x);
-            if ( open < 0 )
-            {
-                b.append(s.substring(x));
-                x=end;
-            }
-            else
-            {
-                b.append(s.substring(x,open));
-
-                int close = s.indexOf('}',open);
-                if ( close < 0 )
-                {
-                    b.append(s.substring(open));
-                    x=end;
-                }
-                else
-                {
-                    String k=s.substring(open+1,close);
-                    String v = params.get(k);
-                    if ( v != null )
-                    {
-                        b.append(v);
-                    }
-                    else
-                    {
-                        v = defaultParams.get(k);
-                        if ( v != null )
-                        {
-                            b.append(v);
-                        }
-                    }
-                    x=close+1;
-                }
-            }
-        }
-        return b.toString();
     }
 }

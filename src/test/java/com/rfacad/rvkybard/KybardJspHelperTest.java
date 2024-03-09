@@ -2,7 +2,10 @@ package com.rfacad.rvkybard;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -35,7 +38,7 @@ public class KybardJspHelperTest
         h.startKeyboard();
         String s = out.toString();
         assertTrue(s,s.startsWith("</head>\r\n<body>\r\n"));
-        assertTrue(s,s.endsWith("<table cellspacing=0 cellpadding=0 border=1>\r\n"));
+        assertTrue(s,s.endsWith("<table cellspacing=0 cellpadding=0 >\r\n"));
     }
 
     @Test
@@ -53,6 +56,7 @@ public class KybardJspHelperTest
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
+        h.setDefaultSvg("/kb/numeric/key.svgt", 66, 66, 3, 3);
         h.key("a");
         String s = out.toString();
         assertTrue(s,s.startsWith("<td colspan=3 rowspan=3><button"));
@@ -67,6 +71,7 @@ public class KybardJspHelperTest
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
+        h.setDefaultSvg("/kb/numeric/key.svgt", 66, 66, 3, 3);
         h.key("/","KP_DIVIDE");
         String s = out.toString();
         assertTrue(s,s.startsWith("<td colspan=3 rowspan=3><button"));
@@ -104,5 +109,28 @@ public class KybardJspHelperTest
         h.endHtml();
         String s = out.toString();
         assertEquals("</body>\r\n</html>\r\n",s);
+    }
+
+    @Test
+    public void shouldWriteSvg() throws IOException
+    {
+        StringWriter out = new StringWriter();
+        KybardJspHelper h = new KybardJspHelper(out, "", "");
+        h.setDefaultSvg("/kb/numeric/key.svgt", 66, 66, 3, 3);
+        h.embedSvg("foo", null, new String [] {"W-16=bar", "H-16=baz"});
+        String s = out.toString();
+        assertTrue(s,s.contains(">foo</text>"));
+    }
+
+    @Test
+    public void shouldWriteSvgOverride() throws IOException
+    {
+        StringWriter out = new StringWriter();
+        KybardJspHelper h = new KybardJspHelper(out, "", "");
+        h.setDefaultSvg("/kb/numeric/key.svgt", 66, 66, 3, 3);
+        h.embedSvg("foo", "/kb/numeric/keypad.svgt", new String [] {"L=","S=bletch","W-16=bar", "H-16=baz"});
+        String s = out.toString();
+        assertFalse(s,s.contains(">foo</text>"));
+        assertTrue(s,s.contains(">bletch</text>"));
     }
 }

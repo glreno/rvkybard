@@ -53,7 +53,7 @@ public class TemplateFillerTest
     @Test
     public void shouldReadParams() throws IOException
     {
-        TemplateFiller tf=new TemplateFiller(tmpdir.toString(),"src.txt");
+        TemplateProcessor tf=new TemplateFiller(tmpdir.toString(),"src.txt");
         Map<String,String> ret;
 
         ret = tf.parseParams(new String[] {});
@@ -72,9 +72,10 @@ public class TemplateFillerTest
     @Test
     public void shouldReplaceParams() throws IOException
     {
-        TemplateFiller tf=new TemplateFiller(tmpdir.toString(),"src.txt");
+        TemplateProcessor tf=new TemplateFiller(tmpdir.toString(),"src.txt");
         String ret;
-        tf.loadDefaults(new String[]{"a=alice","b=bob","quote=&#x2019;"});
+        tf.loadDefault("a", "alice");
+        tf.loadDefaults(new String[]{"b=bob","quote=&#x2019;"});
         Map<String, String> params = tf.parseParams(new String[] {"foo","bar","x=1","y=2","a=override"});
 
         ret=tf.processLine("",params);

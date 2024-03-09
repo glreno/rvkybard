@@ -4,7 +4,8 @@
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"A Keypad",null);
     // Default key SVG and size
-    kb.setDefaultSvg("key.svgt",66,66,3,3,"FS=48");
+    kb.setDefaultSvg("/kb/numeric/key.svgt",66,66,3,3,"FS=48","W-8=58","W-16=50","H-8=58","H-16=50");
+    String KP="/kb/numeric/keypad.svgt";
     // Custom style settings go here
     kb.addStyle("table","background","green");
 
@@ -21,7 +22,7 @@
 
     // Top Row
     kb.startRow();
-    kb.key("Numlock","KP_NUMLOCK");
+    kb.key("Numlock","KP_NUMLOCK",3,3,null,null,"",KP,"L=","S=Num Lock");
     kb.key("/","KP_DIVIDE");
     kb.key("*","KP_MULTIPLY");
     kb.key("-","KP_MINUS");
@@ -29,31 +30,31 @@
 
     // 7 8 9 + (+ is two rows)
     kb.startRow();
-    kb.key("7","KP_7");
-    kb.key("8","KP_8");
-    kb.key("9","KP_9");
-    kb.key("+","KP_ADD",6,3,null,null,"",null,"H=128");
+    kb.key("7","KP_7",3,3,null,null,"",KP,"S=Home");
+    kb.key("8","KP_8",3,3,null,null,"",KP,"S=&#x25B2;");
+    kb.key("9","KP_9",3,3,null,null,"",KP,"S=Pg Up");
+    kb.key("+","KP_ADD",3,6,null,null,"",null,"H=132","H-8=124","H-16=116");
     kb.endRow();
 
     // 4 5 6 (+ is two rows)
     kb.startRow();
-    kb.key("4","KP_4");
-    kb.key("5","KP_5");
-    kb.key("6","KP_6");
+    kb.key("4","KP_4",3,3,null,null,"",KP,"S=&#x25C0;");
+    kb.key("5","KP_5",3,3,null,null,"",KP);
+    kb.key("6","KP_6",3,3,null,null,"",KP,"S=&#x25B6;");
     kb.endRow();
 
     // 1 2 3 Enter (Enter is two rows)
     kb.startRow();
-    kb.key("1","KP_1");
-    kb.key("2","KP_2");
-    kb.key("3","KP_3");
-    kb.key("Enter","KP_ENTER",6,3,null,null,"",null,"H=128");
+    kb.key("1","KP_1",3,3,null,null,"",KP,"S=End");
+    kb.key("2","KP_2",3,3,null,null,"",KP,"S=&#x25BC;");
+    kb.key("3","KP_3",3,3,null,null,"",KP,"S=Pg Dn");
+    kb.key("Enter","KP_ENTER",3,6,null,null,"",KP,"L=","S=Enter","H=132","H-8=124","H-16=116");
     kb.endRow();
 
     // 0 . (0 is two cols, Enter is two rows)
     kb.startRow();
-    kb.key("0","KP_0");
-    kb.key(".","KP_DOT",3,6,null,null,"",null,"W=128");
+    kb.key("0","KP_0",6,3,null,null,"",KP,"S=Insert","W=132","W-8=124","W-16=116");
+    kb.key(".","KP_DOT",3,3,null,null,"",KP,"S=Del");
     kb.endRow();
 
     //
