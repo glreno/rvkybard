@@ -65,4 +65,4 @@ function keyUp(key) {
     keysdown.delete(key);
     send();
 }
-<!-- end of standard page start. We are still in the script tag, so you can keep writing js code after this. --> 
+</script>

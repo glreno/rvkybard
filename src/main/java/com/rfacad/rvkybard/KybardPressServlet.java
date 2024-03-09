@@ -33,7 +33,7 @@ public class KybardPressServlet extends HttpServlet
 
     private static final String[] EMPTY = new String[0];
 
-    Logger LOG = LoggerFactory.getLogger(KybardPressServlet.class);
+    private static Logger LOG = LoggerFactory.getLogger(KybardPressServlet.class);
 
     @Autowired
     protected KybardSender kybardSender;
