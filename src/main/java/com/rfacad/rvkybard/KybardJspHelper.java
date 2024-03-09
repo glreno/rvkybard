@@ -120,10 +120,44 @@ public class KybardJspHelper
 
     public void key(String keycode)
     {
+        key(keycode,keycode);
+    }
+    // A fully-detailed key would be:
+    // kb.key("Tab",KB_TAB,5,3,"custTabDown('KB_Tab')","custTabUp('KB_Tab')","background='green' foreground='red'","kbtab.svgt","W=128");
+    //      "Tab" -- name of key; default text in SVG, keycode unless otherwise specified
+    //      KB_TAB -- Keycode to send, unless custom method used
+    //      5,3 -- column span and height
+    //      custom down and up methods
+    //      "background='green' foreground='red'" css style overrides for the <button>
+    //      kbtab.svgt -- image template to use if not default
+    //      "W=128" -- image parameter overrides
+    public void key(String keycode,String svgText)
+    {
         try
         {
+            // TODO parameterize size
             println("<td colspan=3 rowspan=3>");
-            println("<button ontouchstart=\"keyDown('Divide')\" ontouchend=\"keyUp('Divide')\" ><img src='keys/KP_DIVIDE.svg' /></button>");
+            StringBuilder buf = new StringBuilder();
+            buf.append("<button ontouchstart=");
+            buf.append('"');
+            buf.append("keyDown('");
+            buf.append(keycode);
+            buf.append("')");
+            buf.append('"');
+            buf.append(" ontouchend=");
+            buf.append('"');
+            buf.append("keyUp('");
+            buf.append(keycode);
+            buf.append("')");
+            buf.append('"');
+            // TODO read image from svgt file
+            buf.append("><svg width='64' height='64'>");
+            buf.append("<text x='50%' y='32' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='#fff' font-family='sans-serif'>");
+            buf.append(svgText);
+            buf.append("</text>");
+
+            buf.append("</svg></button>");
+            println(buf.toString());
             println("</td>");
         }
         catch (IOException e) {
