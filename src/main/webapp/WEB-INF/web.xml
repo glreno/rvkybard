@@ -27,13 +27,9 @@ http://www.apache.org/licenses/LICENSE-2.0
 
     <!-- General description of your web application -->
 
-    <display-name>My Web Application</display-name>
+    <display-name>Retro Virtual Keyboard</display-name>
     <description>
-      This is version X.X of an application to perform
-      a wild and wonderful task, based on servlets and
-      JSP pages.  It was written by Dave Developer
-      (dave@mycompany.com), who should be contacted for
-      more information.
+        A collection of retro keyboards that allow you to use your smartphone as a virtual keyboard over a Raspberry Pi Zero W
     </description>
 
     <listener>

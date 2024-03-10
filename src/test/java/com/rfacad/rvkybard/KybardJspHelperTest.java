@@ -35,8 +35,7 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.startKeyboard();
         String s = out.toString();
-        assertTrue(s,s.startsWith("</head>\r\n<body>\r\n"));
-        assertTrue(s,s.endsWith("<table cellspacing=0 cellpadding=0 >\r\n"));
+        assertTrue(s,s.equals("<table cellspacing=0 cellpadding=0 >\r\n"));
     }
 
     @Test

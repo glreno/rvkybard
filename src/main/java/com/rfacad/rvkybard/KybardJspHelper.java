@@ -104,8 +104,6 @@ public class KybardJspHelper
     {
         try
         {
-            println("</head>");
-            println("<body>");
             println("<table cellspacing=0 cellpadding=0 >");
         }
         catch (IOException e) {

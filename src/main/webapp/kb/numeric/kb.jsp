@@ -13,6 +13,8 @@
 <script type="text/javascript" language="javascript">
     // custom javascript goes here
 </script>
+</head>
+<body>
 <%
     kb.startKeyboard();
     //
