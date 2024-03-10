@@ -4,7 +4,7 @@
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"A Keypad",null);
     // Default key SVG and size
-    kb.setDefaultSvg("/kb/numeric/key.svgt",66,66,3,3,"FS=48","W-8=58","W-16=50","H-8=58","H-16=50");
+    kb.setDefaultSvg("/kb/numeric/key.svgt",66,66,3,3,"FS=48");
     String KP="/kb/numeric/keypad.svgt";
 
     kb.startHtml();
@@ -32,7 +32,7 @@
     kb.key("7","KP_7",3,3,null,null,"",KP,"S=Home");
     kb.key("8","KP_8",3,3,null,null,"",KP,"S=&#x25B2;");
     kb.key("9","KP_9",3,3,null,null,"",KP,"S=Pg Up");
-    kb.key("+","KP_ADD",3,6,null,null,"",null,"H=132","H-8=124","H-16=116");
+    kb.key("+","KP_ADD",3,6,null,null,"",null,"H=132");
     kb.endRow();
 
     // 4 5 6 (+ is two rows)
@@ -47,12 +47,12 @@
     kb.key("1","KP_1",3,3,null,null,"",KP,"S=End");
     kb.key("2","KP_2",3,3,null,null,"",KP,"S=&#x25BC;");
     kb.key("3","KP_3",3,3,null,null,"",KP,"S=Pg Dn");
-    kb.key("Enter","KP_ENTER",3,6,null,null,"",KP,"L=","S=Enter","H=132","H-8=124","H-16=116");
+    kb.key("Enter","KP_ENTER",3,6,null,null,"",KP,"L=","S=Enter","H=132");
     kb.endRow();
 
     // 0 . (0 is two cols, Enter is two rows)
     kb.startRow();
-    kb.key("0","KP_0",6,3,null,null,"",KP,"S=Insert","W=132","W-8=124","W-16=116");
+    kb.key("0","KP_0",6,3,null,null,"",KP,"S=Insert","W=132");
     kb.key(".","KP_DOT",3,3,null,null,"",KP,"S=Del");
     kb.endRow();
 

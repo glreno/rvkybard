@@ -5,6 +5,6 @@
 <circle fill="#555" cx="@{W-8}" cy="@{H-8}" r="8"/>
 <rect fill="#555" x="0" y="8" width="@{W}" height="@{H-16}"/>
 <rect fill="#555" x="8" y="0" width="@{W-16}" height="@{H}"/>
-<text x="50%" y="32" dominant-baseline="middle" text-anchor="middle" font-size="48" fill="#fff" font-family="sans-serif">@{L}</text>
-<text x="50%" y="54" dominant-baseline="middle" text-anchor="middle" font-size="14" fill="#fff" font-family="sans-serif">@{S}</text>
+<text x="50%" y="32" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="#fff" font-family="sans-serif">@{L}</text>
+<text x="50%" y="54" dominant-baseline="middle" text-anchor="middle" font-size="@{FS/3-2}" fill="#fff" font-family="sans-serif">@{S}</text>
 </svg>

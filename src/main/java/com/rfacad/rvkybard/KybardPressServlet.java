@@ -69,9 +69,7 @@ public class KybardPressServlet extends HttpServlet
     {
         // Find the k= parameter
         String [] keys=findQueryParam(queryString,"f");
-        int n = keys.length;
         byte ret = 0;
-        int i=0;
         for(String k : keys)
         {
             try
