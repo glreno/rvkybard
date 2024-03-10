@@ -221,21 +221,14 @@ public class KybardJspHelper
     protected void embedSvg(String name, String svgTemplateFn, String[] svgParams) throws IOException
     {
         String fn = (svgTemplateFn==null)?this.templateFn:svgTemplateFn;
-        
+
         File f = new File(top,fn);
         try ( InputStream rsrc = new FileInputStream(f) )
         {
-            if  ( rsrc == null )
-            {
-                out.write(fn);
-            }
-            else
-            {
-                Map<String, Object> params = new HashMap<>();
-                params.put("L", name);
-                params.putAll(templateProcessor.parseParams(svgParams));
-                templateProcessor.processStream(fn, rsrc, out, params);
-            }
+            Map<String, Object> params = new HashMap<>();
+            params.put("L", name);
+            params.putAll(templateProcessor.parseParams(svgParams));
+            templateProcessor.processStream(fn, rsrc, out, params);
         }
     }
 

@@ -62,14 +62,6 @@ http://www.apache.org/licenses/LICENSE-2.0
     -->
 
     <servlet>
-      <servlet-name>sample</servlet-name>
-      <description>
-        This servlet just types 'aB'
-      </description>
-      <servlet-class>com.rfacad.rvkybard.Sample</servlet-class>
-    </servlet>
-
-    <servlet>
       <servlet-name>kybardPress</servlet-name>
       <description>
         This servlet accepts a key name, and sends the relevent key code.
@@ -101,11 +93,6 @@ http://www.apache.org/licenses/LICENSE-2.0
          It is also legal to define more than one mapping for the same
          servlet, if you wish to.
     -->
-
-    <servlet-mapping>
-      <servlet-name>sample</servlet-name>
-      <url-pattern>/sample</url-pattern>
-    </servlet-mapping>
 
     <servlet-mapping>
       <servlet-name>kybardPress</servlet-name>
