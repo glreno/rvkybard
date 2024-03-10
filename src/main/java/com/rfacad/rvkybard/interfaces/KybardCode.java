@@ -73,6 +73,16 @@ public enum KybardCode {
 	KB_SLASH(0x38,"/","?"),
 	KB_CAPSLOCK(0x39,"Caps Lock"), // Use the flag instead
 	KB_F1(0x3A,"F1"),
+	KB_F2(0x3B,"F2"),
+	KB_F3(0x3C,"F3"),
+	KB_F4(0x3D,"F4"),
+	KB_F5(0x3E,"F5"),
+	KB_F6(0x3F,"F6"),
+	KB_F7(0x40,"F7"),
+	KB_F8(0x41,"F8"),
+	KB_F9(0x42,"F9"),
+	KB_F10(0x43,"F10"),
+	KB_F11(0x44,"F11"),
 	KB_F12(0x45,"F12"),
 	KB_PRTSCR(0x46,"Print Screen"),
 	KB_SCROLLLOCK(0x47,"Scroll Lock"), // Use the flag instead
