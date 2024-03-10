@@ -1,6 +1,8 @@
 package com.rfacad.rvkybard;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -29,6 +31,7 @@ public class KybardJspHelper
 
     private Writer out;
 
+    private File top;
     private String templateFn=null;
     private int keyColSpan=3;
     private int keyRowSpan=3;
@@ -37,6 +40,12 @@ public class KybardJspHelper
     public KybardJspHelper(Writer out, String title,String favIcoFn)
     {
         this.out = out;
+        top = new File("webapps/ROOT/kb"); // TODO we are assuming that we are running under Tomcat as the ROOT webapp!
+    }
+
+    public void setTop(File top)
+    {
+        this.top=top;
     }
 
     private void println(String s) throws IOException
@@ -213,17 +222,20 @@ public class KybardJspHelper
     {
         String fn = (svgTemplateFn==null)?this.templateFn:svgTemplateFn;
         
-        InputStream rsrc=getClass().getResourceAsStream(fn);
-        if  ( rsrc == null )
+        File f = new File(top,fn);
+        try ( InputStream rsrc = new FileInputStream(f) )
         {
-            out.write(fn);
-        }
-        else
-        {
-            Map<String, Object> params = new HashMap<>();
-            params.put("L", name);
-            params.putAll(templateProcessor.parseParams(svgParams));
-            templateProcessor.processStream(fn, rsrc, out, params);
+            if  ( rsrc == null )
+            {
+                out.write(fn);
+            }
+            else
+            {
+                Map<String, Object> params = new HashMap<>();
+                params.put("L", name);
+                params.putAll(templateProcessor.parseParams(svgParams));
+                templateProcessor.processStream(fn, rsrc, out, params);
+            }
         }
     }
 

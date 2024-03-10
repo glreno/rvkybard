@@ -4,8 +4,8 @@
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"A Keypad",null);
     // Default key SVG and size
-    kb.setDefaultSvg("/kb/numeric/key.svgt",66,66,3,3,"FS=48");
-    String KP="/kb/numeric/keypad.svgt";
+    kb.setDefaultSvg("numeric/keys/key.svgt",66,66,3,3,"FS=48");
+    String KP="numeric/keys/keypad.svgt";
 
     kb.startHtml();
 %>

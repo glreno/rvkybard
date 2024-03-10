@@ -2,6 +2,7 @@ package com.rfacad.rvkybard;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -53,7 +54,8 @@ public class KybardJspHelperTest
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
-        h.setDefaultSvg("/kb/numeric/key.svgt", 66, 66, 3, 3);
+        h.setTop(new File("src/main/webapp/kb"));
+        h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
         h.key("a");
         String s = out.toString();
         assertTrue(s,s.startsWith("<td colspan=3 rowspan=3><button"));
@@ -68,7 +70,8 @@ public class KybardJspHelperTest
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
-        h.setDefaultSvg("/kb/numeric/key.svgt", 66, 66, 3, 3);
+        h.setTop(new File("src/main/webapp/kb"));
+        h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
         h.key("/","KP_DIVIDE");
         String s = out.toString();
         assertTrue(s,s.startsWith("<td colspan=3 rowspan=3><button"));
@@ -113,7 +116,8 @@ public class KybardJspHelperTest
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
-        h.setDefaultSvg("/kb/numeric/key.svgt", 66, 66, 3, 3);
+        h.setTop(new File("src/main/webapp/kb"));
+        h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
         h.embedSvg("foo", null, new String [] {"W-16=bar", "H-16=baz"});
         String s = out.toString();
         assertTrue(s,s.contains(">foo</text>"));
@@ -124,8 +128,9 @@ public class KybardJspHelperTest
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
-        h.setDefaultSvg("/kb/numeric/key.svgt", 66, 66, 3, 3);
-        h.embedSvg("foo", "/kb/numeric/keypad.svgt", new String [] {"L=","S=bletch","W-16=bar", "H-16=baz"});
+        h.setTop(new File("src/main/webapp/kb"));
+        h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
+        h.embedSvg("foo", "numeric/keys/keypad.svgt", new String [] {"L=","S=bletch","W-16=bar", "H-16=baz"});
         String s = out.toString();
         assertFalse(s,s.contains(">foo</text>"));
         assertTrue(s,s.contains(">bletch</text>"));
