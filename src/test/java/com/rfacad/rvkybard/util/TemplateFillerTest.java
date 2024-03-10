@@ -84,28 +84,28 @@ public class TemplateFillerTest
         ret=tf.processLine("No params here",params);
         assertEquals("No params here",ret);
 
-        ret=tf.processLine("Stray open { brace",params);
-        assertEquals("Stray open { brace",ret);
+        ret=tf.processLine("Stray open @{ brace",params);
+        assertEquals("Stray open @{ brace",ret);
 
         ret=tf.processLine("Stray close } brace",params);
         assertEquals("Stray close } brace",ret);
 
-        ret=tf.processLine("This param {p} does not exist.",params);
+        ret=tf.processLine("This param @{p} does not exist.",params);
         assertEquals("This param  does not exist.",ret);
 
-        ret=tf.processLine("{b}",params);
+        ret=tf.processLine("@{b}",params);
         assertEquals("bob",ret);
 
-        ret=tf.processLine("This line ends with {a}",params);
+        ret=tf.processLine("This line ends with @{a}",params);
         assertEquals("This line ends with override",ret);
 
-        ret=tf.processLine("{x} starts this line.",params);
+        ret=tf.processLine("@{x} starts this line.",params);
         assertEquals("1 starts this line.",ret);
 
-        ret=tf.processLine("{x}+{x}={y}",params);
+        ret=tf.processLine("@{x}+@{x}=@{y}",params); // TODO that should be @{x+x} instead of @{y}
         assertEquals("1+1=2",ret);
 
-        ret=tf.processLine("{quote}{b}{quote}",params);
+        ret=tf.processLine("@{quote}@{b}@{quote}",params);
         assertEquals("&#x2019;bob&#x2019;",ret);
     }
 
@@ -125,7 +125,7 @@ public class TemplateFillerTest
         try( PrintWriter out=new PrintWriter(new FileWriter(template)) )
         {
             out.println("This is a template");
-            out.println("It uses the values {y} and {a} and {z}");
+            out.println("It uses the values @{y} and @{a} and @{z}");
         }
         TemplateFiller tf=new TemplateFiller(tmpdir.toString(),tmpdir.toString());
         tf.runScript("src.txt");

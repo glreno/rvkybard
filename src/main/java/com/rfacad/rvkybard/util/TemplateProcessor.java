@@ -41,12 +41,18 @@ public class TemplateProcessor
 
     public void processStream(BufferedReader in, Writer out, Map<String,String> params) throws IOException
     {
+        // Read the file entirely into a buffer
+        StringBuilder buf=new StringBuilder();
         String s;
         while((s=in.readLine()) != null)
         {
-            out.write(processLine(s,params));
-            out.write("\r\n");
+            buf.append(s);
+            buf.append("\r\n");
         }
+        // Process the expressions
+        String output = processLine(buf.toString(), params);
+        // Write the buffer out
+        out.write(output);
     }
 
     protected String processLine(String s, Map<String,String> params)
@@ -56,7 +62,7 @@ public class TemplateProcessor
         int end=s.length();
         while ( x < end )
         {
-            int open = s.indexOf('{',x);
+            int open = s.indexOf("@{",x);
             if ( open < 0 )
             {
                 b.append(s.substring(x));
@@ -74,7 +80,7 @@ public class TemplateProcessor
                 }
                 else
                 {
-                    String k=s.substring(open+1,close);
+                    String k=s.substring(open+2,close);
                     String v = params.get(k);
                     if ( v != null )
                     {
