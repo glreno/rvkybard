@@ -34,16 +34,16 @@ public class ParamMapTest
     private static final String OVERRIDDEN="You never see this value!";
     private Map<String,String> primary;
     private Map<String,String> secondary;
-    private ParamMap combined;
-    private ParamMap empty;
+    private ParamMap<String> combined;
+    private ParamMap<String> empty;
 
     @Before
     public void setup()
     {
         primary = new HashMap<>();
         secondary = new HashMap<>();
-        combined=new ParamMap(primary,secondary);
-        empty=new ParamMap(Collections.emptyMap(),Collections.emptyMap());
+        combined=new ParamMap<>(primary,secondary,"");
+        empty=new ParamMap<>(Collections.emptyMap(),Collections.emptyMap(),"");
         primary.put(FOO, FOO_VALUE);
         primary.put(BAR, OVERRIDDEN);
         secondary.put(BAR, BAR_VALUE);

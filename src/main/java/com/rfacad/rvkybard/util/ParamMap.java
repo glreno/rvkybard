@@ -20,15 +20,17 @@ import java.util.TreeSet;
  * This doesn't technically meet the contract for Map, but all mvel needs is
  * containsKey() and get() --- and mvel throws an exception if it ever gets a null from the map.
  */
-public class ParamMap implements Map<String,String>
+public class ParamMap<V> implements Map<String,V>
 {
-    private Map<String, String> defaultValues;
-    private Map<String, String> values;
+    private Map<String, V> defaultValues;
+    private Map<String, V> values;
+    private V emptyValue;
 
-    public ParamMap(Map<String,String> defaultValues, Map<String,String> values)
+    public ParamMap(Map<String,V> defaultValues, Map<String,V> values, V emptyValue)
     {
         this.defaultValues=defaultValues;
         this.values=values;
+        this.emptyValue=emptyValue;
     }
 
     @Override
@@ -56,9 +58,9 @@ public class ParamMap implements Map<String,String>
     }
 
     @Override
-    public String get(Object key)
+    public V get(Object key)
     {
-        String ret = values.get(key);
+        V ret = values.get(key);
         if ( ret != null )
         {
             return ret;
@@ -68,23 +70,23 @@ public class ParamMap implements Map<String,String>
         {
             return ret;
         }
-        return "";
+        return emptyValue;
     }
 
     @Override
-    public String put(String key, String value)
+    public V put(String key, V value)
     {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String remove(Object key)
+    public V remove(Object key)
     {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void putAll(Map<? extends String, ? extends String> m)
+    public void putAll(Map<? extends String, ? extends V> m)
     {
         throw new UnsupportedOperationException();
     }
@@ -106,15 +108,15 @@ public class ParamMap implements Map<String,String>
     }
 
     @Override
-    public Collection<String> values()
+    public Collection<V> values()
     {
         // This set is SUPPOSED to be backed by the original Map. It isn't.
         return valueSet();
     }
 
-    private Set<String> valueSet()
+    private Set<V> valueSet()
     {
-        Set<String> ret=new TreeSet<>();
+        Set<V> ret=new TreeSet<>();
         Set<String> keys=keySet();
         for(String k : keys )
         {
@@ -124,10 +126,10 @@ public class ParamMap implements Map<String,String>
     }
 
     @Override
-    public Set<Entry<String, String>> entrySet()
+    public Set<Entry<String, V>> entrySet()
     {
         // This set is SUPPOSED to be backed by the original Map. It isn't.
-        Map<String, String> ret=new TreeMap<>();
+        Map<String, V> ret=new TreeMap<>();
         Set<String> keys=keySet();
         for(String k : keys )
         {

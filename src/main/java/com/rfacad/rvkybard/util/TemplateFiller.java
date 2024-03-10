@@ -75,11 +75,11 @@ public class TemplateFiller extends TemplateProcessor
     {
         File dest=new File(destdir,descArray[0]);
         File src=new File(srcdir,descArray[1]);
-        Map<String,String> params = parseParams(descArray);
+        Map<String,Object> params = parseParams(descArray);
         processFile(src,dest,params);
     }
 
-    protected void processFile(File src,File dest,Map<String,String> params)
+    protected void processFile(File src,File dest,Map<String,Object> params)
     {
         try(InputStream in=new FileInputStream(src))
         {

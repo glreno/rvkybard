@@ -58,22 +58,85 @@ public class TemplateFillerTest
     public void shouldReadParams() throws IOException
     {
         TemplateProcessor tf=new TemplateFiller(tmpdir.toString(),"src.txt");
-        Map<String,String> ret;
+        Map<String,Object> ret;
 
         ret = tf.parseParams(new String[] {});
         assertEquals(0,ret.size());
 
-        ret = tf.parseParams(new String[] {"foo","bar","x=1","y=2"});
+        ret = tf.parseParams(new String[] {"foo","bar","x=1","y=2.5"});
         assertEquals(2,ret.size());
-        assertEquals("1",ret.get("x"));
-        assertEquals("2",ret.get("y"));
+        assertEquals(Long.valueOf(1),ret.get("x"));
+        assertEquals(Double.valueOf(2.5),ret.get("y"));
 
         ret = tf.parseParams(new String[] {"foo="});
         assertEquals(1,ret.size());
         assertEquals("",ret.get("foo"));
     }
 
-    private String processLine(TemplateProcessor tf,String line,Map<String,String> params) throws IOException
+    @Test
+    public void shouldParseNumbers()
+    {
+        TemplateProcessor tf=new TemplateFiller(tmpdir.toString(),"src.txt");
+        Object ret = tf.parseValue("string");
+        assertEquals("string",ret);
+        assertTrue(ret instanceof String);
+
+        ret = tf.parseValue("1numberHere");
+        assertEquals("1numberHere",ret);
+        assertTrue(ret instanceof String);
+
+        ret = tf.parseValue("number2Here");
+        assertEquals("number2Here",ret);
+        assertTrue(ret instanceof String);
+
+        ret = tf.parseValue(".dotHere");
+        assertEquals(".dotHere",ret);
+        assertTrue(ret instanceof String);
+
+        ret = tf.parseValue(".");
+        assertEquals(".",ret);
+        assertTrue(ret instanceof String);
+
+        ret = tf.parseValue("+2+");
+        assertEquals("+2+",ret);
+        assertTrue(ret instanceof String);
+
+        ret = tf.parseValue("2+");
+        assertEquals("2+",ret);
+        assertTrue(ret instanceof String);
+
+        ret = tf.parseValue("-2-");
+        assertEquals("-2-",ret);
+        assertTrue(ret instanceof String);
+
+        ret = tf.parseValue("2-");
+        assertEquals("2-",ret);
+        assertTrue(ret instanceof String);
+
+        ret = tf.parseValue("3.1.4");
+        assertEquals("3.1.4",ret);
+        assertTrue(ret instanceof String);
+
+        ret = tf.parseValue("123");
+        assertEquals(Long.valueOf(123),ret);
+        assertTrue(ret instanceof Long);
+
+        ret = tf.parseValue("-6");
+        assertEquals(Long.valueOf(-6),ret);
+        assertTrue(ret instanceof Long);
+
+        ret = tf.parseValue("+6");
+        assertEquals(Long.valueOf(6),ret);
+        assertTrue(ret instanceof Long);
+
+        assertEquals(15L,Long.parseLong("f",16)); // not supporting hex yet
+
+        ret = tf.parseValue("3.14159265");
+        assertEquals(Double.valueOf(3.14159265),ret);
+        assertTrue(ret instanceof Double);
+    }
+
+    private String processLine(TemplateProcessor tf,String line,Map<String,Object> params) throws IOException
     {
         StringWriter out = new StringWriter();
         InputStream in = new ByteArrayInputStream(line.getBytes(Charset.defaultCharset()));
@@ -87,7 +150,7 @@ public class TemplateFillerTest
         String ret;
         tf.loadDefault("a", "alice");
         tf.loadDefaults(new String[]{"b=bob","quote=&#x2019;"});
-        Map<String, String> params = tf.parseParams(new String[] {"foo","bar","x=1","y=2","a=override"});
+        Map<String, Object> params = tf.parseParams(new String[] {"foo","bar","x=1","y=2","a=override"});
 
         ret=processLine(tf,"",params);
         assertEquals("",ret);
@@ -113,7 +176,7 @@ public class TemplateFillerTest
         ret=processLine(tf,"@{x} starts this line.",params);
         assertEquals("1 starts this line.",ret);
 
-        ret=processLine(tf,"@{x}+@{x}=@{y}",params); // TODO that should be @{x+x} instead of @{y}
+        ret=processLine(tf,"@{x}+@{x}=@{x+x}",params);
         assertEquals("1+1=2",ret);
 
         ret=processLine(tf,"@{quote}@{b}@{quote}",params);

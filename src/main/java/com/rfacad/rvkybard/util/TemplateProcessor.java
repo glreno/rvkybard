@@ -24,14 +24,14 @@ public class TemplateProcessor
 {
     private static Logger LOG = LoggerFactory.getLogger(TemplateProcessor.class);
 
-    protected Map<String,String> defaultParams;
+    protected Map<String,Object> defaultParams;
 
     public TemplateProcessor()
     {
         defaultParams=new HashMap<>();
     }
 
-    public void loadDefault(String key,String value)
+    public void loadDefault(String key,Object value)
     {
         defaultParams.put(key, value);
     }
@@ -40,24 +40,69 @@ public class TemplateProcessor
         defaultParams.putAll(parseParams(descArray));
     }
 
-    public Map<String,String> parseParams(String[] descArray)
+    public Map<String,Object> parseParams(String[] descArray)
     {
-        Map<String,String> ret = new HashMap<>();
+        Map<String,Object> ret = new HashMap<>();
         for(String s : descArray)
         {
             int eq=s.indexOf("=");
             if ( eq > 0 )
             {
-                ret.put(s.substring(0,eq), s.substring(eq+1));
+                ret.put(s.substring(0,eq), parseValue(s.substring(eq+1)));
             }
         }
         return ret;
     }
 
-    public void processStream(String fn,InputStream in, Writer out, Map<String,String> params) throws IOException
+    public Object parseValue(String s)
+    {
+        String t = s.trim();
+        if ( t.isEmpty() )
+        {
+            return t;
+        }
+        // scan for numbers, dots, minus, and anything else
+        int nums=0;
+        int dots=0;
+        int minus=0;
+        int plus=0;
+        int letters=0;
+        char first = t.charAt(0);
+        for(char c : t.toCharArray())
+        {
+            if ( c=='.' ) ++dots;
+            else if ( c=='-' ) ++minus;
+            else if ( c=='+' ) ++plus;
+            else if ( Character.isDigit(c) ) nums++;
+            else ++letters;
+        }
+        if ( letters == 0 && nums > 0 && dots < 2)
+        {
+            // Could be a number
+            if ( minus==0 || (minus==1 && first=='-') )
+            {
+                // Could be a positive or negative number
+                if ( plus==0 || (plus==1 && first=='+') )
+                {
+                    // Could still be a positive or negative number
+                    if ( dots == 0 )
+                    {
+                        return Long.parseLong(t);
+                    }
+                    else
+                    {
+                        return Double.parseDouble(t);
+                    }
+                }
+            }
+        }
+        return t;
+    }
+
+    public void processStream(String fn,InputStream in, Writer out, Map<String,Object> params) throws IOException
     {
         // Combine parameters
-        Map<String,String> allparams=new ParamMap(defaultParams,params);
+        Map<String,Object> allparams=new ParamMap<Object>(defaultParams,params,"");
 
         String output;
         try

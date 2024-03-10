@@ -222,7 +222,7 @@ public class KybardJspHelper
         }
         else
         {
-            Map<String, String> params = new HashMap<>();
+            Map<String, Object> params = new HashMap<>();
             params.put("L", name);
             params.putAll(templateProcessor.parseParams(svgParams));
             templateProcessor.processStream(fn, rsrc, out, params);
