@@ -12,57 +12,13 @@ http://www.apache.org/licenses/LICENSE-2.0
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
 <title>Keypad Test</title>
-<style>
-<!-- all these styles need to move into KybardJspHelper -->
-* {
--webkit-user-select: none;
--webkit-touch-callout: none;
-touch-action: manipulation;
-}
-button {
-touch-action: manipulation;
-border: none;
-padding-left: 3px;
-padding-right: 0px;
-padding-top: 0px;
-padding-bottom: 0px;
-margin: 0px;
-}
-img {
-border: none;
-padding: 0px;
-margin: 0px;
-}
-</style>
-<script type="text/javascript" language="javascript">
-let flagsdown = new Set();
-let keysdown = new Set();
-
-const send = async () => {
-    //console.log(flagsdown);
-    //console.log(keysdown);
-    let u='../../k?f=';
-    flagsdown.forEach((x)=>{u=u+x+','});
-    u=u+'&k=';
-    keysdown.forEach((x)=>{u=u+x+','});
-    //console.log(u);
-    response = await fetch(u);
-}
-
-function flagDown(key) {
-    flagsdown.add(key);
-    send();
-}
-function flagUp(key) {
-    flagsdown.delete(key);
-    send();
-}
-function keyDown(key) {
-    keysdown.add(key);
-    send();
-}
-function keyUp(key) {
-    keysdown.delete(key);
-    send();
-}
-</script>
+<link   
+    rel="icon"
+    type="image/png"
+    href="/icon32.svg"
+/>
+<link   
+      rel="stylesheet"
+      href="/css/nozoom.css"
+/>
+<script src ='/js/rvkybard.js'></script>

@@ -6,11 +6,10 @@
     // Default key SVG and size
     kb.setDefaultSvg("/kb/numeric/key.svgt",66,66,3,3,"FS=48","W-8=58","W-16=50","H-8=58","H-16=50");
     String KP="/kb/numeric/keypad.svgt";
-    // Custom style settings go here
-    kb.addStyle("table","background","green");
 
     kb.startHtml();
 %>
+<!-- custom styles go here -->
 <script type="text/javascript" language="javascript">
     // custom javascript goes here
 </script>
