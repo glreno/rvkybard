@@ -5,11 +5,15 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 import org.junit.After;
@@ -69,6 +73,13 @@ public class TemplateFillerTest
         assertEquals("",ret.get("foo"));
     }
 
+    private String processLine(TemplateProcessor tf,String line,Map<String,String> params) throws IOException
+    {
+        StringWriter out = new StringWriter();
+        InputStream in = new ByteArrayInputStream(line.getBytes(Charset.defaultCharset()));
+        tf.processStream("x",in, out, params);
+        return out.toString();
+    }
     @Test
     public void shouldReplaceParams() throws IOException
     {
@@ -78,34 +89,34 @@ public class TemplateFillerTest
         tf.loadDefaults(new String[]{"b=bob","quote=&#x2019;"});
         Map<String, String> params = tf.parseParams(new String[] {"foo","bar","x=1","y=2","a=override"});
 
-        ret=tf.processLine("",params);
+        ret=processLine(tf,"",params);
         assertEquals("",ret);
 
-        ret=tf.processLine("No params here",params);
+        ret=processLine(tf,"No params here",params);
         assertEquals("No params here",ret);
 
-        ret=tf.processLine("Stray open @{ brace",params);
-        assertEquals("Stray open @{ brace",ret);
+        ret=processLine(tf,"Stray open @{ brace",params);
+        assertTrue(ret.contains("Error: unbalanced braces"));
 
-        ret=tf.processLine("Stray close } brace",params);
+        ret=processLine(tf,"Stray close } brace",params);
         assertEquals("Stray close } brace",ret);
 
-        ret=tf.processLine("This param @{p} does not exist.",params);
+        ret=processLine(tf,"This param @{p} does not exist.",params);
         assertEquals("This param  does not exist.",ret);
 
-        ret=tf.processLine("@{b}",params);
+        ret=processLine(tf,"@{b}",params);
         assertEquals("bob",ret);
 
-        ret=tf.processLine("This line ends with @{a}",params);
+        ret=processLine(tf,"This line ends with @{a}",params);
         assertEquals("This line ends with override",ret);
 
-        ret=tf.processLine("@{x} starts this line.",params);
+        ret=processLine(tf,"@{x} starts this line.",params);
         assertEquals("1 starts this line.",ret);
 
-        ret=tf.processLine("@{x}+@{x}=@{y}",params); // TODO that should be @{x+x} instead of @{y}
+        ret=processLine(tf,"@{x}+@{x}=@{y}",params); // TODO that should be @{x+x} instead of @{y}
         assertEquals("1+1=2",ret);
 
-        ret=tf.processLine("@{quote}@{b}@{quote}",params);
+        ret=processLine(tf,"@{quote}@{b}@{quote}",params);
         assertEquals("&#x2019;bob&#x2019;",ret);
     }
 

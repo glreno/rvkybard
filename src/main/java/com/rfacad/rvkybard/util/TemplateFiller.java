@@ -2,6 +2,8 @@ package com.rfacad.rvkybard.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -79,11 +81,11 @@ public class TemplateFiller extends TemplateProcessor
 
     protected void processFile(File src,File dest,Map<String,String> params)
     {
-        try(BufferedReader in=new BufferedReader(new FileReader(src)))
+        try(InputStream in=new FileInputStream(src))
         {
             try(FileWriter out=new FileWriter(dest))
             {
-                processStream(in,out,params);
+                processStream(src.getName(),in,out,params);
             }
         }
         catch(IOException e)

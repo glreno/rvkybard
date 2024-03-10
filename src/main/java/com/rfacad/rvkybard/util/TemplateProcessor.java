@@ -1,13 +1,28 @@
 package com.rfacad.rvkybard.util;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.mvel2.CompileException;
+import org.mvel2.templates.TemplateRuntime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+//
+//Copyright (c) 2024 Gerald Reno, Jr.
+//
+//Licensed under the Apache License, Version 2.0 (the "License");
+//you may not use this file except in compliance with the License.
+//You may obtain a copy of the License at
+//
+//http://www.apache.org/licenses/LICENSE-2.0
+//
 public class TemplateProcessor
 {
+    private static Logger LOG = LoggerFactory.getLogger(TemplateProcessor.class);
 
     protected Map<String,String> defaultParams;
 
@@ -39,66 +54,24 @@ public class TemplateProcessor
         return ret;
     }
 
-    public void processStream(BufferedReader in, Writer out, Map<String,String> params) throws IOException
+    public void processStream(String fn,InputStream in, Writer out, Map<String,String> params) throws IOException
     {
-        // Read the file entirely into a buffer
-        StringBuilder buf=new StringBuilder();
-        String s;
-        while((s=in.readLine()) != null)
+        // Combine parameters
+        Map<String,String> allparams=new ParamMap(defaultParams,params);
+
+        String output;
+        try
         {
-            buf.append(s);
-            buf.append("\r\n");
+            // Process the expressions
+            output = (String) TemplateRuntime.eval(in, allparams);
         }
-        // Process the expressions
-        String output = processLine(buf.toString(), params);
+        catch (CompileException e)
+        {
+            LOG.error("Exception compiling expression in {}",fn,e);
+            output = e.getMessage();
+        }
         // Write the buffer out
         out.write(output);
-    }
-
-    protected String processLine(String s, Map<String,String> params)
-    {
-        StringBuilder b = new StringBuilder(s.length());
-        int x=0;
-        int end=s.length();
-        while ( x < end )
-        {
-            int open = s.indexOf("@{",x);
-            if ( open < 0 )
-            {
-                b.append(s.substring(x));
-                x=end;
-            }
-            else
-            {
-                b.append(s.substring(x,open));
-    
-                int close = s.indexOf('}',open);
-                if ( close < 0 )
-                {
-                    b.append(s.substring(open));
-                    x=end;
-                }
-                else
-                {
-                    String k=s.substring(open+2,close);
-                    String v = params.get(k);
-                    if ( v != null )
-                    {
-                        b.append(v);
-                    }
-                    else
-                    {
-                        v = defaultParams.get(k);
-                        if ( v != null )
-                        {
-                            b.append(v);
-                        }
-                    }
-                    x=close+1;
-                }
-            }
-        }
-        return b.toString();
     }
 
 }

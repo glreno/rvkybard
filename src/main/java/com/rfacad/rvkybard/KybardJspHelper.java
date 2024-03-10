@@ -12,7 +12,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.rfacad.rvkybard.util.TemplateFiller;
 import com.rfacad.rvkybard.util.TemplateProcessor;
 
 //
@@ -96,11 +95,6 @@ public class KybardJspHelper
         // Copy initial HTML from htmlt file
         copyResource("/startPage.htmlt");
         // TODO Generate the <title> tag
-        // TODO Generate the favicon
-        // TODO Generate the style stuff
-        // TODO that's in the htmlt right now
-        // TODO Import of a .js file with all the hard work in it
-        // TODO that's in the htmlt right now
     }
 
     /** The end of the header HTML, and the beginning of the keyboard.
@@ -228,13 +222,10 @@ public class KybardJspHelper
         }
         else
         {
-            try (BufferedReader in=new BufferedReader(new InputStreamReader(rsrc)) )
-            {
-                Map<String, String> params = new HashMap<>();
-                params.put("L", name);
-                params.putAll(templateProcessor.parseParams(svgParams));
-                templateProcessor.processStream(in, out, params);
-            }
+            Map<String, String> params = new HashMap<>();
+            params.put("L", name);
+            params.putAll(templateProcessor.parseParams(svgParams));
+            templateProcessor.processStream(fn, rsrc, out, params);
         }
     }
 
