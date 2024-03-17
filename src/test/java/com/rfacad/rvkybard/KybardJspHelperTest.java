@@ -23,10 +23,11 @@ public class KybardJspHelperTest
     public void shouldWriteStartPage()
     {
         StringWriter out = new StringWriter();
-        KybardJspHelper h = new KybardJspHelper(out, "", "");
+        KybardJspHelper h = new KybardJspHelper(out, "My Title Here", "");
         h.startHtml();
         String s = out.toString();
-        assertTrue(s,s.startsWith("<!DOCTYPE html>\r\n<html lang='en'>\r\n"));
+        assertTrue(s,s.startsWith("<!DOCTYPE html>\n<html lang='en'>\n"));
+        assertTrue(s,s.contains("<title>My Title Here</title>"));
     }
 
     @Test
@@ -36,7 +37,7 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.startKeyboard();
         String s = out.toString();
-        assertTrue(s,s.equals("<table cellspacing=0 cellpadding=0 >\r\n"));
+        assertTrue(s,s.equals("<table cellspacing=0 cellpadding=0 >\n"));
     }
 
     @Test
@@ -46,7 +47,7 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.startRow();
         String s = out.toString();
-        assertTrue(s,s.startsWith("<tr>\r\n"));
+        assertTrue(s,s.startsWith("<tr>\n"));
     }
 
     @Test
@@ -62,7 +63,7 @@ public class KybardJspHelperTest
         assertTrue(s,s.contains("keyDown('a')"));
         assertTrue(s,s.contains("keyUp('a')"));
         assertTrue(s,s.contains(">a</text>"));
-        assertTrue(s,s.endsWith("</button></td>\r\n"));
+        assertTrue(s,s.endsWith("</button></td>\n"));
     }
 
     @Test
@@ -78,9 +79,20 @@ public class KybardJspHelperTest
         assertTrue(s,s.contains("keyDown('KP_DIVIDE')"));
         assertTrue(s,s.contains("keyUp('KP_DIVIDE')"));
         assertTrue(s,s.contains(">/</text>"));
-        assertTrue(s,s.endsWith("</button></td>\r\n"));
+        assertTrue(s,s.endsWith("</button></td>\n"));
     }
 
+    @Test
+    public void shouldWriteSpacer()
+    {
+        StringWriter out = new StringWriter();
+        KybardJspHelper h = new KybardJspHelper(out, "", "");
+        h.setTop(new File("src/main/webapp/kb"));
+        h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
+        h.spacer(5);
+        String s = out.toString();
+        assertEquals("<td colspan='5' rowspan='3'><svg width=110 height=66 ></svg></td>\n",s);
+    }
     @Test
     public void shouldWriteEndRow()
     {
@@ -88,7 +100,7 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.endRow();
         String s = out.toString();
-        assertTrue(s,s.endsWith("</tr>\r\n"));
+        assertTrue(s,s.endsWith("</tr>\n"));
     }
 
     @Test
@@ -98,7 +110,7 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.endKeyboard();
         String s = out.toString();
-        assertEquals("</table>\r\n",s);
+        assertEquals("</table>\n",s);
     }
 
     @Test
@@ -108,7 +120,7 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.endHtml();
         String s = out.toString();
-        assertEquals("</body>\r\n</html>\r\n",s);
+        assertEquals("</body>\n</html>\n",s);
     }
 
     @Test

@@ -18,15 +18,9 @@ touch-action: manipulation;
 button {
 touch-action: manipulation;
 border: none;
-padding-left: 3px;
-padding-right: 0px;
-padding-top: 0px;
-padding-bottom: 0px;
-margin: 0px;
-}
-
-img {
-border: none;
-padding: 0px;
-margin: 0px;
+padding-left: 0px !important;
+padding-right: 0px !important;
+padding-top: 0px !important;
+padding-bottom: 0px !important;
+margin: 0px !important;
 }

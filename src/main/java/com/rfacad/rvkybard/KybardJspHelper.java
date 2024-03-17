@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +42,7 @@ public class KybardJspHelper
     {
         this.out = out;
         top = new File("webapps/ROOT/kb"); // TODO we are assuming that we are running under Tomcat as the ROOT webapp!
+        templateProcessor.loadDefault("TITLE", title);
     }
 
     public void setTop(File top)
@@ -51,7 +53,8 @@ public class KybardJspHelper
     private void println(String s) throws IOException
     {
         out.write(s);
-        out.write("\r\n");
+        // Yes, HTTP specifies that this should be \r\n. HTTP is wrong.
+        out.write('\n');
         out.flush();
     }
 
@@ -61,16 +64,12 @@ public class KybardJspHelper
         // TODO the page should throw a 500 at this point!
     }
 
-    private void copyResource(String resourceName)
+    private void copyResource(String resourceName, Map<String, Object> params)
     {
         URL resource = this.getClass().getResource(resourceName);
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(resource.openStream())))
+        try (InputStream in = resource.openStream())
         {
-            String s;
-            while( (s=in.readLine()) != null )
-            {
-                println(s);
-            }
+            templateProcessor.processStream(resourceName, in, out, params);
         }
         catch(IOException e)
         {
@@ -101,9 +100,9 @@ public class KybardJspHelper
      */
     public void startHtml()
     {
+        Map<String, Object> params = Collections.emptyMap();
         // Copy initial HTML from htmlt file
-        copyResource("/startPage.htmlt");
-        // TODO Generate the <title> tag
+        copyResource("/startPage.htmlt",params);
     }
 
     /** The end of the header HTML, and the beginning of the keyboard.
@@ -129,7 +128,21 @@ public class KybardJspHelper
             // Start each key row with a padding column;
             // a key takes up three table rows, and this height
             // is approximately 1/3 the height of the key.
-            println("<td width=8 height=21 ></td>");
+            println("<td><div style='width: 8px; height: 21px;' ></div></td>");
+        }
+        catch (IOException e) {
+            handleException(e);
+        }
+    }
+
+    /**
+     * Insert a spacer into the row.
+     */
+    public void spacer(int cols)
+    {
+        try
+        {
+            println("<td colspan='"+cols+"' rowspan='3'><svg width="+(cols*22)+" height=66 ></svg></td>");
         }
         catch (IOException e) {
             handleException(e);
@@ -262,7 +275,7 @@ public class KybardJspHelper
     /** The end of the html, i.e. </body></html> */
     public void endHtml()
     {
-        copyResource("/endPage.htmlt");
+        copyResource("/endPage.htmlt", Collections.emptyMap());
     }
 
 }
