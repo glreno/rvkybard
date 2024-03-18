@@ -36,6 +36,8 @@ public class KybardJspHelper
     private String templateFn=null;
     private int keyColSpan=3;
     private int keyRowSpan=3;
+    private int x=1;
+    private int y=1;
     TemplateProcessor templateProcessor = new TemplateProcessor();
 
     public KybardJspHelper(Writer out, String title,String favIcoFn)
@@ -110,9 +112,11 @@ public class KybardJspHelper
      */
     public void startKeyboard()
     {
+        x=1;
+        y=1;
         try
         {
-            println("<table cellspacing=0 cellpadding=0 >");
+            println("<div class='kybard-container' >");
         }
         catch (IOException e) {
             handleException(e);
@@ -122,17 +126,18 @@ public class KybardJspHelper
     /** Start a row for the keyboard, i.e., <tr> */
     public void startRow()
     {
-        try
-        {
-            println("<tr>");
-            // Start each key row with a padding column;
-            // a key takes up three table rows, and this height
-            // is approximately 1/3 the height of the key.
-            println("<td><div style='width: 8px; height: 21px;' ></div></td>");
-        }
-        catch (IOException e) {
-            handleException(e);
-        }
+        x=1;
+//        try
+//        {
+//            println("<tr>");
+//            // Start each key row with a padding column;
+//            // a key takes up three table rows, and this height
+//            // is approximately 1/3 the height of the key.
+//            println("<td><div style='width: 8px; height: 21px;' ></div></td>");
+//        }
+//        catch (IOException e) {
+//            handleException(e);
+//        }
     }
 
     /**
@@ -186,11 +191,20 @@ public class KybardJspHelper
         try
         {
             StringBuilder buf = new StringBuilder();
-            buf.append("<td colspan=");
-            buf.append(colspan);
-            buf.append(" rowspan=");
+            buf.append("<div style='grid-area: "); // y/x/span r/span c;'>5</div>
+            buf.append(y);
+            buf.append("/");
+            buf.append(x);
+            buf.append("/span ");
             buf.append(rowspan);
-            buf.append(">");
+            buf.append("/span ");
+            buf.append(colspan);
+            buf.append(";'>");
+//            buf.append("<td colspan=");
+//            buf.append(colspan);
+//            buf.append(" rowspan=");
+//            buf.append(rowspan);
+//            buf.append(">");
             buf.append("<button ontouchstart=");
             buf.append('"');
             if ( custDown != null )
@@ -224,11 +238,12 @@ public class KybardJspHelper
 
             embedSvg(name,svgTemplateFn,svgParams);
 
-            println("</button></td>");
+            println("</button></div>");
         }
         catch (IOException e) {
             handleException(e);
         }
+        x += colspan;
     }
 
     protected void embedSvg(String name, String svgTemplateFn, String[] svgParams) throws IOException
@@ -248,16 +263,17 @@ public class KybardJspHelper
     /** Start a row for the keyboard, i.e., </tr> */
     public void endRow()
     {
-        try
-        {
-            println("</tr>");
-            // print two more rows containing a single padding column so that the 3x3 table layout works
-            println("<tr><td height=21 ></td></tr>");
-            println("<tr><td height=21 ></td></tr>");
-        }
-        catch (IOException e) {
-            handleException(e);
-        }
+        y+=3;
+//        try
+//        {
+//            println("</tr>");
+//            // print two more rows containing a single padding column so that the 3x3 table layout works
+//            println("<tr><td height=21 ></td></tr>");
+//            println("<tr><td height=21 ></td></tr>");
+//        }
+//        catch (IOException e) {
+//            handleException(e);
+//        }
     }
 
     /** The end of the keyboard, i.e. </table> */
@@ -265,7 +281,7 @@ public class KybardJspHelper
     {
         try
         {
-            println("</table>");
+            println("</div>");
         }
         catch (IOException e) {
             handleException(e);

@@ -4,12 +4,22 @@
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"A Keypad",null);
     // Default key SVG and size
-    kb.setDefaultSvg("numeric/keys/key.svgt",66,66,3,3,"FS=48");
+    kb.setDefaultSvg("numeric/keys/key.svgt",64,64,3,3,"FS=48");
     String KP="numeric/keys/keypad.svgt";
 
     kb.startHtml();
 %>
 <!-- custom styles go here -->
+<style>
+.kybard-container {
+  display: grid;
+  
+  grid-template-columns: 20px 20px 20px  20px 20px 20px  20px 20px 20px  20px 20px 20px;
+  grid-template-rows: 20px 20px 20px  20px 20px 20px  20px 20px 20px  20px 20px 20px  20px 20px 20px;
+  gap: 2px;
+  background-color: #2196F3;
+}
+</style>
 <script type="text/javascript" language="javascript">
     // custom javascript goes here
 </script>
