@@ -236,7 +236,7 @@ public class KybardJspHelper
      * @param keycode
      * @param svgText
      */
-    public void key(String name,String keycode,int colspan,int rowspan,String custDown,String custUp,String css,String svgTemplateFn,String ... svgParams)
+    public void key(String name,String keycode,int colspan,int rowspan,String custDown,String custUp,String cssClass,String svgTemplateFn,String ... svgParams)
     {
         Map<String,Object> keyParams = new HashMap<>();
         keyParams.put("name", name);
@@ -258,7 +258,13 @@ public class KybardJspHelper
             buf.append("/span ");
             buf.append(colspan);
             buf.append(";'>");
-            buf.append("<button ontouchstart=");
+            buf.append("<button type='button' class='kbbutton");
+            if ( cssClass != null && !cssClass.isEmpty() )
+            {
+                buf.append(" ");
+                buf.append(cssClass);
+            }
+            buf.append("' ontouchstart=");
             buf.append('"');
             if ( custDown != null )
             {
@@ -285,7 +291,6 @@ public class KybardJspHelper
             }
             buf.append('"');
             buf.append(' ');
-            buf.append(css);
             buf.append(">");
             out.write(buf.toString());
 
