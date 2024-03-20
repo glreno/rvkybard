@@ -6,5 +6,5 @@
 <rect fill="@{BGC}" x="@{stdW/2}" y="0" width="@{W-stdW}" height="@{H}"/>
 <line stroke="@{BORDC}" x1="@{stdW/2}" x2="@{W-stdW/2}" y1="@{BORD/2}" y2="@{BORD/2}" stroke-width="@{BORD}" /> 
 <line stroke="@{BORDC}" x1="@{stdW/2}" x2="@{W-stdW/2}" y1="@{H-BORD/2}" y2="@{H-BORD/2}" stroke-width="@{BORD}" />
-<text x="50%" y="${H/2+FS*.15}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-family="sans-serif">@{L}</text>
+<text x="50%" y="${H/2+FS*.15}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
 </svg>

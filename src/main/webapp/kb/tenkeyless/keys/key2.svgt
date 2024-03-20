@@ -1,6 +1,6 @@
 <svg width="@{W}" height="@{H}">
 <circle fill="@{BORDC}" cx="50%" cy="50%" r="@{W/2}"/>
 <circle fill="@{BGC}" cx="50%" cy="50%" r="@{W/2-BORD}"/>
-<text x="50%" y="@{H/2+FS*.26}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS/2}" fill="@{TXTC}" font-family="sans-serif">@{L}</text>
+<text x="50%" y="@{H/2+FS*.26}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS/2}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
 <text x="50%" y="@{H/2-FS*.23}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS/2}" fill="@{TXTC}" font-family="sans-serif">@{S}</text>
 </svg>

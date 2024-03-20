@@ -29,7 +29,7 @@
 
     // Top Row
     kb.startRow();
-    kb.key("Numlock","KP_NUMLOCK",3,3,null,null,"",KP,"L=","S=Num Lock");
+    kb.key("Numlock","KP_NUMLOCK",3,3,null,null,"",KP,"name=","S=Num Lock");
     kb.key("/","KP_DIVIDE");
     kb.key("*","KP_MULTIPLY");
     kb.key("-","KP_MINUS");
@@ -40,7 +40,7 @@
     kb.key("7","KP_7",3,3,null,null,"",KP,"S=Home");
     kb.key("8","KP_8",3,3,null,null,"",KP,"S=&#x25B2;");
     kb.key("9","KP_9",3,3,null,null,"",KP,"S=Pg Up");
-    kb.key("+","KP_ADD",3,6,null,null,"",null,"H=132");
+    kb.key("+","KP_ADD",3,6,null,null,"",null);
     kb.endRow();
 
     // 4 5 6 (+ is two rows)
@@ -55,7 +55,7 @@
     kb.key("1","KP_1",3,3,null,null,"",KP,"S=End");
     kb.key("2","KP_2",3,3,null,null,"",KP,"S=&#x25BC;");
     kb.key("3","KP_3",3,3,null,null,"",KP,"S=Pg Dn");
-    kb.key("Enter","KP_ENTER",3,6,null,null,"",KP,"L=","S=Enter","H=132");
+    kb.key("Enter","KP_ENTER",3,6,null,null,"",KP,"name=","S=Enter","H=132");
     kb.endRow();
 
     // 0 . (0 is two cols, Enter is two rows)

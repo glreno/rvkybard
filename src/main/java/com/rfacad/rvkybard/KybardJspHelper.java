@@ -133,8 +133,8 @@ public class KybardJspHelper
         // The kbd pixel sizes are two gridGaps larger than they should be, to allow some overflows from the buttons
         templateProcessor.loadDefault("kbdW",(cellW+gridGap)*gridCols + gridGap);
         templateProcessor.loadDefault("kbdH",(cellH+gridGap)*gridRows + gridGap);
-        templateProcessor.loadDefault("keyColSpan",keyColSpan);
-        templateProcessor.loadDefault("keyRowSpan",keyRowSpan);
+        templateProcessor.loadDefault("stdColSpan",keyColSpan);
+        templateProcessor.loadDefault("stdRowSpan",keyRowSpan);
     }
 
     public int getX()
@@ -238,10 +238,14 @@ public class KybardJspHelper
      */
     public void key(String name,String keycode,int colspan,int rowspan,String custDown,String custUp,String css,String svgTemplateFn,String ... svgParams)
     {
-        templateProcessor.loadDefault("X", x);
-        templateProcessor.loadDefault("Y", y);
-        templateProcessor.loadDefault("W", (cellW+gridGap)*colspan-gridGap );
-        templateProcessor.loadDefault("H", (cellH+gridGap)*rowspan-gridGap );
+        Map<String,Object> keyParams = new HashMap<>();
+        keyParams.put("name", name);
+        keyParams.put("X", x);
+        keyParams.put("Y", y);
+        keyParams.put("colSpan", colspan);
+        keyParams.put("rowSpan", rowspan);
+        keyParams.put("W", (cellW+gridGap)*colspan-gridGap );
+        keyParams.put("H", (cellH+gridGap)*rowspan-gridGap );
         try
         {
             StringBuilder buf = new StringBuilder();
@@ -285,7 +289,7 @@ public class KybardJspHelper
             buf.append(">");
             out.write(buf.toString());
 
-            embedSvg(name,svgTemplateFn,svgParams);
+            embedSvg(name,svgTemplateFn,keyParams,svgParams);
 
             println("</button></div>");
         }
@@ -295,7 +299,7 @@ public class KybardJspHelper
         x += colspan;
     }
 
-    protected void embedSvg(String name, String svgTemplateFn, String[] svgParams) throws IOException
+    protected void embedSvg(String name, String svgTemplateFn, Map<String,Object> keyParams, String[] svgParams) throws IOException
     {
         String fn = (svgTemplateFn==null)?this.templateFn:svgTemplateFn;
 
@@ -303,7 +307,7 @@ public class KybardJspHelper
         try ( InputStream rsrc = new FileInputStream(f) )
         {
             Map<String, Object> params = new HashMap<>();
-            params.put("L", name);
+            params.putAll(keyParams);
             params.putAll(templateProcessor.parseParams(svgParams));
             templateProcessor.processStream(fn, rsrc, out, params);
         }

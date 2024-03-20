@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -34,8 +36,8 @@ public class KybardJspHelperTest
         assertEquals("x2",runMvel(h,"x@{gridGap}"));
         assertEquals("x15",runMvel(h,"x@{gridCols}"));
         assertEquals("x4",runMvel(h,"x@{gridRows}"));
-        assertEquals("x3",runMvel(h,"x@{keyColSpan}"));
-        assertEquals("x3",runMvel(h,"x@{keyRowSpan}"));
+        assertEquals("x3",runMvel(h,"x@{stdColSpan}"));
+        assertEquals("x3",runMvel(h,"x@{stdRowSpan}"));
         assertEquals("x64",runMvel(h,"x@{stdW}")); // 3*22-2
         assertEquals("x64",runMvel(h,"x@{stdH}")); // 3*22-2
         assertEquals("x332",runMvel(h,"x@{kbdW}")); // 15*22+2
@@ -48,8 +50,8 @@ public class KybardJspHelperTest
         assertEquals("x2",runMvel(h,"x@{gridGap}"));
         assertEquals("x15",runMvel(h,"x@{gridCols}"));
         assertEquals("x4",runMvel(h,"x@{gridRows}"));
-        assertEquals("x5",runMvel(h,"x@{keyColSpan}"));
-        assertEquals("x4",runMvel(h,"x@{keyRowSpan}"));
+        assertEquals("x5",runMvel(h,"x@{stdColSpan}"));
+        assertEquals("x4",runMvel(h,"x@{stdRowSpan}"));
         assertEquals("x108",runMvel(h,"x@{stdW}")); // 5*22-2
         assertEquals("x86",runMvel(h,"x@{stdH}"));  // 4*22-2
         assertEquals("x332",runMvel(h,"x@{kbdW}")); // 15*22+2
@@ -60,8 +62,8 @@ public class KybardJspHelperTest
         assertEquals("x3",runMvel(h,"x@{gridGap}"));
         assertEquals("x15",runMvel(h,"x@{gridCols}"));
         assertEquals("x4",runMvel(h,"x@{gridRows}"));
-        assertEquals("x5",runMvel(h,"x@{keyColSpan}"));
-        assertEquals("x4",runMvel(h,"x@{keyRowSpan}"));
+        assertEquals("x5",runMvel(h,"x@{stdColSpan}"));
+        assertEquals("x4",runMvel(h,"x@{stdRowSpan}"));
         assertEquals("x87",runMvel(h,"x@{stdW}")); // 5*18-3
         assertEquals("x77",runMvel(h,"x@{stdH}")); // 4*20-3
         assertEquals("x273",runMvel(h,"x@{kbdW}")); // 15*18+3
@@ -204,7 +206,9 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.setTop(new File("src/main/webapp/kb"));
         h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
-        h.embedSvg("foo", null, new String [] {"W-16=bar", "H-16=baz"});
+        Map<String,Object> keyParams=new HashMap<>();
+        keyParams.put("name", "foo");
+        h.embedSvg("foo", null, keyParams, new String [0]);
         String s = out.toString();
         assertTrue(s,s.contains(">foo</text>"));
     }
@@ -216,7 +220,9 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.setTop(new File("src/main/webapp/kb"));
         h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
-        h.embedSvg("foo", "numeric/keys/keypad.svgt", new String [] {"L=","S=bletch","W-16=bar", "H-16=baz"});
+        Map<String,Object> keyParams=new HashMap<>();
+        keyParams.put("name", "foo");
+        h.embedSvg("foo", "numeric/keys/keypad.svgt", keyParams, new String [] {"name=","S=bletch"});
         String s = out.toString();
         assertFalse(s,s.contains(">foo</text>"));
         assertTrue(s,s.contains(">bletch</text>"));
