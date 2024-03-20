@@ -2,9 +2,13 @@ package com.rfacad.rvkybard;
 
 import static org.junit.Assert.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
+import java.util.Collections;
 
 import org.junit.Test;
 
@@ -19,6 +23,57 @@ import org.junit.Test;
 //
 public class KybardJspHelperTest
 {
+    @Test
+    public void shouldCalculateDefaultSizes() throws IOException
+    {
+        StringWriter out = new StringWriter();
+        KybardJspHelper h = new KybardJspHelper(out, "My Title Here", 15,4, "");
+        assertEquals("My Title Here",runMvel(h,"@{TITLE}"));
+        assertEquals("x20",runMvel(h,"x@{cellW}"));
+        assertEquals("x20",runMvel(h,"x@{cellH}"));
+        assertEquals("x2",runMvel(h,"x@{gridGap}"));
+        assertEquals("x15",runMvel(h,"x@{gridCols}"));
+        assertEquals("x4",runMvel(h,"x@{gridRows}"));
+        assertEquals("x3",runMvel(h,"x@{keyColSpan}"));
+        assertEquals("x3",runMvel(h,"x@{keyRowSpan}"));
+        assertEquals("x64",runMvel(h,"x@{stdW}")); // 3*22-2
+        assertEquals("x64",runMvel(h,"x@{stdH}")); // 3*22-2
+        assertEquals("x332",runMvel(h,"x@{kbdW}")); // 15*22+2
+        assertEquals("x90",runMvel(h,"x@{kbdH}")); // 4*22+2
+        assertEquals("x",runMvel(h,"x@{H}"));
+        assertEquals("x",runMvel(h,"x@{W}"));
+        h.setDefaultSvg("", 0,0, 5, 4);
+        assertEquals("x20",runMvel(h,"x@{cellW}"));
+        assertEquals("x20",runMvel(h,"x@{cellH}"));
+        assertEquals("x2",runMvel(h,"x@{gridGap}"));
+        assertEquals("x15",runMvel(h,"x@{gridCols}"));
+        assertEquals("x4",runMvel(h,"x@{gridRows}"));
+        assertEquals("x5",runMvel(h,"x@{keyColSpan}"));
+        assertEquals("x4",runMvel(h,"x@{keyRowSpan}"));
+        assertEquals("x108",runMvel(h,"x@{stdW}")); // 5*22-2
+        assertEquals("x86",runMvel(h,"x@{stdH}"));  // 4*22-2
+        assertEquals("x332",runMvel(h,"x@{kbdW}")); // 15*22+2
+        assertEquals("x90",runMvel(h,"x@{kbdH}")); // 4*22+2
+        h.setDefaultCellSize(15,17,3);
+        assertEquals("x15",runMvel(h,"x@{cellW}"));
+        assertEquals("x17",runMvel(h,"x@{cellH}"));
+        assertEquals("x3",runMvel(h,"x@{gridGap}"));
+        assertEquals("x15",runMvel(h,"x@{gridCols}"));
+        assertEquals("x4",runMvel(h,"x@{gridRows}"));
+        assertEquals("x5",runMvel(h,"x@{keyColSpan}"));
+        assertEquals("x4",runMvel(h,"x@{keyRowSpan}"));
+        assertEquals("x87",runMvel(h,"x@{stdW}")); // 5*18-3
+        assertEquals("x77",runMvel(h,"x@{stdH}")); // 4*20-3
+        assertEquals("x273",runMvel(h,"x@{kbdW}")); // 15*18+3
+        assertEquals("x83",runMvel(h,"x@{kbdH}")); // 4*20+3
+    }
+    private String runMvel(KybardJspHelper h,String s) throws IOException
+    {
+        StringWriter out = new StringWriter();
+        InputStream in = new ByteArrayInputStream(s.getBytes(Charset.defaultCharset()));
+        h.templateProcessor.processStream("", in, out, Collections.emptyMap());
+        return out.toString();
+    }
     @Test
     public void shouldWriteStartPage()
     {
@@ -37,17 +92,21 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.startKeyboard();
         String s = out.toString();
-        assertTrue(s,s.equals("<table cellspacing=0 cellpadding=0 >\n"));
+        assertEquals("<div class='kybard-container' >\n",s);
     }
 
     @Test
-    public void shouldWriteStartRow()
+    public void shouldStartRow()
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
+        assertEquals(1,h.getX());
+        h.setX(5);
+        assertEquals(5,h.getX());
         h.startRow();
         String s = out.toString();
-        assertTrue(s,s.startsWith("<tr>\n"));
+        assertEquals("",s);
+        assertEquals(1,h.getX());
     }
 
     @Test
@@ -56,14 +115,19 @@ public class KybardJspHelperTest
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.setTop(new File("src/main/webapp/kb"));
-        h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
+        h.setDefaultSvg("numeric/keys/key.svgt", 6, 2);
+        h.setX(5);
+        h.setY(4);
         h.key("a");
         String s = out.toString();
-        assertTrue(s,s.startsWith("<td colspan=3 rowspan=3><button"));
+        System.err.println(s);
+        assertEquals("<div class='key' style='grid-area: 4/5/span 2/span 6;'><button",s.substring(0, 62));
         assertTrue(s,s.contains("keyDown('a')"));
         assertTrue(s,s.contains("keyUp('a')"));
         assertTrue(s,s.contains(">a</text>"));
-        assertTrue(s,s.endsWith("</button></td>\n"));
+        // validate some of the variables that are in key.svgt, especially W and H which are calculated in key()
+        assertTrue(s,s.contains("<svg width=\"130\" height=\"42\">")); // W=6*22-2=130 H=2*22-2
+        assertTrue(s,s.endsWith("</button></div>\n"));
     }
 
     @Test
@@ -73,13 +137,15 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.setTop(new File("src/main/webapp/kb"));
         h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
+        h.setX(5);
+        h.setY(4);
         h.key("/","KP_DIVIDE");
         String s = out.toString();
-        assertTrue(s,s.startsWith("<td colspan=3 rowspan=3><button"));
+        assertEquals("<div class='key' style='grid-area: 4/5/span 3/span 3;'><button",s.substring(0, 62));
         assertTrue(s,s.contains("keyDown('KP_DIVIDE')"));
         assertTrue(s,s.contains("keyUp('KP_DIVIDE')"));
         assertTrue(s,s.contains(">/</text>"));
-        assertTrue(s,s.endsWith("</button></td>\n"));
+        assertTrue(s,s.endsWith("</button></div>\n"));
     }
 
     @Test
@@ -89,18 +155,26 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.setTop(new File("src/main/webapp/kb"));
         h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
+        assertEquals(1,h.getX());
+        h.setX(4);
+        assertEquals(4,h.getX());
         h.spacer(5);
+        assertEquals(9,h.getX());
         String s = out.toString();
-        assertEquals("<td colspan='5' rowspan='3'><svg width=110 height=66 ></svg></td>\n",s);
+        assertEquals("",s);
     }
     @Test
     public void shouldWriteEndRow()
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
+        assertEquals(1,h.getY());
+        h.setY(9);
+        assertEquals(9,h.getY());
         h.endRow();
         String s = out.toString();
-        assertTrue(s,s.endsWith("</tr>\n"));
+        assertEquals("",s);
+        assertEquals(12,h.getY());
     }
 
     @Test
@@ -110,7 +184,7 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.endKeyboard();
         String s = out.toString();
-        assertEquals("</table>\n",s);
+        assertEquals("</div>\n",s);
     }
 
     @Test

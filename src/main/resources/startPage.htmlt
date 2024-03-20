@@ -22,3 +22,14 @@ http://www.apache.org/licenses/LICENSE-2.0
       href="/css/nozoom.css"
 />
 <script src ='/js/rvkybard.js'></script>
+<style>
+.kybard-container {
+  display: grid;
+  
+  grid-template-columns: repeat(@{gridCols}, @{cellW}px);
+  grid-template-rows: repeat(@{gridRows}, @{cellH}px);
+  gap: @{gridGap}px;
+  width: @{kbdW}px;
+  height: @{kbdH}px;
+}
+</style>

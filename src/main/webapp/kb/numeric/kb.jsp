@@ -2,9 +2,10 @@
     pageEncoding="US-ASCII"%>
 <%@ page import="com.rfacad.rvkybard.KybardJspHelper" %>
 <%
-    KybardJspHelper kb=new KybardJspHelper(out,"A Keypad",null);
-    // Default key SVG and size
-    kb.setDefaultSvg("numeric/keys/key.svgt",64,64,3,3,"FS=48");
+    // Page title, and keyboard size in cells. 4 keys * 3 cells wide, 5 keys * 3 cells high
+    KybardJspHelper kb=new KybardJspHelper(out,"A Keypad",4*3,5*3,null);
+    // Default key SVG and size (in cell spans)
+    kb.setDefaultSvg("numeric/keys/key.svgt",3,3,"FS=48");
     String KP="numeric/keys/keypad.svgt";
 
     kb.startHtml();
@@ -12,11 +13,6 @@
 <!-- custom styles go here -->
 <style>
 .kybard-container {
-  display: grid;
-  
-  grid-template-columns: 20px 20px 20px  20px 20px 20px  20px 20px 20px  20px 20px 20px;
-  grid-template-rows: 20px 20px 20px  20px 20px 20px  20px 20px 20px  20px 20px 20px  20px 20px 20px;
-  gap: 2px;
   background-color: #2196F3;
 }
 </style>

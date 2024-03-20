@@ -36,16 +36,31 @@ public class KybardJspHelper
     private String templateFn=null;
     private int keyColSpan=3;
     private int keyRowSpan=3;
+    private int cellW=20;
+    private int cellH=20;
+    private int gridGap=2;
+    private int gridCols;
+    private int gridRows;
+
     private int x=1;
     private int y=1;
     TemplateProcessor templateProcessor = new TemplateProcessor();
 
-    public KybardJspHelper(Writer out, String title,String favIcoFn)
+    public KybardJspHelper(Writer out, String title, String favIcoFn)
+    {
+        this(out,title,14,5,favIcoFn);
+    }
+    // tricky: you spcecify the size in grid cells, NOT keys. setDefaultSvg sets the key size in grid cells (default 3x3)
+    public KybardJspHelper(Writer out, String title,int gridCols, int gridRows, String favIcoFn)
     {
         this.out = out;
+        this.gridCols=gridCols;
+        this.gridRows=gridRows;
         top = new File("webapps/ROOT/kb"); // TODO we are assuming that we are running under Tomcat as the ROOT webapp!
         templateProcessor.loadDefault("TITLE", title);
+        calculateDefaultSizes();
     }
+
 
     public void setTop(File top)
     {
@@ -86,11 +101,63 @@ public class KybardJspHelper
         this.keyRowSpan = keyRowSpan;
         templateProcessor.loadDefault("W",""+keyWidthPixels);
         templateProcessor.loadDefault("H",""+keyHeightPixels);
+        calculateDefaultSizes();
+        templateProcessor.loadDefaults(svgParams);
+    }
+    public void setDefaultSvg(String templateFn, int keyColSpan, int keyRowSpan, String ... svgParams)
+    {
+        this.templateFn = templateFn;
+        this.keyColSpan = keyColSpan;
+        this.keyRowSpan = keyRowSpan;
+        calculateDefaultSizes();
         templateProcessor.loadDefaults(svgParams);
     }
 
-    public void addStyle(String cls, String key, String value)
+    public void setDefaultCellSize(int cellW,int cellH,int gridGap)
     {
+        this.cellW=cellW;
+        this.cellH=cellH;
+        this.gridGap=gridGap;
+        calculateDefaultSizes();
+    }
+
+    private void calculateDefaultSizes()
+    {
+        templateProcessor.loadDefault("cellW",cellW);
+        templateProcessor.loadDefault("cellH",cellH);
+        templateProcessor.loadDefault("gridRows",gridRows);
+        templateProcessor.loadDefault("gridCols",gridCols);
+        templateProcessor.loadDefault("gridGap",gridGap);
+        templateProcessor.loadDefault("stdW",(cellW+gridGap)*keyColSpan - gridGap);
+        templateProcessor.loadDefault("stdH",(cellH+gridGap)*keyRowSpan - gridGap);
+        // The kbd pixel sizes are two gridGaps larger than they should be, to allow some overflows from the buttons
+        templateProcessor.loadDefault("kbdW",(cellW+gridGap)*gridCols + gridGap);
+        templateProcessor.loadDefault("kbdH",(cellH+gridGap)*gridRows + gridGap);
+        templateProcessor.loadDefault("keyColSpan",keyColSpan);
+        templateProcessor.loadDefault("keyRowSpan",keyRowSpan);
+    }
+
+    public int getX()
+    {
+        return x;
+    }
+
+
+    public void setX(int x)
+    {
+        this.x = x;
+    }
+
+
+    public int getY()
+    {
+        return y;
+    }
+
+
+    public void setY(int y)
+    {
+        this.y = y;
     }
 
     /** The top of the page. Includes <html><head> and start of <body,
@@ -127,17 +194,6 @@ public class KybardJspHelper
     public void startRow()
     {
         x=1;
-//        try
-//        {
-//            println("<tr>");
-//            // Start each key row with a padding column;
-//            // a key takes up three table rows, and this height
-//            // is approximately 1/3 the height of the key.
-//            println("<td><div style='width: 8px; height: 21px;' ></div></td>");
-//        }
-//        catch (IOException e) {
-//            handleException(e);
-//        }
     }
 
     /**
@@ -145,13 +201,7 @@ public class KybardJspHelper
      */
     public void spacer(int cols)
     {
-        try
-        {
-            println("<td colspan='"+cols+"' rowspan='3'><svg width="+(cols*22)+" height=66 ></svg></td>");
-        }
-        catch (IOException e) {
-            handleException(e);
-        }
+        x+=cols;
     }
 
     /**
@@ -188,10 +238,14 @@ public class KybardJspHelper
      */
     public void key(String name,String keycode,int colspan,int rowspan,String custDown,String custUp,String css,String svgTemplateFn,String ... svgParams)
     {
+        templateProcessor.loadDefault("X", x);
+        templateProcessor.loadDefault("Y", y);
+        templateProcessor.loadDefault("W", (cellW+gridGap)*colspan-gridGap );
+        templateProcessor.loadDefault("H", (cellH+gridGap)*rowspan-gridGap );
         try
         {
             StringBuilder buf = new StringBuilder();
-            buf.append("<div style='grid-area: "); // y/x/span r/span c;'>5</div>
+            buf.append("<div class='key' style='grid-area: "); // y/x/span r/span c;'>5</div>
             buf.append(y);
             buf.append("/");
             buf.append(x);
@@ -200,11 +254,6 @@ public class KybardJspHelper
             buf.append("/span ");
             buf.append(colspan);
             buf.append(";'>");
-//            buf.append("<td colspan=");
-//            buf.append(colspan);
-//            buf.append(" rowspan=");
-//            buf.append(rowspan);
-//            buf.append(">");
             buf.append("<button ontouchstart=");
             buf.append('"');
             if ( custDown != null )
@@ -260,20 +309,14 @@ public class KybardJspHelper
         }
     }
 
-    /** Start a row for the keyboard, i.e., </tr> */
+    /** End a row for the keyboard, i.e., </tr> */
     public void endRow()
     {
-        y+=3;
-//        try
-//        {
-//            println("</tr>");
-//            // print two more rows containing a single padding column so that the 3x3 table layout works
-//            println("<tr><td height=21 ></td></tr>");
-//            println("<tr><td height=21 ></td></tr>");
-//        }
-//        catch (IOException e) {
-//            handleException(e);
-//        }
+        endRowThirds(3);
+    }
+    public void endRowThirds(int n)
+    {
+        y+=n;
     }
 
     /** The end of the keyboard, i.e. </table> */

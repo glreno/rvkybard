@@ -1,10 +1,10 @@
-<svg width="@{WW}" height="@{H}">
-<circle fill="@{BORDC}" cx="@{W/2}" cy="50%" r="@{W/2}"/>
-<circle fill="@{BORDC}" cx="@{WW-W/2}" cy="50%" r="@{W/2}"/>
-<circle fill="@{BGC}" cx="@{W/2}" cy="50%" r="@{W/2-BORD}"/>
-<circle fill="@{BGC}" cx="@{WW-W/2}" cy="50%" r="@{W/2-BORD}"/>
-<rect fill="@{BGC}" x="@{W/2}" y="0" width="@{WW-W}" height="@{H}"/>
-<line stroke="@{BORDC}" x1="@{W/2}" x2="@{WW-W/2}" y1="@{BORD/2}" y2="@{BORD/2}" stroke-width="@{BORD}" />
-<line stroke="@{BORDC}" x1="@{W/2}" x2="@{WW-W/2}" y1="@{H-BORD/2}" y2="@{H-BORD/2}" stroke-width="@{BORD}" />
+<svg width="@{W}" height="@{H}">
+<circle fill="@{BORDC}" cx="@{stdW/2}" cy="50%" r="@{stdW/2}"/>
+<circle fill="@{BORDC}" cx="@{W-stdW/2}" cy="50%" r="@{stdW/2}"/>
+<circle fill="@{BGC}" cx="@{stdW/2}" cy="50%" r="@{stdW/2-BORD}"/>
+<circle fill="@{BGC}" cx="@{W-stdW/2}" cy="50%" r="@{stdW/2-BORD}"/>
+<rect fill="@{BGC}" x="@{stdW/2}" y="0" width="@{W-stdW}" height="@{H}"/>
+<line stroke="@{BORDC}" x1="@{stdW/2}" x2="@{W-stdW/2}" y1="@{BORD/2}" y2="@{BORD/2}" stroke-width="@{BORD}" /> 
+<line stroke="@{BORDC}" x1="@{stdW/2}" x2="@{W-stdW/2}" y1="@{H-BORD/2}" y2="@{H-BORD/2}" stroke-width="@{BORD}" />
 <text x="50%" y="${H/2+FS*.15}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-family="sans-serif">@{L}</text>
 </svg>
