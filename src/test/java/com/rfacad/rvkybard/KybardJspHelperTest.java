@@ -151,6 +151,24 @@ public class KybardJspHelperTest
     }
 
     @Test
+    public void shouldWriteShiftKey()
+    {
+        StringWriter out = new StringWriter();
+        KybardJspHelper h = new KybardJspHelper(out, "", "");
+        h.setTop(new File("src/main/webapp/kb"));
+        h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
+        h.setX(5);
+        h.setY(4);
+        h.key("Shift","LEFT_SHIFT",6,3,h.SHIFT,h.SHIFT,"",null);
+        String s = out.toString();
+        assertEquals("<div class='key' style='grid-area: 4/5/span 3/span 6;'><button",s.substring(0, 62));
+        assertTrue(s,s.contains("flagDown(this,'LEFT_SHIFT')"));
+        assertTrue(s,s.contains("flagUp(this,'LEFT_SHIFT')"));
+        assertTrue(s,s.contains(">Shift</text>"));
+        assertTrue(s,s.endsWith("</button></div>\n"));
+    }
+
+    @Test
     public void shouldWriteSpacer()
     {
         StringWriter out = new StringWriter();

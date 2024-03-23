@@ -30,6 +30,8 @@ public class KybardJspHelper
 {
     private static Logger LOG = LoggerFactory.getLogger(KybardJspHelper.class);
 
+    public static final String SHIFT="shifty!";
+
     private Writer out;
 
     private File top;
@@ -243,11 +245,21 @@ public class KybardJspHelper
         {
             down =  "keyDown(this,'"+keycode+"')";
         }
+        else if ( SHIFT.equals(custDown) )
+        {
+            down =  "flagDown(this,'"+keycode+"')";
+        }
+
         String up=custUp;
         if ( up == null )
         {
             up =  "keyUp(this,'"+keycode+"')";
         }
+        else if ( SHIFT.equals(custUp) )
+        {
+            up =  "flagUp(this,'"+keycode+"')";
+        }
+
         Map<String,Object> keyParams = new HashMap<>();
         keyParams.put("name", name);
         keyParams.put("X", x);

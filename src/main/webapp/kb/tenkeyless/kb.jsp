@@ -122,7 +122,7 @@
 
     // shift zxcvbnm,./ shift space uparrow
     kb.startRow();
-    kb.key("Shift","KB_LEFT_SHIFT",6,3,null,null,"",KW,"FS=18");
+    kb.key("Shift","LEFT_SHIFT",6,3,kb.SHIFT,kb.SHIFT,"",KW,"FS=18");
     kb.key("Z","Z");
     kb.key("X","X");
     kb.key("C","C");
@@ -134,20 +134,20 @@
     kb.key(",","KB_COMMA",3,3,null,null,"",KN,"S=&lt;");
     kb.key(".",".",3,3,null,null,"",KN,"S=&gt;");
     kb.key("/","/",3,3,null,null,"",KN,"S=?");
-    kb.key("Shift","KB_RIGHT_SHIFT",4,3,null,null,"",KW,"FS=18");
+    kb.key("Shift","RIGHT_SHIFT",4,3,kb.SHIFT,kb.SHIFT,"",KW,"FS=18");
     kb.spacer(5);
     kb.key("UP","KB_UPARROW",3,3,null,null,"",null,"FS=18");
     kb.endRow();
 
     // ctrl windows alt spacebarn alt windows ctrl space left down right
     kb.startRow();
-    kb.key("Ctrl","KB_LEFT_CTRL",4,3,null,null,"",KW,"FS=18","TXTC=#400");
-    kb.key("Windows","KB_LEFT_GUI",3,3,null,null,"",null,"FS=18","TXTC=#400");
-    kb.key("Alt","KB_LEFT_ALT",3,3,null,null,"",null,"FS=18","TXTC=#400");
+    kb.key("Ctrl","LEFT_CTRL",4,3,kb.SHIFT,kb.SHIFT,"",KW,"FS=18","TXTC=#400");
+    kb.key("Windows","LEFT_GUI",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
+    kb.key("Alt","LEFT_ALT",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
     kb.key("","KB_SPACE",24,3,null,null,"",KW);
-    kb.key("Alt","KB_RIGHT_ALT",3,3,null,null,"",null,"FS=18","TXTC=#400");
-    kb.key("Menu","KB_RIGHT_GUI",3,3,null,null,"",null,"FS=18","TXTC=#400");
-    kb.key("Ctrl","KB_RIGHT_CTRL",3,3,null,null,"",null,"FS=18","TXTC=#400");
+    kb.key("Alt","RIGHT_ALT",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
+    kb.key("Menu","RIGHT_GUI",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
+    kb.key("Ctrl","RIGHT_CTRL",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
     kb.spacer(2);
     kb.key("Left","KB_LEFTARROW",3,3,null,null,"",null,"FS=18");
     kb.key("Down","KB_DOWNARROW",3,3,null,null,"",null,"FS=18");
