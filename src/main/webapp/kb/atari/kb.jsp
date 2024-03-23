@@ -2,7 +2,7 @@
     pageEncoding="US-ASCII"%>
 <%@ page import="com.rfacad.rvkybard.KybardJspHelper" %>
 <%
-    KybardJspHelper kb=new KybardJspHelper(out,"Atari 400",20*3,6*3,null);
+    KybardJspHelper kb=new KybardJspHelper(out,"Atari 400",20*3,5*3+2,null);
     // Default key SVG and size
     String SHIFTCOLOR="#D68554";
     String CTRLCOLOR="#F9C05D";
@@ -30,9 +30,12 @@
     //
     // Keyboard rows start here
     //
+    kb.startRow();
+    kb.endRowThirds(1);
 
     //  ESC  1..9 0 < > DEL BRK         RESET
     kb.startRow();
+    kb.spacer(1);
     kb.key("ESC","KB_ESCAPE",3,3,null,null,"",null,"FS=18");
     kb.key("1","1",3,3,null,null,"",KN,"S=!");
     kb.key("2","2",3,3,null,null,"",KN,"S=&quot;");
@@ -52,6 +55,7 @@
 
     // Tab qwertyuiop - = Return
     kb.startRow();
+    kb.spacer(1);
     kb.key("TAB","KB_TAB",4,3,null,null,"",K3,"FS=30","S=SET","C=CLR","ARROWCOLOR=none","ARROW=0");
     kb.key("Q","Q");
     kb.key("W","W");
@@ -66,11 +70,13 @@
     kb.key("-","-",3,3,null,null,"",K3,"S=_","ARROWCOLOR=#000","ARROW=180");
     kb.key("=","=",3,3,null,null,"",K3,"S=|","ARROWCOLOR=#000","ARROW=0","FIXSY=4");
     kb.key("RETURN","KB_ENTER",5,3,null,null,"",null,"FS=16");
+    kb.spacer(3);
+    kb.key("OPTION","KB_F4",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
     // Ctrl asdfghjkl ; + * LOCK
     kb.startRow();
-    kb.spacer(1);
+    kb.spacer(2);
     kb.key("CTRL","LEFT_CTRL",4,3,kb.SHIFT,kb.SHIFT,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.key("A","A");
     kb.key("S","S");
@@ -85,11 +91,13 @@
     kb.key("+","+",3,3,null,null,"",K3,"S=\\","ARROWCOLOR=#000","ARROW=90","FIXSY=6");
     kb.key("*","*",3,3,null,null,"",K3,"S=^","ARROWCOLOR=#000","ARROW=270","FIXSY=6");
     kb.key("LOCK","KB_CAPSLOCK",3,3,null,null,"",KN,"FS=30","S=CAPS");
+    kb.spacer(4);
+    kb.key("SELECT","KB_F3",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
     // shift zxcvbnm,./ atari shift
     kb.startRow();
-    kb.spacer(1);
+    kb.spacer(2);
     kb.key("SHIFT","LEFT_SHIFT",6,3,kb.SHIFT,kb.SHIFT,"",null,"FS=16","BGC=#D68554");
     kb.key("Z","Z");
     kb.key("X","X");
@@ -103,11 +111,13 @@
     kb.key("/","/",3,3,null,null,"",KN,"S=?");
     kb.key("atari","KB_END",3,3,null,null,"",KA);
     kb.key("SHIFT","RIGHT_SHIFT",4,3,kb.SHIFT,kb.SHIFT,"",null,"FS=16","BGC="+SHIFTCOLOR);
+    kb.spacer(4);
+    kb.key("START","F2",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
     // spacebarn
     kb.startRow();
-    kb.spacer(9);
+    kb.spacer(10);
     kb.key("","KB_SPACE",26,3,null,null,"",null);
     kb.endRow();
 

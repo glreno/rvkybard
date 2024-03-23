@@ -296,6 +296,7 @@ public class KybardJspHelper
             buf.append(up);
             buf.append('"');
 
+/*
             buf.append(" onmousedown=");
             buf.append('"');
             buf.append(down);
@@ -304,6 +305,7 @@ public class KybardJspHelper
             buf.append('"');
             buf.append(up);
             buf.append('"');
+*/
 
             buf.append(' ');
             buf.append(">");
