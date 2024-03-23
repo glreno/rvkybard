@@ -1,0 +1,38 @@
+<svg width="@{W}" height="@{H}">
+
+<circle fill="@{BORDC}" cx="8" cy="8" r="8"/>
+<circle fill="@{BORDC}" cx="8" cy="@{H-8}" r="8"/>
+<circle fill="@{BORDC}" cx="@{W-8}" cy="8" r="8"/>
+<circle fill="@{BORDC}" cx="@{W-8}" cy="@{H-8}" r="8"/>
+<rect fill="@{BORDC}" x="0" y="8" width="@{W}" height="@{H-16}"/>
+<rect fill="@{BORDC}" x="8" y="0" width="@{W-16}" height="@{H}"/>
+
+<circle fill="@{BGC}" cx="12" cy="12" r="8"/>
+<circle fill="@{BGC}" cx="12" cy="@{H-12}" r="8"/>
+<circle fill="@{BGC}" cx="@{W-12}" cy="12" r="8"/>
+<circle fill="@{BGC}" cx="@{W-12}" cy="@{H-12}" r="8"/>
+<rect fill="@{BGC}" x="4" y="12" width="@{W-8}" height="@{H-24}"/>
+<rect fill="@{BGC}" x="12" y="4" width="@{W-24}" height="@{H-8}"/>
+
+<rect fill="@{TXTC}" x="@{W/2-3}" y="16" width="6" height="@{H-32}"/>
+<polygon points="
+@{W/2-6},16 @{W/2-12},16
+@{W/2-12},@{H/2}
+16,@{H-25}
+12,@{H-24} 12,@{H-16}
+@{W/2-12},@{H-20}
+@{W/2-8},@{H-23}
+@{W/2-6},@{H/2}
+" style="fill:@{TXTC}" />
+
+<polygon points="
+@{W/2+6},16 @{W/2+12},16
+@{W/2+12},@{H/2}
+@{W-16},@{H-25}
+@{W-12},@{H-24} @{W-12},@{H-16}
+@{W/2+12},@{H-20}
+@{W/2+8},@{H-23}
+@{W/2+6},@{H/2}
+" style="fill:@{TXTC}" />
+
+</svg>

@@ -9,18 +9,36 @@ http://www.apache.org/licenses/LICENSE-2.0
 */
 let flagsdown = new Set();
 let keysdown = new Set();
+let resetTo = 10;
+let timerSendCountdown = 20;
 
-const send = async () => {
+const asyncsend = async () => {
     //console.log(flagsdown);
     //console.log(keysdown);
     let u='../../k?f=';
     flagsdown.forEach((x)=>{u=u+x+','});
     u=u+'&k=';
     keysdown.forEach((x)=>{u=u+x+','});
-    //console.log(u);
+    console.log(u);
     response = await fetch(u);
 }
-setInterval(send,500);
+function send() {
+    asyncsend();
+    resetTo=1;
+    timerSendCountdown=1;
+}
+function timersend() {
+    timerSendCountdown--;
+    if ( timerSendCountdown <= 0 )
+    {
+        asyncsend();
+        timerSendCountdown = resetTo;
+        resetTo=resetTo+resetTo;
+        //console.log(timerSendCountdown);
+    }
+}
+setInterval(timersend,500);
+
 
 function flagDown(elem,key) {
     //console.log('Down:'+key);

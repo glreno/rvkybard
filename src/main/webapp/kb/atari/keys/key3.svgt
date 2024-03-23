@@ -1,0 +1,37 @@
+<svg width="@{W}" height="@{H}">
+
+<circle fill="@{BORDC}" cx="8" cy="8" r="8"/>
+<circle fill="@{BORDC}" cx="@{W-8}" cy="8" r="8"/>
+<circle fill="@{BORDC}" cx="8" cy="@{H-8}" r="8"/>
+<circle fill="@{BORDC}" cx="@{W-8}" cy="@{H-8}" r="8"/>
+<rect fill="@{BORDC}" x="0" y="8" width="@{W}" height="@{H-16}"/>
+<rect fill="@{BORDC}" x="8" y="0" width="@{W-16}" height="@{H}"/>
+
+<circle fill="@{SHFBGC}" cx="12" cy="12" r="8"/>
+<circle fill="@{SHFBGC}" cx="@{W-12}" cy="12" r="8"/>
+<circle fill="@{BGC}" cx="12" cy="@{H-12}" r="8"/>
+<circle fill="@{BGC}" cx="@{W-12}" cy="@{H-12}" r="8"/>
+
+<rect fill="@{SHFBGC}" x="4" y="12" width="@{W-8}" height="@{H/2-14}"/>
+<rect fill="@{BGC}" x="4" y="@{H/2+2}" width="@{W-8}" height="@{H/2-14}"/>
+<rect fill="@{SHFBGC}" x="12" y="4" width="@{W-24}" height="@{H/2-8}"/>
+<rect fill="@{BGC}" x="12" y="@{H/2+2}" width="@{W-24}" height="@{H/2-6}"/>
+
+<circle fill="@{CTLBGC}" cx="16" cy="16" r="8"/>
+<circle fill="@{CTLBGC}" cx="@{W/2-8}" cy="16" r="8"/>
+<circle fill="@{CTLBGC}" cx="16" cy="@{H/2-12}" r="8"/>
+<circle fill="@{CTLBGC}" cx="@{W/2-8}" cy="@{H/2-12}" r="8"/>
+<rect fill="@{CTLBGC}" x="8" y="16" width="@{W/2-8}" height="@{H/2-12-16}"/>
+<rect fill="@{CTLBGC}" x="12" y="8" width="@{W/2-16}" height="@{H/2-12}"/>
+
+<text x="50%" y="@{H/2+FS*.40}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS/2}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
+<text x="72%" y="@{H/2-FS*.40+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS/2}" fill="@{TXTC}" font-family="sans-serif">@{S}</text>
+
+<text x="28%" y="@{H/2-FS*.40}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS/2}" fill="#000" font-family="sans-serif">@{C}</text>
+
+<g transform="translate(20,18)" ><g transform="rotate(@{ARROW})" >
+<line x1=0 y1=-8 x2=0 y2=8 style="stroke:@{ARROWCOLOR}; stroke-width:2"/>
+<line x1=-4 y1=0 x2=0 y2=8 style="stroke:@{ARROWCOLOR}; stroke-width:2"/>
+<line x1=4 y1=0 x2=0 y2=8 style="stroke:@{ARROWCOLOR}; stroke-width:2"/>
+</g></g>
+</svg>

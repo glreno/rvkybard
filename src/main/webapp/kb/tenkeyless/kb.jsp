@@ -21,16 +21,6 @@
 <%
     kb.startKeyboard();
 
-    // Keys are 3 columns, 22px each.
-    // Standard key  = 66
-    // 4-col key     = 89  (88+1)
-    // 5-col key     = 110 (110+2)
-    // Double key    = 135 (132+3)
-    // Triple key    = 202 (198+4)
-    // Quad key      = 273 (264+7)
-    // space bar (8) = 549 (528+21)
-    // For keywide.svg define WW=key width, W=standard key width
-
     //
     // Keyboard rows start here
     //
@@ -146,7 +136,7 @@
     kb.key("Alt","LEFT_ALT",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
     kb.key("","KB_SPACE",24,3,null,null,"",KW);
     kb.key("Alt","RIGHT_ALT",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
-    kb.key("Menu","RIGHT_GUI",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
+    kb.key("Menu","KB_MENU",3,3,null,null,"",null,"FS=18","TXTC=#400");
     kb.key("Ctrl","RIGHT_CTRL",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
     kb.spacer(2);
     kb.key("Left","KB_LEFTARROW",3,3,null,null,"",null,"FS=18");

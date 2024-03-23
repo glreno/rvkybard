@@ -1,0 +1,18 @@
+<svg width="@{W}" height="@{H}">
+
+<circle fill="@{BORDC}" cx="8" cy="8" r="8"/>
+<circle fill="@{BORDC}" cx="8" cy="@{H-8}" r="8"/>
+<circle fill="@{BORDC}" cx="@{W-8}" cy="8" r="8"/>
+<circle fill="@{BORDC}" cx="@{W-8}" cy="@{H-8}" r="8"/>
+<rect fill="@{BORDC}" x="0" y="8" width="@{W}" height="@{H-16}"/>
+<rect fill="@{BORDC}" x="8" y="0" width="@{W-16}" height="@{H}"/>
+
+<circle fill="@{BGC}" cx="12" cy="12" r="8"/>
+<circle fill="@{BGC}" cx="12" cy="@{H-12}" r="8"/>
+<circle fill="@{BGC}" cx="@{W-12}" cy="12" r="8"/>
+<circle fill="@{BGC}" cx="@{W-12}" cy="@{H-12}" r="8"/>
+<rect fill="@{BGC}" x="4" y="12" width="@{W-8}" height="@{H-24}"/>
+<rect fill="@{BGC}" x="12" y="4" width="@{W-24}" height="@{H-8}"/>
+
+<text x="50%" y="@{H/2+FS*.1}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
+</svg>
