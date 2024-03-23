@@ -20,6 +20,7 @@ const send = async () => {
     //console.log(u);
     response = await fetch(u);
 }
+setInterval(send,500);
 
 function flagDown(elem,key) {
     //console.log('Down:'+key);
