@@ -124,8 +124,8 @@ public class KybardJspHelperTest
         String s = out.toString();
         System.err.println(s);
         assertEquals("<div class='key' style='grid-area: 4/5/span 2/span 6;'><button",s.substring(0, 62));
-        assertTrue(s,s.contains("keyDown('a')"));
-        assertTrue(s,s.contains("keyUp('a')"));
+        assertTrue(s,s.contains("keyDown(this,'a')"));
+        assertTrue(s,s.contains("keyUp(this,'a')"));
         assertTrue(s,s.contains(">a</text>"));
         // validate some of the variables that are in key.svgt, especially W and H which are calculated in key()
         assertTrue(s,s.contains("<svg width=\"130\" height=\"42\">")); // W=6*22-2=130 H=2*22-2
@@ -144,8 +144,8 @@ public class KybardJspHelperTest
         h.key("/","KP_DIVIDE");
         String s = out.toString();
         assertEquals("<div class='key' style='grid-area: 4/5/span 3/span 3;'><button",s.substring(0, 62));
-        assertTrue(s,s.contains("keyDown('KP_DIVIDE')"));
-        assertTrue(s,s.contains("keyUp('KP_DIVIDE')"));
+        assertTrue(s,s.contains("keyDown(this,'KP_DIVIDE')"));
+        assertTrue(s,s.contains("keyUp(this,'KP_DIVIDE')"));
         assertTrue(s,s.contains(">/</text>"));
         assertTrue(s,s.endsWith("</button></div>\n"));
     }

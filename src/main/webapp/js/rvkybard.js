@@ -21,19 +21,27 @@ const send = async () => {
     response = await fetch(u);
 }
 
-function flagDown(key) {
+function flagDown(elem,key) {
+    //console.log('Down:'+key);
+    elem.classList.add('kbbuttonDown');
     flagsdown.add(key);
     send();
 }
-function flagUp(key) {
+function flagUp(elem,key) {
+    //console.log('Up:'+key);
+    elem.classList.remove('kbbuttonDown');
     flagsdown.delete(key);
     send();
 }
-function keyDown(key) {
+function keyDown(elem,key) {
+    //console.log('Down:'+key);
+    elem.classList.add('kbbuttonDown');
     keysdown.add(key);
     send();
 }
-function keyUp(key) {
+function keyUp(elem,key) {
+    //console.log('Up:'+key);
+    elem.classList.remove('kbbuttonDown');
     keysdown.delete(key);
     send();
 }

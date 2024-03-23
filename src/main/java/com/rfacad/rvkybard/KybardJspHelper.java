@@ -238,6 +238,16 @@ public class KybardJspHelper
      */
     public void key(String name,String keycode,int colspan,int rowspan,String custDown,String custUp,String cssClass,String svgTemplateFn,String ... svgParams)
     {
+        String down=custDown;
+        if ( down == null )
+        {
+            down =  "keyDown(this,'"+keycode+"')";
+        }
+        String up=custUp;
+        if ( up == null )
+        {
+            up =  "keyUp(this,'"+keycode+"')";
+        }
         Map<String,Object> keyParams = new HashMap<>();
         keyParams.put("name", name);
         keyParams.put("X", x);
@@ -264,32 +274,25 @@ public class KybardJspHelper
                 buf.append(" ");
                 buf.append(cssClass);
             }
-            buf.append("' ontouchstart=");
+            buf.append("'");
+            buf.append(" ontouchstart=");
             buf.append('"');
-            if ( custDown != null )
-            {
-                buf.append(custDown);
-            }
-            else
-            {
-                buf.append("keyDown('");
-                buf.append(keycode);
-                buf.append("')");
-            }
+            buf.append(down);
             buf.append('"');
             buf.append(" ontouchend=");
             buf.append('"');
-            if ( custUp != null )
-            {
-                buf.append(custUp);
-            }
-            else
-            {
-                buf.append("keyUp('");
-                buf.append(keycode);
-                buf.append("')");
-            }
+            buf.append(up);
             buf.append('"');
+
+            buf.append(" onmousedown=");
+            buf.append('"');
+            buf.append(down);
+            buf.append('"');
+            buf.append(" onmouseup=");
+            buf.append('"');
+            buf.append(up);
+            buf.append('"');
+
             buf.append(' ');
             buf.append(">");
             out.write(buf.toString());
