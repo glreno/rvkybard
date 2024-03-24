@@ -30,6 +30,11 @@ else
     echo "libcomposite" >> /etc/modules
 fi
 
+# Create permission rules for /dev/hidg0
+echo Creating device permission rules
+echo 'KERNEL=="hidg0", GROUP="tomcat8", MODE="0660"' > /etc/udev/rules.d/rvkybard.rules
+
+
 # Copy the isticktoit_usb to /user/bin
 echo Installing isticktoit_usb
 \cp isticktoit_usb /usr/bin
