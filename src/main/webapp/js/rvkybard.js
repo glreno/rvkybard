@@ -40,13 +40,16 @@ function timersend() {
 }
 setInterval(timersend,500);
 
-function menu() {
-}
+// Clear ALL key buffers and send 'all keys up'
 function panic() {
     flagsdown.clear();
     flagsdownstash.clear();
     keysdown.clear();
     send();
+}
+// send 'all keys up' and post a menu
+function menu() {
+    panic();
 }
 function flagDown(elem,key) {
     //console.log('Down:'+key);

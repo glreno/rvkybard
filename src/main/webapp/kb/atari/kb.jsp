@@ -48,10 +48,10 @@
     kb.key("8","8",3,3,"keyDownShiftDiff(this,'8','2')","keyUpShiftDiff(this,'8','2')","",KN,"S=@","FIXSY=-2");
     kb.key("9","9",3,3,null,null,"",KN,"S=(","FIXSY=-2");
     kb.key("0","0",3,3,null,null,"",KN,"S=)","FIXSY=-2");
-    kb.key("&lt","<",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'KB_COMMA',[],'KB_HOME',['LEFT_CTRL'],'KB_HOME')","keyUpRemap(this,'KB_COMMA','KB_HOME','KB_COMMA')","",KN,"S=CLEAR","FS=30");
+    kb.key("&lt","<",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'KB_COMMA',['LEFT_SHIFT'],'KB_HOME',['LEFT_CTRL'],'KB_HOME')","keyUpRemap(this,'KB_COMMA','KB_HOME','KB_HOME')","",KN,"S=CLEAR","FS=30");
     kb.key("&gt",">",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'.',[],'KB_INSERT',['LEFT_CTRL'],'KB_INSERT')","keyUpRemap(this,'.','KB_INSERT','.')","",KN,"S=INSERT","FS=30");
-    kb.key("BACK S","KB_BACKSPACE",3,3,null,null,"",KN,"S=DELETE","FS=30");
-    kb.key("BREAK","KB_BREAK",3,3,null,null,"",null,"FS=16");
+    kb.key("BACK S","KB_BACKSPACE",3,3,"keyDownRemap(this,[],'KB_BACKSPACE',[],'KB_DELETE',['LEFT_CTRL'],'KB_BACKSPACE')","keyUpRemap(this,'KB_BACKSPACE','KB_DELETE','KB_BACKSPACE')","",KN,"S=INSERT","FS=30");
+    kb.key("BREAK","KB_PAUSE",3,3,null,null,"",null,"FS=16");
     kb.spacer(1);
     kb.key("PANIC","x",2,3,"panic()","panic()","",null,"FS=16","BGC="+SHIFTCOLOR);
     kb.key("MENU","x",2,3,"menu()","menu()","",null,"FS=16","BGC="+SHIFTCOLOR);
@@ -93,7 +93,7 @@
     kb.key("L","L");
     kb.key(";",";",3,3,null,null,"",KN,"S=:","FIXLY=-2");
     kb.key("+","+",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'=',[],'KB_BACKSLASH',['LEFT_ALT'],'KB_LEFTARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_LEFTARROW')","",K3,"S=\\","ARROWCOLOR=#000","ARROW=90","FIXSY=6");
-    kb.key("*","*",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'8',['LEFT_SHIFT'],'6',['LEFT_ALT'],'KB_RIGHTARROW')","keyUpRemap(this,'8','6','KB_DOWNARROW')","",K3,"S=^","ARROWCOLOR=#000","ARROW=270","FIXSY=6");
+    kb.key("*","*",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'8',['LEFT_SHIFT'],'6',['LEFT_ALT'],'KB_RIGHTARROW')","keyUpRemap(this,'8','6','KB_RIGHTARROW')","",K3,"S=^","ARROWCOLOR=#000","ARROW=270","FIXSY=6");
     kb.key("LOCK","KB_CAPSLOCK",3,3,null,null,"",KN,"FS=30","S=CAPS");
     kb.spacer(2);
     kb.key("SELECT","KB_F3",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
@@ -123,6 +123,7 @@
     kb.startRow();
     kb.spacer(10);
     kb.key("","KB_SPACE",26,3,null,null,"",null);
+    kb.key("CTRL","RIGHT_CTRL",4,3,kb.SHIFT,kb.SHIFT,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
     //
