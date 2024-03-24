@@ -8,6 +8,7 @@ You may obtain a copy of the License at
 http://www.apache.org/licenses/LICENSE-2.0
 */
 let flagsdown = new Set();
+let flagsdownstash = new Set();
 let keysdown = new Set();
 let resetTo = 10;
 let timerSendCountdown = 20;
@@ -39,7 +40,14 @@ function timersend() {
 }
 setInterval(timersend,500);
 
-
+function menu() {
+}
+function panic() {
+    flagsdown.clear();
+    flagsdownstash.clear();
+    keysdown.clear();
+    send();
+}
 function flagDown(elem,key) {
     //console.log('Down:'+key);
     elem.classList.add('kbbuttonDown');
@@ -64,26 +72,74 @@ function keyUp(elem,key) {
     keysdown.delete(key);
     send();
 }
+/* For when you need to send a different key when SHIFT is down.
+* key: Keycode to send
+* shifted: Keycode to send when shift is down
+*/
 function keyDownShiftDiff(elem,key,shifted) {
-    console.log('Down?:'+key+" "+shifted);
+    //console.log('Down?:'+key+" "+shifted);
     elem.classList.add('kbbuttonDown');
     if ( flagsdown.has('LEFT_SHIFT') || flagsdown.has('RIGHT_SHIFT') )
     {
-        console.log('Down:'+shifted);
+        //console.log('Down:'+shifted);
         keysdown.add(shifted);
     }
     else
     {
-        console.log('Down:'+key);
+        //console.log('Down:'+key);
         keysdown.add(key);
     }
     send();
 }
 function keyUpShiftDiff(elem,key,shifted) {
-    console.log('Up:'+key+" "+shifted);
+    //console.log('Up:'+key+" "+shifted);
     elem.classList.remove('kbbuttonDown');
     keysdown.delete(key);
     keysdown.delete(shifted);
     send();
 }
-
+/* For when you need to send something completely different
+* key: Keycode to send
+* shifted: Keycode to send when shift is down
+*/
+function keyDownRemap(elem,flags,key,shiftedflags,shifted,ctrlflags,ctrl) {
+    //console.log('Down:'+key+" "+shifted+" "+ctrl);
+    flagsdownstash.clear();
+    flagsdown.forEach(x => flagsdownstash.add(x));
+    flagsdown.clear();
+    if ( flagsdownstash.has('LEFT_SHIFT') || flagsdownstash.has('RIGHT_SHIFT') )
+    {
+        //console.log('Down:'+shifted);
+        shiftedflags.forEach(x => flagsdown.add(x));
+        flagsdown.add(shiftedflags);
+        keysdown.add(shifted);
+    }
+    else if ( flagsdownstash.has('LEFT_CTRL') || flagsdownstash.has('RIGHT_CTRL') )
+    {
+        //console.log('Down:'+ctrl);
+        ctrlflags.forEach(x => flagsdown.add(x));
+        keysdown.add(ctrl);
+    }
+    else
+    {
+        //console.log('Down:'+key);
+        flags.forEach(x => flagsdown.add(x));
+        keysdown.add(key);
+    }
+    //console.log("Flags: "+[...flagsdown]);
+    //console.log("Stash: "+[...flagsdownstash]);
+    send();
+}
+function keyUpRemap(elem,key,shifted,ctrl) {
+    //console.log('Up '+key+' '+shifted+' '+ctrl);
+    //console.log("Flags: "+[...flagsdown]);
+    //console.log("Stash: "+[...flagsdownstash]);
+    flagsdown.clear();
+    flagsdownstash.forEach(x => flagsdown.add(x));
+    //console.log("After: "+[...flagsdown]);
+    elem.classList.remove('kbbuttonDown');
+    keysdown.delete(key);
+    keysdown.delete(shifted);
+    keysdown.delete(ctrl);
+    send();
+}
