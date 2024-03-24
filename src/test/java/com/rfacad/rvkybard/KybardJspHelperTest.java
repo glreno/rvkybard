@@ -124,8 +124,30 @@ public class KybardJspHelperTest
         String s = out.toString();
         System.err.println(s);
         assertEquals("<div class='key' style='grid-area: 4/5/span 2/span 6;'><button",s.substring(0, 62));
-        assertTrue(s,s.contains("keyDown(this,'a')"));
-        assertTrue(s,s.contains("keyUp(this,'a')"));
+        assertTrue(s,s.contains("ontouchstart=\"keyDown(this,'a')"));
+        assertTrue(s,s.contains("ontouchend=\"keyUp(this,'a')"));
+        assertTrue(s,s.contains(">a</text>"));
+        // validate some of the variables that are in key.svgt, especially W and H which are calculated in key()
+        assertTrue(s,s.contains("<svg width=\"130\" height=\"42\">")); // W=6*22-2=130 H=2*22-2
+        assertTrue(s,s.endsWith("</button></div>\n"));
+    }
+
+    @Test
+    public void shouldWriteEasyKeyForMouse()
+    {
+        StringWriter out = new StringWriter();
+        KybardJspHelper h = new KybardJspHelper(out, "", "");
+        h.setMouseMode(true);
+        h.setTop(new File("src/main/webapp/kb"));
+        h.setDefaultSvg("numeric/keys/key.svgt", 6, 2);
+        h.setX(5);
+        h.setY(4);
+        h.key("a");
+        String s = out.toString();
+        System.err.println(s);
+        assertEquals("<div class='key' style='grid-area: 4/5/span 2/span 6;'><button",s.substring(0, 62));
+        assertTrue(s,s.contains("onmousedown=\"keyDown(this,'a')"));
+        assertTrue(s,s.contains("onmouseup=\"keyUp(this,'a')"));
         assertTrue(s,s.contains(">a</text>"));
         // validate some of the variables that are in key.svgt, especially W and H which are calculated in key()
         assertTrue(s,s.contains("<svg width=\"130\" height=\"42\">")); // W=6*22-2=130 H=2*22-2

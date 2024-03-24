@@ -64,3 +64,26 @@ function keyUp(elem,key) {
     keysdown.delete(key);
     send();
 }
+function keyDownShiftDiff(elem,key,shifted) {
+    console.log('Down?:'+key+" "+shifted);
+    elem.classList.add('kbbuttonDown');
+    if ( flagsdown.has('LEFT_SHIFT') || flagsdown.has('RIGHT_SHIFT') )
+    {
+        console.log('Down:'+shifted);
+        keysdown.add(shifted);
+    }
+    else
+    {
+        console.log('Down:'+key);
+        keysdown.add(key);
+    }
+    send();
+}
+function keyUpShiftDiff(elem,key,shifted) {
+    console.log('Up:'+key+" "+shifted);
+    elem.classList.remove('kbbuttonDown');
+    keysdown.delete(key);
+    keysdown.delete(shifted);
+    send();
+}
+

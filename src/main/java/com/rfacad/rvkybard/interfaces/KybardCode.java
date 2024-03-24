@@ -66,7 +66,7 @@ public enum KybardCode {
 	KB_BACKSLASH(0x31,"\\","|"),
 	KB_OCTOTHORPE(0x32,"NON-US #","NON-US ~"), // Non-US # and ~
 	KB_SEMICOLON(0x33,";",":"),
-	KB_OPENQUOTE(0x34,"\u2019"), // and open double-quote
+	KB_APOSTROPHE(0x34,"'","\u2019","KB_QUOTE"), // and open double-quote
 	KB_BACKQUOTE(0x35,"`","~"),
 	KB_COMMA(0x36,",","Comma","<"), // note that this string is going to be sent in a comma-separated list!
 	KB_DOT(0x37,".",">"),

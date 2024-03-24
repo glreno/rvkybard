@@ -106,7 +106,7 @@
     kb.key("K","K");
     kb.key("L","L");
     kb.key(";",";",3,3,null,null,"",KN,"S=:");
-    kb.key("'","KB_OPENQUOTE",3,3,null,null,"",KN,"S=&quot;");
+    kb.key("'","KB_APOSTROPHE",3,3,null,null,"",KN,"S=&quot;");
     kb.key("Enter","KB_ENTER",5,3,null,null,"",KW,"FS=18");
     kb.endRow();
 

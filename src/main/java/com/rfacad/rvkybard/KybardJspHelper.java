@@ -35,6 +35,8 @@ public class KybardJspHelper
     private Writer out;
 
     private File top;
+    private boolean mouseMode=false;
+
     private String templateFn=null;
     private int keyColSpan=3;
     private int keyRowSpan=3;
@@ -67,6 +69,11 @@ public class KybardJspHelper
     public void setTop(File top)
     {
         this.top=top;
+    }
+
+    public void setMouseMode(boolean mouseMode)
+    {
+        this.mouseMode = mouseMode;
     }
 
     private void println(String s) throws IOException
@@ -287,11 +294,11 @@ public class KybardJspHelper
                 buf.append(cssClass);
             }
             buf.append("'");
-            buf.append(" ontouchstart=");
+            buf.append(mouseMode?" onmousedown=":" ontouchstart=");
             buf.append('"');
             buf.append(down);
             buf.append('"');
-            buf.append(" ontouchend=");
+            buf.append(mouseMode?" onmouseup=":" ontouchend=");
             buf.append('"');
             buf.append(up);
             buf.append('"');
