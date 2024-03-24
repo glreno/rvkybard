@@ -1,0 +1,31 @@
+<svg width="@{W}" height="@{H}">
+
+<circle fill="@{BORDC}" cx="8" cy="8" r="8"/>
+<circle fill="@{BORDC}" cx="@{W-8}" cy="8" r="8"/>
+<circle fill="@{BORDC}" cx="8" cy="@{H-8}" r="8"/>
+<circle fill="@{BORDC}" cx="@{W-8}" cy="@{H-8}" r="8"/>
+<rect fill="@{BORDC}" x="0" y="8" width="@{W}" height="@{H-16}"/>
+<rect fill="@{BORDC}" x="8" y="0" width="@{W-16}" height="@{H}"/>
+
+<circle fill="@{SHFBGC}" cx="12" cy="12" r="8"/>
+<circle fill="@{SHFBGC}" cx="@{W-12}" cy="12" r="8"/>
+<circle fill="@{BGC}" cx="12" cy="@{H-12}" r="8"/>
+<circle fill="@{BGC}" cx="@{W-12}" cy="@{H-12}" r="8"/>
+
+<rect fill="@{SHFBGC}" x="4" y="12" width="@{W-8}" height="@{H/3-14}"/>
+<rect fill="@{BGC}" x="4" y="@{H/3+2}" width="@{W-8}" height="@{H*2/3-14}"/>
+<rect fill="@{SHFBGC}" x="12" y="4" width="@{W-24}" height="@{H/3-8}"/>
+<rect fill="@{BGC}" x="12" y="@{H/3+2}" width="@{W-24}" height="@{H*2/3-6}"/>
+
+<text x="16" y="@{H-FS2*1.40+FIXLY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
+<text x="@{W/2}" y="@{H/4-FS2*1.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S1}</text>
+<text x="@{W/2}" y="@{H/4-FS2*.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S2}</text>
+
+<!-- crosshair -->
+<line x1='@{W*.2}', y1='@{H*.65}' x2='@{W*.4}' y2='@{H*.65}' style='stroke:@{TXTC};stroke-width:5' />
+<line x1='@{W*.6}', y1='@{H*.65}' x2='@{W*.8}' y2='@{H*.65}' style='stroke:@{TXTC};stroke-width:5' />
+
+<line x1='@{W/2}', y1='@{H*.4}' x2='@{W/2}' y2='@{H*.55}' style='stroke:@{TXTC};stroke-width:5' />
+<line x1='@{W/2}', y1='@{H*.75}' x2='@{W/2}' y2='@{H*.9}' style='stroke:@{TXTC};stroke-width:5' />
+
+</svg>
