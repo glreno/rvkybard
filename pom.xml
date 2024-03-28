@@ -106,17 +106,101 @@
         <version>2.5.2.Final</version>
     </dependency>
     <dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>javax.servlet-api</artifactId>
-		<version>4.0.0</version>
-	</dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>4.0.0</version>
+    </dependency>
     <dependency>
-		<groupId>org.mockito</groupId>
-		<artifactId>mockito-core</artifactId>
-    	<version>3.7.0</version>
-    	<scope>test</scope>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>3.7.0</version>
+        <scope>test</scope>
     </dependency>
 </dependencies>
 
+
+<build>
+    <defaultGoal>install</defaultGoal>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>3.1.1</version>
+            <executions>
+                <execution>
+                    <id>copy-dependencies</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>copy-dependencies</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        <includeScope>runtime</includeScope>
+                        <excludeScope>test</excludeScope>
+                    </configuration>
+                  </execution>
+            </executions>
+        </plugin>
+
+        <plugin>
+            <artifactId>jdeb</artifactId>
+            <groupId>org.vafer</groupId>
+            <version>1.7</version>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>jdeb</goal>
+                    </goals>
+                    <configuration>
+                        <dataSet>
+                            <data>
+                                <src>${project.build.directory}/${project.build.finalName}.war</src>
+                                <type>file</type>
+                                <mapper>
+                                    <type>perm</type>
+                                    <prefix>/var/lib/tomcat8/webapps</prefix>
+                                    <user>tomcat8</user>
+                                    <group>tomcat8</group>
+                                </mapper>
+                            </data>
+                            <data>
+                                <src>scripts/isticktoit_usb</src>
+                                <type>file</type>
+                                <mapper>
+                                    <type>perm</type>
+                                    <prefix>/usr/bin</prefix>
+                                    <filemode>755</filemode>
+                                </mapper>
+                            </data>
+                            <data>
+                                <type>files</type>
+                                <paths>
+                                    <path>README.md</path>
+                                    <path>VERSIONS.md</path>
+                                    <path>NOTICE</path>
+                                </paths>
+                                <dst>/var/lib/${project.artifactId}</dst>
+                            </data>
+                            <data>
+                                <type>files</type>
+                                <paths>
+                                    <path>pin</path>
+                                </paths>
+                                <mapper>
+                                    <type>perm</type>
+                                    <user>tomcat8</user>
+                                    <group>tomcat8</group>
+                                    <filemode>600</filemode>
+                                </mapper>
+                                <dst>/var/lib/${project.artifactId}</dst>
+                            </data>
+                        </dataSet>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
 
 </project>

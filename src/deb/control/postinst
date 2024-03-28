@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# Update a few system files
+BDIR=/tmp/rvkybard_inst_backup.$$
+\mkdir backup
+\cp /boot/config.txt $BDIR
+\cp /etc/modules $BDIR
+\cp /etc/rc.local $BDIR
+
+if grep -q "dtoverlay=dwc2" /boot/config.txt
+then
+    echo /boot/config.txt already up to date
+else
+    echo Updating /boot/config.txt 
+    echo "dtoverlay=dwc2" >> /boot/config.txt
+fi
+
+if grep -q "dwc2" /etc/modules
+then
+    echo /etc/modules already up to date
+else
+    echo Updating /etc/modules 
+    echo "dwc2" >> /etc/modules
+fi
+
+if grep -q "libcomposite" /etc/modules
+then
+    echo /etc/modules already up to date
+else
+    echo Updating /etc/modules 
+    echo "libcomposite" >> /etc/modules
+fi
+
+# Create permission rules for /dev/hidg0
+echo Creating device permission rules
+echo 'KERNEL=="hidg0", GROUP="tomcat8", MODE="0660"' > /etc/udev/rules.d/rvkybard.rules
+
+echo Checking rc/local
+ls -lh /etc/rc.local
+echo Checking rc/local more
+
+if grep -q isticktoit_usb /etc/rc.local
+then
+    echo /etc/rc.local already up to date
+else
+    echo Updating /etc/rc.local
+    ed /etc/rc.local << __EOF__
+/^exit
+i
+/usr/bin/isticktoit_usb # libcomposite configuration
+.
+w
+q
+__EOF__
+    echo Updated /etc/rc.local status $?
+fi
+ls -lh /etc/rc.local
+
+exit 0

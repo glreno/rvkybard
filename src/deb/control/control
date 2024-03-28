@@ -1,0 +1,9 @@
+Package: rvkybard
+Version: 0.01
+Section: misc
+Priority: optional
+Architecture: all
+Maintainer: glreno <46288004+glreno@users.noreply.github.com>
+Description: Retro Virtual Keyboard Servlet
+Distribution: development
+Depends: openjdk-8-jdk-headless, tomcat8
