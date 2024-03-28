@@ -21,12 +21,15 @@
 <text x="@{W/2}" y="@{H/4-FS2*1.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S1}</text>
 <text x="@{W/2}" y="@{H/4-FS2*.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S2}</text>
 
-<!-- View -->
-<polygon points="
-     @{W/2},@{H/2+25}
-     @{W/2-18},@{H/2+35}
-     @{W/2+18},@{H/2+35}
-" style="fill:rgba(249,192,93,.24)" />
+<!-- Shield -->
+<rect fill='@{TXTC}' x='@{W/2-5}' y='@{H/2-12.5}' width='10' height='50'
+style="fill:rgba(249,192,93,.42)" />
+<rect fill='@{TXTC}' x='@{W/2-15}' y='@{H/2+7.5}' width='30' height='20'
+style="fill:rgba(249,192,93,.42)" />
+<rect fill='@{TXTC}' x='@{W/2-25}' y='@{H/2+17.5}' width='10' height='20'
+style="fill:rgba(249,192,93,.42)" />
+<rect fill='@{TXTC}' x='@{W/2+15}' y='@{H/2+17.5}' width='10' height='20'
+style="fill:rgba(249,192,93,.42)" />
 
 <!-- SPACESHIP! -->
 <rect fill='@{TXTC}' x='@{W/2-2.5}' y='@{H/2}' width='5' height='25'/>

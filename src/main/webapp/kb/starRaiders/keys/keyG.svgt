@@ -20,18 +20,4 @@
 <text x="16" y="@{H-FS2*1.40+FIXLY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
 <text x="@{W/2}" y="@{H/4-FS2*1.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S1}</text>
 <text x="@{W/2}" y="@{H/4-FS2*.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S2}</text>
-
-<!-- View -->
-<polygon points="
-     @{W/2},@{H/2+25}
-     @{W/2-18},@{H/2+35}
-     @{W/2+18},@{H/2+35}
-" style="fill:rgba(249,192,93,.24)" />
-
-<!-- SPACESHIP! -->
-<rect fill='@{TXTC}' x='@{W/2-2.5}' y='@{H/2}' width='5' height='25'/>
-<rect fill='@{TXTC}' x='@{W/2-7.5}' y='@{H/2+10}' width='15' height='10'/>
-<rect fill='@{TXTC}' x='@{W/2-12.5}' y='@{H/2+15}' width='5' height='10'/>
-<rect fill='@{TXTC}' x='@{W/2+7.5}' y='@{H/2+15}' width='5' height='10'/>
-
 </svg>
