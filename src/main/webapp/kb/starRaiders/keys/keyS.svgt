@@ -23,13 +23,13 @@
 
 <!-- Shield -->
 <rect fill='@{TXTC}' x='@{W/2-5}' y='@{H/2-12.5}' width='10' height='50'
-style="fill:rgba(249,192,93,.42)" />
+style="fill:rgba(@{CTRLCOLORD},.42)" />
 <rect fill='@{TXTC}' x='@{W/2-15}' y='@{H/2+7.5}' width='30' height='20'
-style="fill:rgba(249,192,93,.42)" />
+style="fill:rgba(@{CTRLCOLORD},.42)" />
 <rect fill='@{TXTC}' x='@{W/2-25}' y='@{H/2+17.5}' width='10' height='20'
-style="fill:rgba(249,192,93,.42)" />
+style="fill:rgba(@{CTRLCOLORD},.42)" />
 <rect fill='@{TXTC}' x='@{W/2+15}' y='@{H/2+17.5}' width='10' height='20'
-style="fill:rgba(249,192,93,.42)" />
+style="fill:rgba(@{CTRLCOLORD},.42)" />
 
 <!-- SPACESHIP! -->
 <rect fill='@{TXTC}' x='@{W/2-2.5}' y='@{H/2}' width='5' height='25'/>

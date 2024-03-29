@@ -3,13 +3,20 @@
 <%@ page import="com.rfacad.rvkybard.KybardJspHelper" %>
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"Star Raiders",11*3+3,5*3+2,null);
-    String SHIFTCOLOR="#D68554";
-    String CTRLCOLOR="#F9C05D";
+
+    // Standard colours
+    String BACKCOLOR= "#434343"; // 67,67,67
+    String KEYCOLOR=  "#776047"; // 119,96,71
+    String SHIFTCOLOR="#CF8710"; // 207,135,16
+    String CTRLCOLOR= "#FFC640"; // 255,198,64
+    String TXTCOLOR=  "#D6D2CE"; // 214,210,206
+    String CTRLCOLORD="255,198,64";
 
     // Default key SVG and size
     String D1="atari/keys/";
     String D2="starRaiders/keys/";
-    kb.setDefaultSvg(D1+"key.svgt",3,3,"FS=48","FS2=16","BORD=4","BORDC=#F5F0EA","BGC=#736C55","TXTC=#F5F0EA","SHFBGC="+SHIFTCOLOR,"CTLBGC="+CTRLCOLOR,"FIXSY=0","FIXLY=0");
+    kb.setDefaultSvg(D1+"key.svgt",3,3,"FS=48","FS2=16","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR,"CTLBGC="+CTRLCOLOR,"CTRLCOLORD="+CTRLCOLORD,"FIXSY=0","FIXLY=0");
+
     kb.startHtml();
 %>
 <style>

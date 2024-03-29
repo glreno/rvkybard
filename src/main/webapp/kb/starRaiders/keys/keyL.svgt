@@ -39,27 +39,27 @@
      0,0
      @{-W*.25},@{ W*.05}
      @{-W*.25},@{-W*.05}
-" style="fill:rgba(249,192,93,.08)" /></g></g>
+" style="fill:rgba(@{CTRLCOLORD},.08)" /></g></g>
 <g transform='translate(@{W/2},@{H*2/3})'><g transform='rotate(42)'><polygon points="
      0,0
      @{-W*.25},@{ W*.05}
      @{-W*.25},@{-W*.05}
-" style="fill:rgba(249,192,93,.16)" /></g></g>
+" style="fill:rgba(@{CTRLCOLORD},.16)" /></g></g>
 <g transform='translate(@{W/2},@{H*2/3})'><g transform='rotate(63)'><polygon points="
      0,0
      @{-W*.25},@{ W*.05}
      @{-W*.25},@{-W*.05}
-" style="fill:rgba(249,192,93,.24)" /></g></g>
+" style="fill:rgba(@{CTRLCOLORD},.24)" /></g></g>
 <g transform='translate(@{W/2},@{H*2/3})'><g transform='rotate(84)'><polygon points="
      0,0
      @{-W*.25},@{ W*.05}
      @{-W*.25},@{-W*.05}
-" style="fill:rgba(249,192,93,.32)" /></g></g>
+" style="fill:rgba(@{CTRLCOLORD},.32)" /></g></g>
 <g transform='translate(@{W/2},@{H*2/3})'><g transform='rotate(105)'><polygon points="
      0,0
      @{-W*.25},@{ W*.05}
      @{-W*.25},@{-W*.05}
-" style="fill:rgba(249,192,93,.40)" /></g></g>
+" style="fill:rgba(@{CTRLCOLORD},.40)" /></g></g>
 
 
 <!-- SPACESHIP! -->
