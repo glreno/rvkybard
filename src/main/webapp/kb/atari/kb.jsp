@@ -59,7 +59,7 @@
     kb.key("BACK S","KB_BACKSPACE",3,3,"keyDownRemap(this,[],'KB_BACKSPACE',[],'KB_DELETE',['LEFT_CTRL'],'KB_BACKSPACE')","keyUpRemap(this,'KB_BACKSPACE','KB_DELETE','KB_BACKSPACE')","",KN,"S=DELETE","FS=30");
     kb.key("BREAK","KB_PAUSE",3,3,null,null,"",null,"FS=16");
     kb.spacer(1);
-    kb.key("MENU","x",4,3,"menu()","menu()","",null,"FS=16","BGC="+SHIFTCOLOR);
+    kb.key("MENU","x",4,3,"panic()","menu()","",null,"FS=16","BGC="+SHIFTCOLOR);
     kb.endRow();
 
     // Tab qwertyuiop - = Return
