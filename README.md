@@ -66,10 +66,10 @@ Note that my goal here is to play Star Raiders, not Quake. This is not a high-re
 19. ssh rvkybard.local
 20. Verify that the Pi is up and running
 21. Download the deb file to the Pi:
-    - wget https://github.com/glreno/rvkybard/releases/download/Release_0.01/rvkybard_0.01.SNAPSHOT_all.deb
-    - scp rvkybard_0.01.SNAPSHOT_all.deb loser@rvkybard.local:
+    - wget https://github.com/glreno/rvkybard/releases/download/Release_0.02/rvkybard_0.02_all.deb
+    - scp rvkybard_0.02_all.deb loser@rvkybard.local:
 22. Install the deb file
-    - sudo apt install ./rvkybard_0.01.SNAPSHOT_all.deb
+    - sudo apt install ./rvkybard_0.02_all.deb
         - (the ./ is important, it says to read the file!)
         - Say Y to install it rvkybard and all dependencies
 23. Tea break!
@@ -92,7 +92,7 @@ Note that my goal here is to play Star Raiders, not Quake. This is not a high-re
 
 You need something that can work as a USB OTG gadget,
 and can run Tomcat or Jetty.
-The server is in Java, so it should work on just about anything. Just install tomcat and replace ROOT.war with rvkybard-0.01-SNAPSHOT.war
+The server is in Java, so it should work on just about anything. Just install tomcat and replace ROOT.war with rvkybard-0.02.war
 
 If you need it to write to a device other than /dev/hidg0, the definition is in WEB-INF/applicationContext.xml
 

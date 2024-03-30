@@ -15,7 +15,7 @@
 
 <groupId>rvkybard</groupId>
 <artifactId>rvkybard</artifactId>
-<version>0.01-SNAPSHOT</version>
+<version>0.02</version>
 <packaging>war</packaging>
 
 <name>relay</name>
