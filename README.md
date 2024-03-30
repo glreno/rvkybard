@@ -10,9 +10,11 @@ virtual keyboard for any PC, and most of the little plug-and-play
 
 # Why?
 
-Because the one flaw with the Retro Games Atari THE400MINI is that he keyboard doesn't work, so I can't play Star Raiders. And if you plug in a standard keyboard, you have to remember that Start is F7, when it was F2 on Altirra.
+Because the one flaw with the Retro Games Atari THE400MINI is that the keyboard is just printed on, so I can't play Star Raiders. And if you plug in a standard keyboard, you have to remember that Start is F7, when it was F2 on Altirra.
 
 And because it would be nice to have all the keys of a Spectrum emulator properly labelled.
+
+Note that my goal here is to play Star Raiders, not Quake. This is not a high-response-speed gamer keyboard. It is a replacement for a membrane keyboard on an early 80s microcomputer. And the tactile feedback is just as good as a ZX81.
 
 # Requirements
 
@@ -80,8 +82,9 @@ And because it would be nice to have all the keys of a Spectrum emulator properl
 
 You need something that can work as a USB OTG gadget,
 and can run Tomcat or Jetty.
-The server is in Java, so it should work on just about anything.
-But you probably need to rebuild it to write to a device other than /dev/hidg0. The definition is in src/main/webapp/WEB-INF/applicationContext.xml
+The server is in Java, so it should work on just about anything. Just install tomcat and replace ROOT.war with rvkybard-0.01-SNAPSHOT.war
+
+If you need it to write to a device other than /dev/hidg0, the definition is in WEB-INF/applicationContext.xml
 
 # What about a keyboard for retro system X?
 
