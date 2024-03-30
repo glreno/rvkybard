@@ -1,5 +1,9 @@
 # Version History
 
+## 0.03beta
+
+Work in progress
+
 ## 0.02 30 March 2024
 
 Initial public release
