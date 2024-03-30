@@ -170,7 +170,7 @@
                                 <linkName>/var/lib/tomcat8/webapps/ROOT.war</linkName>
                             </data>
                             <data>
-                                <src>scripts/isticktoit_usb</src>
+                                <src>scripts/rvkybard_usb</src>
                                 <type>file</type>
                                 <mapper>
                                     <type>perm</type>

@@ -39,7 +39,7 @@ echo Checking rc/local
 ls -lh /etc/rc.local
 echo Checking rc/local more
 
-if grep -q isticktoit_usb /etc/rc.local
+if grep -q rvkybard_usb /etc/rc.local
 then
     echo /etc/rc.local already up to date
 else
@@ -47,7 +47,7 @@ else
     ed /etc/rc.local << __EOF__
 /^exit
 i
-/usr/bin/isticktoit_usb # libcomposite configuration
+/usr/bin/rvkybard_usb # libcomposite configuration
 .
 w
 q
