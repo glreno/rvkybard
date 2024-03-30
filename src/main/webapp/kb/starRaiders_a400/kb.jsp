@@ -21,7 +21,7 @@
 %>
 <style>
 .kybard-container {
-    background-color: rgb(72,75,77);
+    background-color: rgb(67,67,67);
 };
 </style>
 <script type="text/javascript" language="javascript">

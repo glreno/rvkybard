@@ -23,7 +23,7 @@
 <!-- custom styles go here -->
 <style>
 .kybard-container {
-    background-color: rgb(73,73,73);
+    background-color: rgb(67,67,67);
 };
 </style>
 <script type="text/javascript" language="javascript">
