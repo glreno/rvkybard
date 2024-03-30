@@ -1,0 +1,5 @@
+echo Removing old ROOT.war
+\rm -rf /var/lib/tomcat8/webapps/ROOT /var/lib/tomcat8/webapps/ROOT.war
+echo Backing up tomcat conf files
+\cp /var/lib/tomcat8/conf/logging.properties /var/lib/tomcat8/conf/logging.properties.bak
+\cp /var/lib/tomcat8/conf/server.xml /var/lib/tomcat8/conf/server.xml.bak

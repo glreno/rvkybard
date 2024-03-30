@@ -159,10 +159,15 @@
                                 <type>file</type>
                                 <mapper>
                                     <type>perm</type>
-                                    <prefix>/var/lib/tomcat8/webapps</prefix>
+                                    <prefix>/var/lib/${project.artifactId}</prefix>
                                     <user>tomcat8</user>
                                     <group>tomcat8</group>
                                 </mapper>
+                            </data>
+                            <data>
+                                <type>link</type>
+                                <linkTarget>/var/lib/${project.artifactId}/${project.build.finalName}.war</linkTarget>
+                                <linkName>/var/lib/tomcat8/webapps/ROOT.war</linkName>
                             </data>
                             <data>
                                 <src>scripts/isticktoit_usb</src>
@@ -180,20 +185,35 @@
                                     <path>VERSIONS.md</path>
                                     <path>NOTICE</path>
                                 </paths>
-                                <dst>/var/lib/${project.artifactId}</dst>
+                                <mapper>
+                                    <type>perm</type>
+                                    <user>tomcat8</user>
+                                    <group>tomcat8</group>
+                                    <filemode>644</filemode>
+                                    <prefix>/var/lib/${project.artifactId}</prefix>
+                                </mapper>
                             </data>
                             <data>
-                                <type>files</type>
-                                <paths>
-                                    <path>pin</path>
-                                </paths>
+                                <type>directory</type>
+                                <src>tomcat8/conf</src>
+                                <mapper>
+                                    <type>perm</type>
+                                    <user>root</user>
+                                    <group>tomcat8</group>
+                                    <filemode>640</filemode>
+                                    <prefix>/var/lib/tomcat8/conf</prefix>
+                                </mapper>
+                            </data>
+                            <data>
+                                <src>pin</src>
+                                <type>file</type>
                                 <mapper>
                                     <type>perm</type>
                                     <user>tomcat8</user>
                                     <group>tomcat8</group>
                                     <filemode>600</filemode>
+                                    <prefix>/var/lib/${project.artifactId}</prefix>
                                 </mapper>
-                                <dst>/var/lib/${project.artifactId}</dst>
                             </data>
                         </dataSet>
                     </configuration>
