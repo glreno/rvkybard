@@ -20,4 +20,34 @@
 <text x="16" y="@{H-FS2*1.40+FIXLY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
 <text x="@{W/2}" y="@{H/4-FS2*1.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S1}</text>
 <text x="@{W/2}" y="@{H/4-FS2*.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S2}</text>
+<!-- grid center lines -->
+<line x1='@{W/2}', y1='@{H*.4}' x2='@{W/2}' y2='@{H*.7}' style='stroke:@{TXTC};stroke-width:3' />
+<line x1='@{W*.1}', y1='@{H/2}' x2='@{W*.9}' y2='@{H/2}' style='stroke:@{TXTC};stroke-width:3' />
+
+<!-- grid vertical lines from .1 to .9 -->
+<line x1='@{W*.1}', y1='@{H*.4}' x2='@{W*.1}' y2='@{H*.7}' style='stroke:@{TXTC};stroke-width:3' />
+<line x1='@{W*.2}', y1='@{H*.4}' x2='@{W*.2}' y2='@{H*.7}' style='stroke:@{TXTC};stroke-width:3' />
+<line x1='@{W*.3}', y1='@{H*.4}' x2='@{W*.3}' y2='@{H*.7}' style='stroke:@{TXTC};stroke-width:3' />
+<line x1='@{W*.4}', y1='@{H*.4}' x2='@{W*.4}' y2='@{H*.7}' style='stroke:@{TXTC};stroke-width:3' />
+<line x1='@{W*.6}', y1='@{H*.4}' x2='@{W*.6}' y2='@{H*.7}' style='stroke:@{TXTC};stroke-width:3' />
+<line x1='@{W*.7}', y1='@{H*.4}' x2='@{W*.7}' y2='@{H*.7}' style='stroke:@{TXTC};stroke-width:3' />
+<line x1='@{W*.8}', y1='@{H*.4}' x2='@{W*.8}' y2='@{H*.7}' style='stroke:@{TXTC};stroke-width:3' />
+<line x1='@{W*.9}', y1='@{H*.4}' x2='@{W*.9}' y2='@{H*.7}' style='stroke:@{TXTC};stroke-width:3' />
+
+<!-- grid horizontal lines from .4 to .7 -->
+<line x1='@{W*.1}', y1='@{H*.4}' x2='@{W*.9}' y2='@{H*.4}' style='stroke:@{TXTC};stroke-width:3' />
+<line x1='@{W*.1}', y1='@{H*.6}' x2='@{W*.9}' y2='@{H*.6}' style='stroke:@{TXTC};stroke-width:3' />
+<line x1='@{W*.1}', y1='@{H*.7}' x2='@{W*.9}' y2='@{H*.7}' style='stroke:@{TXTC};stroke-width:3' />
+
+<!-- some dots -->
+<rect fill="@{TXTC}" x="@{W*.14}" y="@{H*.44}" width="@{W*.02}" height="@{H*.02}"/>
+<rect fill="@{TXTC}" x="@{W*.24}" y="@{H*.64}" width="@{W*.02}" height="@{H*.02}"/>
+<rect fill="@{TXTC}" x="@{W*.34}" y="@{H*.44}" width="@{W*.02}" height="@{H*.02}"/>
+<rect fill="@{TXTC}" x="@{W*.44}" y="@{H*.54}" width="@{W*.02}" height="@{H*.02}"/>
+<rect fill="@{TXTC}" x="@{W*.63}" y="@{H*.43}" width="@{W*.02}" height="@{H*.02}"/>
+<rect fill="@{TXTC}" x="@{W*.65}" y="@{H*.45}" width="@{W*.02}" height="@{H*.02}"/>
+<rect fill="@{TXTC}" x="@{W*.84}" y="@{H*.64}" width="@{W*.02}" height="@{H*.02}"/>
+<!-- big dot, maybe a starbase -->
+<rect fill="@{TXTC}" x="@{W*.53}" y="@{H*.63}" width="@{W*.04}" height="@{H*.04}"/>
+
 </svg>
