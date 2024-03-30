@@ -52,7 +52,7 @@
     kb.key("4","KP_4",3,3,null,null,"",null,"ARROWCOLOR=#000","ARROW=90");
     kb.key("5","KP_5",3,3,null,null,"",KP);
     kb.key("6","KP_6",3,3,null,null,"",null,"ARROWCOLOR=#000","ARROW=270");
-    kb.key("OPTION","KB_F4",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
+    kb.key("OPTION","KB_F5",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
     // 1 2 3 select
@@ -61,7 +61,7 @@
     kb.key("1","KP_1",3,3,null,null,"",KP);
     kb.key("2","KP_2",3,3,null,null,"",null,"ARROWCOLOR=#000","ARROW=0");
     kb.key("3","KP_3",3,3,null,null,"",KP);
-    kb.key("SELECT","KB_F3",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
+    kb.key("SELECT","KB_F6",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
     // 0 space start (0 is two cols)
@@ -69,7 +69,7 @@
     kb.spacer(1);
     kb.key("0","KP_0",6,3,null,null,"",KP);
     kb.key(" ","KB_SPACE",3,3,null,null,"",K,"S=Del");
-    kb.key("START","F2",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
+    kb.key("START","KB_F7",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
     //
