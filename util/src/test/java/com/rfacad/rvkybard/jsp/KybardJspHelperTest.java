@@ -25,6 +25,8 @@ import org.junit.Test;
 //
 public class KybardJspHelperTest
 {
+    private static final File TOP = new File("../kb/src/main/resources/kb");
+
     @Test
     public void shouldCalculateDefaultSizes() throws IOException
     {
@@ -119,7 +121,7 @@ public class KybardJspHelperTest
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
-        h.setTop(new File("src/main/webapp/kb"));
+        h.setTop(TOP);
         h.setDefaultSvg("numeric/keys/key.svgt", 6, 2);
         h.setX(5);
         h.setY(4);
@@ -141,7 +143,7 @@ public class KybardJspHelperTest
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.setMouseMode(true);
-        h.setTop(new File("src/main/webapp/kb"));
+        h.setTop(TOP);
         h.setDefaultSvg("numeric/keys/key.svgt", 6, 2);
         h.setX(5);
         h.setY(4);
@@ -162,7 +164,7 @@ public class KybardJspHelperTest
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
-        h.setTop(new File("src/main/webapp/kb"));
+        h.setTop(TOP);
         h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
         h.setX(5);
         h.setY(4);
@@ -180,7 +182,7 @@ public class KybardJspHelperTest
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
-        h.setTop(new File("src/main/webapp/kb"));
+        h.setTop(TOP);
         h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
         h.setX(5);
         h.setY(4);
@@ -198,7 +200,7 @@ public class KybardJspHelperTest
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
-        h.setTop(new File("src/main/webapp/kb"));
+        h.setTop(TOP);
         h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
         assertEquals(1,h.getX());
         h.setX(4);
@@ -247,7 +249,7 @@ public class KybardJspHelperTest
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
-        h.setTop(new File("src/main/webapp/kb"));
+        h.setTop(TOP);
         h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
         Map<String,Object> keyParams=new HashMap<>();
         keyParams.put("name", "foo");
@@ -261,7 +263,7 @@ public class KybardJspHelperTest
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
-        h.setTop(new File("src/main/webapp/kb"));
+        h.setTop(TOP);
         h.setDefaultSvg("numeric/keys/key.svgt", 66, 66, 3, 3);
         Map<String,Object> keyParams=new HashMap<>();
         keyParams.put("name", "foo");

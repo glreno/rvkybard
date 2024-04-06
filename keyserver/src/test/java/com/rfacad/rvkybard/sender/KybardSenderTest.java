@@ -114,7 +114,8 @@ public class KybardSenderTest
     @Test
     public void shouldSendKeys() throws IOException
     {
-        KybardSender ks = new KybardSender(fn);
+        KybardSender ks = new KybardSender();
+        ks.setDev(fn);
         ks.sendKeys((byte)32,new byte[] {6,7,8,9,10,11,12}); // shift c d e f g h i
         ks.shutdown();
 
