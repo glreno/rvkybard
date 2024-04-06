@@ -20,4 +20,55 @@
 <text x="16" y="@{H-FS2*1.40+FIXLY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
 <text x="@{W/2}" y="@{H/4-FS2*1.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S1}</text>
 <text x="@{W/2}" y="@{H/4-FS2*.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S2}</text>
+
+
+<!-- little crosshair : center is W*.5, H*.65-->
+<line x1='@{W*.5-5*P}', y1='@{H*.65-5*P}' x2='@{W*.4}' y2='@{H*.65-5*P}' style='stroke:@{TXTC};stroke-width:@{2*P}' />
+<line x1='@{W*.5-5*P}', y1='@{H*.65-5*P}' x2='@{W*.5-5*P}' y2='@{H*.55}' style='stroke:@{TXTC};stroke-width:@{2*P}' />
+<line x1='@{W*.5+5*P}', y1='@{H*.65-5*P}' x2='@{W*.6}' y2='@{H*.65-5*P}' style='stroke:@{TXTC};stroke-width:@{2*P}' />
+<line x1='@{W*.5+5*P}', y1='@{H*.65-5*P}' x2='@{W*.5+5*P}' y2='@{H*.55}' style='stroke:@{TXTC};stroke-width:@{2*P}' />
+
+<line x1='@{W*.5-5*P}', y1='@{H*.65+5*P}' x2='@{W*.4}' y2='@{H*.65+5*P}' style='stroke:@{TXTC};stroke-width:@{2*P}' />
+<line x1='@{W*.5-5*P}', y1='@{H*.65+5*P}' x2='@{W*.5-5*P}' y2='@{H*.75}' style='stroke:@{TXTC};stroke-width:@{2*P}' />
+<line x1='@{W*.5+5*P}', y1='@{H*.65+5*P}' x2='@{W*.6}' y2='@{H*.65+5*P}' style='stroke:@{TXTC};stroke-width:@{2*P}' />
+<line x1='@{W*.5+5*P}', y1='@{H*.65+5*P}' x2='@{W*.5+5*P}' y2='@{H*.75}' style='stroke:@{TXTC};stroke-width:@{2*P}' />
+
+<!-- streaks -->
+<!-- Each of these is a vertical line from the center to the edge, chopped off at random y1 and y2 between .1 and .3, rotated a random number of degrees -->
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(6)'><line x1='0', y1='@{H*.25}', x2='0', y2='@{H*.19}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(25)'><line x1='0', y1='@{H*.17}', x2='0', y2='@{H*.23}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(36)'><line x1='0', y1='@{H*.18}', x2='0', y2='@{H*.19}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(46)'><line x1='0', y1='@{H*.16}', x2='0', y2='@{H*.22}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(60)'><line x1='0', y1='@{H*.19}', x2='0', y2='@{H*.24}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(72)'><line x1='0', y1='@{H*.30}', x2='0', y2='@{H*.24}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(75)'><line x1='0', y1='@{H*.27}', x2='0', y2='@{H*.30}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(81)'><line x1='0', y1='@{H*.30}', x2='0', y2='@{H*.28}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(93)'><line x1='0', y1='@{H*.22}', x2='0', y2='@{H*.16}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(112)'><line x1='0', y1='@{H*.25}', x2='0', y2='@{H*.27}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(120)'><line x1='0', y1='@{H*.17}', x2='0', y2='@{H*.22}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(123)'><line x1='0', y1='@{H*.14}', x2='0', y2='@{H*.11}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(128)'><line x1='0', y1='@{H*.29}', x2='0', y2='@{H*.22}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(135)'><line x1='0', y1='@{H*.14}', x2='0', y2='@{H*.13}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(142)'><line x1='0', y1='@{H*.14}', x2='0', y2='@{H*.18}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(149)'><line x1='0', y1='@{H*.30}', x2='0', y2='@{H*.23}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(155)'><line x1='0', y1='@{H*.18}', x2='0', y2='@{H*.19}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(171)'><line x1='0', y1='@{H*.28}', x2='0', y2='@{H*.25}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(189)'><line x1='0', y1='@{H*.18}', x2='0', y2='@{H*.24}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(197)'><line x1='0', y1='@{H*.22}', x2='0', y2='@{H*.25}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(203)'><line x1='0', y1='@{H*.20}', x2='0', y2='@{H*.13}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(215)'><line x1='0', y1='@{H*.30}', x2='0', y2='@{H*.25}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(235)'><line x1='0', y1='@{H*.13}', x2='0', y2='@{H*.22}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(249)'><line x1='0', y1='@{H*.30}', x2='0', y2='@{H*.22}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(254)'><line x1='0', y1='@{H*.26}', x2='0', y2='@{H*.30}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(264)'><line x1='0', y1='@{H*.16}', x2='0', y2='@{H*.26}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(281)'><line x1='0', y1='@{H*.19}', x2='0', y2='@{H*.28}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(292)'><line x1='0', y1='@{H*.25}', x2='0', y2='@{H*.19}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(298)'><line x1='0', y1='@{H*.18}', x2='0', y2='@{H*.30}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(305)'><line x1='0', y1='@{H*.26}', x2='0', y2='@{H*.20}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(317)'><line x1='0', y1='@{H*.27}', x2='0', y2='@{H*.28}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(336)'><line x1='0', y1='@{H*.19}', x2='0', y2='@{H*.25}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(349)'><line x1='0', y1='@{H*.30}', x2='0', y2='@{H*.27}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+<g transform='translate(@{W*.5},@{H*.65})'><g transform='rotate(355)'><line x1='0', y1='@{H*.15}', x2='0', y2='@{H*.21}' style='stroke:@{TXTC};stroke-width:@{P}' /></g></g>
+
+
 </svg>

@@ -20,10 +20,11 @@
 <text x="16" y="@{H-FS2*1.40+FIXLY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
 <text x="@{W/2}" y="@{H/4-FS2*.12+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S2}</text>
 
-<ellipse rx='16' ry='6' cx='@{W/2+12}' cy='@{H*3/4+4}' style='fill:${SHFBGC};' />
-<ellipse rx='8' ry='8' cx='@{W/2+12}' cy='@{H*3/4+2}' style='fill:${SHFBGC};' />
-<ellipse rx='6' ry='8' cx='@{W/2-3}' cy='@{H*3/4-10}' style='fill:${SHFBGC};' />
-<ellipse rx='6' ry='8' cx='@{W/2+7}' cy='@{H*3/4-15}' style='fill:${SHFBGC};' />
-<ellipse rx='6' ry='8' cx='@{W/2+17}' cy='@{H*3/4-15}' style='fill:${SHFBGC};' />
-<ellipse rx='6' ry='8' cx='@{W/2+27}' cy='@{H*3/4-10}' style='fill:${SHFBGC};' />
+<!-- Paws -->
+<ellipse rx='@{P*16}' ry='@{P*6}' cx='@{W/2+P*12}' cy='@{H*3/4+P*4}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*8}' ry='@{P*8}' cx='@{W/2+P*12}' cy='@{H*3/4+P*2}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*6}' ry='@{P*8}' cx='@{W/2-P*3}' cy='@{H*3/4-P*10}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*6}' ry='@{P*8}' cx='@{W/2+P*7}' cy='@{H*3/4-P*15}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*6}' ry='@{P*8}' cx='@{W/2+P*17}' cy='@{H*3/4-P*15}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*6}' ry='@{P*8}' cx='@{W/2+P*27}' cy='@{H*3/4-P*10}' style='fill:${SHFBGC};' />
 </svg>

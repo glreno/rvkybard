@@ -42,6 +42,7 @@ public class KybardJspHelper
     private int keyRowSpan=3;
     private int cellW=20;
     private int cellH=20;
+    private double pixelSize=1;
     private int gridGap=2;
     private int gridCols;
     private int gridRows;
@@ -122,11 +123,12 @@ public class KybardJspHelper
         templateProcessor.loadDefaults(svgParams);
     }
 
-    public void setDefaultCellSize(int cellW,int cellH,int gridGap)
+    public void setDefaultCellSize(int cellW,int cellH,double pixelSize,int gridGap)
     {
         this.cellW=cellW;
         this.cellH=cellH;
         this.gridGap=gridGap;
+        this.pixelSize=pixelSize;
         calculateDefaultSizes();
     }
 
@@ -134,6 +136,7 @@ public class KybardJspHelper
     {
         templateProcessor.loadDefault("cellW",cellW);
         templateProcessor.loadDefault("cellH",cellH);
+        templateProcessor.loadDefault("P",pixelSize);
         templateProcessor.loadDefault("gridRows",gridRows);
         templateProcessor.loadDefault("gridCols",gridCols);
         templateProcessor.loadDefault("gridGap",gridGap);

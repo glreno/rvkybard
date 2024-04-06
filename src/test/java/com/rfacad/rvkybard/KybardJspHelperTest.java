@@ -33,6 +33,7 @@ public class KybardJspHelperTest
         assertEquals("My Title Here",runMvel(h,"@{TITLE}"));
         assertEquals("x20",runMvel(h,"x@{cellW}"));
         assertEquals("x20",runMvel(h,"x@{cellH}"));
+        assertEquals("x1.0",runMvel(h,"x@{P}"));
         assertEquals("x2",runMvel(h,"x@{gridGap}"));
         assertEquals("x15",runMvel(h,"x@{gridCols}"));
         assertEquals("x4",runMvel(h,"x@{gridRows}"));
@@ -47,6 +48,7 @@ public class KybardJspHelperTest
         h.setDefaultSvg("", 0,0, 5, 4);
         assertEquals("x20",runMvel(h,"x@{cellW}"));
         assertEquals("x20",runMvel(h,"x@{cellH}"));
+        assertEquals("x1.0",runMvel(h,"x@{P}"));
         assertEquals("x2",runMvel(h,"x@{gridGap}"));
         assertEquals("x15",runMvel(h,"x@{gridCols}"));
         assertEquals("x4",runMvel(h,"x@{gridRows}"));
@@ -56,9 +58,10 @@ public class KybardJspHelperTest
         assertEquals("x86",runMvel(h,"x@{stdH}"));  // 4*22-2
         assertEquals("x332",runMvel(h,"x@{kbdW}")); // 15*22+2
         assertEquals("x90",runMvel(h,"x@{kbdH}")); // 4*22+2
-        h.setDefaultCellSize(15,17,3);
+        h.setDefaultCellSize(15,17,1.5,3);
         assertEquals("x15",runMvel(h,"x@{cellW}"));
         assertEquals("x17",runMvel(h,"x@{cellH}"));
+        assertEquals("x1.5",runMvel(h,"x@{P}"));
         assertEquals("x3",runMvel(h,"x@{gridGap}"));
         assertEquals("x15",runMvel(h,"x@{gridCols}"));
         assertEquals("x4",runMvel(h,"x@{gridRows}"));
