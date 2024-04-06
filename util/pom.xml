@@ -14,7 +14,7 @@
 <modelVersion>4.0.0</modelVersion>
 
 <groupId>com.rfacad.rvkybard</groupId>
-<artifactId>util</artifactId>
+<artifactId>com.rfacad.rvkybard.util</artifactId>
 <version>0.03beta</version>
 <packaging>jar</packaging>
 <description>Utilities for rvkybard</description>

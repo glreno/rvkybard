@@ -16,7 +16,7 @@
 <groupId>com.rfacad.rvkybard</groupId>
 <artifactId>rvkybard-usb-pizero</artifactId>
 <version>0.03beta</version>
-<packaging>jar</packaging>
+<packaging>war</packaging>
 
 <description>rvkybard USB for Raspberry Pi Zero</description>
 
@@ -37,15 +37,58 @@
 <dependencies>
     <dependency>
         <groupId>com.rfacad.rvkybard</groupId>
-        <artifactId>keyserver</artifactId>
+        <artifactId>com.rfacad.rvkybard.keyserver</artifactId>
         <version>0.03beta</version>
-        <type>war</type>
+    </dependency>
+    <dependency>
+        <groupId>com.rfacad.rvkybard</groupId>
+        <artifactId>com.rfacad.rvkybard.kb</artifactId>
+        <version>0.03beta</version>
     </dependency>
 </dependencies>
 
 <build>
     <defaultGoal>install</defaultGoal>
     <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>3.1.1</version>
+            <executions>
+                <execution>
+                    <id>copy-dependencies</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>copy-dependencies</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        <includeScope>runtime</includeScope>
+                        <excludeScope>test</excludeScope>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>extract-keyboards</id>
+                    <phase>compile</phase>
+                    <goals>
+                        <goal>unpack</goal>
+                    </goals>
+                    <configuration>
+                        <artifactItems>
+                            <artifactItem>
+        <groupId>com.rfacad.rvkybard</groupId>
+        <artifactId>com.rfacad.rvkybard.kb</artifactId>
+        <version>0.03beta</version>
+        <type>jar</type>
+                            </artifactItem>
+                        </artifactItems>
+                        <outputDirectory>${project.build.directory}/rvkybard-usb-pizero-0.03beta</outputDirectory>
+                        <excludes>META-INF/**/*,**/*.class</excludes>
+                        <excludeTransitive>true</excludeTransitive>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
         <plugin>
             <artifactId>jdeb</artifactId>
             <groupId>org.vafer</groupId>
@@ -59,7 +102,7 @@
                     <configuration>
                         <dataSet>
                             <data>
-                                <src>${project.basedir}/../keyserver/target/keyserver-0.03beta.war</src>
+                                <src>${project.build.directory}/${project.build.finalName}.war</src>
                                 <type>file</type>
                                 <mapper>
                                     <type>perm</type>
@@ -70,7 +113,7 @@
                             </data>
                             <data>
                                 <type>link</type>
-                                <linkTarget>/var/lib/rvkybard/keyserver-0.03beta.war</linkTarget>
+                                <linkTarget>/var/lib/rvkybard/${project.build.finalName}.war</linkTarget>
                                 <linkName>/var/lib/tomcat8/webapps/ROOT.war</linkName>
                             </data>
                             <data>

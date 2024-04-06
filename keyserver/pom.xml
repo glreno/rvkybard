@@ -14,10 +14,10 @@
 <modelVersion>4.0.0</modelVersion>
 
 <groupId>com.rfacad.rvkybard</groupId>
-<artifactId>keyserver</artifactId>
+<artifactId>com.rfacad.rvkybard.keyserver</artifactId>
 <version>0.03beta</version>
-<packaging>war</packaging>
-<description>The webapp part of rvkybard</description>
+<packaging>jar</packaging>
+<description>USB HID keyboard servlet</description>
 
 <parent>
     <groupId>com.rfacad.rvkybard</groupId>
@@ -36,12 +36,12 @@
 <dependencies>
     <dependency>
         <groupId>com.rfacad.rvkybard</groupId>
-        <artifactId>interfaces</artifactId>
+        <artifactId>com.rfacad.rvkybard.interfaces</artifactId>
         <version>0.03beta</version>
     </dependency>
     <dependency>
         <groupId>com.rfacad.rvkybard</groupId>
-        <artifactId>util</artifactId>
+        <artifactId>com.rfacad.rvkybard.util</artifactId>
         <version>0.03beta</version>
     </dependency>
     <dependency>

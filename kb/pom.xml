@@ -14,10 +14,10 @@
 <modelVersion>4.0.0</modelVersion>
 
 <groupId>com.rfacad.rvkybard</groupId>
-<artifactId>com.rfacad.rvkybard.interfaces</artifactId>
+<artifactId>com.rfacad.rvkybard.kb</artifactId>
 <version>0.03beta</version>
 <packaging>jar</packaging>
-<description>Key constants for rvkybard</description>
+<description>The rvkybard keyboard collection</description>
 
 <parent>
     <groupId>com.rfacad.rvkybard</groupId>
@@ -32,16 +32,5 @@
         <distribution>repo</distribution>
     </license>
 </licenses>
-
-<dependencies>
-    <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.12</version>
-        <type>jar</type>
-        <scope>test</scope>
-        <optional>true</optional>
-    </dependency>
-</dependencies>
 
 </project>
