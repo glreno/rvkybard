@@ -1,9 +1,9 @@
 Package: rvkybard
-Version: 0.01
+Version: 0.03beta
 Section: misc
 Priority: optional
-Architecture: all
+Architecture: armhf
 Maintainer: glreno <46288004+glreno@users.noreply.github.com>
-Description: Remote Virtual Keyboard Servlet
+Description: Remote Retro Virtual Keyboard Servlet
 Distribution: development
 Depends: openjdk-8-jdk-headless, tomcat8
