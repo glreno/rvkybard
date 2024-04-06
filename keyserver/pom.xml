@@ -35,6 +35,16 @@
 
 <dependencies>
     <dependency>
+        <groupId>com.rfacad.rvkybard</groupId>
+        <artifactId>interfaces</artifactId>
+        <version>0.03beta</version>
+    </dependency>
+    <dependency>
+        <groupId>com.rfacad.rvkybard</groupId>
+        <artifactId>util</artifactId>
+        <version>0.03beta</version>
+    </dependency>
+    <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-context</artifactId>
         <version>${spring.version}</version>

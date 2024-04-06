@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII"%>
-<%@ page import="com.rfacad.rvkybard.KybardJspHelper" %>
+<%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"Tenkeyless",20*3,6*3,null);
     // Default key SVG and size

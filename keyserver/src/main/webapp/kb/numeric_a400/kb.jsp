@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII"%>
-<%@ page import="com.rfacad.rvkybard.KybardJspHelper" %>
+<%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
     // Page title, and keyboard size in cells. 4 keys * 3 cells wide, 5 keys * 3 cells high
     KybardJspHelper kb=new KybardJspHelper(out,"Atari Keypad",4*3+3,4*3+2,null);

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII"%>
-<%@ page import="com.rfacad.rvkybard.KybardJspHelper" %>
+<%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"Atari 400",17*3+1,5*3+2,null);
     kb.setMouseMode(false);

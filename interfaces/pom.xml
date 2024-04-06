@@ -14,12 +14,16 @@
 <modelVersion>4.0.0</modelVersion>
 
 <groupId>com.rfacad.rvkybard</groupId>
-<artifactId>rvkybard</artifactId>
+<artifactId>interfaces</artifactId>
 <version>0.03beta</version>
-<packaging>pom</packaging>
+<packaging>jar</packaging>
+<description>Key constants for rvkybard</description>
 
-<name>rvkybard</name>
-<description>Remote Retro Virtual Keyboard</description>
+<parent>
+    <groupId>com.rfacad.rvkybard</groupId>
+    <artifactId>rvkybard</artifactId>
+    <version>0.03beta</version>
+</parent>
 
 <licenses>
     <license>
@@ -29,23 +33,15 @@
     </license>
 </licenses>
 
-<modules>
-    <module>util</module>
-    <module>interfaces</module>
-    <module>keyserver</module>
-    <module>rvkybard-usb-pizero</module>
-</modules>
-
-<properties>
-    <rvkybard.version>0.03.beta</rvkybard.version>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <spring.version>5.3.33</spring.version>
-    <commons.version>2.15.1</commons.version>
-    <log4j.version>2.23.1</log4j.version>
-    <slf4j.version>2.0.12</slf4j.version>
-</properties>
-
+<dependencies>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <type>jar</type>
+        <scope>test</scope>
+        <optional>true</optional>
+    </dependency>
+</dependencies>
 
 </project>

@@ -22,7 +22,7 @@ http://www.apache.org/licenses/LICENSE-2.0
     <context:component-scan base-package="com.rfacad"></context:component-scan>
     <context:annotation-config/>
     <context:spring-configured/>
-    <bean id="kybardSender" class="com.rfacad.rvkybard.KybardSender">
+    <bean id="kybardSender" class="com.rfacad.rvkybard.sender.KybardSender">
         <property name='dev' value='/dev/hidg0' />
     </bean>
 </beans>

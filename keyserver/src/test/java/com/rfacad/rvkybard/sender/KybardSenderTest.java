@@ -1,4 +1,4 @@
-package com.rfacad.rvkybard;
+package com.rfacad.rvkybard.sender;
 
 import static org.junit.Assert.assertEquals;
 

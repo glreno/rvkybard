@@ -62,7 +62,7 @@
         To release a key, just send another call without that key.
         The call with no query params is the same as releasing all keys.
       </description>
-      <servlet-class>com.rfacad.rvkybard.KybardPressServlet</servlet-class>
+      <servlet-class>com.rfacad.rvkybard.sender.KybardPressServlet</servlet-class>
       <load-on-startup>1</load-on-startup>
     </servlet>
 
