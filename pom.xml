@@ -13,13 +13,13 @@
 
 <modelVersion>4.0.0</modelVersion>
 
-<groupId>rvkybard</groupId>
+<groupId>com.rfacad.rvkybard</groupId>
 <artifactId>rvkybard</artifactId>
 <version>0.03beta</version>
-<packaging>war</packaging>
+<packaging>pom</packaging>
 
-<name>relay</name>
-<description>Relay circuit simulator</description>
+<name>rvkybard</name>
+<description>Remote Retro Virtual Keyboard</description>
 
 <licenses>
     <license>
@@ -29,8 +29,13 @@
     </license>
 </licenses>
 
+<modules>
+    <module>keyserver</module>
+    <module>rvkybard-usb-pizero</module>
+</modules>
 
 <properties>
+    <rvkybard.version>0.03.beta</rvkybard.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -40,191 +45,5 @@
     <slf4j.version>2.0.12</slf4j.version>
 </properties>
 
-<dependencies>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-        <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context-support</artifactId>
-        <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-web</artifactId>
-        <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-core</artifactId>
-        <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-beans</artifactId>
-        <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-aspects</artifactId>
-        <version>3.1.2.RELEASE</version>
-    </dependency>
-    <dependency>
-        <groupId>org.aspectj</groupId>
-        <artifactId>aspectjweaver</artifactId>
-        <version>1.7.4</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-api</artifactId>
-        <version>${log4j.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-core</artifactId>
-        <version>${log4j.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>${commons.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.mvel</groupId>
-        <artifactId>mvel2</artifactId>
-        <version>2.5.2.Final</version>
-    </dependency>
-    <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <version>4.0.0</version>
-    </dependency>
-    <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.12</version>
-        <type>jar</type>
-        <scope>test</scope>
-        <optional>true</optional>
-    </dependency>
-    <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-core</artifactId>
-        <version>3.7.0</version>
-        <scope>test</scope>
-    </dependency>
-</dependencies>
-
-
-<build>
-    <defaultGoal>install</defaultGoal>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <version>3.1.1</version>
-            <executions>
-                <execution>
-                    <id>copy-dependencies</id>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>copy-dependencies</goal>
-                    </goals>
-                    <configuration>
-                        <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                        <includeScope>runtime</includeScope>
-                        <excludeScope>test</excludeScope>
-                    </configuration>
-                  </execution>
-            </executions>
-        </plugin>
-
-        <plugin>
-            <artifactId>jdeb</artifactId>
-            <groupId>org.vafer</groupId>
-            <version>1.7</version>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>jdeb</goal>
-                    </goals>
-                    <configuration>
-                        <dataSet>
-                            <data>
-                                <src>${project.build.directory}/${project.build.finalName}.war</src>
-                                <type>file</type>
-                                <mapper>
-                                    <type>perm</type>
-                                    <prefix>/var/lib/${project.artifactId}</prefix>
-                                    <user>tomcat8</user>
-                                    <group>tomcat8</group>
-                                </mapper>
-                            </data>
-                            <data>
-                                <type>link</type>
-                                <linkTarget>/var/lib/${project.artifactId}/${project.build.finalName}.war</linkTarget>
-                                <linkName>/var/lib/tomcat8/webapps/ROOT.war</linkName>
-                            </data>
-                            <data>
-                                <src>scripts/rvkybard_usb</src>
-                                <type>file</type>
-                                <mapper>
-                                    <type>perm</type>
-                                    <prefix>/usr/bin</prefix>
-                                    <filemode>755</filemode>
-                                </mapper>
-                            </data>
-                            <data>
-                                <type>files</type>
-                                <paths>
-                                    <path>README.md</path>
-                                    <path>VERSIONS.md</path>
-                                    <path>NOTICE</path>
-                                </paths>
-                                <mapper>
-                                    <type>perm</type>
-                                    <user>tomcat8</user>
-                                    <group>tomcat8</group>
-                                    <filemode>644</filemode>
-                                    <prefix>/var/lib/${project.artifactId}</prefix>
-                                </mapper>
-                            </data>
-                            <data>
-                                <type>directory</type>
-                                <src>tomcat8/conf</src>
-                                <mapper>
-                                    <type>perm</type>
-                                    <user>root</user>
-                                    <group>tomcat8</group>
-                                    <filemode>640</filemode>
-                                    <prefix>/var/lib/tomcat8/conf</prefix>
-                                </mapper>
-                            </data>
-                            <data>
-                                <src>pin</src>
-                                <type>file</type>
-                                <mapper>
-                                    <type>perm</type>
-                                    <user>tomcat8</user>
-                                    <group>tomcat8</group>
-                                    <filemode>600</filemode>
-                                    <prefix>/var/lib/${project.artifactId}</prefix>
-                                </mapper>
-                            </data>
-                        </dataSet>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
-</build>
 
 </project>
