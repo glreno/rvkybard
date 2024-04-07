@@ -30,8 +30,9 @@
 </licenses>
 
 <modules>
-    <module>util</module>
     <module>interfaces</module>
+    <module>util</module>
+    <module>auth</module>
     <module>keyserver</module>
     <module>kb</module>
     <module>rvkybard-usb-pizero</module>
