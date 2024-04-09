@@ -7,6 +7,16 @@ import org.junit.Test;
 
 import com.rfacad.rvkybard.interfaces.AuthS;
 
+//
+//Copyright (c) 2024 Gerald Reno, Jr.
+//
+//Licensed under the Apache License, Version 2.0 (the "License");
+//you may not use this file except in compliance with the License.
+//You may obtain a copy of the License at
+//
+//http://www.apache.org/licenses/LICENSE-2.0
+//
+
 public class AuthImplTest
 {
     @After
@@ -21,7 +31,7 @@ public class AuthImplTest
         AuthS.setAuthI(null);
         assertNull(AuthS.getAuthI());
         AuthImpl a = new AuthImpl();
-        a.startup();
+        a.init();
         assertEquals(a,AuthS.getAuthI());
     }
 

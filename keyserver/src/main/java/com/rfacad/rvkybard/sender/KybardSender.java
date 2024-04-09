@@ -56,13 +56,16 @@ public class KybardSender
     {
         OutputStream o = out;
         out = null;
-        try
+        if ( o != null )
         {
-            o.close();
-        }
-        catch (IOException e)
-        {
-            LOG.error("Failed to close stream",e);
+            try
+            {
+                o.close();
+            }
+            catch (IOException e)
+            {
+                LOG.error("Failed to close stream",e);
+            }
         }
     }
 

@@ -22,7 +22,13 @@ http://www.apache.org/licenses/LICENSE-2.0
     <context:component-scan base-package="com.rfacad"></context:component-scan>
     <context:annotation-config/>
     <context:spring-configured/>
+
     <bean id="kybardSender" class="com.rfacad.rvkybard.sender.KybardSender">
         <property name='dev' value='/dev/hidg0' />
     </bean>
+
+    <bean id="auth" class="com.rfacad.rvkybard.auth.AuthImpl" init-method = "init">
+        <property name='pinFile' value='/var/lib/rvkybard/pin' />
+    </bean>
+
 </beans>

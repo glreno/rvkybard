@@ -66,6 +66,15 @@
       <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet>
+      <servlet-name>login</servlet-name>
+      <description>
+        Login handler
+      </description>
+      <servlet-class>com.rfacad.rvkybard.auth.AuthServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
+    </servlet>
+
 
     <!-- Define mappings that are used by the servlet container to
          translate a particular request URI (context-relative) to a
@@ -88,6 +97,11 @@
     <servlet-mapping>
       <servlet-name>kybardPress</servlet-name>
       <url-pattern>/k</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>login</servlet-name>
+      <url-pattern>/l</url-pattern>
     </servlet-mapping>
 
 
