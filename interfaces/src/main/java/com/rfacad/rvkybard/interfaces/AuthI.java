@@ -12,6 +12,11 @@ package com.rfacad.rvkybard.interfaces;
 
 public interface AuthI
 {
+
+    public static final String COOKIENAME = "rvbiscuit";
+
+    public static final String PINNAME = "pin";
+
     /**
      * Checks to see if this cookie is a currently logged-in session
      * @param cookie

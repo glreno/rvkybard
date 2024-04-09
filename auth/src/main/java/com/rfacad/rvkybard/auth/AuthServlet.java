@@ -34,10 +34,6 @@ public class AuthServlet extends HttpServlet
 
     Logger LOG = LoggerFactory.getLogger(AuthServlet.class);
 
-    private static final String COOKIENAME = "rvbiscuit";
-
-    private static final String PINNAME = "pin";
-
     @Autowired
     private AuthI authi;
 
@@ -56,8 +52,9 @@ public class AuthServlet extends HttpServlet
     @Override
     protected void doPost( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
+        resp.addHeader("Location", "/");
         resp.setStatus(401);
-        String pin = req.getParameter(PINNAME);
+        String pin = req.getParameter(AuthI.PINNAME);
         LOG.info("Attempting login "+pin);
         if ( authi != null )
         {
@@ -65,13 +62,13 @@ public class AuthServlet extends HttpServlet
             if ( s != null )
             {
                 LOG.info("Successful login "+s);
-                Cookie cookie = new Cookie(COOKIENAME,s);
+                Cookie cookie = new Cookie(AuthI.COOKIENAME,s);
                 int seconds = 60*60; // an hour
                 cookie.setMaxAge(seconds);
                 cookie.setHttpOnly(true);
                 cookie.setPath("/");
                 resp.addCookie(cookie);
-                resp.setStatus(200);
+                resp.setStatus(303);
                 return;
             }
         }
