@@ -11,20 +11,10 @@ public class KybardReader implements Runnable
 {
     Logger LOG = LoggerFactory.getLogger(KybardReader.class);
 
-    protected String dev;
+    protected String dev=null;
     protected InputStream in; // very much NOT buffered
     protected Thread thr;
     protected int lastRead=-1;
-
-    public KybardReader(String dev)
-    {
-        this.dev = dev;
-    }
-
-    public KybardReader()
-    {
-        this.dev="";
-    }
 
     public void setDev(String dev)
     {
@@ -78,17 +68,24 @@ public class KybardReader implements Runnable
 
     public synchronized void init()
     {
-        LOG.info("Starting");
-        try
+        if ( dev == null )
         {
-            in = new FileInputStream(dev);
-            startThread();
+            LOG.info("Not starting -- dev not specified");
         }
-        catch (IOException e)
+        else
         {
-            LOG.error("Failed to open stream",e);
+            LOG.info("Starting");
+            try
+            {
+                in = new FileInputStream(dev);
+                startThread();
+            }
+            catch (IOException e)
+            {
+                LOG.error("Failed to open stream",e);
+            }
+            LOG.info("Startup complete");
         }
-        LOG.info("Startup complete");
     }
 
     public synchronized void startThread()

@@ -15,7 +15,7 @@ public class KybardReaderTest
     public void shouldCloseInputStream() throws IOException
     {
         // Need to bypass init and use our own InputStream for this
-        KybardReader kr = new KybardReader("");
+        KybardReader kr = new KybardReader();
         InputStream in = mock(InputStream.class);
         kr.in=in;
         assertEquals(-1,kr.getLastRead());
@@ -31,7 +31,7 @@ public class KybardReaderTest
     public void shouldCloseInputStreamEx() throws IOException
     {
         // Same thing, but close throws an exception
-        KybardReader kr = new KybardReader("");
+        KybardReader kr = new KybardReader();
         InputStream in = mock(InputStream.class);
         doThrow(new IOException("xx")).when(in).close();
         kr.in=in;
@@ -53,7 +53,7 @@ public class KybardReaderTest
 
         // Create an InputStream that will block read() until a Latch is released.
         CountDownLatch cd = new CountDownLatch(1);
-        KybardReader kr = new KybardReader("");
+        KybardReader kr = new KybardReader();
         InputStream in = new InputStream() {
             @Override
             public int read() throws IOException

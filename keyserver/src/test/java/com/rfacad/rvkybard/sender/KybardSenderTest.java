@@ -61,7 +61,8 @@ public class KybardSenderTest
     @Test
     public void shouldSendReleaseAll() throws IOException
     {
-        KybardSender ks = new KybardSender(fn);
+        KybardSender ks = new KybardSender();
+        ks.setDev(fn);
         ks.sendReleaseAllKeys();
         ks.shutdown();
         byte [] b = readTestFile();
@@ -76,7 +77,8 @@ public class KybardSenderTest
     @Test
     public void shouldSendShift() throws IOException
     {
-        KybardSender ks = new KybardSender(fn);
+        KybardSender ks = new KybardSender();
+        ks.setDev(fn);
         ks.sendKeys(KybardFlag.RIGHT_SHIFT.getBits(),new byte[] {5} ); // B
         ks.shutdown();
         byte [] b = readTestFile();
@@ -95,7 +97,8 @@ public class KybardSenderTest
     @Test
     public void shouldSendKey() throws IOException
     {
-        KybardSender ks = new KybardSender(fn);
+        KybardSender ks = new KybardSender();
+        ks.setDev(fn);
         ks.sendKey((byte)6); // c
         ks.shutdown();
 

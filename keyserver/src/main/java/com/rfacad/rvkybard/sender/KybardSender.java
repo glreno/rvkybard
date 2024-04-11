@@ -1,9 +1,7 @@
 package com.rfacad.rvkybard.sender;
 
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.slf4j.Logger;
@@ -26,18 +24,8 @@ public class KybardSender
     Logger LOG = LoggerFactory.getLogger(KybardSender.class);
     private static final byte [] ALLUP = new byte[] { 0,0,0,0, 0,0,0,0 };
 
-    private String dev;
+    private String dev=null;
     private OutputStream out; // very much NOT buffered
-
-    public KybardSender(String dev)
-    {
-        this.dev = dev;
-    }
-
-    public KybardSender()
-    {
-        this.dev="";
-    }
 
     public void setDev(String dev)
     {
@@ -46,8 +34,13 @@ public class KybardSender
 
     protected void send(byte [] b) throws IOException
     {
-        if ( out == null  )
+        if ( out == null )
         {
+            if ( dev == null )
+            {
+                LOG.error("Cannot send, dev not set");
+                return;
+            }
             out = new FileOutputStream(dev);
         }
         out.write(b);
