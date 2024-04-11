@@ -49,7 +49,7 @@ public class KybardSender
 
     protected void doClose()
     {
-        LOG.info("Closing stream");
+        LOG.debug("Closing stream");
         OutputStream o = out;
         out = null;
         if ( o != null )
@@ -67,7 +67,7 @@ public class KybardSender
 
     public synchronized void shutdown()
     {
-        LOG.info("Shutting down");
+        LOG.debug("Shutting down");
         doClose();
         LOG.info("Shutdown complete");
     }

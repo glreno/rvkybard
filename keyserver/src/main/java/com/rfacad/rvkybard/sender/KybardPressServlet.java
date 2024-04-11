@@ -72,7 +72,9 @@ public class KybardPressServlet extends HttpServlet
     @Override
     public void destroy() 
     {
+        LOG.info("Shutting down");
         kybardSender.shutdown();
+        LOG.info("Shutdown complete");
     }
 
     @Override

@@ -72,7 +72,7 @@ public class KybardReader implements Runnable
 
     public void run()
     {
-        LOG.info("Thread starting");
+        LOG.debug("Thread starting");
         while ( in != null )
         {
             try
@@ -81,7 +81,7 @@ public class KybardReader implements Runnable
                 if ( b >= 0)
                 {
                     lastRead=b;
-                    LOG.info("Read byte {}",lastRead);
+                    LOG.debug("Read byte {}",lastRead);
                 }
             }
             catch (IOException e)
@@ -90,7 +90,7 @@ public class KybardReader implements Runnable
                 lastRead=-2;// a flag indicating that there was a failure
             }
         }
-        LOG.info("Thread exting");
+        LOG.debug("Thread exting");
     }
 
     protected void doClose()
@@ -118,7 +118,7 @@ public class KybardReader implements Runnable
         }
         else
         {
-            LOG.info("Starting");
+            LOG.debug("Starting");
             try
             {
                 in = new FileInputStream(dev);
@@ -140,7 +140,7 @@ public class KybardReader implements Runnable
 
     public synchronized void shutdown()
     {
-        LOG.info("Shutting down");
+        LOG.debug("Shutting down");
         doClose();
         // This doesn't actually work. FileInputStream.read() isn't interruptable.
         Thread t = thr;
