@@ -76,14 +76,14 @@ public class KybardSender
 
     public synchronized void sendReleaseAllKeys() throws IOException
     {
-        LOG.info("SEND RELEASE ALL");
+        LOG.debug("SEND RELEASE ALL");
         send(ALLUP);
     }
 
     public synchronized void sendKeys(byte flags,byte [] keycodes) throws IOException
     {
         byte [] buf = new byte[8];
-        LOG.info("SEND {} {}",flags,keycodes);
+        LOG.debug("SEND {} {}",flags,keycodes);
         buf[0]=flags;
         int n = keycodes.length > 6 ? 6 : keycodes.length;
         for(int i=0; i < n; i++)
