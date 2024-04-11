@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -111,17 +113,22 @@ public class KybardPressServletTest
         byte expectedFlags = KybardFlag.LEFT_SHIFT.getBits();
         byte [] expectedKeys = { KybardCode.KB_B.getCode(), KybardCode.KB_X.getCode() };
         KybardSender mockSender = mock(KybardSender.class);
+        KybardReader mockReader = mock(KybardReader.class);
+        doReturn("{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}").when(mockReader).getCurrentFlags();
         AuthI mockAuth = mock(AuthI.class);
         doReturn(true).when(mockAuth).checkForValidCookie(any());
 
         KybardPressServlet kps = new KybardPressServlet();
         kps.init();
         kps.setKybardSender(mockSender);
+        kps.setKybardReader(mockReader);
         kps.setAuthI(mockAuth);
 
         HttpServletResponse resp = mock(HttpServletResponse.class);
         HttpServletRequest req = mock(HttpServletRequest.class);
         when(req.getQueryString()).thenReturn("f=LEFT_SHIFT,k=b,x");
+        StringWriter stringWriter = new StringWriter();
+        when(resp.getWriter()).thenReturn(new PrintWriter(stringWriter));
         kps.doGet(req,resp);
 
         kps.destroy();
@@ -129,6 +136,8 @@ public class KybardPressServletTest
         verify(mockSender).sendKeys(expectedFlags,expectedKeys);
         verify(mockSender).shutdown();
         verify(resp,times(0)).sendError(anyInt());
+
+        assertEquals("{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}\n",stringWriter.toString());
     }
 
     @Test

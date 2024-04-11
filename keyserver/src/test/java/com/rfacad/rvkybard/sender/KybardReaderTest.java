@@ -11,6 +11,15 @@ import org.junit.Test;
 
 import com.rfacad.rvkybard.interfaces.KybardLed;
 
+//
+//Copyright (c) 2024 Gerald Reno, Jr.
+//
+//Licensed under the Apache License, Version 2.0 (the "License");
+//you may not use this file except in compliance with the License.
+//You may obtain a copy of the License at
+//
+//http://www.apache.org/licenses/LICENSE-2.0
+//
 public class KybardReaderTest
 {
     @Test(timeout=5000)
@@ -112,7 +121,7 @@ public class KybardReaderTest
         pause();
         kr.shutdown();
         assertEquals(7,kr.getLastRead());
-        assertEquals("[NUMLOCK,CAPSLOCK,SCROLLLOCK]",kr.getCurrentFlags());
+        assertEquals("{\"NUMLOCK\":true,\"CAPSLOCK\":true,\"SCROLLLOCK\":true,\"COMPOSE\":false,\"KANA\":false}",kr.getCurrentFlags());
     }
 
     private void verifyFlags(int f,String expected)
@@ -124,14 +133,14 @@ public class KybardReaderTest
     @Test
     public void shouldDecodeFlags()
     {
-        verifyFlags(-2,"[]");
-        verifyFlags(-1,"[]");
-        verifyFlags(0,"[]");
-        verifyFlags(KybardLed.NUMLOCK.getBits(),"[NUMLOCK]");
-        verifyFlags(KybardLed.CAPSLOCK.getBits(),"[CAPSLOCK]");
-        verifyFlags(KybardLed.SCROLLLOCK.getBits(),"[SCROLLLOCK]");
-        verifyFlags(KybardLed.COMPOSE.getBits(),"[COMPOSE]");
-        verifyFlags(KybardLed.KANA.getBits(),"[KANA]");
+        verifyFlags(-2,"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}");
+        verifyFlags(-1,"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}");
+        verifyFlags(0,"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}");
+        verifyFlags(KybardLed.NUMLOCK.getBits(),"{\"NUMLOCK\":true,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}");
+        verifyFlags(KybardLed.CAPSLOCK.getBits(),"{\"NUMLOCK\":false,\"CAPSLOCK\":true,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}");
+        verifyFlags(KybardLed.SCROLLLOCK.getBits(),"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":true,\"COMPOSE\":false,\"KANA\":false}");
+        verifyFlags(KybardLed.COMPOSE.getBits(),"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":true,\"KANA\":false}");
+        verifyFlags(KybardLed.KANA.getBits(),"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":true}");
     }
 
     private void pause()

@@ -9,6 +9,15 @@ import org.slf4j.LoggerFactory;
 
 import com.rfacad.rvkybard.interfaces.KybardLed;
 
+//
+//Copyright (c) 2024 Gerald Reno, Jr.
+//
+//Licensed under the Apache License, Version 2.0 (the "License");
+//you may not use this file except in compliance with the License.
+//You may obtain a copy of the License at
+//
+//http://www.apache.org/licenses/LICENSE-2.0
+//
 public class KybardReader implements Runnable
 {
     Logger LOG = LoggerFactory.getLogger(KybardReader.class);
@@ -33,14 +42,14 @@ public class KybardReader implements Runnable
         int b = lastRead;
         if ( b <= 0 )
         {
-            return("[]");
+            return("{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}");
         }
         StringBuilder buf=new StringBuilder();
-        buf.append('[');
+        buf.append("{");
         boolean first = true;
         for (KybardLed k : KybardLed.values() )
         {
-            if ( (k.getBits() & b) != 0 )
+            if ( k != KybardLed.UNDEFINED )
             {
                 if ( first )
                 {
@@ -50,10 +59,14 @@ public class KybardReader implements Runnable
                 {
                     buf.append(',');
                 }
+                boolean on = ( (k.getBits() & b) != 0 );
+                buf.append('"');
                 buf.append(k.toString());
+                buf.append("\":");
+                buf.append(on);
             }
         }
-        buf.append(']');
+        buf.append('}');
         return buf.toString();
     }
 

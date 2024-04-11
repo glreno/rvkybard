@@ -1,6 +1,7 @@
 package com.rfacad.rvkybard.sender;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -41,6 +42,9 @@ public class KybardPressServlet extends HttpServlet
     protected KybardSender kybardSender;
 
     @Autowired
+    protected KybardReader kybardReader;
+
+    @Autowired
     private AuthI authi;
 
     @Override
@@ -55,6 +59,10 @@ public class KybardPressServlet extends HttpServlet
         this.kybardSender = kybardSender;
     }
 
+    public void setKybardReader(KybardReader kybardReader)
+    {
+        this.kybardReader = kybardReader;
+    }
 
     public void setAuthI(AuthI authi)
     {
@@ -80,8 +88,11 @@ public class KybardPressServlet extends HttpServlet
         byte flags = parseFlags(q);
         byte [] keys = parseKeys(q);
         kybardSender.sendKeys(flags,keys);
-        // Read the state of the keyboard lights, send them as json
-        //resp.getWriter();
+        // Read the state of the keyboard LEDs, send them as json list
+        String leds = kybardReader.getCurrentFlags();
+        PrintWriter out = resp.getWriter();
+        out.println(leds);
+        LOG.debug("LED status: {}",leds);
     }
 
     protected byte parseFlags(String queryString)

@@ -20,8 +20,18 @@ const asyncsend = async () => {
     flagsdown.forEach((x)=>{u=u+x+','});
     u=u+'&k=';
     keysdown.forEach((x)=>{u=u+x+','});
-    console.log(u);
+    //console.log(u);
     response = await fetch(u);
+    if ( response.ok )
+    {
+        leds = await response.json();
+        console.log(leds);
+    }
+    else
+    {
+        console.log('not ok');
+    }
+
 }
 function send() {
     asyncsend();
