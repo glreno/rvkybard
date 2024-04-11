@@ -80,6 +80,8 @@ public class KybardPressServlet extends HttpServlet
         byte flags = parseFlags(q);
         byte [] keys = parseKeys(q);
         kybardSender.sendKeys(flags,keys);
+        // Read the state of the keyboard lights, send them as json
+        //resp.getWriter();
     }
 
     protected byte parseFlags(String queryString)

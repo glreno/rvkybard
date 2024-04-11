@@ -23,7 +23,10 @@ http://www.apache.org/licenses/LICENSE-2.0
     <context:annotation-config/>
     <context:spring-configured/>
 
-    <bean id="kybardSender" class="com.rfacad.rvkybard.sender.KybardSender">
+    <bean id="kybardSender" class="com.rfacad.rvkybard.sender.KybardSender" destroy-method="shutdown">
+        <property name='dev' value='/dev/hidg0' />
+    </bean>
+    <bean id="kybardReader" class="com.rfacad.rvkybard.sender.KybardReader" init-method="init" destroy-method="shutdown">
         <property name='dev' value='/dev/hidg0' />
     </bean>
 

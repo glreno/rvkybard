@@ -1,7 +1,9 @@
 package com.rfacad.rvkybard.sender;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.slf4j.Logger;
@@ -54,6 +56,7 @@ public class KybardSender
 
     protected void doClose()
     {
+        LOG.info("Closing stream");
         OutputStream o = out;
         out = null;
         if ( o != null )
@@ -71,7 +74,9 @@ public class KybardSender
 
     public synchronized void shutdown()
     {
+        LOG.info("Shutting down");
         doClose();
+        LOG.info("Shutdown complete");
     }
 
     public synchronized void sendReleaseAllKeys() throws IOException
