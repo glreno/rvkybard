@@ -7,6 +7,8 @@ import java.io.InputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.rfacad.rvkybard.interfaces.KybardLed;
+
 public class KybardReader implements Runnable
 {
     Logger LOG = LoggerFactory.getLogger(KybardReader.class);
@@ -24,6 +26,35 @@ public class KybardReader implements Runnable
     public int getLastRead()
     {
         return lastRead;
+    }
+
+    public String getCurrentFlags()
+    {
+        int b = lastRead;
+        if ( b <= 0 )
+        {
+            return("[]");
+        }
+        StringBuilder buf=new StringBuilder();
+        buf.append('[');
+        boolean first = true;
+        for (KybardLed k : KybardLed.values() )
+        {
+            if ( (k.getBits() & b) != 0 )
+            {
+                if ( first )
+                {
+                    first=false;
+                }
+                else
+                {
+                    buf.append(',');
+                }
+                buf.append(k.toString());
+            }
+        }
+        buf.append(']');
+        return buf.toString();
     }
 
     public void run()
