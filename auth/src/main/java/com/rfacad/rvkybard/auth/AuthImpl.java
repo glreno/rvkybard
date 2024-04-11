@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import javax.servlet.http.Cookie;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,6 +68,27 @@ public class AuthImpl implements AuthI
     {
         return cookiedb!=null && cookiedb.equals(cookie);
     }
+
+    @Override
+    public boolean checkForValidCookie(Cookie [] cookies)
+    {
+        if ( cookies == null )
+        {
+            LOG.trace("No cookies!");
+            return false;
+        }
+        for (Cookie c : cookies)
+        {
+            LOG.trace("Login checking cookie {} = {}",c.getName(),c.getValue());
+            if (COOKIENAME.equals(c.getName()))
+            {
+                return isCookieValid(c.getValue());
+            }
+        }
+        LOG.trace("No matching cookie found in {}",cookies.length);
+        return false;
+    }
+
 
     @Override
     public String login(String pin)

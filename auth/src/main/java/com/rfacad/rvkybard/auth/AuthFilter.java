@@ -62,7 +62,7 @@ public class AuthFilter implements Filter
 
         Cookie[]cookies = httpServletRequest.getCookies();
 
-        if (isCookieValid(authi,cookies))
+        if (authi.checkForValidCookie(cookies))
         {
             LOG.debug("Auth succeeded!");
             chain.doFilter(request, response);
@@ -73,24 +73,5 @@ public class AuthFilter implements Filter
             // Authentication failed! Redirect to login page
             httpServletResponse.sendRedirect(authi.getLoginPageUrl());
         }
-    }
-
-    protected boolean isCookieValid(AuthI authi,Cookie [] cookies)
-    {
-        if ( cookies == null )
-        {
-            LOG.trace("No cookies!");
-            return false;
-        }
-        for (Cookie c : cookies)
-        {
-            LOG.trace("Login checking cookie {} = {}",c.getName(),c.getValue());
-            if (AuthI.COOKIENAME.equals(c.getName()))
-            {
-                return authi.isCookieValid(c.getValue());
-            }
-        }
-        LOG.trace("No matching cookie found in {}",cookies.length);
-        return false;
     }
 }

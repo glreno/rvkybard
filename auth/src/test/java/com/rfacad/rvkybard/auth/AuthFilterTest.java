@@ -1,11 +1,7 @@
 package com.rfacad.rvkybard.auth;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 
@@ -55,7 +51,7 @@ public class AuthFilterTest
     @Before
     public void setup() throws IOException
     {
-        mockAuthi = mock(AuthI.class);
+        mockAuthi = spy(AuthImpl.class);
         AuthS.setAuthI(mockAuthi);
         req = mock(HttpServletRequest.class);
         resp = mock(HttpServletResponse.class);
@@ -66,6 +62,7 @@ public class AuthFilterTest
         doNothing().when(resp).sendRedirect(redirectCaptor.capture());
         // There is one good cookie. All else return false.
         doReturn(true).when(mockAuthi).isCookieValid(CC);
+        doCallRealMethod().when(mockAuthi).checkForValidCookie(any());
         doReturn(LOGINPAGE).when(mockAuthi).getLoginPageUrl();
     }
 

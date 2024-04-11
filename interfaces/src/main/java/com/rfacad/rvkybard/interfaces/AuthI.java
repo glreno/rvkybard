@@ -1,5 +1,7 @@
 package com.rfacad.rvkybard.interfaces;
 
+import javax.servlet.http.Cookie;
+
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
 //
@@ -23,6 +25,13 @@ public interface AuthI
      * @return true if cookie is valid.
      */
     boolean isCookieValid(String cookie);
+
+    /**
+     * Checks to see if the cookie exists and is a currently logged-in session
+     * @param cookies
+     * @return true if cookie is there, and isCookieValid() likes it.
+     */
+    boolean checkForValidCookie(Cookie [] cookies);
 
     /**
      * Attempts to log in, checking pin against stored valid pins
