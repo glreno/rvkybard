@@ -2,9 +2,12 @@ package com.rfacad.rvkybard.auth;
 
 import static org.junit.Assert.*;
 
+import javax.servlet.http.Cookie;
+
 import org.junit.After;
 import org.junit.Test;
 
+import com.rfacad.rvkybard.interfaces.AuthI;
 import com.rfacad.rvkybard.interfaces.AuthS;
 
 //
@@ -48,6 +51,10 @@ public class AuthImplTest
         assertFalse(a.isCookieValid("68000"));
         assertFalse(a.isCookieValid("6502"));
         assertFalse(a.isCookieValid("8080"));
+        assertFalse(a.checkForValidCookie(null));
+        assertFalse(a.checkForValidCookie(new Cookie[0]));
+        assertFalse(a.checkForValidCookie(new Cookie[] {new Cookie("foo","bar") }));
+        assertFalse(a.checkForValidCookie(new Cookie[] {new Cookie("foo","bar"), new Cookie(AuthI.COOKIENAME,"68000") }));
     }
 
     @Test
@@ -62,13 +69,16 @@ public class AuthImplTest
         String c1 = a1.login("8080");
         assertNotNull(c1);
         assertTrue(a1.isCookieValid(c1));
+        assertTrue(a1.checkForValidCookie(new Cookie[] {new Cookie("foo","bar"), new Cookie(AuthI.COOKIENAME,c1) }));
 
         assertNull(a2.login("8080"));
         String c2 = a2.login("68000");
         assertNotNull(c2);
         assertTrue(a2.isCookieValid(c2));
+        assertTrue(a2.checkForValidCookie(new Cookie[] {new Cookie("foo","bar"), new Cookie(AuthI.COOKIENAME,c2) }));
 
         // Make sure those cookies are different!
+        // It is POSSIBLE that a1.randy and a2.randy have the same seed, and will generate the same random cookie. But not very likely.
         assertFalse(a1.isCookieValid(c2));
         assertFalse(a2.isCookieValid(c1));
     }

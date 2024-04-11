@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 
+import com.rfacad.rvkybard.interfaces.AuthI;
 import com.rfacad.rvkybard.interfaces.KybardCode;
 import com.rfacad.rvkybard.interfaces.KybardFlag;
 
@@ -110,10 +111,13 @@ public class KybardPressServletTest
         byte expectedFlags = KybardFlag.LEFT_SHIFT.getBits();
         byte [] expectedKeys = { KybardCode.KB_B.getCode(), KybardCode.KB_X.getCode() };
         KybardSender mockSender = mock(KybardSender.class);
+        AuthI mockAuth = mock(AuthI.class);
+        doReturn(true).when(mockAuth).checkForValidCookie(any());
 
         KybardPressServlet kps = new KybardPressServlet();
         kps.init();
         kps.setKybardSender(mockSender);
+        kps.setAuthI(mockAuth);
 
         HttpServletResponse resp = mock(HttpServletResponse.class);
         HttpServletRequest req = mock(HttpServletRequest.class);
@@ -124,5 +128,31 @@ public class KybardPressServletTest
 
         verify(mockSender).sendKeys(expectedFlags,expectedKeys);
         verify(mockSender).shutdown();
+        verify(resp,times(0)).sendError(anyInt());
     }
+
+    @Test
+    public void shouldRejectBadCookie() throws ServletException, IOException
+    {
+        KybardSender mockSender = mock(KybardSender.class);
+        AuthI mockAuth = mock(AuthI.class);
+        doReturn(false).when(mockAuth).checkForValidCookie(any());
+
+        KybardPressServlet kps = new KybardPressServlet();
+        kps.init();
+        kps.setKybardSender(mockSender);
+        kps.setAuthI(mockAuth);
+
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        when(req.getQueryString()).thenReturn("f=LEFT_SHIFT,k=b,x");
+        kps.doGet(req,resp);
+
+        kps.destroy();
+
+        verify(mockSender,times(0)).sendKeys(anyByte(),any());
+        verify(mockSender).shutdown();
+        verify(resp,times(1)).sendError(401);
+    }
+
 }

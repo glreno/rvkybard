@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import com.rfacad.rvkybard.interfaces.AuthI;
 import com.rfacad.rvkybard.interfaces.KybardCode;
 import com.rfacad.rvkybard.interfaces.KybardFlag;
 
@@ -38,6 +40,9 @@ public class KybardPressServlet extends HttpServlet
     @Autowired
     protected KybardSender kybardSender;
 
+    @Autowired
+    private AuthI authi;
+
     @Override
     public void init(ServletConfig config) throws ServletException
     {
@@ -50,6 +55,12 @@ public class KybardPressServlet extends HttpServlet
         this.kybardSender = kybardSender;
     }
 
+
+    public void setAuthI(AuthI authi)
+    {
+        this.authi = authi;
+    }
+
     @Override
     public void destroy() 
     {
@@ -59,6 +70,12 @@ public class KybardPressServlet extends HttpServlet
     @Override
     protected void doGet( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
+        Cookie [] cookies = req.getCookies();
+        if ( ! authi.checkForValidCookie(cookies) )
+        {
+            resp.sendError(401);
+            return;
+        }
         String q = req.getQueryString();
         byte flags = parseFlags(q);
         byte [] keys = parseKeys(q);
@@ -72,17 +89,19 @@ public class KybardPressServlet extends HttpServlet
         byte ret = 0;
         for(String k : keys)
         {
-            try
+            if ( ! k.isEmpty() )
             {
-                KybardFlag kf = KybardFlag.valueOf(k);
-                ret |= kf.getBits();
-            
-            }
-            catch (IllegalArgumentException e)
-            {
-                LOG.info("Invalid modifier key '{0}'",k);
-                // any not-found keys will be zeroes at the end of the array,
-                // which will be dutifully sent, and ignore by the keyboard driver.
+                try
+                {
+                    KybardFlag kf = KybardFlag.valueOf(k);
+                    ret |= kf.getBits();
+                }
+                catch (IllegalArgumentException e)
+                {
+                    LOG.warn("Invalid modifier key '{}'",k);
+                    // any not-found keys will be zeroes at the end of the array,
+                    // which will be dutifully sent, and ignore by the keyboard driver.
+                }
             }
         }
         return ret;
@@ -97,17 +116,19 @@ public class KybardPressServlet extends HttpServlet
         int i=0;
         for(String k : keys)
         {
-            try
+            if ( ! k.isEmpty() )
             {
-                KybardCode kc = KybardCode.lookup(k);
-                ret[i++]=kc.getCode();
-            
-            }
-            catch (IllegalArgumentException e)
-            {
-                LOG.info("Invalid key '{0}'",k);
-                // any not-found keys will be zeroes at the end of the array,
-                // which will be dutifully sent, and ignore by the keyboard driver.
+                try
+                {
+                    KybardCode kc = KybardCode.lookup(k);
+                    ret[i++]=kc.getCode();
+                }
+                catch (IllegalArgumentException e)
+                {
+                    LOG.warn("Invalid key '{}'",k);
+                    // any not-found keys will be zeroes at the end of the array,
+                    // which will be dutifully sent, and ignore by the keyboard driver.
+                }
             }
         }
         return ret;
