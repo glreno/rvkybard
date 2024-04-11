@@ -2,8 +2,11 @@
     pageEncoding="US-ASCII"%>
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
-    // Page title, and keyboard size in cells. 4 keys * 3 cells wide, 5 keys * 3 cells high
-    KybardJspHelper kb=new KybardJspHelper(out,"A Keypad",4*3,5*3,null);
+    // Page title, and keyboard size in cells. 4 keys * 3 cells wide, 5 keys * 3 + 1 cells high
+    // (extra row for contact & numlock lights)
+    KybardJspHelper kb=new KybardJspHelper(out,"A Keypad",4*3,5*3+1,null);
+    kb.setMouseMode(false);
+
     // Default key SVG and size (in cell spans)
     kb.setDefaultSvg("numeric/keys/key.svgt",3,3,"FS=48");
     String KP="numeric/keys/keypad.svgt";
@@ -13,8 +16,21 @@
 <!-- custom styles go here -->
 <style>
 .kybard-container {
-  background-color: #2196F3;
+  background-color: #888888;
 }
+.NUMLOCK-LED-ON {
+  color: #f9d465;
+}
+.CONTACT-LED-ON {
+  color: #f9d465;
+}
+.CONTACT-LED-OFF {
+  color: #aaa;
+}
+.NUMLOCK-LED-OFF {
+  color: #aaa;
+}
+
 </style>
 <script type="text/javascript" language="javascript">
     // custom javascript goes here
@@ -62,6 +78,12 @@
     kb.startRow();
     kb.key("0","KP_0",6,3,null,null,"",KP,"S=Insert","W=132");
     kb.key(".","KP_DOT",3,3,null,null,"",KP,"S=Del");
+    kb.endRow();
+
+    kb.startRow();
+    kb.notKey("NUMLOCK-LED",4,1,"numlock");
+    kb.spacer(5);
+    kb.notKey("CONTACT-LED",3,1,"contact");
     kb.endRow();
 
     //

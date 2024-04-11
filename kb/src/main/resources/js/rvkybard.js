@@ -25,11 +25,16 @@ const asyncsend = async () => {
     if ( response.ok )
     {
         leds = await response.json();
-        console.log(leds);
+        //console.log(leds);
+        for (const [key, value] of Object.entries(leds)) {
+            setLedClass(key+'-LED',value);
+        }
+        setLedClass('CONTACT-LED',true);
     }
     else
     {
-        console.log('not ok');
+        console.log('contact lost');
+        setLedClass('CONTACT-LED',false);
     }
 
 }
@@ -156,3 +161,24 @@ function keyUpRemap(elem,key,shifted,ctrl) {
     keysdown.delete(ctrl);
     send();
 }
+function setLedClass(baseclass,on) {
+    //console.log('Setting '+baseclass+' to '+on);
+    const elems = document.getElementsByClassName(baseclass);
+    for (let i = 0; i < elems.length; i++)
+    {
+        //console.log(i+" Classes "+[...elems[i].classList]);
+        if ( on )
+        {
+            elems[i].classList.remove(baseclass+'-OFF');
+            elems[i].classList.add(baseclass+'-ON');
+        }
+        else
+        {
+            elems[i].classList.add(baseclass+'-OFF');
+            elems[i].classList.remove(baseclass+'-ON');
+        }
+        //console.log(i+" now    "+[...elems[i].classList]);
+    }
+
+}
+

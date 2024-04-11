@@ -281,15 +281,7 @@ public class KybardJspHelper
         try
         {
             StringBuilder buf = new StringBuilder();
-            buf.append("<div class='key' style='grid-area: "); // y/x/span r/span c;'>5</div>
-            buf.append(y);
-            buf.append("/");
-            buf.append(x);
-            buf.append("/span ");
-            buf.append(rowspan);
-            buf.append("/span ");
-            buf.append(colspan);
-            buf.append(";'>");
+            divstyle(buf, "key", colspan, rowspan);
             buf.append("<button type='button' class='kbbutton");
             if ( cssClass != null && !cssClass.isEmpty() )
             {
@@ -306,17 +298,6 @@ public class KybardJspHelper
             buf.append(up);
             buf.append('"');
 
-/*
-            buf.append(" onmousedown=");
-            buf.append('"');
-            buf.append(down);
-            buf.append('"');
-            buf.append(" onmouseup=");
-            buf.append('"');
-            buf.append(up);
-            buf.append('"');
-*/
-
             buf.append(' ');
             buf.append(">");
             out.write(buf.toString());
@@ -329,6 +310,20 @@ public class KybardJspHelper
             handleException(e);
         }
         x += colspan;
+    }
+    private void divstyle(StringBuilder buf, String classes, int colspan, int rowspan)
+    {
+        buf.append("<div class='");
+        buf.append(classes);
+        buf.append("' style='grid-area: "); // y/x/span r/span c;'>5</div>
+        buf.append(y);
+        buf.append("/");
+        buf.append(x);
+        buf.append("/span ");
+        buf.append(rowspan);
+        buf.append("/span ");
+        buf.append(colspan);
+        buf.append(";'>");
     }
 
     protected void embedSvg(String name, String svgTemplateFn, Map<String,Object> keyParams, String[] svgParams) throws IOException
@@ -343,6 +338,23 @@ public class KybardJspHelper
             params.putAll(templateProcessor.parseParams(svgParams));
             templateProcessor.processStream(fn, rsrc, out, params);
         }
+    }
+
+    public void notKey(String cssClass,int colspan,int rowspan,String html)
+    {
+        try
+        {
+            StringBuilder buf = new StringBuilder();
+            divstyle(buf, cssClass, colspan, rowspan);
+            buf.append(html);
+            buf.append("</div>");
+            println(buf.toString());
+        }
+        catch (IOException e) {
+            handleException(e);
+        }
+        x += colspan;
+
     }
 
     /** End a row for the keyboard, i.e., </tr> */

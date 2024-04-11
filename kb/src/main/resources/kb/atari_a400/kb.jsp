@@ -25,6 +25,18 @@
 .kybard-container {
     background-color: rgb(67,67,67);
 };
+.CONTACT-LED-ON {
+  color: #CF8710;
+}
+.CONTACT-LED-OFF {
+  color: #AAA;
+}
+.CAPSLOCK-LED-ON {
+  color: #CF8710;
+}
+.CAPSLOCK-LED-OFF {
+  color: #AAA;
+}
 </style>
 <script type="text/javascript" language="javascript">
     // custom javascript goes here
@@ -129,6 +141,10 @@
     kb.spacer(10);
     kb.key("","KB_SPACE",26,3,null,null,"",null);
     kb.key("CTRL","RIGHT_CTRL",4,3,kb.SHIFT,kb.SHIFT,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
+    kb.notKey("CAPSLOCK-LED",3,1,"caps");
+    kb.spacer(3);
+    kb.notKey("CONTACT-LED",3,1,"contact");
+
     kb.endRow();
 
     //
