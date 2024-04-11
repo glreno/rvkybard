@@ -52,26 +52,32 @@ public class AuthServlet extends HttpServlet
     @Override
     protected void doPost( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        resp.addHeader("Location", "/");
-        resp.setStatus(401);
         String pin = req.getParameter(AuthI.PINNAME);
-        LOG.info("Attempting login "+pin);
-        if ( authi != null )
+        LOG.trace("Attempting login "+pin);
+        if ( authi == null )
+        {
+            LOG.error("Login attempt before Auth started");
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+        }
+        else
         {
             String s = authi.login(pin);
             if ( s != null )
             {
-                LOG.info("Successful login "+s);
+                LOG.debug("Successful login");
                 Cookie cookie = new Cookie(AuthI.COOKIENAME,s);
                 int seconds = 60*60; // an hour
                 cookie.setMaxAge(seconds);
                 cookie.setHttpOnly(true);
                 cookie.setPath("/");
                 resp.addCookie(cookie);
-                resp.setStatus(303);
+                resp.sendRedirect("/");
                 return;
             }
         }
-        LOG.error("Unsuccessful login with pin "+pin);
+        LOG.error("Unsuccessful login attempt");
+        LOG.trace("Unsuccessful login with pin "+pin);
+        resp.sendRedirect(authi.getLoginPageUrl());
     }
 }

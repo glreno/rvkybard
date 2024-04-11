@@ -36,4 +36,9 @@ public interface AuthI
      * @param cookie
      */
     void logout(String cookie);
+
+    /**
+     * @return the relative URL of the login page
+     */
+    String getLoginPageUrl();
 }

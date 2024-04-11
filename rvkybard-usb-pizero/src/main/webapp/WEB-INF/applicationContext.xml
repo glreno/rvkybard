@@ -29,6 +29,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 
     <bean id="auth" class="com.rfacad.rvkybard.auth.AuthImpl" init-method = "init">
         <property name='pinFile' value='/var/lib/rvkybard/pin' />
+        <property name='loginPageUrl' value='/login.html' />
     </bean>
 
 </beans>

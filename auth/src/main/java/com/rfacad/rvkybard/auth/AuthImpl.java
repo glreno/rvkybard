@@ -28,6 +28,7 @@ public class AuthImpl implements AuthI
 
     private String pindb = null;
     private String cookiedb = null;
+    private String loginPageUrl = "/login.jsp";
     private Random randy = new SecureRandom();
 
     public void setPinFile(String fn)
@@ -44,9 +45,19 @@ public class AuthImpl implements AuthI
         }
     }
 
+    public void setLoginPageUrl(String loginPageUrl)
+    {
+        this.loginPageUrl=loginPageUrl;
+    }
+    @Override
+    public String getLoginPageUrl()
+    {
+        return loginPageUrl;
+    }
+
     public void init()
     {
-        LOG.info("Auth bean starting");
+        LOG.debug("Auth bean starting");
         AuthS.setAuthI(this);
     }
 
@@ -63,7 +74,7 @@ public class AuthImpl implements AuthI
         {
             return null;
         }
-        LOG.info("Logged in");
+        LOG.debug("Logged in");
         // OK, it's good. Log them in by generating a cookie
         // NOTE: We only store one cookie, so this WILL log someone else out
         logout(cookiedb);
@@ -75,7 +86,7 @@ public class AuthImpl implements AuthI
     @Override
     public void logout(String cookie)
     {
-        LOG.info("Logged out "+cookie);
+        LOG.debug("Logged out "+cookie);
         cookiedb=null;
     }
 

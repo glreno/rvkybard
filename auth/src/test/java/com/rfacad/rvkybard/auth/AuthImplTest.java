@@ -32,7 +32,9 @@ public class AuthImplTest
         assertNull(AuthS.getAuthI());
         AuthImpl a = new AuthImpl();
         a.init();
+        a.setLoginPageUrl("foo");
         assertEquals(a,AuthS.getAuthI());
+        assertEquals("foo",AuthS.getAuthI().getLoginPageUrl());
     }
 
     @Test
