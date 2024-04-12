@@ -33,7 +33,7 @@
 <rect fill='@{TXTC}' x='@{W/2+P*4}' y='@{H*2/3+P*22}' width='1' height='1'/>
 
 <!-- radar -->
-<circle r='@{W*.25}' cx='@{W/2}' cy='@{H*2/3}' style='stroke:@{SHFBGC};stroke-width=1;fill:none' />
+<circle r='@{W*.25}' cx='@{W/2}' cy='@{H*2/3}' style='stroke:@{SHFBGC};stroke-width:1;fill:none' />
 
 <g transform='translate(@{W/2},@{H*2/3})'><g transform='rotate(21)'><polygon points="
      0,0

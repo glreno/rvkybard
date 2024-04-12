@@ -22,21 +22,21 @@
 <text x="@{W/2}" y="@{H/4-FS2*.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S2}</text>
 
 <!-- big crosshair : center is W*.5, H*.65-->
-<line x1='@{W*.2}', y1='@{H*.65}' x2='@{W*.4}' y2='@{H*.65}' style='stroke:@{TXTC};stroke-width:@{P*5}' />
-<line x1='@{W*.6}', y1='@{H*.65}' x2='@{W*.8}' y2='@{H*.65}' style='stroke:@{TXTC};stroke-width:@{P*5}' />
+<line x1='@{W*.2}' y1='@{H*.65}' x2='@{W*.4}' y2='@{H*.65}' style='stroke:@{TXTC};stroke-width:@{P*5};' />
+<line x1='@{W*.6}' y1='@{H*.65}' x2='@{W*.8}' y2='@{H*.65}' style='stroke:@{TXTC}; stroke-width:@{P*5};' />
 
-<line x1='@{W/2}', y1='@{H*.4}' x2='@{W/2}' y2='@{H*.55}' style='stroke:@{TXTC};stroke-width:@{P*5}' />
-<line x1='@{W/2}', y1='@{H*.75}' x2='@{W/2}' y2='@{H*.9}' style='stroke:@{TXTC};stroke-width:@{P*5}' />
+<line x1='@{W/2}' y1='@{H*.4}' x2='@{W/2}' y2='@{H*.55}' style='stroke:@{TXTC}; stroke-width:@{P*5};' />
+<line x1='@{W/2}' y1='@{H*.75}' x2='@{W/2}' y2='@{H*.9}' style='stroke:@{TXTC}; stroke-width:@{P*5};' />
 
 <!-- little crosshair : center is W*.5, H*.65-->
-<line x1='@{W*.5-5*P}', y1='@{H*.65-5*P}' x2='@{W*.4}' y2='@{H*.65-5*P}' style='stroke:@{TXTC};stroke-width:@{P}' />
-<line x1='@{W*.5-5*P}', y1='@{H*.65-5*P}' x2='@{W*.5-5*P}' y2='@{H*.55}' style='stroke:@{TXTC};stroke-width:@{P}' />
-<line x1='@{W*.5+5*P}', y1='@{H*.65-5*P}' x2='@{W*.6}' y2='@{H*.65-5*P}' style='stroke:@{TXTC};stroke-width:@{P}' />
-<line x1='@{W*.5+5*P}', y1='@{H*.65-5*P}' x2='@{W*.5+5*P}' y2='@{H*.55}' style='stroke:@{TXTC};stroke-width:@{P}' />
+<line x1='@{W*.5-5*P}' y1='@{H*.65-5*P}' x2='@{W*.4}' y2='@{H*.65-5*P}' style='stroke:@{TXTC}; stroke-width:@{P};' />
+<line x1='@{W*.5-5*P}' y1='@{H*.65-5*P}' x2='@{W*.5-5*P}' y2='@{H*.55}' style='stroke:@{TXTC}; stroke-width:@{P};' />
+<line x1='@{W*.5+5*P}' y1='@{H*.65-5*P}' x2='@{W*.6}' y2='@{H*.65-5*P}' style='stroke:@{TXTC}; stroke-width:@{P};' />
+<line x1='@{W*.5+5*P}' y1='@{H*.65-5*P}' x2='@{W*.5+5*P}' y2='@{H*.55}' style='stroke:@{TXTC}; stroke-width:@{P};' />
 
-<line x1='@{W*.5-5*P}', y1='@{H*.65+5*P}' x2='@{W*.4}' y2='@{H*.65+5*P}' style='stroke:@{TXTC};stroke-width:@{P}' />
-<line x1='@{W*.5-5*P}', y1='@{H*.65+5*P}' x2='@{W*.5-5*P}' y2='@{H*.75}' style='stroke:@{TXTC};stroke-width:@{P}' />
-<line x1='@{W*.5+5*P}', y1='@{H*.65+5*P}' x2='@{W*.6}' y2='@{H*.65+5*P}' style='stroke:@{TXTC};stroke-width:@{P}' />
-<line x1='@{W*.5+5*P}', y1='@{H*.65+5*P}' x2='@{W*.5+5*P}' y2='@{H*.75}' style='stroke:@{TXTC};stroke-width:@{P}' />
+<line x1='@{W*.5-5*P}' y1='@{H*.65+5*P}' x2='@{W*.4}' y2='@{H*.65+5*P}' style='stroke:@{TXTC}; stroke-width:@{P};' />
+<line x1='@{W*.5-5*P}' y1='@{H*.65+5*P}' x2='@{W*.5-5*P}' y2='@{H*.75}' style='stroke:@{TXTC}; stroke-width:@{P};' />
+<line x1='@{W*.5+5*P}' y1='@{H*.65+5*P}' x2='@{W*.6}' y2='@{H*.65+5*P}' style='stroke:@{TXTC}; stroke-width:@{P};' />
+<line x1='@{W*.5+5*P}' y1='@{H*.65+5*P}' x2='@{W*.5+5*P}' y2='@{H*.75}' style='stroke:@{TXTC}; stroke-width:@{P};' />
 
 </svg>
