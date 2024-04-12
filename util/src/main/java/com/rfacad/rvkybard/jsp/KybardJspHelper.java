@@ -46,6 +46,8 @@ public class KybardJspHelper
     private int gridGap=2;
     private int gridCols;
     private int gridRows;
+    private int menuCols;
+    private int menuRows;
 
     private int x=1;
     private int y=1;
@@ -61,6 +63,8 @@ public class KybardJspHelper
         this.out = out;
         this.gridCols=gridCols;
         this.gridRows=gridRows;
+        this.menuCols=5*3;
+        this.menuRows=gridRows-1;
         top = new File("webapps/ROOT/kb"); // TODO we are assuming that we are running under Tomcat as the ROOT webapp!
         templateProcessor.loadDefault("TITLE", title);
         calculateDefaultSizes();
@@ -139,12 +143,16 @@ public class KybardJspHelper
         templateProcessor.loadDefault("P",pixelSize);
         templateProcessor.loadDefault("gridRows",gridRows);
         templateProcessor.loadDefault("gridCols",gridCols);
+        templateProcessor.loadDefault("menuRows",menuRows);
+        templateProcessor.loadDefault("menuCols",menuCols);
         templateProcessor.loadDefault("gridGap",gridGap);
         templateProcessor.loadDefault("stdW",(cellW+gridGap)*keyColSpan - gridGap);
         templateProcessor.loadDefault("stdH",(cellH+gridGap)*keyRowSpan - gridGap);
         // The kbd pixel sizes are two gridGaps larger than they should be, to allow some overflows from the buttons
         templateProcessor.loadDefault("kbdW",(cellW+gridGap)*gridCols + gridGap);
         templateProcessor.loadDefault("kbdH",(cellH+gridGap)*gridRows + gridGap);
+        templateProcessor.loadDefault("menuW",(cellW+gridGap)*menuCols + gridGap);
+        templateProcessor.loadDefault("menuH",(cellH+gridGap)*menuRows + gridGap);
         templateProcessor.loadDefault("stdColSpan",keyColSpan);
         templateProcessor.loadDefault("stdRowSpan",keyRowSpan);
     }
@@ -187,15 +195,29 @@ public class KybardJspHelper
     }
 
     /** The end of the header HTML, and the beginning of the keyboard.
-     * Basically </head><body><table>
+     * Basically <table>
      */
     public void startKeyboard()
+    {
+        startKeyboard("kybard-container","kybard-main");
+    }
+    /** Menu is just another keyboard, but with a different class. Follow startMenu() with key definitions,
+     * including the all important one calling closeMenu(), and then finally endKeyboard() */ 
+    public void startMenu()
+    {
+        // this calculation has to be in the ctor to get the numbers into the top style
+        calculateDefaultSizes();
+
+        startKeyboard("kybard-menu-container","kybard-menu");
+    }
+
+    public void startKeyboard(String classes, String id)
     {
         x=1;
         y=1;
         try
         {
-            println("<div class='kybard-container' >");
+            println("<div class='"+classes+"' id='"+id+"' >");
         }
         catch (IOException e) {
             handleException(e);

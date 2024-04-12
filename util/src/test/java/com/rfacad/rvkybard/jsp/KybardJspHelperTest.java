@@ -99,7 +99,17 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.startKeyboard();
         String s = out.toString();
-        assertEquals("<div class='kybard-container' >\n",s);
+        assertEquals("<div class='kybard-container' id='kybard-main' >\n",s);
+    }
+
+    @Test
+    public void shouldWriteStartMenu()
+    {
+        StringWriter out = new StringWriter();
+        KybardJspHelper h = new KybardJspHelper(out, "", "");
+        h.startMenu();
+        String s = out.toString();
+        assertEquals("<div class='kybard-menu-container' id='kybard-menu' >\n",s);
     }
 
     @Test
@@ -114,6 +124,23 @@ public class KybardJspHelperTest
         String s = out.toString();
         assertEquals("",s);
         assertEquals(1,h.getX());
+    }
+
+    @Test
+    public void shouldWriteNonKey()
+    {
+        StringWriter out = new StringWriter();
+        KybardJspHelper h = new KybardJspHelper(out, "", "");
+        h.setTop(TOP);
+        h.setDefaultSvg("numeric/keys/key.svgt", 6, 2);
+        h.setX(5);
+        h.setY(4);
+        h.notKey("foo", 6, 2, "bar");
+        String s = out.toString();
+        System.err.println(s);
+        assertEquals("<div class='foo' style='grid-area: 4/5/span 2/span 6;'>bar</div>",s.substring(0, 64));
+        assertFalse(s,s.contains("ontouchstart="));
+        assertFalse(s,s.contains("ontouchend="));
     }
 
     @Test

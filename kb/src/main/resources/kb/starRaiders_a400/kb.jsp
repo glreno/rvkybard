@@ -3,6 +3,7 @@
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"Star Raiders",11*3+3,5*3+2,null);
+    kb.setMouseMode(false);
 
     // Standard colours
     String BACKCOLOR= "#434343"; // 67,67,67
@@ -22,7 +23,10 @@
 <style>
 .kybard-container {
     background-color: rgb(67,67,67);
-};
+}
+.kybard-menu-container {
+    background-color: rgb(98,48,48);
+}
 </style>
 <script type="text/javascript" language="javascript">
     // custom javascript goes here
@@ -93,5 +97,27 @@
     // Keyboard is finished
     //
     kb.endKeyboard();
+
+    // Now the popup menu
+    kb.startMenu();
+    kb.startRow();
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(10);
+    kb.key("X","x",4,3,"doNothing()","closeMenu()","",D1+"key2.svgt","S=Close");
+    kb.endRow();
+    kb.startRow();
+    // blank row
+    kb.endRow();
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("M","m",7,3,"doNothing()","mainMenu()","",D1+"key2.svgt","S=Main Menu");
+    kb.endRow();
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("L","l",7,3,"doNothing()","doLogout()","",D1+"key2.svgt","S=Logout");
+    kb.endRow();
+    kb.endKeyboard();
+
     kb.endHtml();
 %>

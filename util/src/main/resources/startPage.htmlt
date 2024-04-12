@@ -25,11 +25,26 @@ http://www.apache.org/licenses/LICENSE-2.0
 <style>
 .kybard-container {
   display: grid;
-  
   grid-template-columns: repeat(@{gridCols}, @{cellW}px);
   grid-template-rows: repeat(@{gridRows}, @{cellH}px);
   gap: @{gridGap}px;
   width: @{kbdW}px;
   height: @{kbdH}px;
+  z-index: 0;
+}
+</style>
+<style>
+.kybard-menu-container {
+  display: grid;
+  grid-template-columns: repeat(@{menuCols}, @{cellW}px);
+  grid-template-rows: repeat(@{menuRows}, @{cellH}px);
+  gap: @{gridGap}px;
+  width: @{menuW}px;
+  height: @{menuH}px;
+  position:absolute;
+  left:@{kbdW/2-menuW/2}px;
+  top:@{cellH}px;
+  z-index: -10;
+  visibility:hidden;
 }
 </style>

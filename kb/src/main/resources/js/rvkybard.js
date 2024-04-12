@@ -20,12 +20,12 @@ const asyncsend = async () => {
     flagsdown.forEach((x)=>{u=u+x+','});
     u=u+'&k=';
     keysdown.forEach((x)=>{u=u+x+','});
-    //console.log(u);
+    console.log(u);
     response = await fetch(u);
     if ( response.ok )
     {
         leds = await response.json();
-        //console.log(leds);
+        console.log(leds);
         for (const [key, value] of Object.entries(leds)) {
             setLedClass(key+'-LED',value);
         }
@@ -33,7 +33,7 @@ const asyncsend = async () => {
     }
     else
     {
-        console.log('contact lost');
+        console.log('not ok');
         setLedClass('CONTACT-LED',false);
     }
 
@@ -64,7 +64,39 @@ function panic() {
 }
 // send 'all keys up' and post a menu
 function menu() {
-    panic();
+    const menu = document.getElementById('kybard-menu');
+    console.log('Opening menu');
+    menu.style.visibility='visible';
+    menu.style.zIndex=10;
+    const kbd = document.getElementById('kybard-main');
+    kbd.enabled=false;
+}
+function closeMenu() {
+    const menu = document.getElementById('kybard-menu');
+    console.log('Closing menu');
+    menu.style.visibility='hidden';
+    menu.style.zIndex=-10;
+    const kbd = document.getElementById('kybard-main');
+    kbd.enabled=true;
+}
+function mainMenu() {
+    console.log('Going to main menu');
+    window.location.replace("/");
+}
+const asynclogout = async () => {
+    // issue a logout to /l --- any GET is a logout
+    let u='../../l';
+    console.log(u);
+    response = await fetch(u);
+    console.log( response.ok )
+    mainMenu();
+}
+function doLogout() {
+    console.log('Logging out');
+    asynclogout();
+}
+function doNothing()
+{
 }
 function flagDown(elem,key) {
     //console.log('Down:'+key);
@@ -162,22 +194,22 @@ function keyUpRemap(elem,key,shifted,ctrl) {
     send();
 }
 function setLedClass(baseclass,on) {
-    //console.log('Setting '+baseclass+' to '+on);
+    console.log('Setting '+baseclass+' to '+on);
     const elems = document.getElementsByClassName(baseclass);
     for (let i = 0; i < elems.length; i++)
     {
-        //console.log(i+" Classes "+[...elems[i].classList]);
+        console.log(i+" Classes "+[...elems[i].classList]);
         if ( on )
-        {
+        {       
             elems[i].classList.remove(baseclass+'-OFF');
             elems[i].classList.add(baseclass+'-ON');
         }
         else
-        {
+        {       
             elems[i].classList.add(baseclass+'-OFF');
             elems[i].classList.remove(baseclass+'-ON');
         }
-        //console.log(i+" now    "+[...elems[i].classList]);
+        console.log(i+" now    "+[...elems[i].classList]);
     }
 
 }

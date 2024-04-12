@@ -50,6 +50,17 @@ public class AuthServlet extends HttpServlet
     }
 
     @Override
+    protected void doGet( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+        // ANY get is a log out. That'll show 'em.
+        // I mean, really it should just log out the provided cookie.
+        // But since the goal of all this is to maintain only a SINGLE active user,
+        // I can just log out everybody.
+        LOG.debug("Logging out!");
+        authi.logout("");
+    }
+
+    @Override
     protected void doPost( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         String pin = req.getParameter(AuthI.PINNAME);
