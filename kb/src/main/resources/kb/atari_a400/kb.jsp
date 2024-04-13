@@ -17,6 +17,7 @@
     String KN="atari/keys/key2.svgt";
     String K3="atari/keys/key3.svgt";
     String KA="atari/keys/keyAtari.svgt";
+    String DA="atari/keys/";
 
     kb.startHtml();
 %>
@@ -24,7 +25,10 @@
 <style>
 .kybard-container {
     background-color: rgb(67,67,67);
-};
+}
+.kybard-menu-container {
+    background-color: rgb(98,48,48);
+}
 .CONTACT-LED-ON {
   color: #CF8710;
 }
@@ -151,5 +155,27 @@
     // Keyboard is finished
     //
     kb.endKeyboard();
+
+    // Now the popup menu
+    kb.startMenu();
+    kb.startRow();
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(10);
+    kb.key("X","x",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close");
+    kb.endRow();
+    kb.startRow();
+    // blank row
+    kb.endRow();
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("M","m",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu");
+    kb.endRow();
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("L","l",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout");
+    kb.endRow();
+    kb.endKeyboard();
+
     kb.endHtml();
 %>

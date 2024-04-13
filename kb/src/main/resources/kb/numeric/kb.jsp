@@ -10,6 +10,7 @@
     // Default key SVG and size (in cell spans)
     kb.setDefaultSvg("numeric/keys/key.svgt",3,3,"FS=48");
     String KP="numeric/keys/keypad.svgt";
+    String DA="atari/keys/";
 
     kb.startHtml();
 %>
@@ -17,6 +18,9 @@
 <style>
 .kybard-container {
   background-color: #888888;
+}
+.kybard-menu-container {
+    background-color: rgb(98,48,48);
 }
 .NUMLOCK-LED-ON {
   color: #f9d465;
@@ -90,5 +94,27 @@
     // Keyboard is finished
     //
     kb.endKeyboard();
+
+    // Now the popup menu
+    kb.startMenu();
+    kb.startRow();
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(10);
+    kb.key("X","x",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close");
+    kb.endRow();
+    kb.startRow();
+    // blank row
+    kb.endRow();
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("M","m",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu");
+    kb.endRow();
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("L","l",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout");
+    kb.endRow();
+    kb.endKeyboard();
+
     kb.endHtml();
 %>

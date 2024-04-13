@@ -4,6 +4,7 @@
 <%
     // Page title, and keyboard size in cells. 4 keys * 3 cells wide, 5 keys * 3 cells high
     KybardJspHelper kb=new KybardJspHelper(out,"Atari Keypad",4*3+3,4*3+2,null);
+    kb.setMouseMode(false);
     // Standard colours
     String BACKCOLOR= "#434343"; // 67,67,67
     String KEYCOLOR=  "#776047"; // 119,96,71
@@ -15,6 +16,7 @@
     kb.setDefaultSvg("atari/keys/key3.svgt",3,3,"FS=48","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR,"CTLBGC="+CTRLCOLOR,"FIXSY=0","FIXLY=0");
     String KP="atari/keys/key2.svgt";
     String K="atari/keys/key.svgt";
+    String DA="atari/keys/";
 
     kb.startHtml();
 %>
@@ -22,6 +24,9 @@
 <style>
 .kybard-container {
   background-color: rgb(67,67,67);
+}
+.kybard-menu-container {
+    background-color: rgb(98,48,48);
 }
 </style>
 <script type="text/javascript" language="javascript">
@@ -76,5 +81,27 @@
     // Keyboard is finished
     //
     kb.endKeyboard();
+
+    // Now the popup menu
+    kb.startMenu();
+    kb.startRow();
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(10);
+    kb.key("X","x",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close");
+    kb.endRow();
+    kb.startRow();
+    // blank row
+    kb.endRow();
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("M","m",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu");
+    kb.endRow();
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("L","l",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout");
+    kb.endRow();
+    kb.endKeyboard();
+
     kb.endHtml();
 %>

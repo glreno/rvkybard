@@ -3,6 +3,7 @@
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"Star Raiders",11*3+3,5*3+2,null);
+    kb.setMouseMode(false);
 
     // Standard colours
     String BACKCOLOR= "#434343"; // 67,67,67
@@ -13,6 +14,7 @@
     String CTRLCOLORD="255,198,64";
 
     // Default key SVG and size
+    String DA="atari/keys/";
     String D1="atari/keys/";
     String D2="starRaiders/keys/";
     kb.setDefaultSvg(D1+"key.svgt",3,3,"FS=48","FS2=16","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR,"CTLBGC="+CTRLCOLOR,"CTRLCOLORD="+CTRLCOLORD,"FIXSY=0","FIXLY=0");
@@ -22,7 +24,10 @@
 <style>
 .kybard-container {
     background-color: rgb(67,67,67);
-};
+}
+.kybard-menu-container {
+    background-color: rgb(98,48,48);
+}
 </style>
 <script type="text/javascript" language="javascript">
     // custom javascript goes here
@@ -93,5 +98,27 @@
     // Keyboard is finished
     //
     kb.endKeyboard();
+
+    // Now the popup menu
+    kb.startMenu();
+    kb.startRow();
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(10);
+    kb.key("X","x",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close");
+    kb.endRow();
+    kb.startRow();
+    // blank row
+    kb.endRow();
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("M","m",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu");
+    kb.endRow();
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("L","l",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout");
+    kb.endRow();
+    kb.endKeyboard();
+
     kb.endHtml();
 %>

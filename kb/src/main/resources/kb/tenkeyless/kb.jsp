@@ -3,8 +3,11 @@
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"Tenkeyless",20*3,6*3,null);
+    kb.setMouseMode(false);
+
     // Default key SVG and size
     kb.setDefaultSvg("tenkeyless/keys/key.svgt",3,3,"FS=48","BORD=4","BORDC=#222","BGC=#eec","TXTC=#000");
+    String DA="atari/keys/";
     String KN="tenkeyless/keys/key2.svgt";
     String KW="tenkeyless/keys/keywide.svgt";
 
@@ -12,6 +15,9 @@
 %>
 <!-- custom styles go here -->
 <style>
+.kybard-menu-container {
+    background-color: rgb(98,48,48);
+}
 </style>
 <script type="text/javascript" language="javascript">
     // custom javascript goes here
@@ -108,6 +114,8 @@
     kb.key(";",";",3,3,null,null,"",KN,"S=:");
     kb.key("'","KB_APOSTROPHE",3,3,null,null,"",KN,"S=&quot;");
     kb.key("Enter","KB_ENTER",5,3,null,null,"",KW,"FS=18");
+    kb.spacer(8);
+    kb.key("Menu","x",3,3,"panic()","menu()","",KN,"FS=24");
     kb.endRow();
 
     // shift zxcvbnm,./ shift space uparrow
@@ -149,5 +157,29 @@
     // Keyboard is finished
     //
     kb.endKeyboard();
+
+    // Now the popup menu
+    String ATARISHIFT="SHFBGC=#CF8710"; // 207,135,16
+    String ATARIKEY="BGC=#776047"; // 119,96,71
+    kb.startMenu();
+    kb.startRow();
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(10);
+    kb.key("X","x",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close",ATARIKEY,ATARISHIFT);
+    kb.endRow();
+    kb.startRow();
+    // blank row
+    kb.endRow();
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("M","m",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu",ATARIKEY,ATARISHIFT);
+    kb.endRow();
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("L","l",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout",ATARIKEY,ATARISHIFT);
+    kb.endRow();
+    kb.endKeyboard();
+
     kb.endHtml();
 %>
