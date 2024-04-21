@@ -49,7 +49,7 @@
 
     // Top Row
     kb.startRow();
-    kb.key("Numlock","KP_NUMLOCK",3,3,null,null,"",KP,"name=","S=Num Lock");
+    kb.key("MENU","",3,3,"panic()","menu()","",KP,"name=","S=Menu");
     kb.key("/","KP_DIVIDE");
     kb.key("*","KP_MULTIPLY");
     kb.key("-","KP_MINUS");
@@ -96,23 +96,26 @@
     kb.endKeyboard();
 
     // Now the popup menu
+    String ATARISHIFT="SHFBGC=#CF8710"; // 207,135,16
+    String ATARIKEY="BGC=#776047"; // 119,96,71
     kb.startMenu();
     kb.startRow();
     kb.endRowThirds(1);
     kb.startRow();
     kb.spacer(10);
-    kb.key("X","x",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close");
-    kb.endRow();
-    kb.startRow();
-    // blank row
+    kb.key("X","",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close",ATARIKEY,ATARISHIFT);
     kb.endRow();
     kb.startRow();
     kb.spacer(1);
-    kb.key("M","m",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu");
+    kb.key("Numlock","KP_NUMLOCK",3,3,null,null,"",DA+"key2.svgt","name=Lock","S=Num",ATARIKEY,ATARISHIFT);
     kb.endRow();
     kb.startRow();
     kb.spacer(1);
-    kb.key("L","l",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout");
+    kb.key("M","",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu",ATARIKEY,ATARISHIFT);
+    kb.endRow();
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("L","",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout",ATARIKEY,ATARISHIFT);
     kb.endRow();
     kb.endKeyboard();
 
