@@ -1,0 +1,4 @@
+<svg width="@{W}" height="@{H}">
+<circle fill="@{BGC}" cx="@{W/2}" cy="@{H/2}" r="@{W/2}"/>
+<circle class="CAPSLOCK-LED" fill="none" cx="@{W/2}" cy="@{H/2}" r="@{W/2-4}"/>
+</svg>
