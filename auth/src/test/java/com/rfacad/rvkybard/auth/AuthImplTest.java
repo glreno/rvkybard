@@ -2,14 +2,15 @@ package com.rfacad.rvkybard.auth;
 
 import static org.junit.Assert.*;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.attribute.PosixFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.Cookie;
@@ -33,12 +34,12 @@ import com.rfacad.rvkybard.interfaces.AuthS;
 
 public class AuthImplTest
 {
-    File toDelete = null;
+    List<File> toDelete;
 
     @Before
     public void setup()
     {
-        toDelete = null;
+        toDelete = new ArrayList<>();
     }
     @After
     public void cleanup()
@@ -46,8 +47,22 @@ public class AuthImplTest
         AuthS.setAuthI(null);
         if ( toDelete != null )
         {
-            toDelete.delete();
+            for(File f : toDelete)
+            {
+                f.delete();
+            }
         }
+    }
+    private String createPinFile(String pin) throws IOException
+    {
+        File f = File.createTempFile("pintest", "txt");
+        String fn = f.getAbsolutePath();
+        f.deleteOnExit();
+        toDelete.add(f);
+        AuthImpl a1 = new AuthImpl();
+        a1.setPinFile(fn);
+        a1.writePinFile(pin);
+        return fn;
     }
 
     @Test
@@ -63,10 +78,10 @@ public class AuthImplTest
     }
 
     @Test
-    public void shouldRejectBadCookie()
+    public void shouldRejectBadCookie() throws IOException
     {
         AuthImpl a = new AuthImpl();
-        a.setPinFile("src/test/resources/pin0"); // empty file
+        a.setPinFile(createPinFile(""));
         // no one is logged in!
         assertFalse(a.isCookieValid(null));
         assertFalse(a.isCookieValid(""));
@@ -80,12 +95,12 @@ public class AuthImplTest
     }
 
     @Test
-    public void shouldRejectBadPin()
+    public void shouldRejectBadPin() throws IOException
     {
         AuthImpl a1 = new AuthImpl();
-        a1.setPinFile("src/test/resources/pin1"); // 8080
+        a1.setPinFile(createPinFile("8080"));
         AuthImpl a2 = new AuthImpl();
-        a2.setPinFile("src/test/resources/pin2"); // 68000
+        a2.setPinFile(createPinFile("68000")); // 68000
 
         assertNull(a1.login("68000"));
         String c1 = a1.login("8080");
@@ -106,10 +121,10 @@ public class AuthImplTest
     }
 
     @Test
-    public void shouldLogInAndOut()
+    public void shouldLogInAndOut() throws IOException
     {
         AuthImpl a = new AuthImpl();
-        a.setPinFile("src/test/resources/pin1");
+        a.setPinFile(createPinFile("8080"));
         String cookie=a.login("8080");
         assertTrue(a.isCookieValid(cookie));
         a.logout(cookie);
@@ -121,11 +136,10 @@ public class AuthImplTest
     {
         File f = File.createTempFile("pintest", "txt");
         f.deleteOnExit();
-        toDelete = f;
+        toDelete.add(f);
         cat("Initial",f);
         f.delete();
         assertFalse(f.exists());
-
 
         // Setting pinfile to something that doesn't exist
         // will create that file, and load it with default 6502
@@ -136,7 +150,7 @@ public class AuthImplTest
         assertNull( a1.login("8080") );
         assertNotNull( a1.login("6502") );
 
-        a1.writePinFile(f.getAbsolutePath(), "8080");
+        a1.writePinFile("8080");
         cat("Updated",f);
         assertNull( a1.login("6502") );
         assertNotNull( a1.login("8080") );
@@ -174,12 +188,12 @@ public class AuthImplTest
             {
                 PosixFileAttributes attrs = Files.readAttributes(f.toPath(), PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
                 System.err.println(attrs.isRegularFile()+" "+attrs.size()+" "+attrs.permissions());
-                try(BufferedReader in = new BufferedReader(new FileReader(f)))
+                try(FileInputStream in = new FileInputStream(f))
                 {
-                    String s;
-                    while( ( s = in.readLine() ) != null )
+                    int b;
+                    while( ( b = in.read() ) >= 0 )
                     {
-                        System.err.println(s);
+                        System.err.print(Integer.toHexString(b)+" ");
                     }
                 }
             }
@@ -187,6 +201,7 @@ public class AuthImplTest
             {
                 e.printStackTrace();
             }
+            System.err.println(".");
         }
     }
 }

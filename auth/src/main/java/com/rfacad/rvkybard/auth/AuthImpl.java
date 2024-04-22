@@ -1,12 +1,15 @@
 package com.rfacad.rvkybard.auth;
 
-import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Random;
 
 import javax.servlet.http.Cookie;
@@ -31,39 +34,49 @@ public class AuthImpl implements AuthI
 {
     Logger LOG = LoggerFactory.getLogger(AuthImpl.class);
 
-    private String pindb = null;
+    private String pinfn = null;
+    private byte[] pindb = null;
     private String cookiedb = null;
     private String loginPageUrl = "/login.jsp";
     private Random randy = new SecureRandom();
 
     public void setPinFile(String fn)
     {
-        loadPinFile(fn,true);
+        pinfn=fn;
+        File f = new File(pinfn);
+        if ( f.exists() )
+        {
+            loadPinFile();
+        }
+        else
+        {
+            LOG.warn("Creating new pin db {} with default entry",pinfn);
+            writePinFile("6502");
+        }
     }
-    protected void loadPinFile(String fn, boolean allowRetry)
+    protected void loadPinFile()
     {
         // We're just going to read this in to memory, it only contains a single pin.
-        // Encryption? Multiple users? Who, me?
-        try (BufferedReader in = new BufferedReader(new FileReader(fn)))
+        // Multiple users? Who, me?
+        try (InputStream in = new FileInputStream(pinfn))
         {
-            pindb = in.readLine();
+            byte [] b = new byte[1025];
+            int n = in.read(b);
+            pindb = new byte[n]; // NegativeArraySizeException if nothing was read
+            System.arraycopy(b, 0, pindb, 0, n);
         }
-        catch(IOException e)
+        catch(IOException | NegativeArraySizeException e)
         {
-            LOG.error("Could not load pin db {}",fn,e);
-            if ( allowRetry )
-            {
-                LOG.error("Creating new pin db {} with default entry",fn,e);
-                writePinFile(fn,"6502");
-            }
+            LOG.error("Could not load pin db {}",pinfn,e);
         }
     }
-    protected void writePinFile(String fn,String content)
+    protected void writePinFile(String content)
     {
-        File f = new File(fn);
-        try (PrintWriter out = new PrintWriter(new FileWriter(fn)))
+        byte [] hash = hash(content);
+        File f = new File(pinfn);
+        try (FileOutputStream out = new FileOutputStream(f))
         {
-            out.println(content);
+            out.write(hash);
         }
         catch (IOException e)
         {
@@ -74,7 +87,7 @@ public class AuthImpl implements AuthI
         f.setReadable(true, true);      // readable, owner-only
         f.setWritable(false, false);    // non-writable, for everybody
         f.setWritable(true, true);      // writable, owner-only
-        loadPinFile(fn,false);
+        loadPinFile();
     }
 
     public void setLoginPageUrl(String loginPageUrl)
@@ -123,7 +136,9 @@ public class AuthImpl implements AuthI
     @Override
     public String login(String pin)
     {
-        if ( pindb == null || !pindb.equals(pin) )
+        byte[] hash = hash(pin);
+
+        if ( pindb == null || hash == null || ! Arrays.equals(pindb, hash) )
         {
             return null;
         }
@@ -134,6 +149,22 @@ public class AuthImpl implements AuthI
         String s = Integer.toHexString(randy.nextInt(0xffff));
         cookiedb = s;
         return s;
+    }
+
+    private byte[] hash(String pin)
+    {
+        byte[] hash = null;
+        try
+        {
+            String s = pin+pin; // well, it's SORTA salted
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            hash = md.digest(s.getBytes(StandardCharsets.UTF_8));
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            LOG.error("What, me encrypt?",e);
+        }
+        return hash;
     }
 
     @Override
