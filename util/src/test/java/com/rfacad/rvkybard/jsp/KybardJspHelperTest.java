@@ -268,7 +268,8 @@ public class KybardJspHelperTest
         KybardJspHelper h = new KybardJspHelper(out, "", "");
         h.endHtml();
         String s = out.toString();
-        assertEquals("</body>\n</html>\n",s);
+        assertTrue(s.endsWith("</body>\n</html>\n"));
+        assertTrue(s.contains("panic();"));
     }
 
     @Test
