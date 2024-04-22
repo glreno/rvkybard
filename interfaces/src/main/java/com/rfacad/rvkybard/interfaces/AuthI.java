@@ -18,6 +18,7 @@ public interface AuthI
     public static final String COOKIENAME = "rvbiscuit";
 
     public static final String PINNAME = "pin";
+    public static final String UPDATEPINNAME = "updatedpin";
 
     /**
      * Checks to see if this cookie is a currently logged-in session
@@ -41,6 +42,12 @@ public interface AuthI
     String login(String pin);
 
     /**
+     * Add a new valid PIN to the pin DB
+     * @param pin
+     */
+    void writePin(String pin);
+
+    /**
      * removes cookie from the list of logged-in cookies
      * @param cookie
      */
@@ -50,4 +57,5 @@ public interface AuthI
      * @return the relative URL of the login page
      */
     String getLoginPageUrl();
+
 }

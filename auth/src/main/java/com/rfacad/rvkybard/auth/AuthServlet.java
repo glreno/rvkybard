@@ -77,6 +77,12 @@ public class AuthServlet extends HttpServlet
             if ( s != null )
             {
                 LOG.debug("Successful login");
+                String u = req.getParameter(AuthI.UPDATEPINNAME);
+                if ( u != null && ! u.trim().isEmpty() )
+                {
+                    LOG.warn("Updating PIN db");
+                    authi.writePin(u.trim());
+                }
                 Cookie cookie = new Cookie(AuthI.COOKIENAME,s);
                 int seconds = 60*60; // an hour
                 cookie.setMaxAge(seconds);

@@ -51,7 +51,7 @@ public class AuthImpl implements AuthI
         else
         {
             LOG.warn("Creating new pin db {} with default entry",pinfn);
-            writePinFile("6502");
+            writePin("6502");
         }
     }
     protected void loadPinFile()
@@ -70,9 +70,11 @@ public class AuthImpl implements AuthI
             LOG.error("Could not load pin db {}",pinfn,e);
         }
     }
-    protected void writePinFile(String content)
+
+    @Override
+    public void writePin(String pin)
     {
-        byte [] hash = hash(content);
+        byte [] hash = hash(pin);
         File f = new File(pinfn);
         try (FileOutputStream out = new FileOutputStream(f))
         {
@@ -136,7 +138,11 @@ public class AuthImpl implements AuthI
     @Override
     public String login(String pin)
     {
-        byte[] hash = hash(pin);
+        if ( pin == null )
+        {
+            return null;
+        }
+        byte[] hash = hash(pin.trim());
 
         if ( pindb == null || hash == null || ! Arrays.equals(pindb, hash) )
         {

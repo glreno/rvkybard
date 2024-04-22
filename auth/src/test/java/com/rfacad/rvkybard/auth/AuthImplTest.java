@@ -61,7 +61,7 @@ public class AuthImplTest
         toDelete.add(f);
         AuthImpl a1 = new AuthImpl();
         a1.setPinFile(fn);
-        a1.writePinFile(pin);
+        a1.writePin(pin);
         return fn;
     }
 
@@ -102,6 +102,10 @@ public class AuthImplTest
         AuthImpl a2 = new AuthImpl();
         a2.setPinFile(createPinFile("68000")); // 68000
 
+        assertNull(a1.login(null));
+        assertNull(a1.login(""));
+        assertNull(a1.login(" "));
+
         assertNull(a1.login("68000"));
         String c1 = a1.login("8080");
         assertNotNull(c1);
@@ -129,6 +133,10 @@ public class AuthImplTest
         assertTrue(a.isCookieValid(cookie));
         a.logout(cookie);
         assertFalse(a.isCookieValid(cookie));
+        cookie=a.login("  8080  ");
+        assertTrue(a.isCookieValid(cookie));
+        a.logout(cookie);
+        assertFalse(a.isCookieValid(cookie));
     }
 
     @Test
@@ -137,7 +145,7 @@ public class AuthImplTest
         File f = File.createTempFile("pintest", "txt");
         f.deleteOnExit();
         toDelete.add(f);
-        cat("Initial",f);
+        //cat("Initial",f);
         f.delete();
         assertFalse(f.exists());
 
@@ -146,19 +154,19 @@ public class AuthImplTest
         AuthImpl a1 = new AuthImpl();
         a1.setPinFile(f.getAbsolutePath());
         assertTrue(f.exists());
-        cat("Created",f);
+        //cat("Created",f);
         assertNull( a1.login("8080") );
         assertNotNull( a1.login("6502") );
 
-        a1.writePinFile("8080");
-        cat("Updated",f);
+        a1.writePin("8080");
+        //cat("Updated",f);
         assertNull( a1.login("6502") );
         assertNotNull( a1.login("8080") );
 
         // Now read that file into a new auth object
         AuthImpl a2 = new AuthImpl();
         a2.setPinFile(f.getAbsolutePath());
-        cat("Unchanged",f);
+        //cat("Unchanged",f);
         assertNull( a2.login("6502") );
         assertNotNull( a2.login("8080") );
 

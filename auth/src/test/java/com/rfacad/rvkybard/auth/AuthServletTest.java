@@ -35,6 +35,7 @@ public class AuthServletTest
     private HttpServletResponse resp;
     private ArgumentCaptor<Integer> statusCaptor;
     private ArgumentCaptor<String> redirectCaptor;
+    private ArgumentCaptor<String> updateCaptor;
     private ArgumentCaptor<Cookie> cookieCaptor;
     private ArgumentCaptor<String> headerNameCaptor;
     private ArgumentCaptor<String> headerValueCaptor;
@@ -51,6 +52,7 @@ public class AuthServletTest
         mockAuthi = mock(AuthI.class);
         resp = mock(HttpServletResponse.class);
         redirectCaptor = ArgumentCaptor.forClass(String.class);
+        updateCaptor = ArgumentCaptor.forClass(String.class);
         statusCaptor = ArgumentCaptor.forClass(Integer.class);
         cookieCaptor = ArgumentCaptor.forClass(Cookie.class);
         headerNameCaptor = ArgumentCaptor.forClass(String.class);
@@ -61,6 +63,7 @@ public class AuthServletTest
         doNothing().when(resp).addHeader(headerNameCaptor.capture(), headerValueCaptor.capture());
         // There is one good pin. Anything else will return null
         doReturn("abcd").when(mockAuthi).login("6502");
+        doNothing().when(mockAuthi).writePin(updateCaptor.capture());
         doReturn(LOGINPAGE).when(mockAuthi).getLoginPageUrl();
     }
 
@@ -75,6 +78,7 @@ public class AuthServletTest
         assertEquals(500,statusCaptor.getValue().intValue());
         assertEquals(0,redirectCaptor.getAllValues().size());
         assertEquals(0,cookieCaptor.getAllValues().size());
+        assertEquals(0,updateCaptor.getAllValues().size());
     }
 
     @Test
@@ -87,6 +91,7 @@ public class AuthServletTest
         assertEquals(0,statusCaptor.getAllValues().size());
         assertEquals(LOGINPAGE,redirectCaptor.getValue());
         assertEquals(0,cookieCaptor.getAllValues().size());
+        assertEquals(0,updateCaptor.getAllValues().size());
     }
 
     @Test
@@ -100,6 +105,7 @@ public class AuthServletTest
         assertEquals(0,statusCaptor.getAllValues().size());
         assertEquals(LOGINPAGE,redirectCaptor.getValue());
         assertEquals(0,cookieCaptor.getAllValues().size());
+        assertEquals(0,updateCaptor.getAllValues().size());
     }
 
     @Test
@@ -113,6 +119,7 @@ public class AuthServletTest
         assertEquals(0,statusCaptor.getAllValues().size());
         assertEquals(LOGINPAGE,redirectCaptor.getValue());
         assertEquals(0,cookieCaptor.getAllValues().size());
+        assertEquals(0,updateCaptor.getAllValues().size());
     }
 
     @Test
@@ -124,10 +131,45 @@ public class AuthServletTest
         when(req.getParameter(AuthI.PINNAME)).thenReturn("6502");
         as.doPost(req, resp);
         assertEquals(0,statusCaptor.getAllValues().size());
+        assertEquals(0,updateCaptor.getAllValues().size());
         assertEquals("/",redirectCaptor.getValue());
         assertEquals(1,cookieCaptor.getAllValues().size());
         Cookie c = cookieCaptor.getValue(); // that's good enough for me
         assertEquals(AuthI.COOKIENAME,c.getName());
         assertNotNull(c.getValue());
     }
+
+    @Test
+    public void shouldChangePin() throws ServletException, IOException
+    {
+        AuthServlet as = new AuthServlet();
+        as.setAuthi(mockAuthi);
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        when(req.getParameter(AuthI.PINNAME)).thenReturn("6502");
+        when(req.getParameter(AuthI.UPDATEPINNAME)).thenReturn("8080");
+        as.doPost(req, resp);
+        assertEquals(0,statusCaptor.getAllValues().size());
+        assertEquals("/",redirectCaptor.getValue());
+        assertEquals(1,cookieCaptor.getAllValues().size());
+        Cookie c = cookieCaptor.getValue(); // that's good enough for me
+        assertEquals(AuthI.COOKIENAME,c.getName());
+        assertNotNull(c.getValue());
+        assertEquals("8080",updateCaptor.getValue());
+    }
+
+    @Test
+    public void shouldRejectPinChangeWithInvalidPin() throws ServletException, IOException
+    {
+        AuthServlet as = new AuthServlet();
+        as.setAuthi(mockAuthi);
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        when(req.getParameter(AuthI.PINNAME)).thenReturn("0000");
+        when(req.getParameter(AuthI.UPDATEPINNAME)).thenReturn("8080");
+        as.doPost(req, resp);
+        assertEquals(0,statusCaptor.getAllValues().size());
+        assertEquals(LOGINPAGE,redirectCaptor.getValue());
+        assertEquals(0,cookieCaptor.getAllValues().size());
+        assertEquals(0,updateCaptor.getAllValues().size());
+    }
+
 }
