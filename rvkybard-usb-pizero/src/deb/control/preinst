@@ -1,6 +1,8 @@
 echo Removing old ROOT.war
 \rm -rf /var/lib/tomcat8/webapps/ROOT /var/lib/tomcat8/webapps/ROOT.war
-echo Backing up tomcat conf files
-\cp /var/lib/tomcat8/conf/logging.properties /var/lib/tomcat8/conf/logging.properties.bak
-\cp /var/lib/tomcat8/conf/server.xml /var/lib/tomcat8/conf/server.xml.bak
+BDIR=/tmp/rvkybard_inst_backup.$$
+\mkdir $BDIR
+echo Backing up tomcat conf files to $BDIR
+\cp /var/lib/tomcat8/conf/logging.properties $BDIR
+\cp /var/lib/tomcat8/conf/server.xml $BDIR
 exit 0

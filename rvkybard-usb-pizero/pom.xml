@@ -161,17 +161,6 @@
                                     <prefix>/var/lib/tomcat8/conf</prefix>
                                 </mapper>
                             </data>
-                            <data>
-                                <src>pin</src>
-                                <type>file</type>
-                                <mapper>
-                                    <type>perm</type>
-                                    <user>tomcat8</user>
-                                    <group>tomcat8</group>
-                                    <filemode>600</filemode>
-                                    <prefix>/var/lib/rvkybard</prefix>
-                                </mapper>
-                            </data>
                         </dataSet>
                     </configuration>
                 </execution>
