@@ -10,6 +10,7 @@
     String DA="atari/keys/";
     String KN="tenkeyless/keys/key2.svgt";
     String KW="tenkeyless/keys/keywide.svgt";
+    String KCAPSLOCK="tenkeyless/keys/capslock.svgt";
 
     kb.startHtml();
 %>
@@ -17,6 +18,14 @@
 <style>
 .kybard-menu-container {
     background-color: rgb(98,48,48);
+}
+.CAPSLOCK-LED-ON {
+    fill: #b00;
+    stroke: #b00;
+}
+.CAPSLOCK-LED-OFF {
+    fill: #eec;
+    stroke: #eec;
 }
 </style>
 <script type="text/javascript" language="javascript">
@@ -101,7 +110,7 @@
 
     // Caps asdfghjkl;' enter
     kb.startRow();
-    kb.key("Caps","KB_CAPSLOCK",5,3,null,null,"",KW,"FS=18","TXTC=#400");
+    kb.key("Caps","KB_CAPSLOCK",5,3,null,null,"",KCAPSLOCK,"FS=18","TXTC=#400");
     kb.key("A","A");
     kb.key("S","S");
     kb.key("D","D");
@@ -115,7 +124,7 @@
     kb.key("'","KB_APOSTROPHE",3,3,null,null,"",KN,"S=&quot;");
     kb.key("Enter","KB_ENTER",5,3,null,null,"",KW,"FS=18");
     kb.spacer(8);
-    kb.key("Menu","x",3,3,"panic()","menu()","",KN,"FS=24");
+    kb.key("Menu","",3,3,"panic()","menu()","",KN,"FS=24");
     kb.endRow();
 
     // shift zxcvbnm,./ shift space uparrow
@@ -166,18 +175,18 @@
     kb.endRowThirds(1);
     kb.startRow();
     kb.spacer(10);
-    kb.key("X","x",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close",ATARIKEY,ATARISHIFT);
+    kb.key("X","",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close",ATARIKEY,ATARISHIFT);
     kb.endRow();
     kb.startRow();
     // blank row
     kb.endRow();
     kb.startRow();
     kb.spacer(1);
-    kb.key("M","m",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu",ATARIKEY,ATARISHIFT);
+    kb.key("M","",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu",ATARIKEY,ATARISHIFT);
     kb.endRow();
     kb.startRow();
     kb.spacer(1);
-    kb.key("L","l",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout",ATARIKEY,ATARISHIFT);
+    kb.key("L","",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout",ATARIKEY,ATARISHIFT);
     kb.endRow();
     kb.endKeyboard();
 
