@@ -29,10 +29,10 @@
 .kybard-menu-container {
     background-color: rgb(98,48,48);
 }
-.CAPSLOCK-LED-ON {
+.NUMLOCK-LED-ON {
   fill: #DB1049;
 }
-.CAPSLOCK-LED-OFF {
+.NUMLOCK-LED-OFF {
   fill: #AAA;
 }
 </style>
