@@ -1,8 +1,11 @@
 package com.rfacad.rvkybard.auth;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.SecureRandom;
 import java.util.Random;
 
@@ -35,6 +38,10 @@ public class AuthImpl implements AuthI
 
     public void setPinFile(String fn)
     {
+        loadPinFile(fn,true);
+    }
+    protected void loadPinFile(String fn, boolean allowRetry)
+    {
         // We're just going to read this in to memory, it only contains a single pin.
         // Encryption? Multiple users? Who, me?
         try (BufferedReader in = new BufferedReader(new FileReader(fn)))
@@ -44,7 +51,30 @@ public class AuthImpl implements AuthI
         catch(IOException e)
         {
             LOG.error("Could not load pin db {}",fn,e);
+            if ( allowRetry )
+            {
+                LOG.error("Creating new pin db {} with default entry",fn,e);
+                writePinFile(fn,"6502");
+            }
         }
+    }
+    protected void writePinFile(String fn,String content)
+    {
+        File f = new File(fn);
+        try (PrintWriter out = new PrintWriter(new FileWriter(fn)))
+        {
+            out.println(content);
+        }
+        catch (IOException e)
+        {
+            LOG.error("Could not create new pin db",e);
+        }
+        f.setExecutable(false, false); // non-executable, for everybody
+        f.setReadable(false,false);     // non-readable, for everybody
+        f.setReadable(true, true);      // readable, owner-only
+        f.setWritable(false, false);    // non-writable, for everybody
+        f.setWritable(true, true);      // writable, owner-only
+        loadPinFile(fn,false);
     }
 
     public void setLoginPageUrl(String loginPageUrl)
