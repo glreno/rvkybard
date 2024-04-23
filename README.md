@@ -66,10 +66,10 @@ Note that my goal here is to play Star Raiders, not Quake. This is not a high-re
 19. ssh rvkybard.local
 20. Verify that the Pi is up and running
 21. Download the deb file to the Pi:
-    - wget https://github.com/glreno/rvkybard/releases/download/Release_0.02/rvkybard_0.02_all.deb
-    - scp rvkybard_0.02_all.deb loser@rvkybard.local:
+    - wget https://github.com/glreno/rvkybard/releases/download/Release_0.04/rvkybard-usb-pizero-0.04.deb
+    - scp rvkybard-usb-pizero-0.04.deb loser@rvkybard.local:
 22. Install the deb file
-    - sudo apt install ./rvkybard_0.02_all.deb
+    - sudo apt install ./rvkybard-usb-pizero-0.04.deb
         - (the ./ is important, it says to read the file!)
         - Say Y to install it rvkybard and all dependencies
 23. Tea break!
@@ -82,6 +82,7 @@ Note that my goal here is to play Star Raiders, not Quake. This is not a high-re
 25. Test
     25. Open a window to type in
     26. On your phone, go to http://rvkybard.local:6502
+    26. Default PIN is 6502
     27. Pick a keyboard
     28. Type something
 30. Shut it down

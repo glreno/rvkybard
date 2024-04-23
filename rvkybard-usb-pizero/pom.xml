@@ -15,7 +15,7 @@
 
 <groupId>com.rfacad.rvkybard</groupId>
 <artifactId>rvkybard-usb-pizero</artifactId>
-<version>0.03beta</version>
+<version>0.04</version>
 <packaging>war</packaging>
 
 <description>rvkybard USB for Raspberry Pi Zero</description>
@@ -23,7 +23,7 @@
 <parent>
     <groupId>com.rfacad.rvkybard</groupId>
     <artifactId>rvkybard</artifactId>
-    <version>0.03beta</version>
+    <version>0.04</version>
 </parent>
 
 <licenses>
@@ -38,17 +38,17 @@
     <dependency>
         <groupId>com.rfacad.rvkybard</groupId>
         <artifactId>com.rfacad.rvkybard.keyserver</artifactId>
-        <version>0.03beta</version>
+        <version>0.04</version>
     </dependency>
     <dependency>
         <groupId>com.rfacad.rvkybard</groupId>
         <artifactId>com.rfacad.rvkybard.auth</artifactId>
-        <version>0.03beta</version>
+        <version>0.04</version>
     </dependency>
     <dependency>
         <groupId>com.rfacad.rvkybard</groupId>
         <artifactId>com.rfacad.rvkybard.kb</artifactId>
-        <version>0.03beta</version>
+        <version>0.04</version>
     </dependency>
     <dependency>
         <groupId>org.slf4j</groupId>
@@ -88,11 +88,11 @@
                             <artifactItem>
         <groupId>com.rfacad.rvkybard</groupId>
         <artifactId>com.rfacad.rvkybard.kb</artifactId>
-        <version>0.03beta</version>
+        <version>${rvkybard.version}</version>
         <type>jar</type>
                             </artifactItem>
                         </artifactItems>
-                        <outputDirectory>${project.build.directory}/rvkybard-usb-pizero-0.03beta</outputDirectory>
+                        <outputDirectory>${project.build.directory}/rvkybard-usb-pizero-${rvkybard.version}</outputDirectory>
                         <excludes>META-INF/**/*,**/*.class</excludes>
                         <excludeTransitive>true</excludeTransitive>
                     </configuration>

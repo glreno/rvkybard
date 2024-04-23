@@ -1,8 +1,14 @@
 # Version History
 
+## 0.04
+
+- Simple authentication
+- Status LEDs
+- Popup menu
+
 ## 0.03beta
 
-Work in progress
+Dev release.
 
 ## 0.02 30 March 2024
 

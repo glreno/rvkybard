@@ -15,14 +15,14 @@
 
 <groupId>com.rfacad.rvkybard</groupId>
 <artifactId>com.rfacad.rvkybard.interfaces</artifactId>
-<version>0.03beta</version>
+<version>0.04</version>
 <packaging>jar</packaging>
 <description>Key constants for rvkybard</description>
 
 <parent>
     <groupId>com.rfacad.rvkybard</groupId>
     <artifactId>rvkybard</artifactId>
-    <version>0.03beta</version>
+    <version>0.04</version>
 </parent>
 
 <licenses>
