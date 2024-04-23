@@ -10,6 +10,7 @@
     String DA="atari/keys/";
     String KN="tenkeyless/keys/key2.svgt";
     String KW="tenkeyless/keys/keywide.svgt";
+    String KLED="atari/keys/led.svgt";
     String KCAPSLOCK="tenkeyless/keys/capslock.svgt";
 
     kb.startHtml();
@@ -20,11 +21,9 @@
     background-color: rgb(98,48,48);
 }
 .CAPSLOCK-LED-ON {
-    fill: #b00;
     stroke: #b00;
 }
 .CAPSLOCK-LED-OFF {
-    fill: #eec;
     stroke: #eec;
 }
 </style>
@@ -153,9 +152,8 @@
     kb.key("Alt","LEFT_ALT",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
     kb.key("","KB_SPACE",24,3,null,null,"",KW);
     kb.key("Alt","RIGHT_ALT",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
-    kb.key("Menu","KB_MENU",3,3,null,null,"",null,"FS=18","TXTC=#400");
     kb.key("Ctrl","RIGHT_CTRL",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
-    kb.spacer(2);
+    kb.spacer(5);
     kb.key("Left","KB_LEFTARROW",3,3,null,null,"",null,"FS=18");
     kb.key("Down","KB_DOWNARROW",3,3,null,null,"",null,"FS=18");
     kb.key("Right","KB_RIGHTARROW",3,3,null,null,"",null,"FS=18");
@@ -176,14 +174,34 @@
     kb.startRow();
     kb.spacer(10);
     kb.key("X","",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close",ATARIKEY,ATARISHIFT);
-    kb.endRow();
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(1);
+    kb.notKey("CONTACT-STATUS-TEXT",10,1,"connection status pending");
+    kb.endRowThirds(2);
+
     kb.startRow();
     // blank row
     kb.endRow();
+
     kb.startRow();
     kb.spacer(1);
     kb.key("M","",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu",ATARIKEY,ATARISHIFT);
-    kb.endRow();
+    kb.spacer(3);
+    kb.notKey("",2,1,"CAPS");
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=CAPSLOCK-LED","BGC=#776047");
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(11);
+    kb.notKey("",2,1,"NUM");
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=NUMLOCK-LED","BGC=#776047");
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(11);
+    kb.notKey("",2,1,"SCRL");
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=SCROLLLOCK-LED","BGC=#776047");
+    kb.endRowThirds(1);
+
     kb.startRow();
     kb.spacer(1);
     kb.key("L","",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout",ATARIKEY,ATARISHIFT);

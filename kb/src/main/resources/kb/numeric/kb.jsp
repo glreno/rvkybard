@@ -4,12 +4,13 @@
 <%
     // Page title, and keyboard size in cells. 4 keys * 3 cells wide, 5 keys * 3 + 1 cells high
     // (extra row for contact & numlock lights)
-    KybardJspHelper kb=new KybardJspHelper(out,"A Keypad",4*3,5*3+1,null);
+    KybardJspHelper kb=new KybardJspHelper(out,"A Keypad",4*3+2,5*3+2,null);
     kb.setMouseMode(false);
 
     // Default key SVG and size (in cell spans)
     kb.setDefaultSvg("numeric/keys/key.svgt",3,3,"FS=48");
     String KP="numeric/keys/keypad.svgt";
+    String KLED="atari/keys/led.svgt";
     String DA="atari/keys/";
 
     kb.startHtml();
@@ -43,12 +44,15 @@
 <body>
 <%
     kb.startKeyboard();
+    kb.startRow();
+    kb.endRowThirds(1);
     //
     // Keyboard rows start here
     //
 
     // Top Row
     kb.startRow();
+    kb.spacer(1);
     kb.key("MENU","",3,3,"panic()","menu()","",KP,"name=","S=Menu");
     kb.key("/","KP_DIVIDE");
     kb.key("*","KP_MULTIPLY");
@@ -57,6 +61,7 @@
 
     // 7 8 9 + (+ is two rows)
     kb.startRow();
+    kb.spacer(1);
     kb.key("7","KP_7",3,3,null,null,"",KP,"S=Home");
     kb.key("8","KP_8",3,3,null,null,"",KP,"S=&#x25B2;");
     kb.key("9","KP_9",3,3,null,null,"",KP,"S=Pg Up");
@@ -65,6 +70,7 @@
 
     // 4 5 6 (+ is two rows)
     kb.startRow();
+    kb.spacer(1);
     kb.key("4","KP_4",3,3,null,null,"",KP,"S=&#x25C0;");
     kb.key("5","KP_5",3,3,null,null,"",KP);
     kb.key("6","KP_6",3,3,null,null,"",KP,"S=&#x25B6;");
@@ -72,6 +78,7 @@
 
     // 1 2 3 Enter (Enter is two rows)
     kb.startRow();
+    kb.spacer(1);
     kb.key("1","KP_1",3,3,null,null,"",KP,"S=End");
     kb.key("2","KP_2",3,3,null,null,"",KP,"S=&#x25BC;");
     kb.key("3","KP_3",3,3,null,null,"",KP,"S=Pg Dn");
@@ -80,14 +87,9 @@
 
     // 0 . (0 is two cols, Enter is two rows)
     kb.startRow();
+    kb.spacer(1);
     kb.key("0","KP_0",6,3,null,null,"",KP,"S=Insert","W=132");
     kb.key(".","KP_DOT",3,3,null,null,"",KP,"S=Del");
-    kb.endRow();
-
-    kb.startRow();
-    kb.notKey("NUMLOCK-LED",4,1,"numlock");
-    kb.spacer(5);
-    kb.notKey("CONTACT-LED",3,1,"contact");
     kb.endRow();
 
     //
@@ -104,15 +106,35 @@
     kb.startRow();
     kb.spacer(10);
     kb.key("X","",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close",ATARIKEY,ATARISHIFT);
-    kb.endRow();
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(1);
+    kb.notKey("CONTACT-STATUS-TEXT",10,1,"connection status pending");
+    kb.endRowThirds(2);
+
     kb.startRow();
     kb.spacer(1);
     kb.key("Numlock","KP_NUMLOCK",3,3,null,null,"",DA+"key2.svgt","name=Lock","S=Num",ATARIKEY,ATARISHIFT);
     kb.endRow();
+
     kb.startRow();
     kb.spacer(1);
     kb.key("M","",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu",ATARIKEY,ATARISHIFT);
-    kb.endRow();
+    kb.spacer(3);
+    kb.notKey("",2,1,"CAPS");
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=CAPSLOCK-LED");
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(11);
+    kb.notKey("",2,1,"NUM");
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=NUMLOCK-LED");
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(11);
+    kb.notKey("",2,1,"SCRL");
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=SCROLLLOCK-LED");
+    kb.endRowThirds(1);
+
     kb.startRow();
     kb.spacer(1);
     kb.key("L","",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout",ATARIKEY,ATARISHIFT);

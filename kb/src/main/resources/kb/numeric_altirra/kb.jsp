@@ -2,30 +2,30 @@
     pageEncoding="US-ASCII"%>
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
-    KybardJspHelper kb=new KybardJspHelper(out,"Star Raiders",11*3+3,5*3+2,null);
+    // Page title, and keyboard size in cells. 5 keys * 3 cells wide, 5 keys * 3 cells high
+    KybardJspHelper kb=new KybardJspHelper(out,"Atari Keypad",5*3+3,4*3+2,null);
     kb.setMouseMode(false);
-
     // Standard colours
     String BACKCOLOR= "#434343"; // 67,67,67
     String KEYCOLOR=  "#776047"; // 119,96,71
     String SHIFTCOLOR="#CF8710"; // 207,135,16
     String CTRLCOLOR= "#FFC640"; // 255,198,64
     String TXTCOLOR=  "#D6D2CE"; // 214,210,206
-    String CTRLCOLORD="255,198,64";
 
-    // Default key SVG and size
-    String DA="atari/keys/";
-    String D1="atari/keys/";
-    String D2="starRaiders/keys/";
+    // Default key SVG and size (in cell spans)
+    kb.setDefaultSvg("atari/keys/key3.svgt",3,3,"FS=48","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR,"CTLBGC="+CTRLCOLOR,"FIXSY=0","FIXLY=0");
+    String KP="atari/keys/key2.svgt";
+    String K="atari/keys/key.svgt";
     String KM="atari/keys/keyMenu.svgt";
     String KLED="atari/keys/led.svgt";
-    kb.setDefaultSvg(D1+"key.svgt",3,3,"FS=48","FS2=16","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR,"CTLBGC="+CTRLCOLOR,"CTRLCOLORD="+CTRLCOLORD,"FIXSY=0","FIXLY=0");
+    String DA="atari/keys/";
 
     kb.startHtml();
 %>
+<!-- custom styles go here -->
 <style>
 .kybard-container {
-    background-color: rgb(67,67,67);
+  background-color: rgb(67,67,67);
 }
 .kybard-menu-container {
     background-color: rgb(98,48,48);
@@ -44,62 +44,49 @@
 <body>
 <%
     kb.startKeyboard();
+    kb.endRowThirds(1);
     //
     // Keyboard rows start here
     //
-    kb.startRow();
-    kb.endRowThirds(1);
 
-    // Top Row
+    // Top Row 7 8 9 lock menu
     kb.startRow();
     kb.spacer(1);
-    kb.key("1","KB_1");
-    kb.key("2","KB_2");
-    kb.key("3","KB_3");
-    kb.key("4","KB_4");
-    kb.key("5","KB_5");
-    kb.key("6","KB_6");
-    kb.key("7","KB_7");
-    kb.key("8","KB_8");
-    kb.key("9","KB_9");
+    kb.key("7","KP_7",3,3,null,null,"",KP);
+    kb.key("8","KP_8",3,3,null,null,"",null,"ARROWCOLOR=#000","ARROW=180");
+    kb.key("9","KP_9",3,3,null,null,"",KP);
+    kb.key("LOCK","KP_NUMLOCK",3,3,null,null,"",KP,"FS=30","S=NUM");
+    kb.key("","",1,3,"doNothing()","doNothing()","",KLED,"CLS=NUMLOCK-LED");
+    kb.key("MENU","",3,3,"panic()","menu()","",K,"FS=16","BGC="+SHIFTCOLOR);
+    kb.endRow();
+
+    // 4 5 6 ret option
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("4","KP_4",3,3,null,null,"",null,"ARROWCOLOR=#000","ARROW=90");
+    kb.key("5","KP_5",3,3,null,null,"",KP);
+    kb.key("6","KP_6",3,3,null,null,"",null,"ARROWCOLOR=#000","ARROW=270");
+    kb.key("RET","KP_ENTER",3,6,null,null,"",K,"FS=16");
+    kb.key("OPTION","KB_F4",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
+    kb.endRow();
+
+    // 1 2 3 select
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("1","KP_1",3,3,null,null,"",KP);
+    kb.key("2","KP_2",3,3,null,null,"",null,"ARROWCOLOR=#000","ARROW=0");
+    kb.key("3","KP_3",3,3,null,null,"",KP);
     kb.spacer(3);
-    kb.key("0","KB_0",4,3,null,null,"",null,"BGC="+SHIFTCOLOR);
+    kb.key("SELECT","KB_F3",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
-    // T C F G H Option
+    // 0 space start (0 is two cols)
     kb.startRow();
     kb.spacer(1);
-    kb.key("T","KB_T",6,6,null,null,"",D2+"keyT.svgt","S1=Targeting","S2=Computer");
-    kb.key("C","KB_C",6,6,null,null,"",D2+"keyC.svgt","S1=Attack","S2=Computer");
-    kb.key("F","KB_F",6,6,null,null,"",D2+"keyF.svgt","S1=Forward","S2=View");
-    kb.key("G","KB_G",6,6,null,null,"",D2+"keyG.svgt","S1=Galactic","S2=Chart");
-    kb.key("H","KB_H",6,6,null,null,"",D2+"keyH.svgt","S1=Hyperwarp","S2=");
-    kb.key("OPTION","KB_F5",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
-    kb.endRow();
-
-    // Select
-    kb.startRow();
-    kb.spacer(31);
-    kb.key("SELECT","KB_F6",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
-    kb.endRow();
-
-    // M S A L   Start
-    kb.startRow();
-    kb.spacer(1);
-    kb.key("M","KB_M",6,6,null,null,"",D2+"keyM.svgt","S1=Manual Target","S2=Select");
-    kb.key("S","KB_S",6,6,null,null,"",D2+"keyS.svgt","S1=Shields","S2=");
-    kb.key("A","KB_A",6,6,null,null,"",D2+"keyA.svgt","S1=Aft","S2=View");
-    kb.key("L","KB_L",6,6,null,null,"",D2+"keyL.svgt","S1=Long Range","S2=Scanner");
-    kb.spacer(2);
-    kb.key("MENU","",4,3,"panic()","menu()","",KM,"FS=16","BGC="+SHIFTCOLOR);
-    kb.key("START","KB_F7",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
-    kb.endRow();
-
-    // P
-    kb.startRow();
-    kb.spacer(25);
-    kb.key(" ","KB_SPACE",6,3,null,null,"",null);
-    kb.key("P","KB_P",4,3,null,null,"",D2+"keyPause.svgt","S2=PAUSE");
+    kb.key("0","KP_0",6,3,null,null,"",KP);
+    kb.key(".","KP_DOT",3,3,null,null,"",K);
+    kb.key(" ","KB_SPACE",3,3,null,null,"",K);
+    kb.key("START","KB_F2",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
     //
@@ -123,7 +110,6 @@
     kb.startRow();
     // blank row
     kb.endRow();
-
     kb.startRow();
     kb.spacer(1);
     kb.key("M","",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu");

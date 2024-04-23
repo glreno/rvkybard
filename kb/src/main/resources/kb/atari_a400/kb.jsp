@@ -161,9 +161,11 @@
     kb.spacer(1);
     kb.notKey("CONTACT-STATUS-TEXT",10,1,"connection status pending");
     kb.endRowThirds(2);
+
     kb.startRow();
     // blank row
     kb.endRow();
+
     kb.startRow();
     kb.spacer(1);
     kb.key("M","",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu");

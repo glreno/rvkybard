@@ -16,6 +16,7 @@
     kb.setDefaultSvg("atari/keys/key3.svgt",3,3,"FS=48","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR,"CTLBGC="+CTRLCOLOR,"FIXSY=0","FIXLY=0");
     String KP="atari/keys/key2.svgt";
     String K="atari/keys/key.svgt";
+    String KM="atari/keys/keyMenu.svgt";
     String KLED="atari/keys/led.svgt";
     String DA="atari/keys/";
 
@@ -29,11 +30,11 @@
 .kybard-menu-container {
     background-color: rgb(98,48,48);
 }
-.NUMLOCK-LED-ON {
+.CONTACTLOST-LED-ON {
   fill: #DB1049;
 }
-.NUMLOCK-LED-OFF {
-  fill: #AAA;
+.CONTACTLOST-LED-OFF {
+  fill: #D6D2CE;
 }
 </style>
 <script type="text/javascript" language="javascript">
@@ -99,18 +100,38 @@
     kb.endRowThirds(1);
     kb.startRow();
     kb.spacer(10);
-    kb.key("X","x",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close");
-    kb.endRow();
+    kb.key("X","",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close");
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(1);
+    kb.notKey("CONTACT-STATUS-TEXT",10,1,"connection status pending");
+    kb.endRowThirds(2);
+
     kb.startRow();
     // blank row
     kb.endRow();
+
     kb.startRow();
     kb.spacer(1);
-    kb.key("M","m",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu");
-    kb.endRow();
+    kb.key("M","",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu");
+    kb.spacer(3);
+    kb.notKey("",2,1,"CAPS");
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=CAPSLOCK-LED");
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(11);
+    kb.notKey("",2,1,"NUM");
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=NUMLOCK-LED");
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(11);
+    kb.notKey("",2,1,"SCRL");
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=SCROLLLOCK-LED");
+    kb.endRowThirds(1);
+
     kb.startRow();
     kb.spacer(1);
-    kb.key("L","l",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout");
+    kb.key("L","",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout");
     kb.endRow();
     kb.endKeyboard();
 

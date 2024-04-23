@@ -15,7 +15,9 @@
     // Default key SVG and size
     kb.setDefaultSvg("atari/keys/key.svgt",3,3,"FS=48","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR,"CTLBGC="+CTRLCOLOR,"FIXSY=0","FIXLY=0");
     String KN="atari/keys/key2.svgt";
+    String KM="atari/keys/keyMenu.svgt";
     String K3="atari/keys/key3.svgt";
+    String KLED="atari/keys/led.svgt";
     String KA="atari/keys/keyAtari.svgt";
     String DA="atari/keys/";
 
@@ -28,6 +30,12 @@
 }
 .kybard-menu-container {
     background-color: rgb(98,48,48);
+}
+.CONTACTLOST-LED-ON {
+  fill: #DB1049;
+}
+.CONTACTLOST-LED-OFF {
+  fill: #D6D2CE;
 }
 </style>
 <script type="text/javascript" language="javascript">
@@ -63,7 +71,7 @@
     kb.key("BACK S","KB_BACKSPACE",3,3,"keyDownRemap(this,[],'KB_BACKSPACE',[],'KB_DELETE',['LEFT_CTRL'],'KB_BACKSPACE')","keyUpRemap(this,'KB_BACKSPACE','KB_DELETE','KB_BACKSPACE')","",KN,"S=DELETE","FS=30");
     kb.key("BREAK","KB_PAUSE",3,3,null,null,"",null,"FS=16");
     kb.spacer(1);
-    kb.key("MENU","x",4,3,"panic()","menu()","",null,"FS=16","BGC="+SHIFTCOLOR);
+    kb.key("MENU","",4,3,"panic()","menu()","",KM,"FS=16","BGC="+SHIFTCOLOR);
     kb.endRow();
 
     // Tab qwertyuiop - = Return
@@ -104,7 +112,8 @@
     kb.key("+","+",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'=',[],'KB_BACKSLASH',['LEFT_ALT'],'KB_LEFTARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_LEFTARROW')","",K3,"S=\\","ARROWCOLOR=#000","ARROW=90","FIXSY=6");
     kb.key("*","*",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'8',['LEFT_SHIFT'],'6',['LEFT_ALT'],'KB_RIGHTARROW')","keyUpRemap(this,'8','6','KB_RIGHTARROW')","",K3,"S=^","ARROWCOLOR=#000","ARROW=270","FIXSY=6");
     kb.key("LOCK","KB_CAPSLOCK",3,3,null,null,"",KN,"FS=30","S=CAPS");
-    kb.spacer(2);
+    kb.key("","",1,3,"doNothing()","doNothing()","",KLED,"CLS=CAPSLOCK-LED");
+    kb.spacer(1);
     kb.key("SELECT","KB_F3",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
@@ -146,18 +155,38 @@
     kb.endRowThirds(1);
     kb.startRow();
     kb.spacer(10);
-    kb.key("X","x",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close");
-    kb.endRow();
+    kb.key("X","",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close");
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(1);
+    kb.notKey("CONTACT-STATUS-TEXT",10,1,"connection status pending");
+    kb.endRowThirds(2);
+
     kb.startRow();
     // blank row
     kb.endRow();
+
     kb.startRow();
     kb.spacer(1);
-    kb.key("M","m",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu");
-    kb.endRow();
+    kb.key("M","",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu");
+    kb.spacer(3);
+    kb.notKey("",2,1,"CAPS");
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=CAPSLOCK-LED");
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(11);
+    kb.notKey("",2,1,"NUM");
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=NUMLOCK-LED");
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(11);
+    kb.notKey("",2,1,"SCRL");
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=SCROLLLOCK-LED");
+    kb.endRowThirds(1);
+
     kb.startRow();
     kb.spacer(1);
-    kb.key("L","l",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout");
+    kb.key("L","",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout");
     kb.endRow();
     kb.endKeyboard();
 
