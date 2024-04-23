@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo Updating permissions
+\chown -R tomcat8.tomcat8 /var/lib/rvkybard
+
 echo Configuring USB device
 # Update a few system files
 BDIR=/tmp/rvkybard_inst_backup.$$
