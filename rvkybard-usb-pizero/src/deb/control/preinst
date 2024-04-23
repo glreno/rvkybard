@@ -1,8 +1,13 @@
+echo Updating permissions
+\mkdir -p /var/lib/rvkybard
+\chown -R tomcat8.tomcat8 /var/lib/rvkybard
+
 echo Removing old ROOT.war
 \rm -rf /var/lib/tomcat8/webapps/ROOT /var/lib/tomcat8/webapps/ROOT.war
+
 BDIR=/tmp/rvkybard_inst_backup.$$
-\mkdir $BDIR
 echo Backing up tomcat conf files to $BDIR
-\cp /var/lib/tomcat8/conf/logging.properties $BDIR
-\cp /var/lib/tomcat8/conf/server.xml $BDIR
+\mkdir $BDIR
+\cp /etc/tomcat8/logging.properties $BDIR
+\cp /etc/tomcat8/server.xml $BDIR
 exit 0
