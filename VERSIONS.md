@@ -1,5 +1,11 @@
 # Version History
 
+## 0.06
+
+- Fix copyright notices
+- Rename keyboards
+- Modify installer to set ownership of /var/lib/rvkybard
+
 ## 0.05dev
 
 Dev release
