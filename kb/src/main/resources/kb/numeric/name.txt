@@ -1,1 +1,1 @@
-Numeric Keypad
+Numeric Keypad (simplistic)

@@ -2,7 +2,7 @@
     pageEncoding="US-ASCII"%>
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
-    KybardJspHelper kb=new KybardJspHelper(out,"Star Raiders",11*3+3,5*3+2,null);
+    KybardJspHelper kb=new KybardJspHelper(out,"Raiders Copilot",11*3+3,5*3+2,null);
     kb.loadDefault("COPYRIGHTMESSAGE", "ATARI, Star Raiders, and the ATARI logo are trademarks of Atari Interactive Inc.");
     kb.setMouseMode(false);
 

@@ -2,7 +2,7 @@
     pageEncoding="US-ASCII"%>
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
-    KybardJspHelper kb=new KybardJspHelper(out,"Tenkeyless",20*3,6*3,null);
+    KybardJspHelper kb=new KybardJspHelper(out,"Round",20*3,6*3,null);
     kb.setMouseMode(false);
 
     // Default key SVG and size
@@ -136,7 +136,6 @@
     kb.key("B","B");
     kb.key("N","N");
     kb.key("M","M");
-    kb.key(",","KB_COMMA");
     kb.key(",","KB_COMMA",3,3,null,null,"",KN,"S=&lt;");
     kb.key(".",".",3,3,null,null,"",KN,"S=&gt;");
     kb.key("/","/",3,3,null,null,"",KN,"S=?");
