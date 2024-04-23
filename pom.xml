@@ -15,7 +15,7 @@
 
 <groupId>com.rfacad.rvkybard</groupId>
 <artifactId>rvkybard</artifactId>
-<version>0.04</version>
+<version>0.05dev</version>
 <packaging>pom</packaging>
 
 <name>rvkybard</name>
