@@ -27,3 +27,24 @@ http://www.apache.org/licenses/LICENSE-2.0
 .kbbuttonDown {
   background-color: rgba(224,192,255,32) !important;
 }
+.CONTACT-STATUS-TEXT {
+  color: #D6D2CE;
+}
+.CAPSLOCK-LED-ON {
+  fill: #DB1049;
+}
+.CAPSLOCK-LED-OFF {
+  fill: #AAA;
+}
+.NUMLOCK-LED-ON {
+  fill: #DB1049;
+}
+.NUMLOCK-LED-OFF {
+  fill: #AAA;
+}
+.SCROLLLOCK-LED-ON {
+  fill: #DB1049;
+}
+.SCROLLLOCK-LED-OFF {
+  fill: #AAA;
+}

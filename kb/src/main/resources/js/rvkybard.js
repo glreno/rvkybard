@@ -31,12 +31,14 @@ const asyncsend = async () => {
         }
         setLedClass('CONTACT-LED',true);
         setLedClass('CONTACTLOST-LED',false);
+	setStatusText('Server connection OK');
     }
     else
     {
         //console.log('not ok');
         setLedClass('CONTACT-LED',false);
         setLedClass('CONTACTLOST-LED',true);
+	setStatusText('Server connection LOST');
     }
 
 }
@@ -213,6 +215,12 @@ function setLedClass(baseclass,on) {
         }
         //console.log(i+" now    "+[...elems[i].classList]);
     }
-
 }
 
+function setStatusText(s) {
+    const elems = document.getElementsByClassName('CONTACT-STATUS-TEXT');
+    for (let i = 0; i < elems.length; i++)
+    {
+	elems[i].innerHTML=s;
+    }
+}
