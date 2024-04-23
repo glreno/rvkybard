@@ -1,5 +1,9 @@
 # Version History
 
+## 0.05dev
+
+Dev release
+
 ## 0.04
 
 - Simple authentication
