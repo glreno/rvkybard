@@ -265,11 +265,14 @@ public class KybardJspHelperTest
     public void shouldWriteEndPage()
     {
         StringWriter out = new StringWriter();
-        KybardJspHelper h = new KybardJspHelper(out, "", "");
+        KybardJspHelper h = new KybardJspHelper(out, "MyTitle", "");
+        h.loadDefault("COPYRIGHTMESSAGE", "Additional copyright message");
         h.endHtml();
         String s = out.toString();
-        assertTrue(s.endsWith("</body>\n</html>\n"));
-        assertTrue(s.contains("panic();"));
+        assertTrue(s,s.endsWith("</body>\n</html>\n"));
+        assertTrue(s,s.contains("panic();"));
+        assertTrue(s,s.contains("rvkybard and the MyTitle keyboard Copyright &copy;"));
+        assertTrue(s,s.contains("Additional copyright message"));
     }
 
     @Test

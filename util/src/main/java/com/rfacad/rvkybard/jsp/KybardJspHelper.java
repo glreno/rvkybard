@@ -157,6 +157,11 @@ public class KybardJspHelper
         templateProcessor.loadDefault("stdRowSpan",keyRowSpan);
     }
 
+    public void loadDefault(String key,Object value)
+    {
+        templateProcessor.loadDefault(key, value);
+    }
+
     public int getX()
     {
         return x;

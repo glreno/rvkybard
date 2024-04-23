@@ -1,5 +1,11 @@
 <script type="text/javascript" language="javascript">
     panic(); // clear all keys and set LEDs
 </script>
+<footer>
+<br>
+@{COPYRIGHTMESSAGE}
+<p>
+rvkybard and the @{TITLE} keyboard Copyright &copy; 2024 Gerald Reno, Jr.
+</footer>
 </body>
 </html>

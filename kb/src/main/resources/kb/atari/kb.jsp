@@ -3,6 +3,7 @@
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"Atari 400",17*3+1,5*3+2,null);
+    kb.loadDefault("COPYRIGHTMESSAGE", "ATARI and the ATARI logo are trademarks of Atari Interactive Inc.");
     kb.setMouseMode(false);
 
     // Standard colours

@@ -4,6 +4,7 @@
 <%
     // Page title, and keyboard size in cells. 5 keys * 3 cells wide, 5 keys * 3 cells high
     KybardJspHelper kb=new KybardJspHelper(out,"Atari Keypad",5*3+3,4*3+2,null);
+    kb.loadDefault("COPYRIGHTMESSAGE", "ATARI and the ATARI logo are trademarks of Atari Interactive Inc.");
     kb.setMouseMode(false);
     // Standard colours
     String BACKCOLOR= "#434343"; // 67,67,67
