@@ -271,7 +271,7 @@ public class KybardJspHelperTest
         String s = out.toString();
         assertTrue(s,s.endsWith("</body>\n</html>\n"));
         assertTrue(s,s.contains("panic();"));
-        assertTrue(s,s.contains("rvkybard and the MyTitle keyboard Copyright &copy;"));
+        assertTrue(s,s.contains("rvkybard and the \"MyTitle\" keyboard Copyright &copy;"));
         assertTrue(s,s.contains("Additional copyright message"));
     }
 
