@@ -68,10 +68,14 @@ Note that my goal here is to play Star Raiders, not Quake. This is not a high-re
 21. Download the deb file to the Pi:
     - wget https://github.com/glreno/rvkybard/releases/download/Release_0.04/rvkybard-usb-pizero-0.04.deb
     - scp rvkybard-usb-pizero-0.04.deb loser@rvkybard.local:
+22. Install tomcat8
+    - sudo apt install tomcat8
+        - Say Y to install tomcat8 and all dependencies
+        - The rvkybard installer has tomcat8 as a dependency and can install it itself, but doesn't set the correct permissions if tomcat8 isn't preinstalled.
 22. Install the deb file
     - sudo apt install ./rvkybard-usb-pizero-0.04.deb
         - (the ./ is important, it says to read the file!)
-        - Say Y to install it rvkybard and all dependencies
+        - Say Y to install rvkybard and all dependencies
 23. Tea break!
     - It needs time to download the JDK, Tomcat, etc.
 24. Reboot!
