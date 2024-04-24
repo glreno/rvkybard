@@ -1,5 +1,9 @@
 # Version History
 
+## 0.07dev
+
+Dev release
+
 ## 0.06
 
 - Fix copyright notices

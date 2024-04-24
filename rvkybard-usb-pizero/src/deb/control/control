@@ -1,5 +1,5 @@
 Package: rvkybard
-Version: 0.06
+Version: [[version]]
 Section: misc
 Priority: optional
 Architecture: armhf
