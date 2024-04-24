@@ -15,6 +15,7 @@ Dev release
 - Simple authentication
 - Status LEDs
 - Popup menu
+- Bad copyright messages make it look like I'm claiming copyright on "Atari" and "Star Raiders". I'm not! Honest!
 
 ## 0.03beta
 
