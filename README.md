@@ -2,6 +2,8 @@
 
 Remote Virtual Retro Keyboard
 
+![Image: 400ish keyboard on tablet with THE400MINI](https://raw.githubusercontent.com/wiki/glreno/rvkybard/imx/rvkybard_setup.0.06.jpg)
+
 # What is it?
 
 A Raspberry Pi based server that lets you use your phone as a
