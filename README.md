@@ -34,7 +34,10 @@ Setup instructions are on the wiki: https://github.com/glreno/rvkybard/wiki/Step
 
 You need something that can work as a USB OTG gadget,
 and can run Tomcat or Jetty.
-The server is in Java, so it should work on just about anything. Just install tomcat and replace ROOT.war with rvkybard-0.02.war
+
+You will need to set up an HID driver; rvkybard sets it up in /dev/hidg0 as a libcomposite usb gadget. See http://www.isticktoit.net/?p=1383
+
+The server is in Java, so it should work on just about anything. Just install tomcat and replace ROOT.war with rvkybard-usb-pizero-0.06.war
 
 If you need it to write to a device other than /dev/hidg0, the definition is in WEB-INF/applicationContext.xml
 
