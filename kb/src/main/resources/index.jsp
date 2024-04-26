@@ -4,7 +4,6 @@
 <%@ page import="com.rfacad.rvkybard.index.Theme"%>
 <%@ page import="com.rfacad.rvkybard.index.Keyboard"%>
 <%@ page import="com.rfacad.rvkybard.index.Protocol"%>
-
 <!DOCTYPE html>
 <html lang='en'>
 <head>
@@ -63,29 +62,39 @@ function menuOpenClose(button,menuid)
 <body>
 <h3>rvkybard, the retro remote virtual keyboard</h3>
 <%
-    // List all directories under /kb
-    // Each dir should contain a desc.html and a kb.jsp
-    // Verify that, and add it to the table.
     IndexHelper ih=new IndexHelper("webapps/ROOT/kb");
-    int id=0;
+    int themeid=0;
     for(Theme theme : ih.getThemes() )
     {
+        ++themeid;
+        int kbid=0;
+%>
+<h3><%=theme.getName()%></h3>
+<%
         for(Keyboard keyboard : theme.getKeyboards() )
         {
-            for(Protocol p : keyboard.getProtocols())
-            {
-                ++id;
+            ++kbid;
+            String id=themeid+"-"+kbid;
+            int nprotocols=keyboard.getProtocols().size();
 %>
 <div class='kybard-menu-title'>
   <div style='grid-area: 1/1/span 1/span 1;'><img src='closed17.svg' onclick="menuOpenClose(this,'kybard-menu-body-<%=id%>')"/></div>
-  <div style='grid-area: 1/2/span 1/span 2;'><%=theme.getName()%></div>
+  <div style='grid-area: 1/2/span 1/span 2;'><%=keyboard.getName()%></div>
 </div>
-<div class='kybard-menu-body' id='kybard-menu-body-<%=id%>' style='grid-template-rows: repeat(2,30px);' >
-  <div style='grid-area: 1/2/span 1/span 1;'><%=keyboard.getName()%></div>
-  <div style='grid-area: 2/2/span 1/span 1;'><a href="/kb/<%=p.getLink()%>"><%=p.getName()%></a></div>
-</div>
+<div class='kybard-menu-body' id='kybard-menu-body-<%=id%>' style='grid-template-rows: repeat(<%=nprotocols+1%>,30px);' >
+  <div style='grid-area: 1/2/span 1/span 1;'><%=keyboard.getDescription()%></div>
+<%
+            int pid=1;
+            for(Protocol p : keyboard.getProtocols())
+            {
+                ++pid;
+%>
+  <div style='grid-area: <%=pid%>/2/span 1/span 1;'><a href="/kb/<%=p.getLink()%>"><%=p.getName()%></a></div>
 <%
             }
+%>
+</div>
+<%
         }
     }
 %>
