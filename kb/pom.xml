@@ -33,4 +33,20 @@
     </license>
 </licenses>
 
+<dependencies>
+    <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>${commons.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <type>jar</type>
+        <scope>test</scope>
+        <optional>true</optional>
+    </dependency>
+</dependencies>
+
 </project>

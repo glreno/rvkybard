@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII"%>
-<%@ page import="java.io.*" %>
-<%@ page import="org.apache.commons.io.FileUtils" %>
-<%@ page import="java.nio.charset.Charset" %>
+<%@ page import="com.rfacad.rvkybard.index.IndexHelper"%>
+<%@ page import="com.rfacad.rvkybard.index.Theme"%>
+<%@ page import="com.rfacad.rvkybard.index.Keyboard"%>
+<%@ page import="com.rfacad.rvkybard.index.Protocol"%>
+
 <!DOCTYPE html>
 <html lang='en'>
 <head>
@@ -64,55 +66,25 @@ function menuOpenClose(button,menuid)
     // List all directories under /kb
     // Each dir should contain a desc.html and a kb.jsp
     // Verify that, and add it to the table.
-    File sub=new File("webapps/ROOT/kb");
-    File [] dirs = sub.listFiles();
+    IndexHelper ih=new IndexHelper("webapps/ROOT/kb");
     int id=0;
-    for(File catd: dirs)
+    for(Theme theme : ih.getThemes() )
     {
-        String cat = catd.getName();
-        if ( catd.isDirectory())
+        for(Keyboard keyboard : theme.getKeyboards() )
         {
-    for(File themed: catd.listFiles())
-    {
-        String theme = themed.getName();
-        if ( themed.isDirectory())
-        {
-            File name=new File(themed,"name.txt");
-            File desc=new File(themed,"desc.html");
-    for(File d: themed.listFiles())
-    {
-            File kbd=new File(d,"kb.jsp");
-            if ( desc.exists() && kbd.exists() )
+            for(Protocol p : keyboard.getProtocols())
             {
                 ++id;
-                String n = d.getName();
-                String u = cat+"/"+theme+"/"+n;
-                String descContent="";
-                try
-                {
-                    descContent=FileUtils.readFileToString(desc, Charset.defaultCharset());
-                }
-                catch(IOException e) {}
-                String nameContent="";
-                try
-                {
-                    nameContent=FileUtils.readFileToString(name, Charset.defaultCharset());
-                }
-                catch(IOException e) {}
-
 %>
 <div class='kybard-menu-title'>
   <div style='grid-area: 1/1/span 1/span 1;'><img src='closed17.svg' onclick="menuOpenClose(this,'kybard-menu-body-<%=id%>')"/></div>
-  <div style='grid-area: 1/2/span 1/span 2;'><%=nameContent%></div>
+  <div style='grid-area: 1/2/span 1/span 2;'><%=theme.getName()%></div>
 </div>
 <div class='kybard-menu-body' id='kybard-menu-body-<%=id%>' style='grid-template-rows: repeat(2,30px);' >
-  <div style='grid-area: 1/2/span 1/span 1;'><%=descContent%></div>
-  <div style='grid-area: 2/2/span 1/span 1;'><a href="/kb/<%=u%>/kb.jsp">(<%=n%>)</a></div>
+  <div style='grid-area: 1/2/span 1/span 1;'><%=keyboard.getName()%></div>
+  <div style='grid-area: 2/2/span 1/span 1;'><a href="/kb/<%=p.getLink()%>"><%=p.getName()%></a></div>
 </div>
 <%
-            }
-        }
-        }
             }
         }
     }
