@@ -7,7 +7,7 @@
 <html lang='en'>
 <head>
 <title>rvkybard</title>
-<link   
+<link
     rel="icon"
     type="image/png"
     href="/icon32.svg"
@@ -40,21 +40,21 @@
 <script type="text/javascript" language="javascript">
 function menuOpenClose(button,menuid)
 {
-	const menu = document.getElementById(menuid);
-	if ( menu.style.visibility=='visible' )
-	{
-		//console.log('closing '+menuid);
-		menu.style.visibility='collapse';
-		menu.style.height='0px';
-		button.src='closed17.svg';
-	}
-	else
-	{
-		//console.log('opening '+menuid);
-		menu.style.visibility='visible';
-		menu.style.height='auto';
-		button.src='open17.svg';
-	}
+    const menu = document.getElementById(menuid);
+    if ( menu.style.visibility=='visible' )
+    {
+        //console.log('closing '+menuid);
+        menu.style.visibility='collapse';
+        menu.style.height='0px';
+        button.src='closed17.svg';
+    }
+    else
+    {
+        //console.log('opening '+menuid);
+        menu.style.visibility='visible';
+        menu.style.height='auto';
+        button.src='open17.svg';
+    }
 }
 </script>
 </head>
@@ -90,7 +90,7 @@ function menuOpenClose(button,menuid)
                     nameContent=FileUtils.readFileToString(name, Charset.defaultCharset());
                 }
                 catch(IOException e) {}
-                
+
 %>
 <div class='kybard-menu-title'>
   <div style='grid-area: 1/1/span 1/span 1;'><img src='closed17.svg' onclick="menuOpenClose(this,'kybard-menu-body-<%=id%>')"/></div>

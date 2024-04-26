@@ -8,10 +8,12 @@
     kb.setMouseMode(false);
 
     // Default key SVG and size (in cell spans)
-    kb.setDefaultSvg("numeric/keys/key.svgt",3,3,"FS=48");
-    String KP="numeric/keys/keypad.svgt";
-    String KLED="atari/keys/led.svgt";
+    String DS="numeric/keys/";
     String DA="atari/keys/";
+    kb.setDefaultSvg(DS+"key.svgt",3,3,"FS=48");
+    String KP=DS+"keypad.svgt";
+    String KLED=DA+"led.svgt";
+    String MK=DA+"key2.svgt";
 
     kb.startHtml();
 %>
@@ -105,7 +107,7 @@
     kb.endRowThirds(1);
     kb.startRow();
     kb.spacer(10);
-    kb.key("X","",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close",ATARIKEY,ATARISHIFT);
+    kb.key("X","",4,3,"doNothing()","closeMenu()","",MK,"S=Close",ATARIKEY,ATARISHIFT);
     kb.endRowThirds(1);
     kb.startRow();
     kb.spacer(1);
@@ -114,12 +116,12 @@
 
     kb.startRow();
     kb.spacer(1);
-    kb.key("Numlock","KP_NUMLOCK",3,3,null,null,"",DA+"key2.svgt","name=Lock","S=Num",ATARIKEY,ATARISHIFT);
+    kb.key("Numlock","KP_NUMLOCK",3,3,null,null,"",MK,"name=Lock","S=Num",ATARIKEY,ATARISHIFT);
     kb.endRow();
 
     kb.startRow();
     kb.spacer(1);
-    kb.key("M","",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu",ATARIKEY,ATARISHIFT);
+    kb.key("M","",7,3,"doNothing()","mainMenu()","",MK,"S=Main Menu",ATARIKEY,ATARISHIFT);
     kb.spacer(3);
     kb.notKey("",2,1,"CAPS");
     kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=CAPSLOCK-LED");
@@ -137,7 +139,7 @@
 
     kb.startRow();
     kb.spacer(1);
-    kb.key("L","",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout",ATARIKEY,ATARISHIFT);
+    kb.key("L","",7,3,"doNothing()","doLogout()","",MK,"S=Logout",ATARIKEY,ATARISHIFT);
     kb.endRow();
     kb.endKeyboard();
 

@@ -6,12 +6,15 @@
     kb.setMouseMode(false);
 
     // Default key SVG and size
-    kb.setDefaultSvg("tenkeyless/keys/key.svgt",3,3,"FS=48","BORD=4","BORDC=#222","BGC=#eec","TXTC=#000");
     String DA="atari/keys/";
-    String KN="tenkeyless/keys/key2.svgt";
-    String KW="tenkeyless/keys/keywide.svgt";
-    String KLED="atari/keys/led.svgt";
-    String KCAPSLOCK="tenkeyless/keys/capslock.svgt";
+    String DS="atari/keys/";
+    String DK="tenkeyless/keys/";
+    kb.setDefaultSvg(DK+"key.svgt",3,3,"FS=48","BORD=4","BORDC=#222","BGC=#eec","TXTC=#000");
+    String K2=DK+"key2.svgt";
+    String KW=DK+"keywide.svgt";
+    String KLED=DS+"led.svgt";
+    String KCAPSLOCK=DK+"capslock.svgt";
+    String MK=DA+"key2.svgt";
 
     kb.startHtml();
 %>
@@ -58,31 +61,31 @@
     kb.key("F11","KB_F11",3,3,null,null,"",null,"FS=18");
     kb.key("F12","KB_F12",3,3,null,null,"",null,"FS=18");
     kb.spacer(2);
-    kb.key("Screen","KB_PRTSCR",3,3,null,null,"",KN,"FS=24","TXTC=#400","S=Print");
-    kb.key("Lock","KB_SCROLLLOCK",3,3,null,null,"",KN,"FS=24","TXTC=#400","S=Scroll");
-    kb.key("Break","KB_PAUSE",3,3,null,null,"",KN,"FS=24","TXTC=#400","S=Pause");
+    kb.key("Screen","KB_PRTSCR",3,3,null,null,"",K2,"FS=24","TXTC=#400","S=Print");
+    kb.key("Lock","KB_SCROLLLOCK",3,3,null,null,"",K2,"FS=24","TXTC=#400","S=Scroll");
+    kb.key("Break","KB_PAUSE",3,3,null,null,"",K2,"FS=24","TXTC=#400","S=Pause");
     kb.endRow();
 
     // tilde 1-9 0 - = backspace space insert home pgup
     kb.startRow();
-    kb.key("`","KB_BACKQUOTE",3,3,null,null,"",KN,"S=~");
-    kb.key("1","1",3,3,null,null,"",KN,"S=!");
-    kb.key("2","2",3,3,null,null,"",KN,"S=@");
-    kb.key("3","3",3,3,null,null,"",KN,"S=#");
-    kb.key("4","4",3,3,null,null,"",KN,"S=$");
-    kb.key("5","5",3,3,null,null,"",KN,"S=%");
-    kb.key("6","6",3,3,null,null,"",KN,"S=^");
-    kb.key("7","7",3,3,null,null,"",KN,"S=&");
-    kb.key("8","8",3,3,null,null,"",KN,"S=*");
-    kb.key("9","9",3,3,null,null,"",KN,"S=(");
-    kb.key("0","0",3,3,null,null,"",KN,"S=)");
-    kb.key("-","-",3,3,null,null,"",KN,"S=_");
-    kb.key("=","=",3,3,null,null,"",KN,"S=+");
+    kb.key("`","KB_BACKQUOTE",3,3,null,null,"",K2,"S=~");
+    kb.key("1","1",3,3,null,null,"",K2,"S=!");
+    kb.key("2","2",3,3,null,null,"",K2,"S=@");
+    kb.key("3","3",3,3,null,null,"",K2,"S=#");
+    kb.key("4","4",3,3,null,null,"",K2,"S=$");
+    kb.key("5","5",3,3,null,null,"",K2,"S=%");
+    kb.key("6","6",3,3,null,null,"",K2,"S=^");
+    kb.key("7","7",3,3,null,null,"",K2,"S=&");
+    kb.key("8","8",3,3,null,null,"",K2,"S=*");
+    kb.key("9","9",3,3,null,null,"",K2,"S=(");
+    kb.key("0","0",3,3,null,null,"",K2,"S=)");
+    kb.key("-","-",3,3,null,null,"",K2,"S=_");
+    kb.key("=","=",3,3,null,null,"",K2,"S=+");
     kb.key("BS","KB_BACKSPACE",4,3,null,null,"",KW,"TXTC=#400");
     kb.spacer(2);
     kb.key("Ins","KB_INSERT",3,3,null,null,"",null,"FS=18","TXTC=#400");
     kb.key("Home","KB_HOME",3,3,null,null,"",null,"FS=18","TXTC=#400");
-    kb.key("Up","KB_PGUP",3,3,null,null,"",KN,"FS=24","TXTC=#400","S=Page");
+    kb.key("Up","KB_PGUP",3,3,null,null,"",K2,"FS=24","TXTC=#400","S=Page");
     kb.endRow();
 
     // Tab qwertyuiop[]\ space del end pgdn
@@ -98,13 +101,13 @@
     kb.key("I","I");
     kb.key("O","O");
     kb.key("P","P");
-    kb.key("[","KB_OPEN_BRACKET",3,3,null,null,"",KN,"S={");
-    kb.key("]","KB_CLOSE_BRACKET",3,3,null,null,"",KN,"S=}");
-    kb.key("\\","KB_BACKSLASH",3,3,null,null,"",KN,"S=|");
+    kb.key("[","KB_OPEN_BRACKET",3,3,null,null,"",K2,"S={");
+    kb.key("]","KB_CLOSE_BRACKET",3,3,null,null,"",K2,"S=}");
+    kb.key("\\","KB_BACKSLASH",3,3,null,null,"",K2,"S=|");
     kb.spacer(2);
     kb.key("Del","KB_DELETE",3,3,null,null,"",null,"FS=18","TXTC=#400");
     kb.key("End","KB_END",3,3,null,null,"",null,"FS=18","TXTC=#400");
-    kb.key("Down","KB_PGDN",3,3,null,null,"",KN,"FS=24","TXTC=#400","S=Page");
+    kb.key("Down","KB_PGDN",3,3,null,null,"",K2,"FS=24","TXTC=#400","S=Page");
     kb.endRow();
 
     // Caps asdfghjkl;' enter
@@ -119,11 +122,11 @@
     kb.key("J","J");
     kb.key("K","K");
     kb.key("L","L");
-    kb.key(";",";",3,3,null,null,"",KN,"S=:");
-    kb.key("'","KB_APOSTROPHE",3,3,null,null,"",KN,"S=&quot;");
+    kb.key(";",";",3,3,null,null,"",K2,"S=:");
+    kb.key("'","KB_APOSTROPHE",3,3,null,null,"",K2,"S=&quot;");
     kb.key("Enter","KB_ENTER",5,3,null,null,"",KW,"FS=18");
     kb.spacer(8);
-    kb.key("Menu","",3,3,"panic()","menu()","",KN,"FS=24");
+    kb.key("Menu","",3,3,"panic()","menu()","",K2,"FS=24");
     kb.endRow();
 
     // shift zxcvbnm,./ shift space uparrow
@@ -136,11 +139,11 @@
     kb.key("B","B");
     kb.key("N","N");
     kb.key("M","M");
-    kb.key(",","KB_COMMA",3,3,null,null,"",KN,"S=&lt;");
-    kb.key(".",".",3,3,null,null,"",KN,"S=&gt;");
-    kb.key("/","/",3,3,null,null,"",KN,"S=?");
+    kb.key(",","KB_COMMA",3,3,null,null,"",K2,"S=&lt;");
+    kb.key(".",".",3,3,null,null,"",K2,"S=&gt;");
+    kb.key("/","/",3,3,null,null,"",K2,"S=?");
     kb.key("Shift","RIGHT_SHIFT",4,3,kb.SHIFT,kb.SHIFT,"",KW,"FS=18");
-    kb.spacer(5);
+    kb.spacer(8);
     kb.key("UP","KB_UPARROW",3,3,null,null,"",null,"FS=18");
     kb.endRow();
 
@@ -172,7 +175,7 @@
     kb.endRowThirds(1);
     kb.startRow();
     kb.spacer(10);
-    kb.key("X","",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close",ATARIKEY,ATARISHIFT);
+    kb.key("X","",4,3,"doNothing()","closeMenu()","",MK,"S=Close",ATARIKEY,ATARISHIFT);
     kb.endRowThirds(1);
     kb.startRow();
     kb.spacer(1);
@@ -185,7 +188,7 @@
 
     kb.startRow();
     kb.spacer(1);
-    kb.key("M","",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu",ATARIKEY,ATARISHIFT);
+    kb.key("M","",7,3,"doNothing()","mainMenu()","",MK,"S=Main Menu",ATARIKEY,ATARISHIFT);
     kb.spacer(3);
     kb.notKey("",2,1,"CAPS");
     kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=CAPSLOCK-LED","BGC=#776047");
@@ -203,7 +206,7 @@
 
     kb.startRow();
     kb.spacer(1);
-    kb.key("L","",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout",ATARIKEY,ATARISHIFT);
+    kb.key("L","",7,3,"doNothing()","doLogout()","",MK,"S=Logout",ATARIKEY,ATARISHIFT);
     kb.endRow();
     kb.endKeyboard();
 

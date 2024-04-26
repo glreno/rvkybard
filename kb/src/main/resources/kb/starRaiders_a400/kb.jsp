@@ -16,11 +16,12 @@
 
     // Default key SVG and size
     String DA="atari/keys/";
-    String D1="atari/keys/";
+    String DS="atari/keys/";
     String D2="starRaiders/keys/";
-    String KM="atari/keys/keyMenu.svgt";
-    String KLED="atari/keys/led.svgt";
-    kb.setDefaultSvg(D1+"key.svgt",3,3,"FS=48","FS2=16","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR,"CTLBGC="+CTRLCOLOR,"CTRLCOLORD="+CTRLCOLORD,"FIXSY=0","FIXLY=0");
+    kb.setDefaultSvg(DA+"key.svgt",3,3,"FS=48","FS2=16","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR,"CTLBGC="+CTRLCOLOR,"CTRLCOLORD="+CTRLCOLORD,"FIXSY=0","FIXLY=0");
+    String KM=DA+"keyMenu.svgt";
+    String KLED=DS+"led.svgt";
+    String MK=DA+"key2.svgt";
 
     kb.startHtml();
 %>
@@ -114,7 +115,7 @@
     kb.endRowThirds(1);
     kb.startRow();
     kb.spacer(10);
-    kb.key("X","",4,3,"doNothing()","closeMenu()","",DA+"key2.svgt","S=Close");
+    kb.key("X","",4,3,"doNothing()","closeMenu()","",MK,"S=Close");
     kb.endRowThirds(1);
     kb.startRow();
     kb.spacer(1);
@@ -127,7 +128,7 @@
 
     kb.startRow();
     kb.spacer(1);
-    kb.key("M","",7,3,"doNothing()","mainMenu()","",DA+"key2.svgt","S=Main Menu");
+    kb.key("M","",7,3,"doNothing()","mainMenu()","",MK,"S=Main Menu");
     kb.spacer(3);
     kb.notKey("",2,1,"CAPS");
     kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=CAPSLOCK-LED");
@@ -145,7 +146,7 @@
 
     kb.startRow();
     kb.spacer(1);
-    kb.key("L","",7,3,"doNothing()","doLogout()","",DA+"key2.svgt","S=Logout");
+    kb.key("L","",7,3,"doNothing()","doLogout()","",MK,"S=Logout");
     kb.endRow();
     kb.endKeyboard();
 
