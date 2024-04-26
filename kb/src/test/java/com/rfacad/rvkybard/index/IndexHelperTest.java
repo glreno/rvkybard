@@ -37,6 +37,7 @@ public class IndexHelperTest
                 String keyboardDesc = keyboard.getDescription();
                 assertNotNull(keyboardDesc);
                 String keyboardSnap = keyboard.getSnapshotOrBlank();
+                System.err.println("\t\timg:"+keyboardSnap);
                 assertNotNull(keyboardSnap);
                 for(Protocol p : keyboard.getProtocols())
                 {

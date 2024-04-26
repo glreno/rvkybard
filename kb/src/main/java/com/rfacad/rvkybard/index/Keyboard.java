@@ -23,10 +23,14 @@ public class Keyboard
     private List<Protocol> protocols;
     private String name;
     private String description;
+    private String snap;
 
     protected Keyboard()
     {
         protocols=new ArrayList<>();
+        name=null;
+        description=null;
+        snap=null;
     }
 
     protected static Keyboard load(String parent, File topdir)
@@ -51,13 +55,18 @@ public class Keyboard
                 else
                 {
                     // The expected files are: name.txt desc.html snapshot.png/jpg
-                    if ("name.txt".equals(f.getName()))
+                    String n = f.getName();
+                    if ("name.txt".equals(n))
                     {
                         ret.setName(FileUtils.readFileToString(f, Charset.defaultCharset()));
                     }
-                    if ("desc.html".equals(f.getName()))
+                    if ("desc.html".equals(n))
                     {
                         ret.setDescription(FileUtils.readFileToString(f, Charset.defaultCharset()));
+                    }
+                    if (n.startsWith("snapshot."))
+                    {
+                        ret.setSnap(fn+"/"+n);
                     }
                 }
             }
@@ -105,8 +114,16 @@ public class Keyboard
         return description;
     }
 
+    public void setSnap(String fn)
+    {
+        this.snap=fn;
+    }
     public String getSnapshotOrBlank()
     {
-        return "";
+        if ( snap == null )
+        {
+            return "";
+        }
+        return "<img src='/kb/"+snap+"'/>";
     }
 }

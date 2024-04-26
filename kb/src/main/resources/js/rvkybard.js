@@ -16,7 +16,7 @@ let timerSendCountdown = 20;
 const asyncsend = async () => {
     //console.log(flagsdown);
     //console.log(keysdown);
-    let u='../../k?f=';
+    let u='/k?f=';
     flagsdown.forEach((x)=>{u=u+x+','});
     u=u+'&k=';
     keysdown.forEach((x)=>{u=u+x+','});
@@ -31,14 +31,14 @@ const asyncsend = async () => {
         }
         setLedClass('CONTACT-LED',true);
         setLedClass('CONTACTLOST-LED',false);
-	setStatusText('Server connection OK');
+        setStatusText('Server connection OK');
     }
     else
     {
         //console.log('not ok');
         setLedClass('CONTACT-LED',false);
         setLedClass('CONTACTLOST-LED',true);
-	setStatusText('Server connection LOST');
+        setStatusText('Server connection LOST');
     }
 
 }
@@ -89,7 +89,7 @@ function mainMenu() {
 }
 const asynclogout = async () => {
     // issue a logout to /l --- any GET is a logout
-    let u='../../l';
+    let u='/l';
     //console.log(u);
     response = await fetch(u);
     //console.log( response.ok )
@@ -221,6 +221,6 @@ function setStatusText(s) {
     const elems = document.getElementsByClassName('CONTACT-STATUS-TEXT');
     for (let i = 0; i < elems.length; i++)
     {
-	elems[i].innerHTML=s;
+        elems[i].innerHTML=s;
     }
 }

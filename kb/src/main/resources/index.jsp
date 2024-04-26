@@ -24,7 +24,7 @@
 }
 .kybard-menu-body {
   display: grid;
-  grid-template-columns: 60px auto;
+  grid-template-columns: 40px 350px auto;
   gap: 2px;
   width: 100%;
   height: 0px;
@@ -76,20 +76,23 @@ function menuOpenClose(button,menuid)
             ++kbid;
             String id=themeid+"-"+kbid;
             int nprotocols=keyboard.getProtocols().size();
+            // The snapshot is 100px high. Set number of 30px grid rows to at least 3.
+            int nrow=(nprotocols<3)?3:nprotocols;
 %>
 <div class='kybard-menu-title'>
   <div style='grid-area: 1/1/span 1/span 1;'><img src='closed17.svg' onclick="menuOpenClose(this,'kybard-menu-body-<%=id%>')"/></div>
   <div style='grid-area: 1/2/span 1/span 2;'><%=keyboard.getName()%></div>
 </div>
-<div class='kybard-menu-body' id='kybard-menu-body-<%=id%>' style='grid-template-rows: repeat(<%=nprotocols+1%>,30px);' >
-  <div style='grid-area: 1/2/span 1/span 1;'><%=keyboard.getDescription()%></div>
+<div class='kybard-menu-body' id='kybard-menu-body-<%=id%>' style='grid-template-rows: auto repeat(<%=nrow%>,30px);' >
+  <div style='grid-area: 1/2/span 4/span 1;'><%=keyboard.getSnapshotOrBlank()%></div>
+  <div style='grid-area: 1/3/span 1/span 1;'><%=keyboard.getDescription()%></div>
 <%
             int pid=1;
             for(Protocol p : keyboard.getProtocols())
             {
                 ++pid;
 %>
-  <div style='grid-area: <%=pid%>/2/span 1/span 1;'><a href="/kb/<%=p.getLink()%>"><%=p.getName()%></a></div>
+  <div style='grid-area: <%=pid%>/3/span 1/span 1;'><a href="/kb/<%=p.getLink()%>"><%=p.getName()%></a></div>
 <%
             }
 %>
