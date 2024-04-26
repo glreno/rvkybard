@@ -67,17 +67,26 @@ function menuOpenClose(button,menuid)
     File sub=new File("webapps/ROOT/kb");
     File [] dirs = sub.listFiles();
     int id=0;
-    for(File d: dirs)
+    for(File catd: dirs)
     {
-        if ( d.isDirectory())
+        String cat = catd.getName();
+        if ( catd.isDirectory())
         {
-            File name=new File(d,"name.txt");
-            File desc=new File(d,"desc.html");
+    for(File themed: catd.listFiles())
+    {
+        String theme = themed.getName();
+        if ( themed.isDirectory())
+        {
+            File name=new File(themed,"name.txt");
+            File desc=new File(themed,"desc.html");
+    for(File d: themed.listFiles())
+    {
             File kbd=new File(d,"kb.jsp");
             if ( desc.exists() && kbd.exists() )
             {
                 ++id;
                 String n = d.getName();
+                String u = cat+"/"+theme+"/"+n;
                 String descContent="";
                 try
                 {
@@ -98,9 +107,12 @@ function menuOpenClose(button,menuid)
 </div>
 <div class='kybard-menu-body' id='kybard-menu-body-<%=id%>' style='grid-template-rows: repeat(2,30px);' >
   <div style='grid-area: 1/2/span 1/span 1;'><%=descContent%></div>
-  <div style='grid-area: 2/2/span 1/span 1;'><a href="/kb/<%=n%>/kb.jsp">(generic)</a></div>
+  <div style='grid-area: 2/2/span 1/span 1;'><a href="/kb/<%=u%>/kb.jsp">(<%=n%>)</a></div>
 </div>
 <%
+            }
+        }
+        }
             }
         }
     }
