@@ -15,7 +15,7 @@
 
     // Default key SVG and size (in cell spans)
     String DA="atari/keys/";
-    String DS="atari/keys/";
+    String DS="std/keys/";
     kb.setDefaultSvg(DA+"key3.svgt",3,3,"FS=48","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR,"CTLBGC="+CTRLCOLOR,"FIXSY=0","FIXLY=0");
     String K2=DA+"key2.svgt";
     String K3=DA+"key3.svgt";

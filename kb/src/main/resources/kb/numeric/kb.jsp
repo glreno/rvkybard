@@ -8,11 +8,11 @@
     kb.setMouseMode(false);
 
     // Default key SVG and size (in cell spans)
-    String DS="numeric/keys/";
+    String DS="std/keys/";
     String DA="atari/keys/";
     kb.setDefaultSvg(DS+"key.svgt",3,3,"FS=48");
     String KP=DS+"keypad.svgt";
-    String KLED=DA+"led.svgt";
+    String KLED=DS+"led.svgt";
     String MK=DA+"key2.svgt";
 
     kb.startHtml();

@@ -7,8 +7,8 @@
 
     // Default key SVG and size
     String DA="atari/keys/";
-    String DS="atari/keys/";
-    String DK="tenkeyless/keys/";
+    String DS="std/keys/";
+    String DK="artdeco/keys/";
     kb.setDefaultSvg(DK+"key.svgt",3,3,"FS=48","BORD=4","BORDC=#222","BGC=#eec","TXTC=#000");
     String K2=DK+"key2.svgt";
     String KW=DK+"keywide.svgt";
