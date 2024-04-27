@@ -263,6 +263,18 @@ public class KybardJspHelperTest
     }
 
     @Test
+    public void shouldWriteMenu()
+    {
+        StringWriter out = new StringWriter();
+        KybardJspHelper h = new KybardJspHelper(out, "", "");
+        h.setMenuRows(4);
+        h.menu();
+        String s = out.toString();
+        assertTrue(s,s.startsWith("<div class='kybard-menu-container' id='kybard-menu' >"));
+        assertTrue(s,s.endsWith("</div>\n"));
+    }
+
+    @Test
     public void shouldWriteEndPage()
     {
         StringWriter out = new StringWriter();

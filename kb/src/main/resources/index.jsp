@@ -1,20 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII"%>
+<%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper"%>
 <%@ page import="com.rfacad.rvkybard.index.IndexHelper"%>
 <%@ page import="com.rfacad.rvkybard.index.Theme"%>
 <%@ page import="com.rfacad.rvkybard.index.Keyboard"%>
 <%@ page import="com.rfacad.rvkybard.index.Protocol"%>
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-<title>rvkybard</title>
-<link
-    rel="icon"
-    type="image/png"
-    href="/icon32.svg"
-/>
+<%
+    String BACKCOLOR= "#434343"; // 67,67,67
+    String KEYCOLOR=  "#776047"; // 119,96,71
+    String SHIFTCOLOR="#CF8710"; // 207,135,16
+    String CTRLCOLOR= "#FFC640"; // 255,198,64
+    String TXTCOLOR=  "#D6D2CE"; // 214,210,206
+
+    KybardJspHelper kb=new KybardJspHelper(out,"rvkybard",8*3+2,3+2,null);
+    kb.setMenuRows(2*3+2);
+    kb.setDefaultSvg("atari/keys/key2.svgt",3,5+3,"FS=48","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR);
+
+	kb.startHtml();
+%>
 <style>
-.kybard-menu-title {
+.kybardidx-menu-title {
   display: grid;
   grid-template-columns: 30px auto;
   grid-template-rows: 30px;
@@ -22,7 +27,7 @@
   width: 100%;
   z-index: 0;
 }
-.kybard-menu-body {
+.kybardidx-menu-body {
   display: grid;
   grid-template-columns: 40px 350px auto;
   gap: 2px;
@@ -31,8 +36,10 @@
   z-index: 0;
   visibility: collapse;
 }
+.kybard-menu-container {
+    background-color: rgb(98,48,48);
+}
 .footer {
-  position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -79,11 +86,11 @@ function menuOpenClose(button,menuid)
             // The snapshot is 100px high. Set number of 30px grid rows to at least 3.
             int nrow=(nprotocols<3)?3:nprotocols;
 %>
-<div class='kybard-menu-title'>
+<div class='kybardidx-menu-title'>
   <div style='grid-area: 1/1/span 1/span 1;'><img src='closed17.svg' onclick="menuOpenClose(this,'kybard-menu-body-<%=id%>')"/></div>
   <div style='grid-area: 1/2/span 1/span 2;'><%=keyboard.getName()%></div>
 </div>
-<div class='kybard-menu-body' id='kybard-menu-body-<%=id%>' style='grid-template-rows: auto repeat(<%=nrow%>,30px);' >
+<div class='kybardidx-menu-body' id='kybard-menu-body-<%=id%>' style='grid-template-rows: auto repeat(<%=nrow%>,30px);' >
   <div style='grid-area: 1/2/span 4/span 1;'><%=keyboard.getSnapshotOrBlank()%></div>
   <div style='grid-area: 1/3/span 1/span 1;'><%=keyboard.getDescription()%></div>
 <%
@@ -100,6 +107,22 @@ function menuOpenClose(button,menuid)
 <%
         }
     }
+
+    // A little tiny kybard to pop up a settings menu
+    kb.startKeyboard();
+    kb.startRow();
+    kb.key("MENU","",6,3,"panic()","menu()","",null,"name=","S=Settings");
+    kb.endRow();
+    kb.endKeyboard();
+
+    String ATARISHIFT="SHFBGC=#CF8710"; // 207,135,16
+    String ATARIKEY="BGC=#776047"; // 119,96,71
+    kb.startMenu();
+    kb.menuClose(null,ATARIKEY,ATARISHIFT);
+    kb.menuLogout(null,"std/keys/led.svgt",ATARIKEY,ATARISHIFT);
+    kb.endKeyboard();
+
+
 %>
 <div class='footer'>
 <table>
@@ -111,5 +134,6 @@ function menuOpenClose(button,menuid)
 rvkybard Copyright &copy; 2024 Gerald Reno, Jr.
 </td></tr></table>
 </div>
-</body>
-</html>
+<%
+	kb.endHtml();
+%>

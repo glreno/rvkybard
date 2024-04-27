@@ -67,7 +67,10 @@ public class KybardJspHelper
         templateProcessor.loadDefault("TITLE", title);
         calculateDefaultSizes();
     }
-
+    public void setMenuRows(int rows)
+    {
+        this.menuRows=rows;
+    }
 
     public void setTop(File top)
     {
