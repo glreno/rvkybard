@@ -1,11 +1,9 @@
 package com.rfacad.rvkybard.jsp;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Writer;
 import java.net.URL;
 import java.util.Collections;
@@ -206,15 +204,6 @@ public class KybardJspHelper
     {
         startKeyboard("kybard-container","kybard-main");
     }
-    /** Menu is just another keyboard, but with a different class. Follow startMenu() with key definitions,
-     * including the all important one calling closeMenu(), and then finally endKeyboard() */ 
-    public void startMenu()
-    {
-        // this calculation has to be in the ctor to get the numbers into the top style
-        calculateDefaultSizes();
-
-        startKeyboard("kybard-menu-container","kybard-menu");
-    }
 
     public void startKeyboard(String classes, String id)
     {
@@ -404,6 +393,74 @@ public class KybardJspHelper
         catch (IOException e) {
             handleException(e);
         }
+    }
+
+    /** Standard Keyboard Popup Menu */
+    public void menu()
+    {
+        String ATARISHIFT="SHFBGC=#CF8710"; // 207,135,16
+        String ATARIKEY="BGC=#776047"; // 119,96,71
+        startMenu();
+        menuClose("atari/keys/key2.svgt",ATARIKEY,ATARISHIFT);
+        startRow();
+        // blank row
+        endRow();
+        menuReturnToMain("atari/keys/key2.svgt","std/keys/led.svgt",ATARIKEY,ATARISHIFT);
+        menuLogout("atari/keys/key2.svgt","std/keys/led.svgt",ATARIKEY,ATARISHIFT);
+        endKeyboard();
+    }
+
+    /** Menu is just another keyboard, but with a different class. Follow startMenu() with key definitions,
+     * including the all important one calling closeMenu(), and then finally endKeyboard() */ 
+    public void startMenu()
+    {
+        // this calculation has to be in the ctor to get the numbers into the top style
+        calculateDefaultSizes();
+        startKeyboard("kybard-menu-container","kybard-menu");
+    }
+    public void menuClose(String mk,String keybg,String keyhi)
+    {
+        startRow();
+        endRowThirds(1);
+        startRow();
+        spacer(10);
+        key("X","",4,3,"doNothing()","closeMenu()","",mk,"S=Close",keybg,keyhi);
+        endRowThirds(1);
+        startRow();
+        spacer(1);
+        notKey("CONTACT-STATUS-TEXT",10,1,"connection status pending");
+        endRowThirds(2);
+
+    }
+
+    public void menuReturnToMain(String mk, String kled,String keybg,String keyhi)
+    {
+        startRow();
+        spacer(1);
+        key("M","",7,3,"doNothing()","mainMenu()","",mk,"S=Main Menu",keybg,keyhi);
+        endRow();
+    }
+
+    public void menuLogout(String mk, String kled,String keybg,String keyhi)
+    {
+        String ledbg="BGC=#776047";
+        startRow();
+        spacer(1);
+        key("L","",7,3,"doNothing()","doLogout()","",mk,"S=Logout",keybg,keyhi);
+        spacer(3);
+        notKey("",2,1,"CAPS");
+        key("","",1,1,"doNothing()","doNothing()","",kled,"CLS=CAPSLOCK-LED",ledbg);
+        endRowThirds(1);
+        startRow();
+        spacer(11);
+        notKey("",2,1,"NUM");
+        key("","",1,1,"doNothing()","doNothing()","",kled,"CLS=NUMLOCK-LED",ledbg);
+        endRowThirds(1);
+        startRow();
+        spacer(11);
+        notKey("",2,1,"SCRL");
+        key("","",1,1,"doNothing()","doNothing()","",kled,"CLS=SCROLLLOCK-LED",ledbg);
+        endRowThirds(1);
     }
 
     /** The end of the html, i.e. </body></html> */

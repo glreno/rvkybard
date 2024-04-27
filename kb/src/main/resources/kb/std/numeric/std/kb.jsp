@@ -99,48 +99,18 @@
     //
     kb.endKeyboard();
 
-    // Now the popup menu
+    // Define a slightly modified version of the popup menu
     String ATARISHIFT="SHFBGC=#CF8710"; // 207,135,16
     String ATARIKEY="BGC=#776047"; // 119,96,71
     kb.startMenu();
-    kb.startRow();
-    kb.endRowThirds(1);
-    kb.startRow();
-    kb.spacer(10);
-    kb.key("X","",4,3,"doNothing()","closeMenu()","",MK,"S=Close",ATARIKEY,ATARISHIFT);
-    kb.endRowThirds(1);
-    kb.startRow();
-    kb.spacer(1);
-    kb.notKey("CONTACT-STATUS-TEXT",10,1,"connection status pending");
-    kb.endRowThirds(2);
+    kb.menuClose("atari/keys/key2.svgt",ATARIKEY,ATARISHIFT);
 
     kb.startRow();
     kb.spacer(1);
     kb.key("Numlock","KP_NUMLOCK",3,3,null,null,"",MK,"name=Lock","S=Num",ATARIKEY,ATARISHIFT);
     kb.endRow();
-
-    kb.startRow();
-    kb.spacer(1);
-    kb.key("M","",7,3,"doNothing()","mainMenu()","",MK,"S=Main Menu",ATARIKEY,ATARISHIFT);
-    kb.spacer(3);
-    kb.notKey("",2,1,"CAPS");
-    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=CAPSLOCK-LED");
-    kb.endRowThirds(1);
-    kb.startRow();
-    kb.spacer(11);
-    kb.notKey("",2,1,"NUM");
-    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=NUMLOCK-LED");
-    kb.endRowThirds(1);
-    kb.startRow();
-    kb.spacer(11);
-    kb.notKey("",2,1,"SCRL");
-    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=SCROLLLOCK-LED");
-    kb.endRowThirds(1);
-
-    kb.startRow();
-    kb.spacer(1);
-    kb.key("L","",7,3,"doNothing()","doLogout()","",MK,"S=Logout",ATARIKEY,ATARISHIFT);
-    kb.endRow();
+    kb.menuReturnToMain("atari/keys/key2.svgt","std/keys/led.svgt",ATARIKEY,ATARISHIFT);
+    kb.menuLogout("atari/keys/key2.svgt","std/keys/led.svgt",ATARIKEY,ATARISHIFT);
     kb.endKeyboard();
 
     kb.endHtml();

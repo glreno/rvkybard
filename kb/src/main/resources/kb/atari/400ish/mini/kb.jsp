@@ -152,46 +152,8 @@
     //
     kb.endKeyboard();
 
-    // Now the popup menu
-    kb.startMenu();
-    kb.startRow();
-    kb.endRowThirds(1);
-    kb.startRow();
-    kb.spacer(10);
-    kb.key("X","",4,3,"doNothing()","closeMenu()","",MK,"S=Close");
-    kb.endRowThirds(1);
-    kb.startRow();
-    kb.spacer(1);
-    kb.notKey("CONTACT-STATUS-TEXT",10,1,"connection status pending");
-    kb.endRowThirds(2);
-
-    kb.startRow();
-    // blank row
-    kb.endRow();
-
-    kb.startRow();
-    kb.spacer(1);
-    kb.key("M","",7,3,"doNothing()","mainMenu()","",MK,"S=Main Menu");
-    kb.spacer(3);
-    kb.notKey("",2,1,"CAPS");
-    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=CAPSLOCK-LED");
-    kb.endRowThirds(1);
-    kb.startRow();
-    kb.spacer(11);
-    kb.notKey("",2,1,"NUM");
-    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=NUMLOCK-LED");
-    kb.endRowThirds(1);
-    kb.startRow();
-    kb.spacer(11);
-    kb.notKey("",2,1,"SCRL");
-    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=SCROLLLOCK-LED");
-    kb.endRowThirds(1);
-
-    kb.startRow();
-    kb.spacer(1);
-    kb.key("L","",7,3,"doNothing()","doLogout()","",MK,"S=Logout");
-    kb.endRow();
-    kb.endKeyboard();
+    // Define the popup menu
+    kb.menu();
 
     kb.endHtml();
 %>
