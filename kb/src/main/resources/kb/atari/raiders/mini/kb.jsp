@@ -93,7 +93,7 @@
     kb.key("A","KB_A",6,6,null,null,"",D2+"keyA.svgt","S1=Aft","S2=View");
     kb.key("L","KB_L",6,6,null,null,"",D2+"keyL.svgt","S1=Long Range","S2=Scanner");
     kb.spacer(2);
-    kb.key("MENU","",4,3,"panic()","menu()","",KM,"FS=16","BGC="+SHIFTCOLOR);
+    kb.key("P","KB_P",4,3,null,null,"",D2+"keyPause.svgt","S2=PAUSE");
     kb.key("START","KB_F7",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
@@ -101,7 +101,7 @@
     kb.startRow();
     kb.spacer(25);
     kb.key(" ","KB_SPACE",6,3,null,null,"",null);
-    kb.key("P","KB_P",4,3,null,null,"",D2+"keyPause.svgt","S2=PAUSE");
+    kb.key("MENU","",4,3,"panic()","menu()","",KM,"FS=16","BGC="+SHIFTCOLOR);
     kb.endRow();
 
     //

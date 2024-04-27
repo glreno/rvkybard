@@ -20,4 +20,56 @@
 <text x="16" y="@{H-FS2*1.40+FIXLY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
 <text x="@{W/2}" y="@{H/4-FS2*1.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S1}</text>
 <text x="@{W/2}" y="@{H/4-FS2*.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S2}</text>
+
+<!-- not a tie figter -->
+<g transform='translate(@{W*.25},@{H*.4})'>
+    <rect fill="@{CTLBGC}" x="@{P*1.5*0}" y="@{P*1.5*0}" width="@{P*1.5*2}" height="@{P*1.5*8}"/>
+    <rect fill="@{CTLBGC}" x="@{P*1.5*12}" y="@{P*1.5*0}" width="@{P*1.5*2}" height="@{P*1.5*8}"/>
+    <rect fill="@{CTLBGC}" x="@{P*1.5*0}" y="@{P*1.5*3}" width="@{P*1.5*14}" height="@{P*1.5*2}"/>
+    <rect fill="@{CTLBGC}" x="@{P*1.5*4}" y="@{P*1.5*2}" width="@{P*1.5*6}" height="@{P*1.5*4}"/>
+</g>
+<!-- not a klingon -->
+<g transform='translate(@{W*.3},@{H*.7})'>
+    <rect fill="@{CTLBGC}" x="@{P*2.5*0}" y="@{P*2.5*3}" width="@{P*2.5*2}" height="@{P*2.5*4}"/>
+    <rect fill="@{CTLBGC}" x="@{P*2.5*10}" y="@{P*2.5*3}" width="@{P*2.5*2}" height="@{P*2.5*4}"/>
+    <rect fill="@{CTLBGC}" x="@{P*2.5*2}" y="@{P*2.5*1}" width="@{P*2.5*2}" height="@{P*2.5*4}"/>
+    <rect fill="@{CTLBGC}" x="@{P*2.5*8}" y="@{P*2.5*1}" width="@{P*2.5*2}" height="@{P*2.5*4}"/>
+    <rect fill="@{CTLBGC}" x="@{P*2.5*4}" y="@{P*2.5*0}" width="@{P*2.5*4}" height="@{P*2.5*3}"/>
+</g>
+<!-- not a base star -->
+<g transform='translate(@{W*.6},@{H*.5})'>
+    <rect fill="@{CTLBGC}" x="@{P*2*4}" y="@{P*2*0}" width="@{P*2*4}" height="@{P*2*7}"/>
+    <rect fill="@{CTLBGC}" x="@{P*2*2}" y="@{P*2*1}" width="@{P*2*8}" height="@{P*2*1}"/>
+    <rect fill="@{CTLBGC}" x="@{P*2*2}" y="@{P*2*5}" width="@{P*2*8}" height="@{P*2*1}"/>
+    <rect fill="@{CTLBGC}" x="@{P*2*0}" y="@{P*2*2}" width="@{P*2*12}" height="@{P*2*1}"/>
+    <rect fill="@{CTLBGC}" x="@{P*2*0}" y="@{P*2*4}" width="@{P*2*12}" height="@{P*2*1}"/>
+</g>
+
+<!-- crosshair -->
+<g transform='translate(@{W*.6+P*2*6},@{H*.5+P*2*3})'>
+<line x1='@{P*2*-12}' y1='0' x2='@{P*2*-4}' y2='0' style='stroke:@{TXTC};stroke-width:@{P*2};' />
+<line x1='@{P*2*12}' y1='0' x2='@{P*2*4}' y2='0' style='stroke:@{TXTC}; stroke-width:@{P*2};' />
+<line x1='0' y1='@{P*2*-10}' x2='0' y2='@{P*2*-4}' style='stroke:@{TXTC};stroke-width:@{P*2};' />
+<line x1='0' y1='@{P*2*10}' x2='0' y2='@{P*2*4}' style='stroke:@{TXTC};stroke-width:@{P*2};' />
+</g>
+
+<!-- arrow -->
+<g transform='translate(@{W*.55},@{H*.7})'><g transform='rotate(320)'>
+<line x1='0' y1='0' x2='@{P*14}' y2='0' style='stroke:@{SHFBGC};stroke-width:@{P};' />
+<line x1='@{P*10}' y1='@{P*-3}' x2='@{P*14}' y2='0' style='stroke:@{SHFBGC};stroke-width:@{P};' />
+<line x1='@{P*10}' y1='@{P*3}' x2='@{P*14}' y2='0' style='stroke:@{SHFBGC};stroke-width:@{P};' />
+</g></g>
+
+<g transform='translate(@{W*.55},@{H*.47})'><g transform='rotate(190)'>
+<line x1='0' y1='0' x2='@{P*14}' y2='0' style='stroke:@{SHFBGC};stroke-width:@{P};' />
+<line x1='@{P*10}' y1='@{P*-3}' x2='@{P*14}' y2='0' style='stroke:@{SHFBGC};stroke-width:@{P};' />
+<line x1='@{P*10}' y1='@{P*3}' x2='@{P*14}' y2='0' style='stroke:@{SHFBGC};stroke-width:@{P};' />
+</g></g>
+
+<g transform='translate(@{W*.35},@{H*.55})'><g transform='rotate(70)'>
+<line x1='0' y1='0' x2='@{P*14}' y2='0' style='stroke:@{SHFBGC};stroke-width:@{P};' />
+<line x1='@{P*10}' y1='@{P*-3}' x2='@{P*14}' y2='0' style='stroke:@{SHFBGC};stroke-width:@{P};' />
+<line x1='@{P*10}' y1='@{P*3}' x2='@{P*14}' y2='0' style='stroke:@{SHFBGC};stroke-width:@{P};' />
+</g></g>
+
 </svg>

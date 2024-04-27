@@ -40,13 +40,13 @@
 <line x1='@{W*.1}' y1='@{H*.7}' x2='@{W*.9}' y2='@{H*.7}' style='stroke:@{TXTC}; stroke-width:3;' />
 
 <!-- some dots -->
-<rect fill="@{TXTC}" x="@{W*.14}" y="@{H*.44}" width="@{W*.02}" height="@{H*.02}"/>
-<rect fill="@{TXTC}" x="@{W*.24}" y="@{H*.64}" width="@{W*.02}" height="@{H*.02}"/>
-<rect fill="@{TXTC}" x="@{W*.34}" y="@{H*.44}" width="@{W*.02}" height="@{H*.02}"/>
-<rect fill="@{TXTC}" x="@{W*.44}" y="@{H*.54}" width="@{W*.02}" height="@{H*.02}"/>
-<rect fill="@{TXTC}" x="@{W*.63}" y="@{H*.43}" width="@{W*.02}" height="@{H*.02}"/>
-<rect fill="@{TXTC}" x="@{W*.65}" y="@{H*.45}" width="@{W*.02}" height="@{H*.02}"/>
-<rect fill="@{TXTC}" x="@{W*.84}" y="@{H*.64}" width="@{W*.02}" height="@{H*.02}"/>
+<rect fill="@{CTLBGC}" x="@{W*.14}" y="@{H*.44}" width="@{W*.02}" height="@{H*.02}"/>
+<rect fill="@{CTLBGC}" x="@{W*.24}" y="@{H*.64}" width="@{W*.02}" height="@{H*.02}"/>
+<rect fill="@{CTLBGC}" x="@{W*.34}" y="@{H*.44}" width="@{W*.02}" height="@{H*.02}"/>
+<rect fill="@{CTLBGC}" x="@{W*.44}" y="@{H*.54}" width="@{W*.02}" height="@{H*.02}"/>
+<rect fill="@{CTLBGC}" x="@{W*.63}" y="@{H*.43}" width="@{W*.02}" height="@{H*.02}"/>
+<rect fill="@{CTLBGC}" x="@{W*.65}" y="@{H*.45}" width="@{W*.02}" height="@{H*.02}"/>
+<rect fill="@{CTLBGC}" x="@{W*.84}" y="@{H*.64}" width="@{W*.02}" height="@{H*.02}"/>
 <!-- big dot, maybe a starbase -->
 <rect fill="@{TXTC}" x="@{W*.53}" y="@{H*.63}" width="@{W*.04}" height="@{H*.04}"/>
 
