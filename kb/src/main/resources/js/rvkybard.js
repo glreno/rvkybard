@@ -83,9 +83,13 @@ function closeMenu() {
     const kbd = document.getElementById('kybard-main');
     kbd.enabled=true;
 }
-function mainMenu() {
+function linkTo(url) {
+    window.location.replace(url);
+}
+function mainMenu()
+{
     console.log('Going to main menu');
-    window.location.replace("/");
+    linkTo("/");
 }
 const asynclogout = async () => {
     // issue a logout to /l --- any GET is a logout

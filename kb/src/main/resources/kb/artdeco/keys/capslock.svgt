@@ -1,13 +1,21 @@
 <svg width="@{W}" height="@{H}">
-<circle fill="@{BORDC}" cx="@{stdW/2}" cy="50%" r="@{stdW/2}"/>
-<circle fill="@{BORDC}" cx="@{W-stdW/2}" cy="50%" r="@{stdW/2}"/>
+  <defs>
+    <linearGradient id="grad1" x1="10%" x2="100%" y1="100%" y2="0%" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="@{BORDC}" />
+      <stop offset="100%" stop-color="#fff" />
+    </linearGradient>
+  </defs>
+<g style='fill:url(#grad1);fill-opacity:1'>
+<circle cx="50%" cy="50%" r="10.5"/>
+<circle cx="@{stdW/2}" cy="50%" r="@{stdW/2}"/>
+<circle cx="@{W-stdW/2}" cy="50%" r="@{stdW/2}"/>
+<rect x="@{stdW/2}" y="0" width="@{W-stdW}" height="@{H}"/>
+</g>
 <circle class="CAPSLOCK-LED CAPSLOCK-LED-OFF" cx="@{stdW/2}" cy="50%" r="@{stdW/2-BORD}"/>
 <circle class="CAPSLOCK-LED CAPSLOCK-LED-OFF" cx="@{W-stdW/2}" cy="50%" r="@{stdW/2-BORD}"/>
 <circle fill="@{BGC}" cx="@{stdW/2}" cy="50%" r="@{stdW/2-BORD-BORD}"/>
 <circle fill="@{BGC}" cx="@{W-stdW/2}" cy="50%" r="@{stdW/2-BORD-BORD}"/>
 <rect fill="@{BGC}" x="@{stdW/2}" y="0" width="@{W-stdW}" height="@{H}"/>
-<line stroke="@{BORDC}" x1="@{stdW/2}" x2="@{W-stdW/2}" y1="@{BORD/2}" y2="@{BORD/2}" stroke-width="@{BORD}" />
-<line stroke="@{BORDC}" x1="@{stdW/2}" x2="@{W-stdW/2}" y1="@{H-BORD/2}" y2="@{H-BORD/2}" stroke-width="@{BORD}" />
 <line class="CAPSLOCK-LED CAPSLOCK-LED-OFF" x1="@{stdW/2}" x2="@{W-stdW/2}" y1="@{BORD/2+BORD}" y2="@{BORD/2+BORD}" stroke-width="@{BORD}" />
 <line class="CAPSLOCK-LED CAPSLOCK-LED-OFF" x1="@{stdW/2}" x2="@{W-stdW/2}" y1="@{H-BORD/2-BORD}" y2="@{H-BORD/2-BORD}" stroke-width="@{BORD}" />
 <text x="50%" y="${H/2+FS*.15}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>

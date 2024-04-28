@@ -8,7 +8,7 @@
     String DA="atari/keys/";
     String DS="std/keys/";
     String DK="artdeco/keys/";
-    kb.setDefaultSvg(DK+"key.svgt",3,3,"FS=48","BORD=4","BORDC=#222","BGC=#eec","TXTC=#000");
+    kb.setDefaultSvg(DK+"key.svgt",3,3,"FS=48","BORD=4","BORDC=#CD7F32","BGC=#eec","TXTC=#000");
     String K2=DK+"key2.svgt";
     String KW=DK+"keywide.svgt";
     String KLED=DS+"led.svgt";

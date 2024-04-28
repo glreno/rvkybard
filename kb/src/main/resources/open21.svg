@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="21" height="21" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="grad1" x1="10%" x2="100%" y1="100%" y2="0%">
+      <stop offset="0%" stop-color="#CD7F32" />
+      <stop offset="100%" stop-color="#fff" />
+    </linearGradient>
+  </defs>
+<circle fill="url(#grad1)" cx="50%" cy="50%" r="10.5"/>
+<circle fill="#eec" cx="50%" cy="50%" r="7"/>
+<line stroke="#222" stroke-width="2" x1="25%" y1="50%" x2="50%" y2="70%"/>
+<line stroke="#222" stroke-width="2" x1="75%" y1="50%" x2="50%" y2="70%"/>
+</svg>

@@ -7,16 +7,10 @@
 <%@ page import="com.rfacad.rvkybard.index.Keyboard"%>
 <%@ page import="com.rfacad.rvkybard.index.Protocol"%>
 <%
-    String BACKCOLOR= "#434343"; // 67,67,67
-    String KEYCOLOR=  "#776047"; // 119,96,71
-    String SHIFTCOLOR="#CF8710"; // 207,135,16
-    String CTRLCOLOR= "#FFC640"; // 255,198,64
-    String TXTCOLOR=  "#D6D2CE"; // 214,210,206
-
-    KybardJspHelper kb=new KybardJspHelper(out,"rvkybard",8*3+2,3+2,null);
+    KybardJspHelper kb=new KybardJspHelper(out,"rvkybard",8+12+6,3,null);
     kb.setMouseMode(MouseMode.CLICK);
-    kb.setMenuRows(2*3+2);
-    kb.setDefaultSvg("atari/keys/key2.svgt",3,5+3,"FS=48","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR);
+    kb.setDefaultSvg("artdeco/keys/keywide.svgt",3,3,"BORD=4","BORDC=#CD7F32","BGC=#eec","TXTC=#000","FS=16");
+    kb.setDefaultCellSize(10,10,1,2);
 
 	kb.startHtml();
 %>
@@ -56,14 +50,14 @@ function menuOpenClose(button,menuid)
         //console.log('closing '+menuid);
         menu.style.visibility='collapse';
         menu.style.height='0px';
-        button.src='closed17.svg';
+        button.src='closed21.svg';
     }
     else
     {
         //console.log('opening '+menuid);
         menu.style.visibility='visible';
         menu.style.height='auto';
-        button.src='open17.svg';
+        button.src='open21.svg';
     }
 }
 </script>
@@ -89,7 +83,7 @@ function menuOpenClose(button,menuid)
             int nrow=(nprotocols<3)?3:nprotocols;
 %>
 <div class='kybardidx-menu-title'>
-  <div style='grid-area: 1/1/span 1/span 1;'><img src='closed17.svg' onclick="menuOpenClose(this,'kybard-menu-body-<%=id%>')"/></div>
+  <div style='grid-area: 1/1/span 1/span 1;'><img src='closed21.svg' onclick="menuOpenClose(this,'kybard-menu-body-<%=id%>')"/></div>
   <div style='grid-area: 1/2/span 1/span 2;'><%=keyboard.getName()%></div>
 </div>
 <div class='kybardidx-menu-body' id='kybard-menu-body-<%=id%>' style='grid-template-rows: auto repeat(<%=nrow%>,30px);' >
@@ -109,19 +103,16 @@ function menuOpenClose(button,menuid)
 <%
         }
     }
-
 %>
+<br>
+<br>
 <div class='footer'>
-<table>
-<tr><td><a href='/config.jsp'>Settings</a></td>
-<td></td>
-<td><a href=https://github.com/glreno/rvkybard/wiki>Documentation</a></td>
-<td></td>
-<td><a href=https://github.com/glreno/rvkybard>Source on github</a></td>
-</tr><tr><td colspan=5>
-rvkybard Copyright &copy; 2024 Gerald Reno, Jr.
-</td></tr></table>
-</div>
 <%
-	kb.endHtml();
+    // a very small keyboard that is just links to other places
+    kb.startKeyboard();
+    kb.key("Settings","",8,3,"doNothing()","linkTo('/config.jsp')","",null);
+    kb.key("Documentation","",12,3,"doNothing()","window.open('https://github.com/glreno/rvkybard/wiki','_blank').focus()","",null);
+    kb.key("Source","",6,3,"doNothing()","window.open('https://github.com/glreno/rvkybard','_blank').focus()","",null);
+    kb.endKeyboard();
+    kb.endHtml();
 %>
