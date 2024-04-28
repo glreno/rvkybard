@@ -21,20 +21,20 @@ import com.rfacad.rvkybard.interfaces.MouseMode;
 //http://www.apache.org/licenses/LICENSE-2.0
 //
 
-public class Config
+public class RvKybardConfig
 {
-    private static Logger LOG = LoggerFactory.getLogger(Config.class);
+    private static Logger LOG = LoggerFactory.getLogger(RvKybardConfig.class);
 
     private static final String MOUSEMODE = "MouseMode";
 
-    private static Config SINGLETON;
+    private static RvKybardConfig SINGLETON;
 
-    public static Config getConfig()
+    public static RvKybardConfig getConfig()
     {
         return SINGLETON;
     }
 
-    public static void setConfig(Config c)
+    public static void setConfig(RvKybardConfig c)
     {
         SINGLETON=c;
     }

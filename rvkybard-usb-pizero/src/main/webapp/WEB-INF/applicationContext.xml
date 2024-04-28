@@ -35,7 +35,7 @@ http://www.apache.org/licenses/LICENSE-2.0
         <property name='loginPageUrl' value='/login.html' />
     </bean>
 
-    <bean id="config" class="com.rfacad.rvkybard.util.Config" init-method = "init">
+    <bean id="config" class="com.rfacad.rvkybard.util.RvKybardConfig" init-method = "init">
         <property name='configFile' value='/var/lib/rvkybard/config.txt' />
     </bean>
 

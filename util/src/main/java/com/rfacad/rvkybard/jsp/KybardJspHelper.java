@@ -13,7 +13,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.rfacad.rvkybard.util.Config;
+import com.rfacad.rvkybard.util.RvKybardConfig;
 import com.rfacad.rvkybard.util.TemplateProcessor;
 import com.rfacad.rvkybard.interfaces.MouseMode;
 
@@ -74,7 +74,7 @@ public class KybardJspHelper
 
     public void readMouseMode()
     {
-        Config c = Config.getConfig();
+        RvKybardConfig c = RvKybardConfig.getConfig();
         if ( c!=null )
         {
             this.mouseMode=c.getMouseMode();

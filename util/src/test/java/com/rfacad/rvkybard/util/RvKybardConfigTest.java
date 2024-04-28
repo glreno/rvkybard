@@ -21,7 +21,7 @@ import com.rfacad.rvkybard.interfaces.MouseMode;
 //
 //http://www.apache.org/licenses/LICENSE-2.0
 //
-public class ConfigTest
+public class RvKybardConfigTest
 {
     private static final String VAL1 = "val1";
     private static final String KEY1 = "key1";
@@ -37,39 +37,39 @@ public class ConfigTest
     @After
     public void cleanup()
     {
-        Config.setConfig(null);
+        RvKybardConfig.setConfig(null);
         testfile.delete();
     }
 
     @Test
     public void shouldReadWriteTextParamsToConfigFile()
     {
-        Config c = new Config();
+        RvKybardConfig c = new RvKybardConfig();
         c.setConfigFile(testfile.getAbsolutePath());
         c.init();
-        assertEquals(c,Config.getConfig());
+        assertEquals(c,RvKybardConfig.getConfig());
 
         assertNull(c.getValue(KEY1));
         c.setValue(KEY1,VAL1);
         assertEquals(VAL1,c.getValue(KEY1));
 
         // Create a new config object
-        Config.setConfig(null);
-        c = new Config();
+        RvKybardConfig.setConfig(null);
+        c = new RvKybardConfig();
         assertNull(c.getValue(KEY1));
         c.setConfigFile(testfile.getAbsolutePath());
         c.init();
-        assertEquals(c,Config.getConfig());
+        assertEquals(c,RvKybardConfig.getConfig());
         assertEquals(VAL1,c.getValue(KEY1));
     }
 
     @Test
     public void shouldReadWriteMouseModeToConfigFile()
     {
-        Config c = new Config();
+        RvKybardConfig c = new RvKybardConfig();
         c.setConfigFile(testfile.getAbsolutePath());
         c.init();
-        assertEquals(c,Config.getConfig());
+        assertEquals(c,RvKybardConfig.getConfig());
 
         // Default value of mousemode is touch
         assertEquals(MouseMode.TOUCH,c.getMouseMode());
@@ -77,23 +77,23 @@ public class ConfigTest
         assertEquals(MouseMode.MOUSE,c.getMouseMode());
 
         // Create a new config object
-        Config.setConfig(null);
-        c = new Config();
+        RvKybardConfig.setConfig(null);
+        c = new RvKybardConfig();
         assertEquals(MouseMode.TOUCH,c.getMouseMode());
         c.setConfigFile(testfile.getAbsolutePath());
         c.init();
-        assertEquals(c,Config.getConfig());
+        assertEquals(c,RvKybardConfig.getConfig());
         assertEquals(MouseMode.MOUSE,c.getMouseMode());
         c.setMouseMode(MouseMode.TOUCH);
         assertEquals(MouseMode.TOUCH,c.getMouseMode());
 
         // Create a new config object again
-        Config.setConfig(null);
-        c = new Config();
+        RvKybardConfig.setConfig(null);
+        c = new RvKybardConfig();
         assertEquals(MouseMode.TOUCH,c.getMouseMode());
         c.setConfigFile(testfile.getAbsolutePath());
         c.init();
-        assertEquals(c,Config.getConfig());
+        assertEquals(c,RvKybardConfig.getConfig());
         assertEquals(MouseMode.TOUCH,c.getMouseMode());
 
     }

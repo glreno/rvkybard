@@ -16,7 +16,7 @@ import org.junit.After;
 import org.junit.Test;
 
 import com.rfacad.rvkybard.interfaces.MouseMode;
-import com.rfacad.rvkybard.util.Config;
+import com.rfacad.rvkybard.util.RvKybardConfig;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -35,7 +35,7 @@ public class KybardJspHelperTest
     @After
     public void cleanup()
     {
-        Config.setConfig(null);
+        RvKybardConfig.setConfig(null);
     }
 
     @Test
