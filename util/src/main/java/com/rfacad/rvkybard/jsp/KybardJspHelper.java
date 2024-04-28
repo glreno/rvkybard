@@ -13,6 +13,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.rfacad.rvkybard.util.Config;
 import com.rfacad.rvkybard.util.TemplateProcessor;
 import com.rfacad.rvkybard.interfaces.MouseMode;
 
@@ -60,6 +61,7 @@ public class KybardJspHelper
     // tricky: you spcecify the size in grid cells, NOT keys. setDefaultSvg sets the key size in grid cells (default 3x3)
     public KybardJspHelper(Writer out, String title,int gridCols, int gridRows, String favIcoFn)
     {
+        readMouseMode();
         this.out = out;
         this.gridCols=gridCols;
         this.gridRows=gridRows;
@@ -69,6 +71,16 @@ public class KybardJspHelper
         templateProcessor.loadDefault("TITLE", title);
         calculateDefaultSizes();
     }
+
+    public void readMouseMode()
+    {
+        Config c = Config.getConfig();
+        if ( c!=null )
+        {
+            this.mouseMode=c.getMouseMode();
+        }
+    }
+
     public void setMenuRows(int rows)
     {
         this.menuRows=rows;

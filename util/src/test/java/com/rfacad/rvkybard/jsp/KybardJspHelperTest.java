@@ -12,9 +12,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.After;
 import org.junit.Test;
 
 import com.rfacad.rvkybard.interfaces.MouseMode;
+import com.rfacad.rvkybard.util.Config;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -29,6 +31,12 @@ public class KybardJspHelperTest
 {
     private static final File TOP = new File("../kb/src/main/resources/kb");
     private static final String DS = "std/keys/";
+
+    @After
+    public void cleanup()
+    {
+        Config.setConfig(null);
+    }
 
     @Test
     public void shouldCalculateDefaultSizes() throws IOException
