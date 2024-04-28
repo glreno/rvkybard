@@ -38,6 +38,10 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
+        <url-pattern>/config.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
         <url-pattern>/kb/*</url-pattern>
     </filter-mapping>
     <!-- no auth needed to get to cs and js, or to login page of course -->
