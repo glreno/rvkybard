@@ -2,6 +2,7 @@ package com.rfacad.rvkybard.config;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -10,7 +11,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
-import java.util.Vector;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.After;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 import com.rfacad.rvkybard.interfaces.AuthI;
 import com.rfacad.rvkybard.interfaces.MouseMode;
@@ -93,6 +96,7 @@ public class ConfigServletTest
     {
         AuthI mockAuth = mock(AuthI.class);
         doReturn(true).when(mockAuth).checkForValidCookie(any());
+        ArgumentCaptor<String> redirectCaptor = ArgumentCaptor.forClass(String.class);
 
         RvKybardConfig cfg=new RvKybardConfig();
         cfg.init();
@@ -102,16 +106,19 @@ public class ConfigServletTest
         cs.init();
         cs.setAuthI(mockAuth);
 
-        Vector<String> keys=new Vector(Arrays.asList("foo","MouseMode"));
         HttpServletResponse resp = mock(HttpServletResponse.class);
         HttpServletRequest req = mock(HttpServletRequest.class);
         StringWriter stringWriter = new StringWriter();
         when(resp.getWriter()).thenReturn(new PrintWriter(stringWriter));
-        when(req.getParameterNames()).thenReturn(keys.elements());
-        when(req.getParameter("foo")).thenReturn("bar");
-        when(req.getParameter("MouseMode")).thenReturn("MOUSE");
+        Map<String,String[]> params=new HashMap<>();
+        params.put("foo", new String[]{"bar"});
+        params.put("MouseMode", new String[]{"MOUSE"});
+        when(req.getParameterMap()).thenReturn(params);
+        doNothing().when(resp).sendRedirect(redirectCaptor.capture());
 
         cs.doPost(req,resp);
+
+        assertEquals("/",redirectCaptor.getValue());
 
         assertEquals("bar",cfg.getValue("foo"));
         assertEquals(MouseMode.MOUSE,cfg.getMouseMode());

@@ -110,29 +110,15 @@ function menuOpenClose(button,menuid)
         }
     }
 
-    // A little tiny kybard to pop up a settings menu
-    kb.startKeyboard();
-    kb.startRow();
-    kb.key("MENU","",6,3,"panic()","menu()","",null,"name=","S=Settings");
-    kb.endRow();
-    kb.endKeyboard();
-
-    String ATARISHIFT="SHFBGC=#CF8710"; // 207,135,16
-    String ATARIKEY="BGC=#776047"; // 119,96,71
-    kb.startMenu();
-    kb.menuClose(null,ATARIKEY,ATARISHIFT);
-    kb.menuLogout(null,"std/keys/led.svgt",ATARIKEY,ATARISHIFT);
-    kb.endKeyboard();
-
-
 %>
 <div class='footer'>
 <table>
-<tr>
+<tr><td><a href='/config.jsp'>Settings</a></td>
+<td></td>
 <td><a href=https://github.com/glreno/rvkybard/wiki>Documentation</a></td>
 <td></td>
 <td><a href=https://github.com/glreno/rvkybard>Source on github</a></td>
-</tr><tr><td colspan=3>
+</tr><tr><td colspan=5>
 rvkybard Copyright &copy; 2024 Gerald Reno, Jr.
 </td></tr></table>
 </div>

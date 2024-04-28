@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -73,14 +75,22 @@ public class RvKybardConfig
 
     public void setValue(String key,String value)
     {
+        setValues(Collections.singletonMap(key, new String[]{value}));
+    }
+
+    public void setValues(Map<String,String[]> values)
+    {
         // update cache
-        content.setProperty(key, value);
+        for(Map.Entry<String, String[]> e : values.entrySet() )
+        {
+            content.setProperty(e.getKey(), e.getValue()[0]);
+        }
         // rewrite the file
         if ( configFile != null )
         {
             try(FileWriter out = new FileWriter(configFile) )
             {
-                content.store(out, value);
+                content.store(out,"");
             }
             catch (IOException e)
             {

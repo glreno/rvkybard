@@ -2,7 +2,6 @@ package com.rfacad.rvkybard.config;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -88,10 +87,8 @@ public class ConfigServlet extends HttpServlet
             return;
         }
 
-        for(Enumeration<String> e = req.getParameterNames(); e.hasMoreElements();)
-        {
-            String k=e.nextElement();
-            RvKybardConfig.getConfig().setValue(k, req.getParameter(k));
-        }
+        RvKybardConfig.getConfig().setValues(req.getParameterMap());
+
+        resp.sendRedirect("/");
     }
 }
