@@ -1,5 +1,12 @@
 # Version History
 
+## 0.08
+
+- New index page
+- Rearranged keyboard dirs by theme and protocol
+- New settings page
+- Support for mouse or touchscreen
+
 ## 0.07dev
 
 Dev release

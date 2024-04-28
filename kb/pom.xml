@@ -15,14 +15,14 @@
 
 <groupId>com.rfacad.rvkybard</groupId>
 <artifactId>com.rfacad.rvkybard.kb</artifactId>
-<version>0.07dev</version>
+<version>0.08</version>
 <packaging>jar</packaging>
 <description>The rvkybard keyboard collection</description>
 
 <parent>
     <groupId>com.rfacad.rvkybard</groupId>
     <artifactId>rvkybard</artifactId>
-    <version>0.07dev</version>
+    <version>0.08</version>
 </parent>
 
 <licenses>
