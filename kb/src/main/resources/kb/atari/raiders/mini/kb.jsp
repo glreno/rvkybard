@@ -4,7 +4,6 @@
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"Raiders Copilot",11*3+3,5*3+2,null);
     kb.loadDefault("COPYRIGHTMESSAGE", "ATARI, Star Raiders, and the ATARI logo are trademarks of Atari Interactive Inc.");
-    kb.setMouseMode(false);
 
     // Standard colours
     String BACKCOLOR= "#434343"; // 67,67,67
@@ -101,7 +100,7 @@
     kb.startRow();
     kb.spacer(25);
     kb.key(" ","KB_SPACE",6,3,null,null,"",null);
-    kb.key("MENU","",4,3,"panic()","menu()","",KM,"FS=16","BGC="+SHIFTCOLOR);
+    kb.key("MENU","",4,3,"panic()",kb.MENU,"",KM,"FS=16","BGC="+SHIFTCOLOR);
     kb.endRow();
 
     //

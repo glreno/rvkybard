@@ -14,6 +14,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.rfacad.rvkybard.interfaces.MouseMode;
+
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
 //
@@ -170,7 +172,7 @@ public class KybardJspHelperTest
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "", "");
-        h.setMouseMode(true);
+        h.setMouseMode(MouseMode.MOUSE);
         h.setTop(TOP);
         h.setDefaultSvg(DS+"/key.svgt", 6, 2);
         h.setX(5);
@@ -220,6 +222,24 @@ public class KybardJspHelperTest
         assertTrue(s,s.contains("flagDown(this,'LEFT_SHIFT')"));
         assertTrue(s,s.contains("flagUp(this,'LEFT_SHIFT')"));
         assertTrue(s,s.contains(">Shift</text>"));
+        assertTrue(s,s.endsWith("</button></div>\n"));
+    }
+
+    @Test
+    public void shouldWriteMenuKey()
+    {
+        StringWriter out = new StringWriter();
+        KybardJspHelper h = new KybardJspHelper(out, "", "");
+        h.setTop(TOP);
+        h.setDefaultSvg(DS+"/key.svgt", 66, 66, 3, 3);
+        h.setX(5);
+        h.setY(4);
+        h.key("Menu","",6,3,"panic()",KybardJspHelper.MENU,"",null);
+        String s = out.toString();
+        assertEquals("<div class='key' style='grid-area: 4/5/span 3/span 6;'><button",s.substring(0, 62));
+        assertTrue(s,s.contains("onmousedown=\"panic()\""));
+        assertTrue(s,s.contains("onclick=\"menu()\""));
+        assertTrue(s,s.contains(">Menu</text>"));
         assertTrue(s,s.endsWith("</button></div>\n"));
     }
 

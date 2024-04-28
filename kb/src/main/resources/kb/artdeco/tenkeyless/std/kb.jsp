@@ -3,7 +3,6 @@
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"Round",20*3,6*3,null);
-    kb.setMouseMode(false);
 
     // Default key SVG and size
     String DA="atari/keys/";
@@ -126,7 +125,7 @@
     kb.key("'","KB_APOSTROPHE",3,3,null,null,"",K2,"S=&quot;");
     kb.key("Enter","KB_ENTER",5,3,null,null,"",KW,"FS=18");
     kb.spacer(8);
-    kb.key("Menu","",3,3,"panic()","menu()","",K2,"FS=24");
+    kb.key("Menu","",3,3,"panic()",kb.MENU,"",K2,"FS=24");
     kb.endRow();
 
     // shift zxcvbnm,./ shift space uparrow

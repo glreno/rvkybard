@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII"%>
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper"%>
+<%@ page import="com.rfacad.rvkybard.interfaces.MouseMode"%>
 <%@ page import="com.rfacad.rvkybard.index.IndexHelper"%>
 <%@ page import="com.rfacad.rvkybard.index.Theme"%>
 <%@ page import="com.rfacad.rvkybard.index.Keyboard"%>
@@ -13,6 +14,7 @@
     String TXTCOLOR=  "#D6D2CE"; // 214,210,206
 
     KybardJspHelper kb=new KybardJspHelper(out,"rvkybard",8*3+2,3+2,null);
+    kb.setMouseMode(MouseMode.CLICK);
     kb.setMenuRows(2*3+2);
     kb.setDefaultSvg("atari/keys/key2.svgt",3,5+3,"FS=48","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR);
 

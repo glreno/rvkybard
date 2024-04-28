@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.rfacad.rvkybard.util.TemplateProcessor;
+import com.rfacad.rvkybard.interfaces.MouseMode;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -29,11 +30,12 @@ public class KybardJspHelper
     private static Logger LOG = LoggerFactory.getLogger(KybardJspHelper.class);
 
     public static final String SHIFT="shifty!";
+    public static final String MENU="menu!";
 
     private Writer out;
 
     private File top;
-    private boolean mouseMode=false;
+    private MouseMode mouseMode=MouseMode.TOUCH;
 
     private String templateFn=null;
     private int keyColSpan=3;
@@ -77,7 +79,7 @@ public class KybardJspHelper
         this.top=top;
     }
 
-    public void setMouseMode(boolean mouseMode)
+    public void setMouseMode(MouseMode mouseMode)
     {
         this.mouseMode = mouseMode;
     }
@@ -269,6 +271,7 @@ public class KybardJspHelper
      */
     public void key(String name,String keycode,int colspan,int rowspan,String custDown,String custUp,String cssClass,String svgTemplateFn,String ... svgParams)
     {
+        MouseMode mm = this.mouseMode;
         String down=custDown;
         if ( down == null )
         {
@@ -287,6 +290,11 @@ public class KybardJspHelper
         else if ( SHIFT.equals(custUp) )
         {
             up =  "flagUp(this,'"+keycode+"')";
+        }
+        else if ( MENU.equals(custUp) )
+        {
+            up =  "menu()";
+            mm = MouseMode.CLICK;
         }
 
         Map<String,Object> keyParams = new HashMap<>();
@@ -308,11 +316,13 @@ public class KybardJspHelper
                 buf.append(cssClass);
             }
             buf.append("'");
-            buf.append(mouseMode?" onmousedown=":" ontouchstart=");
+            buf.append(mm.getDown());
+            buf.append('=');
             buf.append('"');
             buf.append(down);
             buf.append('"');
-            buf.append(mouseMode?" onmouseup=":" ontouchend=");
+            buf.append(mm.getUp());
+            buf.append('=');
             buf.append('"');
             buf.append(up);
             buf.append('"');
@@ -417,6 +427,7 @@ public class KybardJspHelper
      * including the all important one calling closeMenu(), and then finally endKeyboard() */ 
     public void startMenu()
     {
+        setMouseMode(MouseMode.CLICK);
         // this calculation has to be in the ctor to get the numbers into the top style
         calculateDefaultSizes();
         startKeyboard("kybard-menu-container","kybard-menu");

@@ -4,7 +4,6 @@
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"400ish",17*3+1,5*3+2,null);
     kb.loadDefault("COPYRIGHTMESSAGE", "ATARI and the ATARI logo are trademarks of Atari Interactive Inc.");
-    kb.setMouseMode(false);
 
     // Standard colours
     String BACKCOLOR= "#434343"; // 67,67,67
@@ -74,7 +73,7 @@
     kb.key("BACK S","KB_BACKSPACE",3,3,null,null,"",K2,"S=DELETE","FS=30");
     kb.key("BREAK","KB_F8",3,3,null,null,"",null,"FS=16");
     kb.spacer(1);
-    kb.key("MENU","",4,3,"panic()","menu()","",KM,"FS=16","BGC="+SHIFTCOLOR);
+    kb.key("MENU","",4,3,"panic()",kb.MENU,"",KM,"FS=16","BGC="+SHIFTCOLOR);
     kb.endRow();
 
     // Tab qwertyuiop - = Return

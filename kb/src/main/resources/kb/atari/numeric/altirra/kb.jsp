@@ -5,7 +5,7 @@
     // Page title, and keyboard size in cells. 5 keys * 3 cells wide, 5 keys * 3 cells high
     KybardJspHelper kb=new KybardJspHelper(out,"Atari Keypad",5*3+3,4*3+2,null);
     kb.loadDefault("COPYRIGHTMESSAGE", "ATARI and the ATARI logo are trademarks of Atari Interactive Inc.");
-    kb.setMouseMode(false);
+
     // Standard colours
     String BACKCOLOR= "#434343"; // 67,67,67
     String KEYCOLOR=  "#776047"; // 119,96,71
@@ -61,7 +61,7 @@
     kb.key("9","KP_9",3,3,null,null,"",K2);
     kb.key("LOCK","KP_NUMLOCK",3,3,null,null,"",K2,"FS=30","S=NUM");
     kb.key("","",1,3,"doNothing()","doNothing()","",KLED,"CLS=NUMLOCK-LED");
-    kb.key("MENU","",3,3,"panic()","menu()","",K,"FS=16","BGC="+SHIFTCOLOR);
+    kb.key("MENU","",3,3,"panic()",kb.MENU,"",K,"FS=16","BGC="+SHIFTCOLOR);
     kb.endRow();
 
     // 4 5 6 ret option
