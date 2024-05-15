@@ -87,15 +87,15 @@ function menuOpenClose(button,menuid)
   <div style='grid-area: 1/2/span 1/span 2;'><%=keyboard.getName()%></div>
 </div>
 <div class='kybardidx-menu-body' id='kybard-menu-body-<%=id%>' style='grid-template-rows: auto repeat(<%=nrow%>,30px);' >
-  <div style='grid-area: 1/2/span 4/span 1;'><%=keyboard.getSnapshotOrBlank()%></div>
-  <div style='grid-area: 1/3/span 1/span 1;'><%=keyboard.getDescription()%></div>
+  <div style='grid-area: 1/3/span 4/span 1;'><%=keyboard.getSnapshotOrBlank()%></div>
+  <div style='grid-area: 1/2/span 1/span 1;'><%=keyboard.getDescription()%></div>
 <%
             int pid=1;
             for(Protocol p : keyboard.getProtocols())
             {
                 ++pid;
 %>
-  <div style='grid-area: <%=pid%>/3/span 1/span 1;'><a href="/kb/<%=p.getLink()%>"><%=p.getName()%></a></div>
+  <div style='grid-area: <%=pid%>/2/span 1/span 1;'><a href="/kb/<%=p.getLink()%>"><%=p.getName()%></a></div>
 <%
             }
 %>
