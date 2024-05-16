@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +15,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.rfacad.rvkybard.interfaces.AuthI;
+import com.rfacad.rvkybard.interfaces.AuthTokenI;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -57,7 +57,7 @@ public class AuthServlet extends HttpServlet
         // But since the goal of all this is to maintain only a SINGLE active user,
         // I can just log out everybody.
         LOG.debug("Logging out!");
-        authi.logout("");
+        authi.logout(null);
     }
 
     @Override
@@ -73,8 +73,8 @@ public class AuthServlet extends HttpServlet
         }
         else
         {
-            String s = authi.login(pin);
-            if ( s != null )
+            AuthTokenI token = authi.login(pin);
+            if ( token != null )
             {
                 LOG.debug("Successful login");
                 String u = req.getParameter(AuthI.UPDATEPINNAME);
@@ -83,12 +83,7 @@ public class AuthServlet extends HttpServlet
                     LOG.warn("Updating PIN db");
                     authi.writePin(u.trim());
                 }
-                Cookie cookie = new Cookie(AuthI.COOKIENAME,s);
-                int seconds = 60*60; // an hour
-                cookie.setMaxAge(seconds);
-                cookie.setHttpOnly(true);
-                cookie.setPath("/");
-                resp.addCookie(cookie);
+                resp.addCookie(token.makeCookie());
                 resp.sendRedirect("/");
                 return;
             }

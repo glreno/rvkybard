@@ -49,21 +49,29 @@ public class AuthFilter implements Filter
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException
     {
-        LOG.debug("Login attempt starting");
+        LOG.debug("Auth attempt starting");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         AuthI authi=AuthS.getAuthI();
         if ( authi == null )
         {
-            LOG.error("Auth not yet started");
+            LOG.error("Auth service not yet started");
             httpServletResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
         }
 
         Cookie[]cookies = httpServletRequest.getCookies();
 
-        if (authi.checkForValidCookie(cookies))
+        // checkForValidCookie returns number of remaining seconds.
+        // 0 or negative indicate an expired cookie.
+        // (-1 might mean there is no cookie)
+        long life = authi.checkForValidCookie(cookies).getLifespan();
+        if ( life > 0 )
         {
+            if ( life < 60 )
+            {
+                LOG.debug("Auth succeeded! Seconds remaining={}",life);
+            }
             LOG.debug("Auth succeeded!");
             chain.doFilter(request, response);
         }

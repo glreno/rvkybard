@@ -35,7 +35,7 @@ public class AuthFilterTest
     private static final String CC = "chocolatechip";
     private static final Cookie GOODCOOKIE = new Cookie(AuthI.COOKIENAME, CC);
     private static final Cookie BADCOOKIE = new Cookie(AuthI.COOKIENAME, "oatmealraisin");
-    private AuthI mockAuthi;
+    private AuthImpl mockAuthi;
     private HttpServletRequest req;
     private HttpServletResponse resp;
     private ArgumentCaptor<Integer> statusCaptor;
@@ -61,7 +61,8 @@ public class AuthFilterTest
         doNothing().when(resp).sendError(statusCaptor.capture());
         doNothing().when(resp).sendRedirect(redirectCaptor.capture());
         // There is one good cookie. All else return false.
-        doReturn(true).when(mockAuthi).isCookieValid(CC);
+        AuthToken goodToken = new AuthToken(CC,1L);
+        doReturn(goodToken).when(mockAuthi).findToken(CC);
         doCallRealMethod().when(mockAuthi).checkForValidCookie(any());
         doReturn(LOGINPAGE).when(mockAuthi).getLoginPageUrl();
     }

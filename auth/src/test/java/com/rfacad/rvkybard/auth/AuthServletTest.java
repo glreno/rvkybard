@@ -62,7 +62,8 @@ public class AuthServletTest
         doNothing().when(resp).addCookie(cookieCaptor.capture());
         doNothing().when(resp).addHeader(headerNameCaptor.capture(), headerValueCaptor.capture());
         // There is one good pin. Anything else will return null
-        doReturn("abcd").when(mockAuthi).login("6502");
+        AuthToken token = new AuthToken("abcd",1);
+        doReturn(token).when(mockAuthi).login("6502");
         doNothing().when(mockAuthi).writePin(updateCaptor.capture());
         doReturn(LOGINPAGE).when(mockAuthi).getLoginPageUrl();
     }

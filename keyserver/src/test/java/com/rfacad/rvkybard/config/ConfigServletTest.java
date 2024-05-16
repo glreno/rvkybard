@@ -19,10 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import com.rfacad.rvkybard.interfaces.AuthI;
+import com.rfacad.rvkybard.interfaces.AuthTokenI;
 import com.rfacad.rvkybard.interfaces.MouseMode;
 import com.rfacad.rvkybard.util.RvKybardConfig;
 
@@ -38,6 +40,15 @@ import com.rfacad.rvkybard.util.RvKybardConfig;
 
 public class ConfigServletTest
 {
+    private AuthTokenI okToken;
+
+    @Before
+    public void setup()
+    {
+        okToken = mock(AuthTokenI.class);
+        doReturn(true).when(okToken).isOK();
+    }
+
     @After
     public void cleanup()
     {
@@ -48,7 +59,7 @@ public class ConfigServletTest
     public void shouldGetConfigFile() throws ServletException, IOException
     {
         AuthI mockAuth = mock(AuthI.class);
-        doReturn(true).when(mockAuth).checkForValidCookie(any());
+        doReturn(okToken).when(mockAuth).checkForValidCookie(any());
 
         RvKybardConfig cfg=new RvKybardConfig();
         cfg.init();
@@ -71,7 +82,7 @@ public class ConfigServletTest
     public void shouldGetSingleProperty() throws ServletException, IOException
     {
         AuthI mockAuth = mock(AuthI.class);
-        doReturn(true).when(mockAuth).checkForValidCookie(any());
+        doReturn(okToken).when(mockAuth).checkForValidCookie(any());
 
         RvKybardConfig cfg=new RvKybardConfig();
         cfg.init();
@@ -95,7 +106,7 @@ public class ConfigServletTest
     public void shouldUpdateConfig() throws ServletException, IOException
     {
         AuthI mockAuth = mock(AuthI.class);
-        doReturn(true).when(mockAuth).checkForValidCookie(any());
+        doReturn(okToken).when(mockAuth).checkForValidCookie(any());
         ArgumentCaptor<String> redirectCaptor = ArgumentCaptor.forClass(String.class);
 
         RvKybardConfig cfg=new RvKybardConfig();

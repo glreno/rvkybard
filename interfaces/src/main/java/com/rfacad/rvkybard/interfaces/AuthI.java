@@ -21,25 +21,18 @@ public interface AuthI
     public static final String UPDATEPINNAME = "updatedpin";
 
     /**
-     * Checks to see if this cookie is a currently logged-in session
-     * @param cookie
-     * @return true if cookie is valid.
-     */
-    boolean isCookieValid(String cookie);
-
-    /**
      * Checks to see if the cookie exists and is a currently logged-in session
      * @param cookies
-     * @return true if cookie is there, and isCookieValid() likes it.
+     * @return -1 if there is no cookie, something less than one for expired token, otherwise number of seconds remaining in the life of this token.
      */
-    boolean checkForValidCookie(Cookie [] cookies);
+    AuthTokenI checkForValidCookie(Cookie [] cookies);
 
     /**
      * Attempts to log in, checking pin against stored valid pins
      * @param pin
-     * @return null or a new cookie
+     * @return null or a new token
      */
-    String login(String pin);
+    AuthTokenI login(String pin);
 
     /**
      * Add a new valid PIN to the pin DB
@@ -48,10 +41,10 @@ public interface AuthI
     void writePin(String pin);
 
     /**
-     * removes cookie from the list of logged-in cookies
-     * @param cookie
+     * Expires token immediately, removing it from the list of logged-in tokens
+     * @param token
      */
-    void logout(String cookie);
+    void logout(AuthTokenI token);
 
     /**
      * @return the relative URL of the login page

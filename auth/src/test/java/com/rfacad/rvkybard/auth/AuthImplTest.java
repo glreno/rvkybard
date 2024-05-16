@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import com.rfacad.rvkybard.interfaces.AuthI;
 import com.rfacad.rvkybard.interfaces.AuthS;
+import com.rfacad.rvkybard.interfaces.AuthTokenI;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -83,15 +84,15 @@ public class AuthImplTest
         AuthImpl a = new AuthImpl();
         a.setPinFile(createPinFile(""));
         // no one is logged in!
-        assertFalse(a.isCookieValid(null));
-        assertFalse(a.isCookieValid(""));
-        assertFalse(a.isCookieValid("68000"));
-        assertFalse(a.isCookieValid("6502"));
-        assertFalse(a.isCookieValid("8080"));
-        assertFalse(a.checkForValidCookie(null));
-        assertFalse(a.checkForValidCookie(new Cookie[0]));
-        assertFalse(a.checkForValidCookie(new Cookie[] {new Cookie("foo","bar") }));
-        assertFalse(a.checkForValidCookie(new Cookie[] {new Cookie("foo","bar"), new Cookie(AuthI.COOKIENAME,"68000") }));
+        assertFalse(a.findToken(null).isOK());
+        assertFalse(a.findToken("").isOK());
+        assertFalse(a.findToken("68000").isOK());
+        assertFalse(a.findToken("6502").isOK());
+        assertFalse(a.findToken("8080").isOK());
+        assertFalse(a.checkForValidCookie(null).isOK());
+        assertFalse(a.checkForValidCookie(new Cookie[0]).isOK());
+        assertFalse(a.checkForValidCookie(new Cookie[] {new Cookie("foo","bar") }).isOK());
+        assertFalse(a.checkForValidCookie(new Cookie[] {new Cookie("foo","bar"), new Cookie(AuthI.COOKIENAME,"68000") }).isOK());
     }
 
     @Test
@@ -107,21 +108,25 @@ public class AuthImplTest
         assertNull(a1.login(" "));
 
         assertNull(a1.login("68000"));
-        String c1 = a1.login("8080");
+        AuthTokenI t1 = a1.login("8080");
+        assertNotNull(t1);
+        String c1 = t1.getNonce();
         assertNotNull(c1);
-        assertTrue(a1.isCookieValid(c1));
-        assertTrue(a1.checkForValidCookie(new Cookie[] {new Cookie("foo","bar"), new Cookie(AuthI.COOKIENAME,c1) }));
+        assertTrue(a1.findToken(c1).isOK());
+        assertTrue(a1.checkForValidCookie(new Cookie[] {new Cookie("foo","bar"), new Cookie(AuthI.COOKIENAME,c1) }).isOK());
 
         assertNull(a2.login("8080"));
-        String c2 = a2.login("68000");
+        AuthTokenI t2 = a2.login("68000");
+        assertNotNull(t2);
+        String c2 = t2.getNonce();
         assertNotNull(c2);
-        assertTrue(a2.isCookieValid(c2));
-        assertTrue(a2.checkForValidCookie(new Cookie[] {new Cookie("foo","bar"), new Cookie(AuthI.COOKIENAME,c2) }));
+        assertTrue(a2.findToken(c2).isOK());
+        assertTrue(a2.checkForValidCookie(new Cookie[] {new Cookie("foo","bar"), new Cookie(AuthI.COOKIENAME,c2) }).isOK());
 
         // Make sure those cookies are different!
         // It is POSSIBLE that a1.randy and a2.randy have the same seed, and will generate the same random cookie. But not very likely.
-        assertFalse(a1.isCookieValid(c2));
-        assertFalse(a2.isCookieValid(c1));
+        assertFalse(a1.findToken(c2).isOK());
+        assertFalse(a2.findToken(c1).isOK());
     }
 
     @Test
@@ -129,14 +134,16 @@ public class AuthImplTest
     {
         AuthImpl a = new AuthImpl();
         a.setPinFile(createPinFile("8080"));
-        String cookie=a.login("8080");
-        assertTrue(a.isCookieValid(cookie));
-        a.logout(cookie);
-        assertFalse(a.isCookieValid(cookie));
-        cookie=a.login("  8080  ");
-        assertTrue(a.isCookieValid(cookie));
-        a.logout(cookie);
-        assertFalse(a.isCookieValid(cookie));
+        AuthTokenI token=a.login("8080");
+        String cookie = token.getNonce();
+        assertTrue(a.findToken(cookie).isOK());
+        a.logout(token);
+        assertFalse(a.findToken(cookie).isOK());
+        token=a.login("  8080  ");
+        cookie = token.getNonce();
+        assertTrue(a.findToken(cookie).isOK());
+        a.logout(token);
+        assertFalse(a.findToken(cookie).isOK());
     }
 
     @Test

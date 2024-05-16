@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import com.rfacad.rvkybard.interfaces.AuthI;
 import com.rfacad.rvkybard.interfaces.AuthS;
+import com.rfacad.rvkybard.interfaces.AuthTokenI;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -36,7 +37,7 @@ public class AuthImpl implements AuthI
 
     private String pinfn = null;
     private byte[] pindb = null;
-    private String cookiedb = null;
+    private String tokendb = null;
     private String loginPageUrl = "/login.jsp";
     private Random randy = new SecureRandom();
 
@@ -108,35 +109,39 @@ public class AuthImpl implements AuthI
         AuthS.setAuthI(this);
     }
 
-    @Override
-    public boolean isCookieValid(String cookie)
+    AuthTokenI findToken(String nonce)
     {
-        return cookiedb!=null && cookiedb.equals(cookie);
+        if ( tokendb!=null && tokendb.equals(nonce) )
+        {
+            return new AuthToken(nonce,1); // TODO read this from the DB!
+        }
+        // The nonce isn't in the DB. This token is therefore not valid.
+        return AuthToken.NO_TOKEN;
     }
 
     @Override
-    public boolean checkForValidCookie(Cookie [] cookies)
+    public AuthTokenI checkForValidCookie(Cookie [] cookies)
     {
         if ( cookies == null )
         {
             LOG.trace("No cookies!");
-            return false;
+            return AuthToken.NO_TOKEN;
         }
         for (Cookie c : cookies)
         {
             LOG.trace("Login checking cookie {} = {}",c.getName(),c.getValue());
             if (COOKIENAME.equals(c.getName()))
             {
-                return isCookieValid(c.getValue());
+                return findToken(c.getValue());
             }
         }
         LOG.trace("No matching cookie found in {}",cookies.length);
-        return false;
+        return AuthToken.NO_TOKEN;
     }
 
 
     @Override
-    public String login(String pin)
+    public AuthTokenI login(String pin)
     {
         if ( pin == null )
         {
@@ -151,10 +156,10 @@ public class AuthImpl implements AuthI
         LOG.debug("Logged in");
         // OK, it's good. Log them in by generating a cookie
         // NOTE: We only store one cookie, so this WILL log someone else out
-        logout(cookiedb);
+        logout(null);
         String s = Integer.toHexString(randy.nextInt(0xffff));
-        cookiedb = s;
-        return s;
+        tokendb = s;
+        return new AuthToken(s,1);
     }
 
     private byte[] hash(String pin)
@@ -174,10 +179,10 @@ public class AuthImpl implements AuthI
     }
 
     @Override
-    public void logout(String cookie)
+    public void logout(AuthTokenI token)
     {
-        LOG.debug("Logged out "+cookie);
-        cookiedb=null;
+        LOG.debug("Logged out "+token);
+        tokendb=null;
     }
 
 }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 
 import com.rfacad.rvkybard.interfaces.AuthI;
+import com.rfacad.rvkybard.interfaces.AuthTokenI;
 import com.rfacad.rvkybard.interfaces.KybardCode;
 import com.rfacad.rvkybard.interfaces.KybardFlag;
 
@@ -116,7 +117,9 @@ public class KybardPressServletTest
         KybardReader mockReader = mock(KybardReader.class);
         doReturn("{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}").when(mockReader).getCurrentFlags();
         AuthI mockAuth = mock(AuthI.class);
-        doReturn(true).when(mockAuth).checkForValidCookie(any());
+        AuthTokenI okToken = mock(AuthTokenI.class);
+        doReturn(true).when(okToken).isOK();
+        doReturn(okToken).when(mockAuth).checkForValidCookie(any());
 
         KybardPressServlet kps = new KybardPressServlet();
         kps.init();
@@ -145,7 +148,9 @@ public class KybardPressServletTest
     {
         KybardSender mockSender = mock(KybardSender.class);
         AuthI mockAuth = mock(AuthI.class);
-        doReturn(false).when(mockAuth).checkForValidCookie(any());
+        AuthTokenI badToken = mock(AuthTokenI.class);
+        doReturn(false).when(badToken).isOK();
+        doReturn(badToken).when(mockAuth).checkForValidCookie(any());
 
         KybardPressServlet kps = new KybardPressServlet();
         kps.init();
