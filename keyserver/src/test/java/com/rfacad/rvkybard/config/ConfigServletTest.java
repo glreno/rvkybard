@@ -64,7 +64,7 @@ public class ConfigServletTest
     public void shouldGetConfigFile() throws ServletException, IOException
     {
         AuthI mockAuth = mock(AuthI.class);
-        doReturn(okToken).when(mockAuth).checkForValidCookie(any());
+        doReturn(okToken).when(mockAuth).checkForValidCookie(any(),any());
 
         RvKybardConfig cfg=new RvKybardConfig();
         cfg.init();
@@ -87,7 +87,7 @@ public class ConfigServletTest
     public void shouldGetSingleProperty() throws ServletException, IOException
     {
         AuthI mockAuth = mock(AuthI.class);
-        doReturn(okToken).when(mockAuth).checkForValidCookie(any());
+        doReturn(okToken).when(mockAuth).checkForValidCookie(any(),any());
 
         RvKybardConfig cfg=new RvKybardConfig();
         cfg.init();
@@ -111,7 +111,7 @@ public class ConfigServletTest
     public void shouldUpdateConfig() throws ServletException, IOException
     {
         AuthI mockAuth = mock(AuthI.class);
-        doReturn(okToken).when(mockAuth).checkForValidCookie(any());
+        doReturn(okToken).when(mockAuth).checkForValidCookie(any(),any());
         ArgumentCaptor<String> redirectCaptor = ArgumentCaptor.forClass(String.class);
 
         RvKybardConfig cfg=new RvKybardConfig();
@@ -146,7 +146,7 @@ public class ConfigServletTest
         AuthI mockAuth = mock(AuthI.class);
         AuthTokenI badToken = mock(AuthTokenI.class);
         doReturn(false).when(badToken).isOK();
-        doReturn(badToken).when(mockAuth).checkForValidCookie(any());
+        doReturn(badToken).when(mockAuth).checkForValidCookie(any(),any());
 
         ConfigServlet cs = new ConfigServlet();
         cs.init();

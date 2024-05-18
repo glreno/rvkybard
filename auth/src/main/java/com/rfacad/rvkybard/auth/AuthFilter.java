@@ -60,12 +60,10 @@ public class AuthFilter implements Filter
             return;
         }
 
-        Cookie[]cookies = httpServletRequest.getCookies();
-
         // checkForValidCookie returns number of remaining seconds.
         // 0 or negative indicate an expired cookie.
         // (-1 might mean there is no cookie)
-        long life = authi.checkForValidCookie(cookies).getLifespan();
+        long life = authi.checkForValidCookie(httpServletRequest,httpServletResponse).getLifespan();
         if ( life > 0 )
         {
             if ( life < 60 )

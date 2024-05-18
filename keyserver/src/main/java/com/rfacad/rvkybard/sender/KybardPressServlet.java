@@ -80,8 +80,7 @@ public class KybardPressServlet extends HttpServlet
     @Override
     protected void doGet( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        Cookie [] cookies = req.getCookies();
-        if ( ! authi.checkForValidCookie(cookies).isOK() )
+        if ( ! authi.checkForValidCookie(req,resp).isOK() )
         {
             resp.sendError(401);
             return;

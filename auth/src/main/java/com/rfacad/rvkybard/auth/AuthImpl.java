@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.Random;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,6 +141,11 @@ public class AuthImpl implements AuthI
         return AuthToken.NO_TOKEN;
     }
 
+    @Override
+    public AuthTokenI checkForValidCookie(HttpServletRequest request,HttpServletResponse response)
+    {
+        return checkForValidCookie(request.getCookies());
+    }
 
     @Override
     public AuthTokenI login(String pin)

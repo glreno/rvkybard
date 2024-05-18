@@ -63,7 +63,6 @@ public class AuthFilterTest
         // There is one good cookie. All else return false.
         AuthToken goodToken = new AuthToken(CC,1L);
         doReturn(goodToken).when(mockAuthi).findToken(CC);
-        doCallRealMethod().when(mockAuthi).checkForValidCookie(any());
         doReturn(LOGINPAGE).when(mockAuthi).getLoginPageUrl();
     }
 

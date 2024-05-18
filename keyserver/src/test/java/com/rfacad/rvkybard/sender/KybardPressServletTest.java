@@ -119,7 +119,7 @@ public class KybardPressServletTest
         AuthI mockAuth = mock(AuthI.class);
         AuthTokenI okToken = mock(AuthTokenI.class);
         doReturn(true).when(okToken).isOK();
-        doReturn(okToken).when(mockAuth).checkForValidCookie(any());
+        doReturn(okToken).when(mockAuth).checkForValidCookie(any(),any());
 
         KybardPressServlet kps = new KybardPressServlet();
         kps.init();
@@ -150,7 +150,7 @@ public class KybardPressServletTest
         AuthI mockAuth = mock(AuthI.class);
         AuthTokenI badToken = mock(AuthTokenI.class);
         doReturn(false).when(badToken).isOK();
-        doReturn(badToken).when(mockAuth).checkForValidCookie(any());
+        doReturn(badToken).when(mockAuth).checkForValidCookie(any(),any());
 
         KybardPressServlet kps = new KybardPressServlet();
         kps.init();

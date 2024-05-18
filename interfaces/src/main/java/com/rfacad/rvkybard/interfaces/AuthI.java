@@ -1,6 +1,8 @@
 package com.rfacad.rvkybard.interfaces;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -23,9 +25,19 @@ public interface AuthI
     /**
      * Checks to see if the cookie exists and is a currently logged-in session
      * @param cookies
-     * @return -1 if there is no cookie, something less than one for expired token, otherwise number of seconds remaining in the life of this token.
+     * @return AuthToken that matches the cookie's nonce, OR AuthToken.NO_TOKEN (which is an expired token)
      */
     AuthTokenI checkForValidCookie(Cookie [] cookies);
+
+    /**
+     * Checks to see if the cookie exists in the Request, and is a currently logged-in session.
+     * If the token will be expiring soon, then create a new "refresh" token, and add it as
+     * a new Cookie to the Response.
+     *
+     * @param cookies
+     * @return AuthToken that matches the cookie's nonce, OR AuthToken.NO_TOKEN (which is an expired token)
+     */
+    AuthTokenI checkForValidCookie(HttpServletRequest request,HttpServletResponse response);
 
     /**
      * Attempts to log in, checking pin against stored valid pins
