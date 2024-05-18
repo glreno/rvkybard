@@ -96,6 +96,23 @@ public class AuthImplTest
     }
 
     @Test
+    public void shouldRejectExpiredToken() throws IOException
+    {
+        AuthImpl a1 = new AuthImpl();
+        a1.setPinFile(createPinFile("8080"));
+
+        assertNull(a1.login("68000"));
+        AuthTokenI t1 = a1.login("8080");
+        assertNotNull(t1);
+        String c1 = t1.getNonce();
+        assertNotNull(c1);
+        assertTrue(a1.findToken(c1).isOK());
+
+        a1.expireToken(c1);
+        assertFalse(a1.findToken(c1).isOK());
+    }
+
+    @Test
     public void shouldRejectBadPin() throws IOException
     {
         AuthImpl a1 = new AuthImpl();
@@ -134,16 +151,19 @@ public class AuthImplTest
     {
         AuthImpl a = new AuthImpl();
         a.setPinFile(createPinFile("8080"));
-        AuthTokenI token=a.login("8080");
-        String cookie = token.getNonce();
-        assertTrue(a.findToken(cookie).isOK());
+        AuthTokenI token=a.login("8080"); // token expires in ten minutes
+        String nonce = token.getNonce();
+        assertTrue(a.findToken(nonce).isOK());
+
         a.logout(token);
-        assertFalse(a.findToken(cookie).isOK());
+        assertFalse(a.findToken(nonce).isOK());
+
         token=a.login("  8080  ");
-        cookie = token.getNonce();
-        assertTrue(a.findToken(cookie).isOK());
+        nonce = token.getNonce();
+        assertTrue(a.findToken(nonce).isOK());
+
         a.logout(token);
-        assertFalse(a.findToken(cookie).isOK());
+        assertFalse(a.findToken(nonce).isOK());
     }
 
     @Test

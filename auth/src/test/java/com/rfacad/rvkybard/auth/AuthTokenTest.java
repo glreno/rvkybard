@@ -6,6 +6,8 @@ import javax.servlet.http.Cookie;
 
 import org.junit.Test;
 
+import com.rfacad.rvkybard.interfaces.AuthTokenI;
+
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
 //
@@ -23,11 +25,11 @@ public class AuthTokenTest
     @Test
     public void shouldCreateCookie()
     {
-        // This token is not expired -- lifespan is 60 seconds
-        AuthToken t = new AuthToken(N1, 60);
+        // This token is not expired -- lifespan is 10 minutes
+        AuthToken t = new AuthToken(N1, AuthTokenI.DEFAULT_LIFESPAN_MILLIS);
         // Check lifespan IMMEDIATELY!
-        assertTrue(t.getLifespan()>55);
-        assertTrue(t.getLifespan()<61);
+        assertTrue(t.getLifespan()>9*60*1000);
+        assertTrue(t.getLifespan()<=10*60*1000);
         assertTrue(t.isOK());
         assertEquals(N1,t.getNonce());
 
@@ -38,7 +40,7 @@ public class AuthTokenTest
     @Test
     public void shouldRejectExpiredToken()
     {
-        // This token is not expired -- lifespan is 60 seconds
+        // This token is expired -- lifespan is less than 1
         AuthToken t = new AuthToken(N1, 0);
         assertTrue(t.getLifespan()<1);
         assertFalse(t.isOK());

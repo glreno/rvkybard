@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -35,11 +36,12 @@ import com.rfacad.rvkybard.interfaces.AuthTokenI;
 
 public class AuthImpl implements AuthI
 {
+
     Logger LOG = LoggerFactory.getLogger(AuthImpl.class);
 
     private String pinfn = null;
     private byte[] pindb = null;
-    private String tokendb = null;
+    private AtomicReference<AuthTokenI> tokendb = new AtomicReference<>();
     private String loginPageUrl = "/login.jsp";
     private Random randy = new SecureRandom();
 
@@ -113,9 +115,10 @@ public class AuthImpl implements AuthI
 
     AuthTokenI findToken(String nonce)
     {
-        if ( tokendb!=null && tokendb.equals(nonce) )
+        AuthTokenI a = tokendb.get();
+        if ( a!=null && a.getNonce().equals(nonce) )
         {
-            return new AuthToken(nonce,1); // TODO read this from the DB!
+            return a;
         }
         // The nonce isn't in the DB. This token is therefore not valid.
         return AuthToken.NO_TOKEN;
@@ -165,8 +168,9 @@ public class AuthImpl implements AuthI
         // NOTE: We only store one cookie, so this WILL log someone else out
         logout(null);
         String s = Integer.toHexString(randy.nextInt(0xffff));
-        tokendb = s;
-        return new AuthToken(s,1);
+        AuthTokenI a = new AuthToken(s,AuthTokenI.DEFAULT_LIFESPAN_MILLIS);
+        tokendb.set(a);
+        return tokendb.get();
     }
 
     private byte[] hash(String pin)
@@ -188,8 +192,18 @@ public class AuthImpl implements AuthI
     @Override
     public void logout(AuthTokenI token)
     {
-        LOG.debug("Logged out "+token);
-        tokendb=null;
+        LOG.debug("Logged out {}",token);
+        tokendb.set(null);
+    }
+
+    // needed for testing
+    void expireToken(String nonce)
+    {
+        AuthTokenI a = findToken(nonce);
+        if ( a != null )
+        {
+            ((AuthToken)a).forceExpire();
+        }
     }
 
 }

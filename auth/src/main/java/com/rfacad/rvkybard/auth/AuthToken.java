@@ -17,15 +17,21 @@ import com.rfacad.rvkybard.interfaces.AuthTokenI;
 
 public class AuthToken implements AuthTokenI
 {
-    public static final AuthToken NO_TOKEN = new AuthToken("",-1);
+    public static final AuthToken NO_TOKEN = new AuthToken("",0,true);
 
     private String nonce;
-    private long lifespan;
+    private long expiration;
 
-    public AuthToken(String nonce, long lifespan)
+    public AuthToken(String nonce, long lifespanMillis)
     {
         this.nonce = nonce;
-        this.lifespan = lifespan;
+        this.expiration = lifespanMillis + System.currentTimeMillis();
+    }
+
+    public AuthToken(String nonce, long lifespanMillis, boolean absolute)
+    {
+        this.nonce = nonce;
+        this.expiration = lifespanMillis + (absolute?0L:System.currentTimeMillis());
     }
 
     @Override
@@ -37,7 +43,18 @@ public class AuthToken implements AuthTokenI
     @Override
     public long getLifespan()
     {
-        return lifespan; // <=0 means expired
+        return expiration-System.currentTimeMillis(); // <=0 means expired
+    }
+
+    public void forceExpire()
+    {
+        expiration=0;
+    }
+
+    @Override
+    public String toString()
+    {
+        return nonce+" "+expiration;
     }
 
     @Override

@@ -14,6 +14,8 @@ import javax.servlet.http.Cookie;
 
 public interface AuthTokenI
 {
+    static final long DEFAULT_LIFESPAN_MILLIS = 1000*60*10; // 10 minutes
+
     /**
      * Cookies should be storing nonsense, not something useful.
      * This value is the key used in the token DB.
