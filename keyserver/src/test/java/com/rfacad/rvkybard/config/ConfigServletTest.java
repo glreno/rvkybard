@@ -2,9 +2,12 @@ package com.rfacad.rvkybard.config;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyByte;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -26,6 +29,8 @@ import org.mockito.ArgumentCaptor;
 import com.rfacad.rvkybard.interfaces.AuthI;
 import com.rfacad.rvkybard.interfaces.AuthTokenI;
 import com.rfacad.rvkybard.interfaces.MouseMode;
+import com.rfacad.rvkybard.sender.KybardPressServlet;
+import com.rfacad.rvkybard.sender.KybardSender;
 import com.rfacad.rvkybard.util.RvKybardConfig;
 
 //
@@ -134,4 +139,31 @@ public class ConfigServletTest
         assertEquals("bar",cfg.getValue("foo"));
         assertEquals(MouseMode.MOUSE,cfg.getMouseMode());
     }
+
+    @Test
+    public void shouldRejectBadCookie() throws ServletException, IOException
+    {
+        AuthI mockAuth = mock(AuthI.class);
+        AuthTokenI badToken = mock(AuthTokenI.class);
+        doReturn(false).when(badToken).isOK();
+        doReturn(badToken).when(mockAuth).checkForValidCookie(any());
+
+        ConfigServlet cs = new ConfigServlet();
+        cs.init();
+        cs.setAuthI(mockAuth);
+
+        HttpServletResponse resp1 = mock(HttpServletResponse.class);
+        HttpServletRequest req1 = mock(HttpServletRequest.class);
+        cs.doGet(req1,resp1);
+
+        HttpServletResponse resp2 = mock(HttpServletResponse.class);
+        HttpServletRequest req2 = mock(HttpServletRequest.class);
+        cs.doPost(req2,resp2);
+
+        cs.destroy();
+
+        verify(resp1,times(1)).sendError(401);
+        verify(resp2,times(1)).sendError(401);
+    }
+
 }
