@@ -46,9 +46,9 @@ public class AuthToken implements AuthTokenI
         return expiration-System.currentTimeMillis(); // <=0 means expired
     }
 
-    public void forceExpire()
+    void setExpiration(long e)
     {
-        expiration=0;
+        expiration=e;
     }
 
     @Override

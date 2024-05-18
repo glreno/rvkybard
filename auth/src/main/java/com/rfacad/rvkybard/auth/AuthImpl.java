@@ -37,6 +37,8 @@ import com.rfacad.rvkybard.interfaces.AuthTokenI;
 public class AuthImpl implements AuthI
 {
 
+    public static final long REFRESH_THRESHOLD = 60*1000; // 1 minute
+
     Logger LOG = LoggerFactory.getLogger(AuthImpl.class);
 
     private String pinfn = null;
@@ -202,7 +204,7 @@ public class AuthImpl implements AuthI
         AuthTokenI a = findToken(nonce);
         if ( a != null )
         {
-            ((AuthToken)a).forceExpire();
+            ((AuthToken)a).setExpiration(0);
         }
     }
 

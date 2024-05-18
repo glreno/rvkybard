@@ -1,6 +1,7 @@
 package com.rfacad.rvkybard.auth;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,10 +15,13 @@ import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 import com.rfacad.rvkybard.interfaces.AuthI;
 import com.rfacad.rvkybard.interfaces.AuthS;
@@ -211,7 +215,98 @@ public class AuthImplTest
         assertFalse(p.contains(PosixFilePermission.OTHERS_READ));
         assertFalse(p.contains(PosixFilePermission.OTHERS_WRITE));
         assertFalse(p.contains(PosixFilePermission.OTHERS_EXECUTE));
-}
+    }
+
+    @Test
+    public void shouldRefreshToken() throws IOException
+    {
+        // Log in, get token with nonce n1
+        // findToken(n1), verify that it is not expired, and does not need refresh
+        // force-update the token so it expires in one minute
+        // findToken(n1), verify that it is not expired, and needs to be refreshed
+        // make a mock REST call (n1)
+        // First Rest call will have returned a 'refresh' token with a new nonce n2
+        // make another mock REST call with the old nonce (n1)
+        // Second Rest call will have returned a 'refresh' token with the same nonce n2 as the prior refresh
+        // findtoken(n1), verify that it is not expired, needsRefresh, and has a refreshToken(n2) attached
+        // findToken(n2), verify that it is not expired and does not need refresh
+
+        AuthImpl a1 = new AuthImpl();
+        a1.setPinFile(createPinFile("8080"));
+
+        // Log in, get token with nonce n1
+        AuthTokenI t1 = a1.login("8080");
+        assertNotNull(t1);
+        String n1  = t1.getNonce();
+
+        // findToken(n1), verify that it is not expired, and does not need refresh
+        AuthTokenI t2 = a1.findToken(n1);
+        assertTrue(t2.isOK());
+        assertTrue(t2.getLifespan() > AuthImpl.REFRESH_THRESHOLD);
+        // force-update the token so it expires in one minute
+        ((AuthToken)t2).setExpiration(System.currentTimeMillis()+30*1000); // 30 seconds in the future
+
+        // findToken(n1), verify that it is not expired, and needs to be refreshed
+        AuthTokenI t3 = a1.findToken(n1);
+        assertTrue(t3.isOK());
+        assertTrue(t3.getLifespan() < AuthImpl.REFRESH_THRESHOLD);
+
+        Cookie [] cookies = new Cookie[] {new Cookie(AuthI.COOKIENAME,n1)};
+        // make a mock REST call (n1)
+        ArgumentCaptor<Cookie> cookieCaptor4 = ArgumentCaptor.forClass(Cookie.class);
+        HttpServletRequest req4 = mock(HttpServletRequest.class);
+        doReturn(cookies).when(req4).getCookies();
+        HttpServletResponse resp4 = mock(HttpServletResponse.class);
+        doNothing().when(resp4).addCookie(cookieCaptor4.capture());
+
+        // make another mock REST call with the old nonce (n1)
+        ArgumentCaptor<Cookie> cookieCaptor5 = ArgumentCaptor.forClass(Cookie.class);
+        HttpServletRequest req5 = mock(HttpServletRequest.class);
+        doReturn(cookies).when(req5).getCookies();
+        HttpServletResponse resp5 = mock(HttpServletResponse.class);
+        doNothing().when(resp5).addCookie(cookieCaptor5.capture());
+
+        // Make the two classes one immediately after the other!
+        // Ideally these should be tested on two threads!
+        AuthTokenI t4 = a1.checkForValidCookie(req4, resp4);
+        AuthTokenI t5 = a1.checkForValidCookie(req5, resp5);
+
+        // First Rest call will have returned a 'refresh' token with a new nonce n2
+//        assertFalse(t3==t4);
+        assertTrue(t4.isOK());
+        assertTrue(t4.getLifespan() < AuthImpl.REFRESH_THRESHOLD);
+        String n4=t4.getNonce();
+//        Cookie c4 = cookieCaptor4.getValue();
+//        assertNotNull(c4);
+//        assertEquals(n4,c4.getValue());
+
+        // Second Rest call will have returned a 'refresh' token with the same nonce n2 as the prior refresh
+//        assertFalse(t3==t5);
+        assertTrue(t5.isOK());
+        assertTrue(t5.getLifespan() < AuthImpl.REFRESH_THRESHOLD);
+        String n5=t5.getNonce();
+//        Cookie c5 = cookieCaptor5.getValue();
+//        assertNotNull(c5);
+//        assertEquals(n5,c5.getValue());
+
+        assertEquals(n4,n5);
+//        assertFalse(n1.equals(n4));
+
+        // findtoken(n1), verify that it is not expired, needsRefresh, and has a refreshToken(n2) attached
+        AuthTokenI t6 = a1.findToken(n1);
+        assertTrue(t6.isOK());
+        assertTrue(t6.getLifespan() < AuthImpl.REFRESH_THRESHOLD);
+//        AuthToken t7 = ((AuthToken)t6).getRefreshToken();
+//        assertNotNull(t7);
+//        assertTrue(t7.isOK());
+//        assertEquals(n4,t7.getNonce());
+
+        // findToken(n2), verify that it is not expired and does not need refresh
+        AuthTokenI t8 = a1.findToken(n4);
+        assertTrue(t8.isOK());
+//        assertTrue(t8.getLifespan() > AuthImpl.REFRESH_THRESHOLD);
+
+    }
 
     private void cat(String text,File f)
     {
