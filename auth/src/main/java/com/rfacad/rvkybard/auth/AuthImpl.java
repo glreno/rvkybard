@@ -11,7 +11,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicReference;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +42,7 @@ public class AuthImpl implements AuthI
 
     private String pinfn = null;
     private byte[] pindb = null;
-    private AtomicReference<AuthTokenI> tokendb = new AtomicReference<>();
+    private TokenDb tokendb = new TokenDb();
     private String loginPageUrl = "/login.jsp";
     private Random randy = new SecureRandom();
 
@@ -117,7 +116,7 @@ public class AuthImpl implements AuthI
 
     AuthTokenI findToken(String nonce)
     {
-        AuthTokenI a = tokendb.get();
+        AuthTokenI a = tokendb.getToken(nonce);
         if ( a!=null && a.getNonce().equals(nonce) )
         {
             return a;
@@ -171,8 +170,8 @@ public class AuthImpl implements AuthI
         logout(null);
         String s = Integer.toHexString(randy.nextInt(0xffff));
         AuthTokenI a = new AuthToken(s,AuthTokenI.DEFAULT_LIFESPAN_MILLIS);
-        tokendb.set(a);
-        return tokendb.get();
+        tokendb.storeToken(a);
+        return tokendb.getToken(s);
     }
 
     private byte[] hash(String pin)
@@ -195,7 +194,9 @@ public class AuthImpl implements AuthI
     public void logout(AuthTokenI token)
     {
         LOG.debug("Logged out {}",token);
-        tokendb.set(null);
+        tokendb.clear();
+        // Should be doing this:
+        //((AuthToken)token).setExpiration(0);
     }
 
     // needed for testing
