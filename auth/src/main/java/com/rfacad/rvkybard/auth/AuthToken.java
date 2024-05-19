@@ -1,5 +1,7 @@
 package com.rfacad.rvkybard.auth;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import javax.servlet.http.Cookie;
 
 import com.rfacad.rvkybard.interfaces.AuthI;
@@ -21,6 +23,7 @@ public class AuthToken implements AuthTokenI
 
     private String nonce;
     private long expiration;
+    private AtomicReference<AuthToken> refreshToken = new AtomicReference<>();
 
     public AuthToken(String nonce, long lifespanMillis)
     {
@@ -66,5 +69,15 @@ public class AuthToken implements AuthTokenI
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         return cookie;
+    }
+
+    public void setRefreshTokenIfNull(AuthToken newtoken)
+    {
+        refreshToken.compareAndSet(null, newtoken);
+    }
+
+    public AuthTokenI getRefreshToken()
+    {
+        return refreshToken.get();
     }
 }

@@ -21,6 +21,8 @@ import com.rfacad.rvkybard.interfaces.AuthTokenI;
 public class AuthTokenTest
 {
     private static final String N1 = "Nonce One";
+    private static final String N2 = "Nonce Two";
+    private static final String N3 = "Nonce Three";
 
     @Test
     public void shouldCreateCookie()
@@ -44,5 +46,19 @@ public class AuthTokenTest
         AuthToken t = new AuthToken(N1, 0);
         assertTrue(t.getLifespan()<1);
         assertFalse(t.isOK());
+    }
+
+    @Test
+    public void shouldStoreRefreshToken()
+    {
+        AuthToken t1 = new AuthToken(N1, 0);
+        AuthToken t2 = new AuthToken(N2, 0);
+        AuthToken t3 = new AuthToken(N3, 0);
+
+        t1.setRefreshTokenIfNull(t2);
+        assertEquals(t2,t1.getRefreshToken());
+        // Verify that the first refreshtoken wins
+        t1.setRefreshTokenIfNull(t3);
+        assertEquals(t2,t1.getRefreshToken());
     }
 }

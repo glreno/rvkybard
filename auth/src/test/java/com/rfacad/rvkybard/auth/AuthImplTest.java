@@ -272,39 +272,39 @@ public class AuthImplTest
         AuthTokenI t5 = a1.checkForValidCookie(req5, resp5);
 
         // First Rest call will have returned a 'refresh' token with a new nonce n2
-//        assertFalse(t3==t4);
+        assertFalse(t3==t4);
         assertTrue(t4.isOK());
         assertTrue(t4.getLifespan() < AuthImpl.REFRESH_THRESHOLD);
         String n4=t4.getNonce();
-//        Cookie c4 = cookieCaptor4.getValue();
-//        assertNotNull(c4);
-//        assertEquals(n4,c4.getValue());
+        Cookie c4 = cookieCaptor4.getValue();
+        assertNotNull(c4);
+        assertEquals(n4,c4.getValue());
 
         // Second Rest call will have returned a 'refresh' token with the same nonce n2 as the prior refresh
-//        assertFalse(t3==t5);
+        assertFalse(t3==t5);
         assertTrue(t5.isOK());
         assertTrue(t5.getLifespan() < AuthImpl.REFRESH_THRESHOLD);
         String n5=t5.getNonce();
-//        Cookie c5 = cookieCaptor5.getValue();
-//        assertNotNull(c5);
-//        assertEquals(n5,c5.getValue());
+        Cookie c5 = cookieCaptor5.getValue();
+        assertNotNull(c5);
+        assertEquals(n5,c5.getValue());
 
         assertEquals(n4,n5);
-//        assertFalse(n1.equals(n4));
+        assertFalse(n1.equals(n4));
 
         // findtoken(n1), verify that it is not expired, needsRefresh, and has a refreshToken(n2) attached
         AuthTokenI t6 = a1.findToken(n1);
         assertTrue(t6.isOK());
         assertTrue(t6.getLifespan() < AuthImpl.REFRESH_THRESHOLD);
-//        AuthToken t7 = ((AuthToken)t6).getRefreshToken();
-//        assertNotNull(t7);
-//        assertTrue(t7.isOK());
-//        assertEquals(n4,t7.getNonce());
+        AuthTokenI t7 = ((AuthToken)t6).getRefreshToken();
+        assertNotNull(t7);
+        assertTrue(t7.isOK());
+        assertEquals(n4,t7.getNonce());
 
         // findToken(n2), verify that it is not expired and does not need refresh
         AuthTokenI t8 = a1.findToken(n4);
         assertTrue(t8.isOK());
-//        assertTrue(t8.getLifespan() > AuthImpl.REFRESH_THRESHOLD);
+        assertTrue(t8.getLifespan() > AuthImpl.REFRESH_THRESHOLD);
 
     }
 

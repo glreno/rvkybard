@@ -38,6 +38,8 @@ public class AuthImpl implements AuthI
 
     public static final long REFRESH_THRESHOLD = 60*1000; // 1 minute
 
+    private static final long REFRESH_TOKEN_LIFESPAN = 10*1000; // ten seconds
+
     Logger LOG = LoggerFactory.getLogger(AuthImpl.class);
 
     private String pinfn = null;
@@ -148,7 +150,44 @@ public class AuthImpl implements AuthI
     @Override
     public AuthTokenI checkForValidCookie(HttpServletRequest request,HttpServletResponse response)
     {
-        return checkForValidCookie(request.getCookies());
+        AuthTokenI tok = checkForValidCookie(request.getCookies());
+        if ( tok != null )
+        {
+            long lifespan = tok.getLifespan();
+            if ( lifespan > 0 && lifespan < AuthImpl.REFRESH_THRESHOLD )
+            {
+                AuthToken oldtoken = (AuthToken) tok;
+                // We need to refresh this token!
+                // 1. Create a newtoken with the new lifespan, and a 'refresh' token with a short 10s lifespan, both with the same new nonce
+                // 2. Store the newtoken in the DB
+                // 3. Store the refreshtoken in oldtoken.refreshToken
+                // 4. Important! If refreshtoken is already set, we're in a race condition!
+                // 4.A. Delete newtoken from the DB
+                // 4.B. Return oldtoken.refreshToken at the end
+                // 5. Set oldtoken expiration to a short 10s lifespan
+                // 6. response.setCookie(refreshtoken)
+                // 7. Return refreshtoken
+
+                // (The use of a separate refreshtoken is probably not necessary;
+                // it's purpose is to avoid a chain of tok->refreshtok->refreshtok->etc)
+
+                String s = createNonce();
+                AuthToken newtoken = new AuthToken(s,AuthTokenI.DEFAULT_LIFESPAN_MILLIS);
+                AuthToken refreshtoken = new AuthToken(s,REFRESH_TOKEN_LIFESPAN);
+                tokendb.storeToken(newtoken);
+                oldtoken.setRefreshTokenIfNull(refreshtoken);
+                AuthTokenI storedtoken = oldtoken.getRefreshToken();
+                if ( refreshtoken != storedtoken )
+                {
+                    // Race condition. Someone has already create a new token.
+                    tokendb.removeToken(s);
+                }
+                oldtoken.setExpiration(REFRESH_TOKEN_LIFESPAN+System.currentTimeMillis());
+                tok = storedtoken;
+                response.addCookie(tok.makeCookie());
+            }
+        }
+        return tok;
     }
 
     @Override
@@ -168,10 +207,15 @@ public class AuthImpl implements AuthI
         // OK, it's good. Log them in by generating a cookie
         // NOTE: We only store one cookie, so this WILL log someone else out
         logout(null);
-        String s = Integer.toHexString(randy.nextInt(0xffff));
+        String s = createNonce();
         AuthTokenI a = new AuthToken(s,AuthTokenI.DEFAULT_LIFESPAN_MILLIS);
         tokendb.storeToken(a);
         return tokendb.getToken(s);
+    }
+
+    protected String createNonce()
+    {
+        return Integer.toHexString(randy.nextInt(0xffff));
     }
 
     private byte[] hash(String pin)
