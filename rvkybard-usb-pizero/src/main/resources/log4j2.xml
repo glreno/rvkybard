@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" name="ROOT">
+    <Appenders>
+      <File name="MyFile1" fileName="/var/log/tomcat8/rvkybard.log">
+        <PatternLayout>
+          <Pattern>%d [%p{length=6}] [%t] %c | %m%n%ex</Pattern>
+        </PatternLayout>
+      </File>
+      <File name="LinedFile" fileName="/var/log/tomcat8/rvkybard.log">
+        <PatternLayout>
+          <Pattern>%d [%p{length=6}] [%t] %C.%M:%L | %m%n%ex</Pattern>
+        </PatternLayout>
+      </File>
+      <Async name="Async" includeLocation="false">
+        <AppenderRef ref="MyFile1"/>
+      </Async>
+      <Async name="Lines" includeLocation="true">
+        <AppenderRef ref="LinedFile"/>
+      </Async>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.rfacad.rvkybard.auth" level="trace" includeLocation="true" additivity="false">
+            <AppenderRef ref="Lines"/>
+        </Logger>
+        <Logger name="com.rfacad" level="debug" includeLocation="true" additivity="false">
+            <AppenderRef ref="Lines"/>
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="Async"/>
+        </Root>
+    </Loggers>
+</Configuration>
