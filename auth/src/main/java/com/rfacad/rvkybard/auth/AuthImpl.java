@@ -143,7 +143,7 @@ public class AuthImpl implements AuthI
                 return findToken(c.getValue());
             }
         }
-        LOG.trace("No matching cookie found in {}",cookies.length);
+        LOG.debug("No matching cookie found in {}",cookies.length);
         return AuthToken.NO_TOKEN;
     }
 
@@ -154,8 +154,10 @@ public class AuthImpl implements AuthI
         if ( tok != null )
         {
             long lifespan = tok.getLifespan();
+            LOG.debug("Found cookie; token's lifespan={}",lifespan);
             if ( lifespan > 0 && lifespan < AuthImpl.REFRESH_THRESHOLD )
             {
+                LOG.debug("Refreshing cookie.");
                 AuthToken oldtoken = (AuthToken) tok;
                 // We need to refresh this token!
                 // 1. Create a newtoken with the new lifespan, and a 'refresh' token with a short 10s lifespan, both with the same new nonce
@@ -172,6 +174,7 @@ public class AuthImpl implements AuthI
                 // it's purpose is to avoid a chain of tok->refreshtok->refreshtok->etc)
 
                 String s = createNonce();
+                LOG.debug("New token is {}",s);
                 AuthToken newtoken = new AuthToken(s,AuthTokenI.DEFAULT_LIFESPAN_MILLIS);
                 AuthToken refreshtoken = new AuthToken(s,REFRESH_TOKEN_LIFESPAN);
                 tokendb.storeToken(newtoken);
@@ -181,10 +184,20 @@ public class AuthImpl implements AuthI
                 {
                     // Race condition. Someone has already create a new token.
                     tokendb.removeToken(s);
+                    LOG.trace("Race -- keeping {}, not using {}",storedtoken.getNonce(),s);
                 }
-                oldtoken.setExpiration(REFRESH_TOKEN_LIFESPAN+System.currentTimeMillis());
                 tok = storedtoken;
-                response.addCookie(tok.makeCookie());
+                if ( tok.isOK() )
+                {
+                    oldtoken.setExpiration(REFRESH_TOKEN_LIFESPAN+System.currentTimeMillis());
+                    LOG.trace("Old token lifespan reset to {}",oldtoken.getLifespan());
+                    LOG.debug("Setting new cookie");
+                    response.addCookie(tok.makeCookie());
+                }
+                else
+                {
+                    LOG.debug("Refresh token is expired. Too bad, you're logged out now.");
+                }
             }
         }
         return tok;

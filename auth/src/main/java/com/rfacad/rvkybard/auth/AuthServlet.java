@@ -64,7 +64,7 @@ public class AuthServlet extends HttpServlet
     protected void doPost( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         String pin = req.getParameter(AuthI.PINNAME);
-        LOG.trace("Attempting login "+pin);
+        LOG.trace("Attempting login {}",pin);
         if ( authi == null )
         {
             LOG.error("Login attempt before Auth started");
@@ -83,13 +83,14 @@ public class AuthServlet extends HttpServlet
                     LOG.warn("Updating PIN db");
                     authi.writePin(u.trim());
                 }
+                LOG.trace("New login token: {}",token.getNonce());
                 resp.addCookie(token.makeCookie());
                 resp.sendRedirect("/");
                 return;
             }
         }
         LOG.error("Unsuccessful login attempt");
-        LOG.trace("Unsuccessful login with pin "+pin);
+        LOG.trace("Unsuccessful login with pin {}",pin);
         resp.sendRedirect(authi.getLoginPageUrl());
     }
 }
