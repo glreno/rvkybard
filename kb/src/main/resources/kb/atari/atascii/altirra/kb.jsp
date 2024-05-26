@@ -85,11 +85,11 @@
     kb.key("W","W",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"box/nc.svgt");
     kb.key("E","E",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"box/ne.svgt");
     kb.key("R","R",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"box/hbar.svgt");
-    kb.key("T","T",3,3,null,null,"",K2,"S=&#x26aa;","FIXSY=1");
-    kb.key("Y","Y",3,3,null,null,"",K2,"S=&#x25e7;","FIXSY=1");//25bc
-    kb.key("U","U",3,3,null,null,"",K2,"S=&#x2584;","FIXSY=0");//2584
-    kb.key("I","I",3,3,null,null,"",K2,"S=&#x25f2;","FIXSY=0");//2598
-    kb.key("O","O",3,3,null,null,"",K2,"S=&#x25f1;","FIXSY=0");//2596
+    kb.key("T","T",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"circle.svgt");
+    kb.key("Y","Y",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/w.svgt");
+    kb.key("U","U",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/s.svgt");
+    kb.key("I","I",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/nw.svgt");
+    kb.key("O","O",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/ne.svgt");
     kb.key("P","P",3,3,null,null,"",K2,"S=&#x2663;","FIXSY=0");
     kb.key("-","-",3,3,"keyDownRemap(this,[],'-',['LEFT_SHIFT'],'-',['LEFT_ALT'],'KB_UPARROW')","keyUpRemap(this,'-','-','KB_UPARROW')","",K3,"S=_","ARROWCOLOR=#000","ARROW=180","INC1="+DART+"arrow.svgt");
     kb.key("=","=",3,3,"keyDownRemap(this,[],'=',['LEFT_SHIFT'],'KB_BACKSLASH',['LEFT_ALT'],'KB_DOWNARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_DOWNARROW')","",K3,"S=|","ARROWCOLOR=#000","ARROW=0","INC1="+DART+"arrow.svgt","FIXSY=4");
@@ -105,12 +105,12 @@
     kb.key("A","A",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"box/cw.svgt");
     kb.key("S","S",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"box/cc.svgt");
     kb.key("D","D",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"box/ce.svgt");
-    kb.key("F","F",3,3,null,null,"",K2,"S=&#x2571;","FIXSY=0");
-    kb.key("G","G",3,3,null,null,"",K2,"S=&#x2572;","FIXSY=0");
-    kb.key("H","H",3,3,null,null,"",K2,"S=&#x25e2;","FIXSY=0");
-    kb.key("J","J",3,3,null,null,"",K2,"S=&#x25e3;","FIXSY=0");
-    kb.key("K","K",3,3,null,null,"",K2,"S=&#x25f3;","FIXSY=0");//259d
-    kb.key("L","L",3,3,null,null,"",K2,"S=&#x25f0;","FIXSY=0");//2598
+    kb.key("F","F",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/slash.svgt");
+    kb.key("G","G",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/backslash.svgt");
+    kb.key("H","H",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/triangle.svgt");
+    kb.key("J","J",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/backtriangle.svgt");
+    kb.key("K","K",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/sw.svgt");
+    kb.key("L","L",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/se.svgt");
     kb.key(";",";",3,3,null,null,"",K2,"S=&#x2660; :","FIXLY=-2");
     kb.key("+","+",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'=',[],'KB_BACKSLASH',['LEFT_ALT'],'KB_LEFTARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_LEFTARROW')","",K3,"S=\\","ARROWCOLOR=#000","ARROW=90","INC1="+DART+"arrow.svgt","FIXSY=6");
     kb.key("*","*",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'8',['LEFT_SHIFT'],'6',['LEFT_ALT'],'KB_RIGHTARROW')","keyUpRemap(this,'8','6','KB_RIGHTARROW')","",K3,"S=^","ARROWCOLOR=#000","ARROW=270","INC1="+DART+"arrow.svgt","FIXSY=6");
@@ -127,10 +127,10 @@
     kb.key("Z","Z",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"box/sw.svgt");
     kb.key("X","X",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"box/sc.svgt");
     kb.key("C","C",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"box/se.svgt");
-    kb.key("V","V",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"box/vbar.svgt");
-    kb.key("B","B",3,3,null,null,"",K2,"S=&#x2595;","FIXSY=0");
-    kb.key("N","N",3,3,null,null,"",K2,"S=&#x2581;","FIXSY=0");
-    kb.key("M","M",3,3,null,null,"",K2,"S=&#x2594;","FIXSY=0");
+    kb.key("V","V",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/w.svgt");
+    kb.key("B","B",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/e.svgt");
+    kb.key("N","N",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/s.svgt");
+    kb.key("M","M",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/n.svgt");
     kb.key(",","KB_COMMA",3,3,"keyDownRemap(this,[],'KB_COMMA',[],'KB_OPEN_BRACKET',['LEFT_CTRL'],'KB_COMMA')","keyUpRemap(this,'KB_COMMA','KB_OPEN_BRACKET','KB_COMMA')","",K2,"S=&#x2665; [","FIXSY=-2","FIXLY=-4");
     kb.key(".",".",3,3,"keyDownRemap(this,[],'.',[],'KB_CLOSE_BRACKET',['LEFT_CTRL'],'.')","keyUpRemap(this,'.','KB_CLOSE_BRACKET','.')","",K2,"S=&#x2666; ]","FIXSY=-2","FIXLY=-4");
     kb.key("/","/",3,3,null,null,"",K2,"S=?");

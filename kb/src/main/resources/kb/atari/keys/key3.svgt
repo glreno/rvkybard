@@ -30,6 +30,6 @@
 <text x="28%" y="@{H/2-FS*.40}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS/2}" fill="#000" font-family="sans-serif">@{C}</text>
 
 <g transform="translate(20,18)" >
-@include{TOP+INC1}</g>
+@include{TOP+INC1}
 </g>
 </svg>
