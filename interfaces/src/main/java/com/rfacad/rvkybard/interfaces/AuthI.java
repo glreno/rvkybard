@@ -1,6 +1,8 @@
 package com.rfacad.rvkybard.interfaces;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -21,25 +23,28 @@ public interface AuthI
     public static final String UPDATEPINNAME = "updatedpin";
 
     /**
-     * Checks to see if this cookie is a currently logged-in session
-     * @param cookie
-     * @return true if cookie is valid.
-     */
-    boolean isCookieValid(String cookie);
-
-    /**
      * Checks to see if the cookie exists and is a currently logged-in session
      * @param cookies
-     * @return true if cookie is there, and isCookieValid() likes it.
+     * @return AuthToken that matches the cookie's nonce, OR AuthToken.NO_TOKEN (which is an expired token)
      */
-    boolean checkForValidCookie(Cookie [] cookies);
+    AuthTokenI checkForValidCookie(Cookie [] cookies);
+
+    /**
+     * Checks to see if the cookie exists in the Request, and is a currently logged-in session.
+     * If the token will be expiring soon, then create a new "refresh" token, and add it as
+     * a new Cookie to the Response.
+     *
+     * @param cookies
+     * @return AuthToken that matches the cookie's nonce, OR AuthToken.NO_TOKEN (which is an expired token)
+     */
+    AuthTokenI checkForValidCookie(HttpServletRequest request,HttpServletResponse response);
 
     /**
      * Attempts to log in, checking pin against stored valid pins
      * @param pin
-     * @return null or a new cookie
+     * @return null or a new token
      */
-    String login(String pin);
+    AuthTokenI login(String pin);
 
     /**
      * Add a new valid PIN to the pin DB
@@ -48,10 +53,10 @@ public interface AuthI
     void writePin(String pin);
 
     /**
-     * removes cookie from the list of logged-in cookies
-     * @param cookie
+     * Expires token immediately, removing it from the list of logged-in tokens
+     * @param token
      */
-    void logout(String cookie);
+    void logout(AuthTokenI token);
 
     /**
      * @return the relative URL of the login page
