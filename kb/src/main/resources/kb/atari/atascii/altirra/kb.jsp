@@ -80,11 +80,11 @@
     // Tab qwertyuiop - = Return
     kb.startRow();
     kb.spacer(1);
-    kb.key("TAB","KB_TAB",4,3,null,null,"",K3,"FS=30","S=SET","C=CLR","ARROWCOLOR=none","ARROW=0","INC1="+DS+"empty.svgt");
-    kb.key("Q","Q",3,3,null,null,"",K2,"S=&#x250f;","FIXSY=-6");
-    kb.key("W","W",3,3,null,null,"",K2,"S=&#x2533;","FIXSY=-6");
-    kb.key("E","E",3,3,null,null,"",K2,"S=&#x2513;","FIXSY=-6");
-    kb.key("R","R",3,3,null,null,"",K2,"S=&#x2501;","FIXSY=1");
+    kb.key("TAB","KB_TAB",4,3,null,null,"",K3,"FS=30","S=SET","C=CLR","INC1="+DS+"empty.svgt");
+    kb.key("Q","Q",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"box/nw.svgt");
+    kb.key("W","W",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"box/nc.svgt");
+    kb.key("E","E",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"box/ne.svgt");
+    kb.key("R","R",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"box/hbar.svgt");
     kb.key("T","T",3,3,null,null,"",K2,"S=&#x26aa;","FIXSY=1");
     kb.key("Y","Y",3,3,null,null,"",K2,"S=&#x25e7;","FIXSY=1");//25bc
     kb.key("U","U",3,3,null,null,"",K2,"S=&#x2584;","FIXSY=0");//2584
@@ -102,9 +102,9 @@
     kb.startRow();
     kb.spacer(2);
     kb.key("CTRL","LEFT_CTRL",4,3,kb.SHIFT,kb.SHIFT,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
-    kb.key("A","A",3,3,null,null,"",K2,"S=&#x2523;","FIXSY=0");
-    kb.key("S","S",3,3,null,null,"",K2,"S=&#x254B;","FIXSY=0");
-    kb.key("D","D",3,3,null,null,"",K2,"S=&#x252B;","FIXSY=0");
+    kb.key("A","A",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"box/cw.svgt");
+    kb.key("S","S",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"box/cc.svgt");
+    kb.key("D","D",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"box/ce.svgt");
     kb.key("F","F",3,3,null,null,"",K2,"S=&#x2571;","FIXSY=0");
     kb.key("G","G",3,3,null,null,"",K2,"S=&#x2572;","FIXSY=0");
     kb.key("H","H",3,3,null,null,"",K2,"S=&#x25e2;","FIXSY=0");
@@ -124,10 +124,10 @@
     kb.startRow();
     kb.spacer(2);
     kb.key("SHIFT","LEFT_SHIFT",6,3,kb.SHIFT,kb.SHIFT,"",null,"FS=16","BGC=#D68554");
-    kb.key("Z","Z",3,3,null,null,"",K2,"S=&#x2517;","FIXSY=6");
-    kb.key("X","X",3,3,null,null,"",K2,"S=&#x253b;","FIXSY=6");
-    kb.key("C","C",3,3,null,null,"",K2,"S=&#x251b;","FIXSY=6");
-    kb.key("V","V",3,3,null,null,"",K2,"S=&#x258f;","FIXSY=0");
+    kb.key("Z","Z",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"box/sw.svgt");
+    kb.key("X","X",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"box/sc.svgt");
+    kb.key("C","C",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"box/se.svgt");
+    kb.key("V","V",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"box/vbar.svgt");
     kb.key("B","B",3,3,null,null,"",K2,"S=&#x2595;","FIXSY=0");
     kb.key("N","N",3,3,null,null,"",K2,"S=&#x2581;","FIXSY=0");
     kb.key("M","M",3,3,null,null,"",K2,"S=&#x2594;","FIXSY=0");
