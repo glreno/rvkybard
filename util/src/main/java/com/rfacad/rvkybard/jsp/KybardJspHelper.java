@@ -154,7 +154,7 @@ public class KybardJspHelper
 
     private void calculateDefaultSizes()
     {
-        templateProcessor.loadDefault("TOP",top.getAbsolutePath());
+        templateProcessor.loadDefault("TOP",top.getPath()+"/");
 
         templateProcessor.loadDefault("cellW",cellW);
         templateProcessor.loadDefault("cellH",cellH);

@@ -29,9 +29,7 @@
 
 <text x="28%" y="@{H/2-FS*.40}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS/2}" fill="#000" font-family="sans-serif">@{C}</text>
 
-<g transform="translate(20,18)" ><g transform="rotate(@{ARROW})" >
-<line x1=0 y1=-8 x2=0 y2=8 style="stroke:@{ARROWCOLOR}; stroke-width:2"/>
-<line x1=-4 y1=0 x2=0 y2=8 style="stroke:@{ARROWCOLOR}; stroke-width:2"/>
-<line x1=4 y1=0 x2=0 y2=8 style="stroke:@{ARROWCOLOR}; stroke-width:2"/>
-</g></g>
+<g transform="translate(20,18)" >
+@include{TOP+INC1}</g>
+</g>
 </svg>
