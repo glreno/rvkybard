@@ -90,7 +90,7 @@
     kb.key("U","U",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/s.svgt");
     kb.key("I","I",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/nw.svgt");
     kb.key("O","O",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/ne.svgt");
-    kb.key("P","P",3,3,null,null,"",K2,"S=&#x2663;","FIXSY=0");
+    kb.key("P","P",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"suits/club.svgt");
     kb.key("-","-",3,3,"keyDownRemap(this,[],'-',['LEFT_SHIFT'],'-',['LEFT_ALT'],'KB_UPARROW')","keyUpRemap(this,'-','-','KB_UPARROW')","",K3,"S=_","ARROWCOLOR=#000","ARROW=180","INC1="+DART+"arrow.svgt");
     kb.key("=","=",3,3,"keyDownRemap(this,[],'=',['LEFT_SHIFT'],'KB_BACKSLASH',['LEFT_ALT'],'KB_DOWNARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_DOWNARROW')","",K3,"S=|","ARROWCOLOR=#000","ARROW=0","INC1="+DART+"arrow.svgt","FIXSY=4");
     kb.key("RETURN","KB_ENTER",5,3,null,null,"",null,"FS=16");
@@ -111,7 +111,7 @@
     kb.key("J","J",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/backtriangle.svgt");
     kb.key("K","K",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/sw.svgt");
     kb.key("L","L",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/se.svgt");
-    kb.key(";",";",3,3,null,null,"",K2,"S=&#x2660; :","FIXLY=-2");
+    kb.key(";",";",3,3,null,null,"",K3,"S=:","FIXLY=-2","BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"suits/spade.svgt");
     kb.key("+","+",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'=',[],'KB_BACKSLASH',['LEFT_ALT'],'KB_LEFTARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_LEFTARROW')","",K3,"S=\\","ARROWCOLOR=#000","ARROW=90","INC1="+DART+"arrow.svgt","FIXSY=6");
     kb.key("*","*",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'8',['LEFT_SHIFT'],'6',['LEFT_ALT'],'KB_RIGHTARROW')","keyUpRemap(this,'8','6','KB_RIGHTARROW')","",K3,"S=^","ARROWCOLOR=#000","ARROW=270","INC1="+DART+"arrow.svgt","FIXSY=6");
     kb.key("LOCK","KB_CAPSLOCK",3,3,null,null,"",K2,"FS=30","S=CAPS");
@@ -131,8 +131,8 @@
     kb.key("B","B",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/e.svgt");
     kb.key("N","N",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/s.svgt");
     kb.key("M","M",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/n.svgt");
-    kb.key(",","KB_COMMA",3,3,"keyDownRemap(this,[],'KB_COMMA',[],'KB_OPEN_BRACKET',['LEFT_CTRL'],'KB_COMMA')","keyUpRemap(this,'KB_COMMA','KB_OPEN_BRACKET','KB_COMMA')","",K2,"S=&#x2665; [","FIXSY=-2","FIXLY=-4");
-    kb.key(".",".",3,3,"keyDownRemap(this,[],'.',[],'KB_CLOSE_BRACKET',['LEFT_CTRL'],'.')","keyUpRemap(this,'.','KB_CLOSE_BRACKET','.')","",K2,"S=&#x2666; ]","FIXSY=-2","FIXLY=-4");
+    kb.key(",","KB_COMMA",3,3,"keyDownRemap(this,[],'KB_COMMA',[],'KB_OPEN_BRACKET',['LEFT_CTRL'],'KB_COMMA')","keyUpRemap(this,'KB_COMMA','KB_OPEN_BRACKET','KB_COMMA')","",K3,"S=[","FIXSY=5","FIXLY=-6","BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"suits/heart.svgt");
+    kb.key(".",".",3,3,"keyDownRemap(this,[],'.',[],'KB_CLOSE_BRACKET',['LEFT_CTRL'],'.')","keyUpRemap(this,'.','KB_CLOSE_BRACKET','.')","",K3,"S=]","FIXSY=5","FIXLY=-6","BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"suits/diamond.svgt");
     kb.key("/","/",3,3,null,null,"",K2,"S=?");
     kb.key("atari","KB_END",3,3,null,null,"",KA);
     kb.key("SHIFT","RIGHT_SHIFT",4,3,kb.SHIFT,kb.SHIFT,"",null,"FS=16","BGC="+SHIFTCOLOR);
