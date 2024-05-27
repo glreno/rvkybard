@@ -1,0 +1,43 @@
+<html>
+<head>
+<link
+    rel="icon"
+    type="image/png"
+    href="/icon32.svg"
+/>
+<link
+      rel="stylesheet"
+      href="/css/logo.css"
+/>
+</head>
+<body style="background-color: #D6D2CE;">
+<style>
+.copyrightfooter {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+}
+</style>
+<img class='logo' alt='rvkybard, the retro remote virtual keyboard' src='rvkybard_logo.png' />
+<h2>RvKybard Configuration</h2>
+<form action="/l" method='POST'>
+    <hr>
+    <h3>PIN SETTER</h3>
+    <label id='pin1label' for='pin1'>Existing PIN:</label>
+    <input type='password' id='pin1' name='pin' required />
+    <br>
+    <label id='pin2label' for='pin2'>New PIN:</label>
+    <input type='password' id='pin2' name='pin' required />
+    <br>
+    <label id='pin3label' for='pin3'>New PIN again:</label>
+    <input type='password' id='pin3' name='pin' required />
+    <hr>
+    <button type="SUBMIT">OK</button>
+</form>
+<a href="/">Cancel</a>
+<footer class='copyrightfooter'>
+<br>
+rvkybard Copyright &copy; 2024 Gerald Reno, Jr.
+</footer>
+</body>
+</html>

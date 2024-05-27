@@ -15,11 +15,6 @@
 	kb.startHtml();
 %>
 <style>
-.logo {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
 .kybardidx-menu-title {
   display: grid;
   grid-template-columns: 30px auto;
@@ -118,6 +113,7 @@ function menuOpenClose(button,menuid)
     kb.key("Settings","",8,3,"doNothing()","linkTo('/config.jsp')","",null);
     kb.key("Documentation","",12,3,"doNothing()","window.open('https://github.com/glreno/rvkybard/wiki','_blank').focus()","",null);
     kb.key("Source","",6,3,"doNothing()","window.open('https://github.com/glreno/rvkybard','_blank').focus()","",null);
+    kb.key("Log Out","",6,3,"doNothing()","doLogout()","",null);
     kb.endKeyboard();
     //kb.endHtml(); that includes endPage.htmlt, which includes the copyright notice for the keyboard. Don't want that here.
 %>
