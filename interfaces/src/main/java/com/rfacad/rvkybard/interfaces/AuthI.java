@@ -19,6 +19,7 @@ public interface AuthI
 
     public static final String PINNAME = "pin";
     public static final String UPDATEPINNAME = "updatedpin";
+    public static final String SAMENEWPINNAME = "samenewpin";
 
     /**
      * Checks to see if this cookie is a currently logged-in session

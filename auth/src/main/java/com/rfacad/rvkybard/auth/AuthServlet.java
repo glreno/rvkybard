@@ -78,10 +78,22 @@ public class AuthServlet extends HttpServlet
             {
                 LOG.debug("Successful login");
                 String u = req.getParameter(AuthI.UPDATEPINNAME);
-                if ( u != null && ! u.trim().isEmpty() )
+                String d = req.getParameter(AuthI.SAMENEWPINNAME);
+                if ( u != null && d != null )
                 {
-                    LOG.warn("Updating PIN db");
-                    authi.writePin(u.trim());
+                    u = u.trim();
+                    d = d.trim();
+                    if ( !u.isEmpty() && !d.isEmpty() && u.equals(d) )
+                    {
+                        LOG.warn("Updating PIN db");
+                        authi.writePin(u.trim());
+                    }
+                    else
+                    {
+                        // PINs don't match!
+                        resp.sendRedirect("/mismatch.html");
+                        return;
+                    }
                 }
                 Cookie cookie = new Cookie(AuthI.COOKIENAME,s);
                 int seconds = 60*60; // an hour
