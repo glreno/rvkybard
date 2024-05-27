@@ -23,14 +23,18 @@
 <form action="/l" method='POST'>
     <hr>
     <h3>PIN SETTER</h3>
-    <label id='pin1label' for='pin1'>Existing PIN:</label>
-    <input type='password' id='pin1' name='pin' required />
-    <br>
-    <label id='pin2label' for='pin2'>New PIN:</label>
-    <input type='password' id='pin2' name='updatedpin' required />
-    <br>
-    <label id='pin3label' for='pin3'>New PIN again:</label>
-    <input type='password' id='pin3' name='samenewpin' required />
+    <table>
+    <tr>
+    <td align='right'><label id='pin1label' for='pin1'>Existing PIN:</label></td>
+    <td><input type='password' id='pin1' name='pin' required /></td>
+    </tr><tr>
+    <td align='right'><label id='pin2label' for='pin2'>New PIN:</label></td>
+    <td><input type='password' id='pin2' name='updatedpin' required /></td>
+    </tr><tr>
+    <td align='right'><label id='pin3label' for='pin3'>New PIN again:</label></td>
+    <td><input type='password' id='pin3' name='samenewpin' required /></td>
+    </tr>
+    </table>
     <hr>
     <button type="SUBMIT">OK</button>
 </form>
