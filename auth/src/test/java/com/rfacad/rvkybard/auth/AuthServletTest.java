@@ -149,6 +149,7 @@ public class AuthServletTest
         HttpServletRequest req = mock(HttpServletRequest.class);
         when(req.getParameter(AuthI.PINNAME)).thenReturn("6502");
         when(req.getParameter(AuthI.UPDATEPINNAME)).thenReturn("8080");
+        when(req.getParameter(AuthI.SAMENEWPINNAME)).thenReturn("8080");
         as.doPost(req, resp);
         assertEquals(0,statusCaptor.getAllValues().size());
         assertEquals("/",redirectCaptor.getValue());
@@ -167,11 +168,32 @@ public class AuthServletTest
         HttpServletRequest req = mock(HttpServletRequest.class);
         when(req.getParameter(AuthI.PINNAME)).thenReturn("0000");
         when(req.getParameter(AuthI.UPDATEPINNAME)).thenReturn("8080");
+        when(req.getParameter(AuthI.SAMENEWPINNAME)).thenReturn("8080");
         as.doPost(req, resp);
         assertEquals(0,statusCaptor.getAllValues().size());
         assertEquals(LOGINPAGE,redirectCaptor.getValue());
         assertEquals(0,cookieCaptor.getAllValues().size());
         assertEquals(0,updateCaptor.getAllValues().size());
+    }
+
+    @Test
+    public void shouldRejectPinChangeWithPinMismatch() throws ServletException, IOException
+    {
+        AuthServlet as = new AuthServlet();
+        as.setAuthi(mockAuthi);
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        when(req.getParameter(AuthI.PINNAME)).thenReturn("6502");
+        when(req.getParameter(AuthI.UPDATEPINNAME)).thenReturn("8080");
+        when(req.getParameter(AuthI.SAMENEWPINNAME)).thenReturn("8088");
+        as.doPost(req, resp);
+        assertEquals(0,statusCaptor.getAllValues().size());
+        assertEquals("/mismatch.html",redirectCaptor.getValue());
+        assertEquals(0,updateCaptor.getAllValues().size());
+        // Still a valid login though
+        assertEquals(1,cookieCaptor.getAllValues().size());
+        Cookie c = cookieCaptor.getValue(); // that's good enough for me
+        assertEquals(AuthI.COOKIENAME,c.getName());
+        assertNotNull(c.getValue());
     }
 
 }

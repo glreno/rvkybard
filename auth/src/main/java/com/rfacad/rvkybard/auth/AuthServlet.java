@@ -77,15 +77,29 @@ public class AuthServlet extends HttpServlet
             if ( token != null )
             {
                 LOG.debug("Successful login");
+                String redirectTo="/";
                 String u = req.getParameter(AuthI.UPDATEPINNAME);
-                if ( u != null && ! u.trim().isEmpty() )
+                String d = req.getParameter(AuthI.SAMENEWPINNAME);
+                if ( u != null && d != null )
                 {
-                    LOG.warn("Updating PIN db");
-                    authi.writePin(u.trim());
+                    u = u.trim();
+                    d = d.trim();
+                    if ( !u.isEmpty() && !d.isEmpty() && u.equals(d) )
+                    {
+                        LOG.warn("Updating PIN db");
+                        authi.writePin(u.trim());
+                    }
+                    else
+                    {
+                        // PINs don't match!
+                        // This is still a valid login, though, so we still need to set the cookie,
+                        // but we won't be redirecting to /
+                        redirectTo="/mismatch.html";
+                    }
                 }
                 LOG.trace("New login token: {}",token.getNonce());
                 resp.addCookie(token.makeCookie());
-                resp.sendRedirect("/");
+                resp.sendRedirectredirectTo);
                 return;
             }
         }
