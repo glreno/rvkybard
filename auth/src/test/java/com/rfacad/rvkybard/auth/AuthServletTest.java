@@ -186,8 +186,12 @@ public class AuthServletTest
         as.doPost(req, resp);
         assertEquals(0,statusCaptor.getAllValues().size());
         assertEquals("/mismatch.html",redirectCaptor.getValue());
-        assertEquals(0,cookieCaptor.getAllValues().size());
         assertEquals(0,updateCaptor.getAllValues().size());
+        // Still a valid login though
+        assertEquals(1,cookieCaptor.getAllValues().size());
+        Cookie c = cookieCaptor.getValue(); // that's good enough for me
+        assertEquals(AuthI.COOKIENAME,c.getName());
+        assertNotNull(c.getValue());
     }
 
 }

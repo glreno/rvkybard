@@ -77,6 +77,7 @@ public class AuthServlet extends HttpServlet
             if ( s != null )
             {
                 LOG.debug("Successful login");
+                String redirectTo="/";
                 String u = req.getParameter(AuthI.UPDATEPINNAME);
                 String d = req.getParameter(AuthI.SAMENEWPINNAME);
                 if ( u != null && d != null )
@@ -91,8 +92,9 @@ public class AuthServlet extends HttpServlet
                     else
                     {
                         // PINs don't match!
-                        resp.sendRedirect("/mismatch.html");
-                        return;
+                        // This is still a valid login, though, so we still need to set the cookie,
+                        // but we won't be redirecting to /
+                        redirectTo="/mismatch.html";
                     }
                 }
                 Cookie cookie = new Cookie(AuthI.COOKIENAME,s);
@@ -101,7 +103,7 @@ public class AuthServlet extends HttpServlet
                 cookie.setHttpOnly(true);
                 cookie.setPath("/");
                 resp.addCookie(cookie);
-                resp.sendRedirect("/");
+                resp.sendRedirect(redirectTo);
                 return;
             }
         }
