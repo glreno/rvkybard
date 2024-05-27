@@ -17,7 +17,7 @@
       href="/css/logo.css"
 />
 </head>
-<body style="background-color: #D6D2CE;">
+<body class='logopage'>
 <style>
 .copyrightfooter {
   position: fixed;
