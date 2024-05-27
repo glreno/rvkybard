@@ -62,8 +62,8 @@ function menuOpenClose(button,menuid)
 }
 </script>
 </head>
-<body>
-<h3>rvkybard, the retro remote virtual keyboard</h3>
+<body style="background-color: #D6D2CE;">
+<img alt='rvkybard, the retro remote virtual keyboard' src='rvkybard_logo.png' />
 <%
     IndexHelper ih=new IndexHelper("webapps/ROOT/kb");
     int themeid=0;
