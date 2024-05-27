@@ -17,6 +17,7 @@ import org.mockito.ArgumentCaptor;
 
 import com.rfacad.rvkybard.interfaces.AuthI;
 import com.rfacad.rvkybard.interfaces.AuthS;
+import com.rfacad.rvkybard.interfaces.AuthTokenI;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -62,7 +63,8 @@ public class AuthServletTest
         doNothing().when(resp).addCookie(cookieCaptor.capture());
         doNothing().when(resp).addHeader(headerNameCaptor.capture(), headerValueCaptor.capture());
         // There is one good pin. Anything else will return null
-        doReturn("abcd").when(mockAuthi).login("6502");
+        AuthToken token = new AuthToken("abcd",AuthTokenI.DEFAULT_LIFESPAN_MILLIS);
+        doReturn(token).when(mockAuthi).login("6502");
         doNothing().when(mockAuthi).writePin(updateCaptor.capture());
         doReturn(LOGINPAGE).when(mockAuthi).getLoginPageUrl();
     }

@@ -18,6 +18,7 @@ import org.mockito.ArgumentCaptor;
 
 import com.rfacad.rvkybard.interfaces.AuthI;
 import com.rfacad.rvkybard.interfaces.AuthS;
+import com.rfacad.rvkybard.interfaces.AuthTokenI;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -35,7 +36,7 @@ public class AuthFilterTest
     private static final String CC = "chocolatechip";
     private static final Cookie GOODCOOKIE = new Cookie(AuthI.COOKIENAME, CC);
     private static final Cookie BADCOOKIE = new Cookie(AuthI.COOKIENAME, "oatmealraisin");
-    private AuthI mockAuthi;
+    private AuthImpl mockAuthi;
     private HttpServletRequest req;
     private HttpServletResponse resp;
     private ArgumentCaptor<Integer> statusCaptor;
@@ -61,8 +62,8 @@ public class AuthFilterTest
         doNothing().when(resp).sendError(statusCaptor.capture());
         doNothing().when(resp).sendRedirect(redirectCaptor.capture());
         // There is one good cookie. All else return false.
-        doReturn(true).when(mockAuthi).isCookieValid(CC);
-        doCallRealMethod().when(mockAuthi).checkForValidCookie(any());
+        AuthToken goodToken = new AuthToken(CC,AuthTokenI.DEFAULT_LIFESPAN_MILLIS);
+        doReturn(goodToken).when(mockAuthi).findToken(CC);
         doReturn(LOGINPAGE).when(mockAuthi).getLoginPageUrl();
     }
 

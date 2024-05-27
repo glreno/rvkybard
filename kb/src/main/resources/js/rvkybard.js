@@ -54,6 +54,10 @@ function timersend() {
         asyncsend();
         timerSendCountdown = resetTo;
         resetTo=resetTo+resetTo;
+        if ( resetTo > 30 )
+        {
+            resetTo = 30;
+        }
         //console.log(timerSendCountdown);
     }
 }
