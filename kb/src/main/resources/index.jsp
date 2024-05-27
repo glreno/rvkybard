@@ -15,6 +15,11 @@
 	kb.startHtml();
 %>
 <style>
+.logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 .kybardidx-menu-title {
   display: grid;
   grid-template-columns: 30px auto;
@@ -63,7 +68,7 @@ function menuOpenClose(button,menuid)
 </script>
 </head>
 <body style="background-color: #D6D2CE;">
-<img alt='rvkybard, the retro remote virtual keyboard' src='rvkybard_logo.png' />
+<img class='logo' alt='rvkybard, the retro remote virtual keyboard' src='rvkybard_logo.png' />
 <%
     IndexHelper ih=new IndexHelper("webapps/ROOT/kb");
     int themeid=0;
@@ -114,5 +119,18 @@ function menuOpenClose(button,menuid)
     kb.key("Documentation","",12,3,"doNothing()","window.open('https://github.com/glreno/rvkybard/wiki','_blank').focus()","",null);
     kb.key("Source","",6,3,"doNothing()","window.open('https://github.com/glreno/rvkybard','_blank').focus()","",null);
     kb.endKeyboard();
-    kb.endHtml();
+    //kb.endHtml(); that includes endPage.htmlt, which includes the copyright notice for the keyboard. Don't want that here.
 %>
+
+<script type="text/javascript" language="javascript">
+    panic(); // clear all keys and set LEDs
+</script>
+<footer>
+<br>
+rvkybard version 0.09dev
+<br>
+Copyright &copy; 2024 Gerald Reno, Jr.
+</footer>
+</body>
+</html>
+

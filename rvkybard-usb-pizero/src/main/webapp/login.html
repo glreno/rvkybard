@@ -1,4 +1,33 @@
-<html><body><h3>Stupidly simple login page</h3>
-<form action="/l" method='POST'>
-	<input name='pin'/>
-</form></body></html>
+<html>
+<style>
+.logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pinform {
+  position: fixed;
+  left: 40%;
+  top: 50%;
+  font-size: 1.2em;
+}
+.copyrightfooter {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+}
+</style>
+<body style="background-color: #D6D2CE;">
+<img class='logo' alt='rvkybard, the retro remote virtual keyboard' src='rvkybard_logo.png' />
+<form class='pinform' action='/l' method='POST'>
+    <label id='pinlabel' for='pin'>Enter PIN:</label>
+    <input type='password' id='pin' name='pin' required />
+</form>
+<footer class='copyrightfooter'>
+<br>
+rvkybard version 0.09dev
+<br>
+Copyright &copy; 2024 Gerald Reno, Jr.
+</footer>
+</body>
+</html>
