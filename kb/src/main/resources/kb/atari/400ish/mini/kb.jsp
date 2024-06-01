@@ -15,6 +15,7 @@
     // Default key SVG and size
     String DA="atari/keys/";
     String DS="std/keys/";
+    String DART="std/keys/art/";
     kb.setDefaultSvg(DA+"key.svgt",3,3,"FS=48","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR,"CTLBGC="+CTRLCOLOR,"FIXSY=0","FIXLY=0");
     String K2=DA+"key2.svgt";
     String KM=DA+"keyMenu.svgt";
@@ -79,7 +80,7 @@
     // Tab qwertyuiop - = Return
     kb.startRow();
     kb.spacer(1);
-    kb.key("TAB","KB_TAB",4,3,null,null,"",K3,"FS=30","S=SET","C=CLR","ARROWCOLOR=none","ARROW=0");
+    kb.key("TAB","KB_TAB",4,3,null,null,"",K3,"FS=30","S=SET","C=CLR","INC1="+DS+"empty.svgt");
     kb.key("Q","Q");
     kb.key("W","W");
     kb.key("E","E");
@@ -90,8 +91,8 @@
     kb.key("I","I");
     kb.key("O","O");
     kb.key("P","P");
-    kb.key("-","-",3,3,"keyDownRemap(this,[],'-',['LEFT_SHIFT'],'-',[],'KB_UPARROW')","keyUpRemap(this,'-','-','KB_UPARROW')","",K3,"S=_","ARROWCOLOR=#000","ARROW=180");
-    kb.key("=","=",3,3,"keyDownRemap(this,[],'=',['LEFT_SHIFT'],'KB_BACKSLASH',[],'KB_DOWNARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_DOWNARROW')","",K3,"S=|","ARROWCOLOR=#000","ARROW=0","FIXSY=4");
+    kb.key("-","-",3,3,"keyDownRemap(this,[],'-',['LEFT_SHIFT'],'-',[],'KB_UPARROW')","keyUpRemap(this,'-','-','KB_UPARROW')","",K3,"S=_","ARROWCOLOR=#000","ARROW=180","INC1="+DART+"arrow.svgt");
+    kb.key("=","=",3,3,"keyDownRemap(this,[],'=',['LEFT_SHIFT'],'KB_BACKSLASH',[],'KB_DOWNARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_DOWNARROW')","",K3,"S=|","ARROWCOLOR=#000","ARROW=0","FIXSY=4","INC1="+DART+"arrow.svgt");
     kb.key("RETURN","KB_ENTER",5,3,null,null,"",null,"FS=16");
     kb.spacer(1);
     kb.key("OPTION","KB_F5",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
@@ -111,8 +112,8 @@
     kb.key("K","K");
     kb.key("L","L");
     kb.key(";",";",3,3,null,null,"",K2,"S=:","FIXLY=-2");
-    kb.key("+","+",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'=',[],'KB_BACKSLASH',[],'KB_LEFTARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_LEFTARROW')","",K3,"S=\\","ARROWCOLOR=#000","ARROW=90","FIXSY=6");
-    kb.key("*","*",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'8',['LEFT_SHIFT'],'6',[],'KB_RIGHTARROW')","keyUpRemap(this,'8','6','KB_RIGHTARROW')","",K3,"S=^","ARROWCOLOR=#000","ARROW=270","FIXSY=6");
+    kb.key("+","+",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'=',[],'KB_BACKSLASH',[],'KB_LEFTARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_LEFTARROW')","",K3,"S=\\","ARROWCOLOR=#000","ARROW=90","FIXSY=6","INC1="+DART+"arrow.svgt");
+    kb.key("*","*",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'8',['LEFT_SHIFT'],'6',[],'KB_RIGHTARROW')","keyUpRemap(this,'8','6','KB_RIGHTARROW')","",K3,"S=^","ARROWCOLOR=#000","ARROW=270","FIXSY=6","INC1="+DART+"arrow.svgt");
     kb.key("LOCK","KB_CAPSLOCK",3,3,null,null,"",K2,"FS=30","S=CAPS");
     kb.key("","",1,3,"doNothing()","doNothing()","",KLED,"CLS=CAPSLOCK-LED");
     kb.spacer(1);
