@@ -181,6 +181,27 @@ public class TemplateFillerTest
 
         ret=processLine(tf,"@{quote}@{b}@{quote}",params);
         assertEquals("&#x2019;bob&#x2019;",ret);
+
+        ret=processLine(tf,"@code{newvar=1234}@{newvar}",params);
+        assertEquals("1234",ret);
+
+        ret=processLine(tf,"@{b} @code{b='abercrombie'} @{b}",params);
+        assertEquals("bob  abercrombie",ret);
+
+    }
+
+    @Test
+    public void shouldCallCustomFunc() throws IOException
+    {
+        TemplateProcessor tf=new TemplateFiller(tmpdir.toString(),"src.txt");
+        String ret;
+        tf.loadDefault("a", "alice");
+        tf.loadDefaults(new String[]{"b=bob","quote=&#x2019;"});
+        Map<String, Object> params = tf.parseParams(new String[] {"foo","bar","x=1","y=2","a=override"});
+
+        ret=processLine(tf,"@{raster(2,-4,6,'')}",params);
+        System.err.println(ret);
+        assertEquals("This is a raster?",ret);
     }
 
     @Test

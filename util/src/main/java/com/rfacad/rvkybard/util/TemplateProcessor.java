@@ -3,10 +3,13 @@ package com.rfacad.rvkybard.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.mvel2.CompileException;
+import org.mvel2.MVEL;
+import org.mvel2.ParserContext;
 import org.mvel2.templates.TemplateRuntime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,8 +110,15 @@ public class TemplateProcessor
         String output;
         try
         {
+            // Prepare the parser, load custom functions
+            // TODO can I just do this once? Or do I need to create a new context for each run?
+            ParserContext parserContext = ParserContext.create();
+            Method method = MVEL.getStaticMethod(Raster.class, Raster.getFunctionName(), Raster.getFunctionSignature());
+            parserContext.addImport("raster",method);
+            allparams.put("raster", method);
+
             // Process the expressions
-            output = (String) TemplateRuntime.eval(in, allparams);
+            output = (String) TemplateRuntime.eval(in, parserContext, allparams);
         }
         catch (CompileException e)
         {

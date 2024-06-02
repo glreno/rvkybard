@@ -105,13 +105,6 @@ public class ParamMapTest
     @Test
     public void testPut()
     {
-        try {
-            combined.put(FOO,"x");
-            fail();
-        }
-        catch (UnsupportedOperationException e)
-        {
-        }
         // if you add a default, that will still be masked
         primary.put("A", "a");
         secondary.put("B", "b");
@@ -121,6 +114,10 @@ public class ParamMapTest
         assertEquals(BAZ_VALUE,combined.get(BAZ));
         assertEquals("a",combined.get("A"));
         assertEquals("b",combined.get("B"));
+
+        // a value that is put() overrides all of that.
+        combined.put(FOO,"x");
+        assertEquals("x",combined.get(FOO));
     }
 
     @Test
