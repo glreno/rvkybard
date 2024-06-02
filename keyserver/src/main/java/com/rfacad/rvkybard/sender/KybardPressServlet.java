@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.rfacad.rvkybard.interfaces.AuthI;
+import com.rfacad.rvkybard.interfaces.AuthTokenI;
 import com.rfacad.rvkybard.interfaces.KybardCode;
 import com.rfacad.rvkybard.interfaces.KybardFlag;
 
@@ -80,9 +81,10 @@ public class KybardPressServlet extends HttpServlet
     @Override
     protected void doGet( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        Cookie [] cookies = req.getCookies();
-        if ( ! authi.checkForValidCookie(cookies) )
+        AuthTokenI tok = authi.checkForValidCookie(req,resp);
+        if ( ! tok.isOK() )
         {
+            LOG.debug("Expired token -- lifespan = {}",tok.getLifespan() );
             resp.sendError(401);
             return;
         }

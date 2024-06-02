@@ -1,0 +1,7 @@
+<!-- An arrow. Centered. It is 16px long, and pointed down unless rotated -->
+<!-- expected parameters: ARROW (rotation in degrees), ARROWCOLOR (color) -->
+<g transform="rotate(@{ARROW})" >
+<line x1=0 y1=-8 x2=0 y2=8 style="stroke:@{ARROWCOLOR}; stroke-width:2"/>
+<line x1=-4 y1=0 x2=0 y2=8 style="stroke:@{ARROWCOLOR}; stroke-width:2"/>
+<line x1=4 y1=0 x2=0 y2=8 style="stroke:@{ARROWCOLOR}; stroke-width:2"/>
+</g>

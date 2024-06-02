@@ -33,4 +33,24 @@
     </license>
 </licenses>
 
+<build>
+  <resources>
+    <resource>
+      <directory>src/main/resources</directory>
+      <filtering>true</filtering>
+      <includes>
+        <include>**/index.jsp</include>
+      </includes>
+    </resource>
+    <resource>
+      <directory>src/main/resources</directory>
+      <filtering>false</filtering>
+      <excludes>
+        <exclude>**/index.jsp</exclude>
+      </excludes>
+    </resource>
+  </resources>
+</build>
+
+
 </project>

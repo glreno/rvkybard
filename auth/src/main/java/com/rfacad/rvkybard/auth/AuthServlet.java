@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +15,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.rfacad.rvkybard.interfaces.AuthI;
+import com.rfacad.rvkybard.interfaces.AuthTokenI;
 
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -57,14 +57,14 @@ public class AuthServlet extends HttpServlet
         // But since the goal of all this is to maintain only a SINGLE active user,
         // I can just log out everybody.
         LOG.debug("Logging out!");
-        authi.logout("");
+        authi.logout(null);
     }
 
     @Override
     protected void doPost( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         String pin = req.getParameter(AuthI.PINNAME);
-        LOG.trace("Attempting login "+pin);
+        LOG.trace("Attempting login {}",pin);
         if ( authi == null )
         {
             LOG.error("Login attempt before Auth started");
@@ -73,28 +73,38 @@ public class AuthServlet extends HttpServlet
         }
         else
         {
-            String s = authi.login(pin);
-            if ( s != null )
+            AuthTokenI token = authi.login(pin);
+            if ( token != null )
             {
                 LOG.debug("Successful login");
+                String redirectTo="/";
                 String u = req.getParameter(AuthI.UPDATEPINNAME);
-                if ( u != null && ! u.trim().isEmpty() )
+                String d = req.getParameter(AuthI.SAMENEWPINNAME);
+                if ( u != null && d != null )
                 {
-                    LOG.warn("Updating PIN db");
-                    authi.writePin(u.trim());
+                    u = u.trim();
+                    d = d.trim();
+                    if ( !u.isEmpty() && !d.isEmpty() && u.equals(d) )
+                    {
+                        LOG.warn("Updating PIN db");
+                        authi.writePin(u.trim());
+                    }
+                    else
+                    {
+                        // PINs don't match!
+                        // This is still a valid login, though, so we still need to set the cookie,
+                        // but we won't be redirecting to /
+                        redirectTo="/mismatch.html";
+                    }
                 }
-                Cookie cookie = new Cookie(AuthI.COOKIENAME,s);
-                int seconds = 60*60; // an hour
-                cookie.setMaxAge(seconds);
-                cookie.setHttpOnly(true);
-                cookie.setPath("/");
-                resp.addCookie(cookie);
-                resp.sendRedirect("/");
+                LOG.trace("New login token: {}",token.getNonce());
+                resp.addCookie(token.makeCookie());
+                resp.sendRedirect(redirectTo);
                 return;
             }
         }
         LOG.error("Unsuccessful login attempt");
-        LOG.trace("Unsuccessful login with pin "+pin);
+        LOG.trace("Unsuccessful login with pin {}",pin);
         resp.sendRedirect(authi.getLoginPageUrl());
     }
 }

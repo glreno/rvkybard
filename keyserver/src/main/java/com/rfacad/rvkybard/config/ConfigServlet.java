@@ -54,8 +54,7 @@ public class ConfigServlet extends HttpServlet
     @Override
     protected void doGet( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        Cookie [] cookies = req.getCookies();
-        if ( ! authi.checkForValidCookie(cookies) )
+        if ( ! authi.checkForValidCookie(req,resp).isOK() )
         {
             resp.sendError(401);
             return;
@@ -80,8 +79,7 @@ public class ConfigServlet extends HttpServlet
     @Override
     protected void doPost( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        Cookie [] cookies = req.getCookies();
-        if ( ! authi.checkForValidCookie(cookies) )
+        if ( ! authi.checkForValidCookie(req,resp).isOK() )
         {
             resp.sendError(401);
             return;

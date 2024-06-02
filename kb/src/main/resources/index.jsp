@@ -62,8 +62,8 @@ function menuOpenClose(button,menuid)
 }
 </script>
 </head>
-<body>
-<h3>rvkybard, the retro remote virtual keyboard</h3>
+<body class='logopage'>
+<img class='logo' alt='rvkybard, the retro remote virtual keyboard' src='rvkybard_logo.png' />
 <%
     IndexHelper ih=new IndexHelper("webapps/ROOT/kb");
     int themeid=0;
@@ -87,15 +87,15 @@ function menuOpenClose(button,menuid)
   <div style='grid-area: 1/2/span 1/span 2;'><%=keyboard.getName()%></div>
 </div>
 <div class='kybardidx-menu-body' id='kybard-menu-body-<%=id%>' style='grid-template-rows: auto repeat(<%=nrow%>,30px);' >
-  <div style='grid-area: 1/2/span 4/span 1;'><%=keyboard.getSnapshotOrBlank()%></div>
-  <div style='grid-area: 1/3/span 1/span 1;'><%=keyboard.getDescription()%></div>
+  <div style='grid-area: 1/3/span 4/span 1;'><%=keyboard.getSnapshotOrBlank()%></div>
+  <div style='grid-area: 1/2/span 1/span 1;'><%=keyboard.getDescription()%></div>
 <%
             int pid=1;
             for(Protocol p : keyboard.getProtocols())
             {
                 ++pid;
 %>
-  <div style='grid-area: <%=pid%>/3/span 1/span 1;'><a href="/kb/<%=p.getLink()%>"><%=p.getName()%></a></div>
+  <div style='grid-area: <%=pid%>/2/span 1/span 1;'><a href="/kb/<%=p.getLink()%>"><%=p.getName()%></a></div>
 <%
             }
 %>
@@ -113,6 +113,20 @@ function menuOpenClose(button,menuid)
     kb.key("Settings","",8,3,"doNothing()","linkTo('/config.jsp')","",null);
     kb.key("Documentation","",12,3,"doNothing()","window.open('https://github.com/glreno/rvkybard/wiki','_blank').focus()","",null);
     kb.key("Source","",6,3,"doNothing()","window.open('https://github.com/glreno/rvkybard','_blank').focus()","",null);
+    kb.key("Log Out","",6,3,"doNothing()","doLogout()","",null);
     kb.endKeyboard();
-    kb.endHtml();
+    //kb.endHtml(); that includes endPage.htmlt, which includes the copyright notice for the keyboard. Don't want that here.
 %>
+
+<script type="text/javascript" language="javascript">
+    panic(); // clear all keys and set LEDs
+</script>
+<footer>
+<br>
+rvkybard version ${project.version}
+<br>
+Copyright &copy; 2024 Gerald Reno, Jr.
+</footer>
+</body>
+</html>
+

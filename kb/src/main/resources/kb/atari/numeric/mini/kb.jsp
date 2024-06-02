@@ -16,6 +16,7 @@
     // Default key SVG and size (in cell spans)
     String DA="atari/keys/";
     String DS="std/keys/";
+    String DART="std/keys/art/";
     kb.setDefaultSvg(DA+"key3.svgt",3,3,"FS=48","BORD=4","BORDC="+TXTCOLOR,"BGC="+KEYCOLOR,"TXTC="+TXTCOLOR,"SHFBGC="+SHIFTCOLOR,"CTLBGC="+CTRLCOLOR,"FIXSY=0","FIXLY=0");
     String K2=DA+"key2.svgt";
     String K3=DA+"key3.svgt";
@@ -57,7 +58,7 @@
     kb.startRow();
     kb.spacer(1);
     kb.key("7","KP_7",3,3,null,null,"",K2);
-    kb.key("8","KP_8",3,3,null,null,"",K3,"ARROWCOLOR=#000","ARROW=180");
+    kb.key("8","KP_8",3,3,null,null,"",K3,"ARROWCOLOR=#000","ARROW=180","INC1="+DART+"arrow.svgt");
     kb.key("9","KP_9",3,3,null,null,"",K2);
     kb.key("LOCK","KP_NUMLOCK",3,3,null,null,"",K2,"FS=30","S=NUM");
     kb.key("","",1,3,"doNothing()","doNothing()","",KLED,"CLS=NUMLOCK-LED");
@@ -67,9 +68,9 @@
     // 4 5 6 ret option
     kb.startRow();
     kb.spacer(1);
-    kb.key("4","KP_4",3,3,null,null,"",K3,"ARROWCOLOR=#000","ARROW=90");
+    kb.key("4","KP_4",3,3,null,null,"",K3,"ARROWCOLOR=#000","ARROW=90","INC1="+DART+"arrow.svgt");
     kb.key("5","KP_5",3,3,null,null,"",K2);
-    kb.key("6","KP_6",3,3,null,null,"",K3,"ARROWCOLOR=#000","ARROW=270");
+    kb.key("6","KP_6",3,3,null,null,"",K3,"ARROWCOLOR=#000","ARROW=270","INC1="+DART+"arrow.svgt");
     kb.key("RET","KP_ENTER",3,6,null,null,"",K,"FS=16");
     kb.key("OPTION","KB_F5",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
@@ -78,7 +79,7 @@
     kb.startRow();
     kb.spacer(1);
     kb.key("1","KP_1",3,3,null,null,"",K2);
-    kb.key("2","KP_2",3,3,null,null,"",K3,"ARROWCOLOR=#000","ARROW=0");
+    kb.key("2","KP_2",3,3,null,null,"",K3,"ARROWCOLOR=#000","ARROW=0","INC1="+DART+"arrow.svgt");
     kb.key("3","KP_3",3,3,null,null,"",K2);
     kb.spacer(3);
     kb.key("SELECT","KB_F6",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
@@ -88,7 +89,7 @@
     kb.startRow();
     kb.spacer(1);
     kb.key("0","KP_0",6,3,null,null,"",K2);
-    kb.key(".","KP_DOT",3,3,null,null,"",K);
+    kb.key(".",".",3,3,null,null,"",K);
     kb.key(" ","KB_SPACE",3,3,null,null,"",K);
     kb.key("START","KB_F7",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();

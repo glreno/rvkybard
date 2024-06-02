@@ -1,0 +1,29 @@
+<!-- Box graphic - a bit of lineart, with a square around it -->
+<!-- Expected parameters: BP (pixel size), BW BH (Box width & height, in pixels), BC (color) -->
+<!-- The image will be centered on 0,0 -->
+
+@include{TOP+"std/keys/art/outline.svgt"}
+<!-- Back Slash, in 8-bit block graphics. Assumes BW==BH==8.
+This is the Atari version, eight rows of three-pixels each,
+with each end being a 2x2 square. -->
+<!--
+##
+###
+.###
+..## #
+
+...# ##
+.... ###
+.... .###
+.... ..##
+-->
+
+<rect fill="@{BC}" x="@{-BP*4}" y="@{-BP*4}" width="@{BP*2}" height="@{BP}"/>
+<rect fill="@{BC}" x="@{-BP*4}" y="@{-BP*3}" width="@{BP*3}" height="@{BP}"/>
+<rect fill="@{BC}" x="@{-BP*3}" y="@{-BP*2}" width="@{BP*3}" height="@{BP}"/>
+<rect fill="@{BC}" x="@{-BP*2}" y="@{-BP*1}" width="@{BP*3}" height="@{BP}"/>
+
+<rect fill="@{BC}" x="@{-BP*1}" y="@{BP*0}" width="@{BP*3}" height="@{BP}"/>
+<rect fill="@{BC}" x="@{BP*0}" y="@{BP*1}" width="@{BP*3}" height="@{BP}"/>
+<rect fill="@{BC}" x="@{BP*1}" y="@{BP*2}" width="@{BP*3}" height="@{BP}"/>
+<rect fill="@{BC}" x="@{BP*2}" y="@{BP*3}" width="@{BP*2}" height="@{BP}"/>

@@ -1,0 +1,27 @@
+<!-- Box graphic - a bit of lineart, with a square around it -->
+<!-- Expected parameters: BP (pixel size), BW BH (Box width & height, in pixels), BC (color) -->
+<!-- The image will be centered on 0,0 -->
+
+@include{TOP+"std/keys/art/outline.svgt"}
+<!-- Circle, in 8-bit block graphics. Assumes BW==BH==8. -->
+<!-- This is the Atari filled-in circle, which is the same shape as lower case o -->
+<!-- And yes, a big O is only one pixel taller than a little o. -->
+<!-- But actually this is only FIVE px wide, because aspect ratio. -->
+<!--
+.... ....    .... ....
+.... ....    .... ....
+..## ##..    ..## ##..
+.##. .##.    .### ###.
+
+.##. .##.    .### ###.
+.##. .##.    .### ###.
+..## ##..    ..## ##..
+.... ....    .... ....
+-->
+<rect fill="@{BC}" x="@{-BP*1.5}" y="@{-BP*2}" width="@{BP*3}" height="@{BP}"/>
+<rect fill="@{BC}" x="@{-BP*2.5}" y="@{-BP*1}" width="@{BP*5}" height="@{BP}"/>
+
+<rect fill="@{BC}" x="@{-BP*2.5}" y="@{BP*0}" width="@{BP*5}" height="@{BP}"/>
+<rect fill="@{BC}" x="@{-BP*2.5}" y="@{BP*1}" width="@{BP*5}" height="@{BP}"/>
+<rect fill="@{BC}" x="@{-BP*1.5}" y="@{BP*2}" width="@{BP*3}" height="@{BP}"/>
+

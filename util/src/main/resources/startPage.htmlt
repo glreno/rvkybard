@@ -17,9 +17,13 @@ http://www.apache.org/licenses/LICENSE-2.0
     type="image/png"
     href="/icon32.svg"
 />
-<link   
+<link
       rel="stylesheet"
       href="/css/nozoom.css"
+/>
+<link
+      rel="stylesheet"
+      href="/css/logo.css"
 />
 <script src ='/js/rvkybard.js'></script>
 <style>
@@ -48,3 +52,4 @@ http://www.apache.org/licenses/LICENSE-2.0
   visibility:hidden;
 }
 </style>
+

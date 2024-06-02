@@ -1,0 +1,9 @@
+<!-- Box graphic - a bit of lineart, with a square around it -->
+<!-- Expected parameters: BP (pixel size), BW BH (Box width & height, in pixels), BC (color) -->
+<!-- The image will be centered on 0,0 -->
+
+@include{TOP+"std/keys/art/outline.svgt"}
+<!-- Vertical center bar. Line is two pixels wide. -->
+<rect fill="@{BC}" x="@{-BP}" y="@{BP*(-BH/2)}" width="@{BP*2}" height="@{BP*BH}"/>
+
+
