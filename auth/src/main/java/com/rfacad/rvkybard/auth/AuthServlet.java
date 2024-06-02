@@ -99,7 +99,7 @@ public class AuthServlet extends HttpServlet
                 }
                 LOG.trace("New login token: {}",token.getNonce());
                 resp.addCookie(token.makeCookie());
-                resp.sendRedirectredirectTo);
+                resp.sendRedirect(redirectTo);
                 return;
             }
         }
