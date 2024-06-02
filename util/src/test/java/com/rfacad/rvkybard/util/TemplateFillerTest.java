@@ -199,7 +199,7 @@ public class TemplateFillerTest
 
         ret=processLine(tf,"@{raster(c,2,x,y,'#')}",params);
         System.err.println(ret);
-        assertEquals("<rect fill='#FFF' x='-6' y='10' width='2' height='2' />\n",ret);
+        assertEquals("<!-- [#] -->\n<rect fill='#FFF' x='-6.0' y='10.0' width='2.0' height='2.0' />\n",ret);
     }
 
     @Test

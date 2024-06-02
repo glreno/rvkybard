@@ -29,9 +29,12 @@
 " style="fill:rgba(@{CTRLCOLORD},.24)" />
 
 <!-- SPACESHIP! -->
-<rect fill='@{TXTC}' x='@{W/2-P*2.5}' y='@{H/2}' width='@{P*5}' height='@{P*25}'/>
-<rect fill='@{TXTC}' x='@{W/2-P*7.5}' y='@{H/2+P*10}' width='@{P*15}' height='@{P*10}'/>
-<rect fill='@{TXTC}' x='@{W/2-P*12.5}' y='@{H/2+P*15}' width='@{P*5}' height='@{P*10}'/>
-<rect fill='@{TXTC}' x='@{W/2+P*7.5}' y='@{H/2+P*15}' width='@{P*5}' height='@{P*10}'/>
+<g transform="translate(@{W/2},@{H/2+P*5*2.5})" >
+@{raster(TXTC,P*5,-2.5,-2.5,'  #')}
+@{raster(TXTC,P*5,-2.5,-1.5,'  #')}
+@{raster(TXTC,P*5,-2.5, -.5,' ###')}
+@{raster(TXTC,P*5,-2.5,  .5,'#####')}
+@{raster(TXTC,P*5,-2.5, 1.5,'# # #')}
+</g>
 
 </svg>

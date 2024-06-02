@@ -30,33 +30,34 @@ public class RasterTest
         assertEquals("",ret);
         ret = Raster.raster("#FFF", null, null, null, null);
         assertEquals("",ret);
-        ret = Raster.raster("#FFF", 2, null, null, null);
+        ret = Raster.raster("#FFF", .2, null, null, null);
         assertEquals("",ret);
-        ret = Raster.raster("#FFF", 2, 3, null, null);
+        ret = Raster.raster("#FFF", .2, .3, null, null);
         assertEquals("",ret);
-        ret = Raster.raster("#FFF", 2, 3, 4, null);
+        ret = Raster.raster("#FFF", .2, .3, .4, null);
         assertEquals("",ret);
-        ret = Raster.raster("#FFF", 2, 3, 4, "");
+        ret = Raster.raster("#FFF", .2, .3, .4, "");
         assertEquals("",ret);
-        ret = Raster.raster("#FFF", 2, 3, 4, "        ");
+        ret = Raster.raster("#FFF", .2, .3, .4, "        ");
         assertEquals("",ret);
     }
 
     @Test
     public void shouldGenerateDot()
     {
-        String ret = Raster.raster("#CCC", 1, 0, 0, "X");
-        assertEquals("<rect fill='#CCC' x='0' y='0' width='1' height='1' />\n",ret);
+        String ret = Raster.raster("#CCC", 1d, 0d, 0d, "X");
+        assertEquals("<!-- [X] -->\n<rect fill='#CCC' x='0.0' y='0.0' width='1.0' height='1.0' />\n",ret);
     }
 
     @Test
     public void shouldGenerateLine()
     {
-        String ret = Raster.raster("#CCC", 2, -1, 3, "---");
+        String ret = Raster.raster("#CCC", 2.0, -1.0, 3.0, "---");
         assertEquals(
-                "<rect fill='#CCC' x='-2' y='6' width='2' height='2' />\n"+
-                "<rect fill='#CCC' x='0' y='6' width='2' height='2' />\n"+
-                "<rect fill='#CCC' x='2' y='6' width='2' height='2' />\n",
+                "<!-- [---] -->\n"+
+                "<rect fill='#CCC' x='-2.0' y='6.0' width='2.0' height='2.0' />\n"+
+                "<rect fill='#CCC' x='0.0' y='6.0' width='2.0' height='2.0' />\n"+
+                "<rect fill='#CCC' x='2.0' y='6.0' width='2.0' height='2.0' />\n",
                 ret);
     }
 
@@ -64,10 +65,11 @@ public class RasterTest
     @Test
     public void shouldGenerateBars()
     {
-        String ret = Raster.raster("#CCC", 3, -1, 3, "| |");
+        String ret = Raster.raster("#CCC", 3.0, -.5, .25, "| |");
         assertEquals(
-                "<rect fill='#CCC' x='-3' y='9' width='3' height='3' />\n"+
-                "<rect fill='#CCC' x='3' y='9' width='3' height='3' />\n",
+                "<!-- [| |] -->\n"+
+                "<rect fill='#CCC' x='-1.5' y='0.75' width='3.0' height='3.0' />\n"+
+                "<rect fill='#CCC' x='4.5' y='0.75' width='3.0' height='3.0' />\n",
                 ret);
     }
 }

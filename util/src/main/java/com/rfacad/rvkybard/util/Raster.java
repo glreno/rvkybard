@@ -11,7 +11,7 @@ package com.rfacad.rvkybard.util;
 //
 public class Raster
 {
-    private static final Class<?> [] SIG = new Class[] {String.class, Integer.class,Integer.class,Integer.class,String.class};
+    private static final Class<?> [] SIG = new Class[] {String.class, Double.class,Double.class,Double.class,String.class};
     public static String getFunctionName() { return "raster";}
     public static Class<?>[] getFunctionSignature() { return SIG;}
     private Raster() {}
@@ -31,13 +31,16 @@ public class Raster
      * @param raster String representing the raster
      * @return
      */
-    public static String raster(String colour, Integer pxsz, Integer x, Integer y, String raster)
+    public static String raster(String colour, Double pxsz, Double x, Double y, String raster)
     {
-            if ( colour==null || pxsz==null || x==null || y==null || raster==null )
+            if ( colour==null || pxsz==null || x==null || y==null || raster==null || raster.trim().length()==0 )
             {
                 return "";
             }
             StringBuilder ret = new StringBuilder();
+            ret.append("<!-- [");
+            ret.append(raster);
+            ret.append("] -->\n");
             int len=raster.length();
             for(int i=0;i<len;i++)
             {
