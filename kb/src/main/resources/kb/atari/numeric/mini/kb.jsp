@@ -89,7 +89,7 @@
     kb.startRow();
     kb.spacer(1);
     kb.key("0","KP_0",6,3,null,null,"",K2);
-    kb.key(".","KP_DOT",3,3,null,null,"",K);
+    kb.key(".",".",3,3,null,null,"",K);
     kb.key(" ","KB_SPACE",3,3,null,null,"",K);
     kb.key("START","KB_F7",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
