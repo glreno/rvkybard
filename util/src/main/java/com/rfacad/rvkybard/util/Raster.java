@@ -11,13 +11,52 @@ package com.rfacad.rvkybard.util;
 //
 public class Raster
 {
-    private static final Class<?> [] SIG = new Class[] {Integer.class,Integer.class,Integer.class,String.class};
+    private static final Class<?> [] SIG = new Class[] {String.class, Integer.class,Integer.class,Integer.class,String.class};
     public static String getFunctionName() { return "raster";}
     public static Class<?>[] getFunctionSignature() { return SIG;}
-
-    public static String raster(Integer pxsz, Integer x, Integer y, String raster)
+    private Raster() {}
+    /**
+     * Convert a String representation of a one-row bitmap into a bunch of SVG.
+     * Every non-space in the String will be drawn as a rectangle. So
+     * raster("#FFF", 2, -3, 5, "# #");
+     * will generate this SVG code:
+     *
+     * <rect fill='#FFF' x='-6' y='10' width='2' height='2'/>
+     * <rect fill='#FFF' x='-2' y='10' width='2' height='2'/>
+     *
+     * @param colour colour of the pixels, e.g. #FFC640
+     * @param pxsz pixel size -- this will be used to scale the (x,y) coords and set the width and height of each rectangle.
+     * @param x starting x coord of the line, in pixels
+     * @param y top y coord of the line, in pixels
+     * @param raster String representing the raster
+     * @return
+     */
+    public static String raster(String colour, Integer pxsz, Integer x, Integer y, String raster)
     {
-            return "This is a raster?";
+            if ( colour==null || pxsz==null || x==null || y==null || raster==null )
+            {
+                return "";
+            }
+            StringBuilder ret = new StringBuilder();
+            int len=raster.length();
+            for(int i=0;i<len;i++)
+            {
+                if ( raster.charAt(i) != ' ' )
+                {
+                    ret.append("<rect fill='");
+                    ret.append(colour);
+                    ret.append("' x='");
+                    ret.append(x*pxsz+i*pxsz);
+                    ret.append("' y='");
+                    ret.append(y*pxsz);
+                    ret.append("' width='");
+                    ret.append(pxsz);
+                    ret.append("' height='");
+                    ret.append(pxsz);
+                    ret.append("' />\n");
+                }
+            }
+            return ret.toString();
     }
 
 }

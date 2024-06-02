@@ -185,8 +185,8 @@ public class TemplateFillerTest
         ret=processLine(tf,"@code{newvar=1234}@{newvar}",params);
         assertEquals("1234",ret);
 
-        ret=processLine(tf,"@{b} @code{b='abercrombie'} @{b}",params);
-        assertEquals("bob  abercrombie",ret);
+        ret=processLine(tf,"@{b} @code{b='brown'} @{b}",params);
+        assertEquals("bob  brown",ret);
 
     }
 
@@ -195,13 +195,11 @@ public class TemplateFillerTest
     {
         TemplateProcessor tf=new TemplateFiller(tmpdir.toString(),"src.txt");
         String ret;
-        tf.loadDefault("a", "alice");
-        tf.loadDefaults(new String[]{"b=bob","quote=&#x2019;"});
-        Map<String, Object> params = tf.parseParams(new String[] {"foo","bar","x=1","y=2","a=override"});
+        Map<String, Object> params = tf.parseParams(new String[] {"x=-3","y=5","c=#FFF"});
 
-        ret=processLine(tf,"@{raster(2,-4,6,'')}",params);
+        ret=processLine(tf,"@{raster(c,2,x,y,'#')}",params);
         System.err.println(ret);
-        assertEquals("This is a raster?",ret);
+        assertEquals("<rect fill='#FFF' x='-6' y='10' width='2' height='2' />\n",ret);
     }
 
     @Test
