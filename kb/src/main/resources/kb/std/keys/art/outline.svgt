@@ -1,0 +1,11 @@
+<!-- Square around a box graphic - a bit of lineart, with a square around it - this is the square -->
+<!-- Expected parameters: BP (pixel size), BW BH (Box width & height, in pixels) -->
+<!-- The image will be centered on 0,0 -->
+
+<!-- standard box around graphic -->
+<line x1='@{-BW*BP/2}' y1='@{-BH*BP/2}' x2='@{ BW*BP/2}' y2='@{-BH*BP/2}' style='stroke:@{BC}; stroke-width:1;' />
+<line x1='@{-BW*BP/2}' y1='@{ BH*BP/2}' x2='@{ BW*BP/2}' y2='@{ BH*BP/2}' style='stroke:@{BC}; stroke-width:1;' />
+<line x1='@{-BW*BP/2}' y1='@{ BH*BP/2}' x2='@{-BW*BP/2}' y2='@{-BH*BP/2}' style='stroke:@{BC}; stroke-width:1;' />
+<line x1='@{ BW*BP/2}' y1='@{ BH*BP/2}' x2='@{ BW*BP/2}' y2='@{-BH*BP/2}' style='stroke:@{BC}; stroke-width:1;' />
+
+

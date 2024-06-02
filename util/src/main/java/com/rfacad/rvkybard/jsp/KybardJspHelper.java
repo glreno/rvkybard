@@ -89,6 +89,7 @@ public class KybardJspHelper
     public void setTop(File top)
     {
         this.top=top;
+        calculateDefaultSizes();
     }
 
     public void setMouseMode(MouseMode mouseMode)
@@ -153,6 +154,8 @@ public class KybardJspHelper
 
     private void calculateDefaultSizes()
     {
+        templateProcessor.loadDefault("TOP",top.getPath()+"/");
+
         templateProcessor.loadDefault("cellW",cellW);
         templateProcessor.loadDefault("cellH",cellH);
         templateProcessor.loadDefault("P",pixelSize);

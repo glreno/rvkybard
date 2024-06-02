@@ -84,6 +84,8 @@ public class KybardJspHelperTest
         assertEquals("x77",runMvel(h,"x@{stdH}")); // 4*20-3
         assertEquals("x273",runMvel(h,"x@{kbdW}")); // 15*18+3
         assertEquals("x83",runMvel(h,"x@{kbdH}")); // 4*20+3
+        h.setTop(new File("/tmp"));
+        assertEquals("x/tmp/",runMvel(h,"x@{TOP}"));
     }
     private String runMvel(KybardJspHelper h,String s) throws IOException
     {
