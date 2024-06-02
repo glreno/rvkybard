@@ -131,6 +131,7 @@ function keyUp(elem,key) {
     send();
 }
 /* For when you need to send a different key when SHIFT is down.
+* This is a MUCH simpler version of keyDownRemap(), it only lets you change the key, not the shift.
 * key: Keycode to send
 * shifted: Keycode to send when shift is down
 */
@@ -165,11 +166,15 @@ function keyDownRemap(elem,flags,key,shiftedflags,shifted,ctrlflags,ctrl) {
     flagsdownstash.clear();
     flagsdown.forEach(x => flagsdownstash.add(x));
     flagsdown.clear();
+
+    // send 'no keys down at all' in case we're changing shift keys
+    // (400MINI gets confused if you move from right-shift to left-shift)
+    send();
+
     if ( flagsdownstash.has('LEFT_SHIFT') || flagsdownstash.has('RIGHT_SHIFT') )
     {
         //console.log('Down:'+shifted);
         shiftedflags.forEach(x => flagsdown.add(x));
-        flagsdown.add(shiftedflags);
         keysdown.add(shifted);
     }
     else if ( flagsdownstash.has('LEFT_CTRL') || flagsdownstash.has('RIGHT_CTRL') )
