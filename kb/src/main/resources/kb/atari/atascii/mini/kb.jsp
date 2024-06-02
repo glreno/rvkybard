@@ -60,19 +60,19 @@
     kb.spacer(1);
     kb.key("ESC","KB_ESCAPE",3,3,null,null,"",null,"FS=18");
     kb.key("1","1",3,3,null,null,"",K2,"S=!");
-    kb.key("2","2",3,3,"keyDownShiftDiff(this,'2','KB_APOSTROPHE')","keyUpShiftDiff(this,'2','KB_APOSTROPHE')","",K2,"S=&quot;");
+    kb.key("2","2",3,3,null,null,"",K2,"S=&quot;");
     kb.key("3","3",3,3,null,null,"",K2,"S=#");
     kb.key("4","4",3,3,null,null,"",K2,"S=$");
     kb.key("5","5",3,3,null,null,"",K2,"S=%");
     kb.key("6","6",3,3,"keyDownShiftDiff(this,'6','7')","keyUpShiftDiff(this,'6','&')","",K2,"S=&amp;");
     kb.key("7","7",3,3,"keyDownRemap(this,[],'7',[],'KB_APOSTROPHE',['LEFT_CTRL'],'7')","keyUpRemap(this,'7','KB_APOSTROPHE','7')","",K2,"S='");
-    kb.key("8","8",3,3,"keyDownShiftDiff(this,'8','2')","keyUpShiftDiff(this,'8','2')","",K2,"S=@","FIXSY=-2");
+    kb.key("8","8",3,3,"keyDownShiftDiff(this,'8','KB_APOSTROPHE')","keyUpShiftDiff(this,'8','KB_APOSTROPHE')","",K2,"S=@","FIXSY=-2");
     kb.key("9","9",3,3,null,null,"",K2,"S=(","FIXSY=-2");
     kb.key("0","0",3,3,null,null,"",K2,"S=)","FIXSY=-2");
     kb.key("&lt","<",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'KB_COMMA',['LEFT_SHIFT'],'KB_HOME',['LEFT_CTRL'],'KB_HOME')","keyUpRemap(this,'KB_COMMA','KB_HOME','KB_HOME')","",K2,"S=CLEAR","FS=30");
     kb.key("&gt",">",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'.',[],'KB_INSERT',['LEFT_CTRL'],'KB_INSERT')","keyUpRemap(this,'.','KB_INSERT','.')","",K2,"S=INSERT","FS=30");
-    kb.key("BACK S","KB_BACKSPACE",3,3,"keyDownRemap(this,[],'KB_BACKSPACE',[],'KB_DELETE',['LEFT_CTRL'],'KB_BACKSPACE')","keyUpRemap(this,'KB_BACKSPACE','KB_DELETE','KB_BACKSPACE')","",K2,"S=DELETE","FS=30");
-    kb.key("BREAK","KB_PAUSE",3,3,null,null,"",null,"FS=16");
+    kb.key("BACK S","KB_BACKSPACE",3,3,null,null,"",K2,"S=DELETE","FS=30");
+    kb.key("BREAK","KB_F8",3,3,null,null,"",null,"FS=16");
     kb.spacer(1);
     kb.key("MENU","",4,3,"panic()",kb.MENU,"",KM,"FS=16","BGC="+SHIFTCOLOR);
     kb.endRow();
@@ -91,11 +91,11 @@
     kb.key("I","I",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/nw.svgt");
     kb.key("O","O",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/ne.svgt");
     kb.key("P","P",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"suits/club.svgt");
-    kb.key("-","-",3,3,"keyDownRemap(this,[],'-',['LEFT_SHIFT'],'-',['LEFT_ALT'],'KB_UPARROW')","keyUpRemap(this,'-','-','KB_UPARROW')","",K3,"S=_","ARROWCOLOR=#000","ARROW=180","INC1="+DART+"arrow.svgt");
-    kb.key("=","=",3,3,"keyDownRemap(this,[],'=',['LEFT_SHIFT'],'KB_BACKSLASH',['LEFT_ALT'],'KB_DOWNARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_DOWNARROW')","",K3,"S=|","ARROWCOLOR=#000","ARROW=0","FIXSY=4","INC1="+DART+"arrow.svgt");
+    kb.key("-","-",3,3,"keyDownRemap(this,[],'-',['LEFT_SHIFT'],'-',[],'KB_UPARROW')","keyUpRemap(this,'-','-','KB_UPARROW')","",K3,"S=_","ARROWCOLOR=#000","ARROW=180","INC1="+DART+"arrow.svgt");
+    kb.key("=","=",3,3,"keyDownRemap(this,[],'=',['LEFT_SHIFT'],'KB_BACKSLASH',[],'KB_DOWNARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_DOWNARROW')","",K3,"S=|","ARROWCOLOR=#000","ARROW=0","FIXSY=4","INC1="+DART+"arrow.svgt");
     kb.key("RETURN","KB_ENTER",5,3,null,null,"",null,"FS=16");
     kb.spacer(1);
-    kb.key("OPTION","KB_F4",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
+    kb.key("OPTION","KB_F5",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
     // Ctrl asdfghjkl ; + * LOCK
@@ -112,12 +112,12 @@
     kb.key("K","K",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/sw.svgt");
     kb.key("L","L",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/se.svgt");
     kb.key(";",";",3,3,null,null,"",K3,"S=:","FIXLY=-2","BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"suits/spade.svgt");
-    kb.key("+","+",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'=',[],'KB_BACKSLASH',['LEFT_ALT'],'KB_LEFTARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_LEFTARROW')","",K3,"S=\\","ARROWCOLOR=#000","ARROW=90","FIXSY=6","INC1="+DART+"arrow.svgt");
-    kb.key("*","*",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'8',['LEFT_SHIFT'],'6',['LEFT_ALT'],'KB_RIGHTARROW')","keyUpRemap(this,'8','6','KB_RIGHTARROW')","",K3,"S=^","ARROWCOLOR=#000","ARROW=270","FIXSY=6","INC1="+DART+"arrow.svgt");
+    kb.key("+","+",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'=',[],'KB_BACKSLASH',[],'KB_LEFTARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_LEFTARROW')","",K3,"S=\\","ARROWCOLOR=#000","ARROW=90","FIXSY=6","INC1="+DART+"arrow.svgt");
+    kb.key("*","*",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'8',['LEFT_SHIFT'],'6',[],'KB_RIGHTARROW')","keyUpRemap(this,'8','6','KB_RIGHTARROW')","",K3,"S=^","ARROWCOLOR=#000","ARROW=270","FIXSY=6","INC1="+DART+"arrow.svgt");
     kb.key("LOCK","KB_CAPSLOCK",3,3,null,null,"",K2,"FS=30","S=CAPS");
     kb.key("","",1,3,"doNothing()","doNothing()","",KLED,"CLS=CAPSLOCK-LED");
     kb.spacer(1);
-    kb.key("SELECT","KB_F3",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
+    kb.key("SELECT","KB_F6",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
     // shift zxcvbnm,./ atari shift
@@ -137,7 +137,7 @@
     kb.key("atari","KB_END",3,3,null,null,"",KA);
     kb.key("SHIFT","RIGHT_SHIFT",4,3,kb.SHIFT,kb.SHIFT,"",null,"FS=16","BGC="+SHIFTCOLOR);
     kb.spacer(2);
-    kb.key("START","F2",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
+    kb.key("START","F7",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
     // spacebarn
