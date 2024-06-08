@@ -89,7 +89,7 @@
     kb.startRow();
     kb.spacer(1);
     kb.key("M","KB_M",6,6,null,null,"",D2+"keyM.svgt","S1=Manual Target","S2=Select");
-    kb.key("S","KB_S",6,6,null,null,"",D2+"keyS.svgt","S1=Shields","S2=");
+    kb.key("S","KB_S",6,6,null,null,"",D2+"keyS.svgt","S1=Shields","S2=","INC1="+D2+"spaceship.svgt");
     kb.key("A","KB_A",6,6,null,null,"",D2+"keyA.svgt","S1=Aft","S2=View");
     kb.key("L","KB_L",6,6,null,null,"",D2+"keyL.svgt","S1=Long Range","S2=Scanner");
     kb.spacer(2);
