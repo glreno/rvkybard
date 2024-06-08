@@ -3,9 +3,9 @@
 </script>
 <footer>
 <br>
-@{COPYRIGHTMESSAGE}
+<div class='copyrightmsg'>@{COPYRIGHTMESSAGE}</div>
 <p>
-rvkybard and the "@{TITLE}" keyboard Copyright &copy; 2024 Gerald Reno, Jr.
+<div class='copyrightmsg'>rvkybard and the "@{TITLE}" keyboard Copyright &copy; 2024 Gerald Reno, Jr.</div>
 </footer>
 </body>
 </html>
