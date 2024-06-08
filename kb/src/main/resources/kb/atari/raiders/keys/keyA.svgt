@@ -30,11 +30,7 @@
 
 <!-- SPACESHIP! -->
 <g transform="translate(@{W/2},@{H/2+P*5*2.5})" >
-@{raster(TXTC,P*5,-2.5,-2.5,'  #')}
-@{raster(TXTC,P*5,-2.5,-1.5,'  #')}
-@{raster(TXTC,P*5,-2.5, -.5,' ###')}
-@{raster(TXTC,P*5,-2.5,  .5,'#####')}
-@{raster(TXTC,P*5,-2.5, 1.5,'# # #')}
+@include{TOP+'atari/raiders/keys/spaceship.svgt';colour=TXTC;pxsz=5*P}
 </g>
 
 </svg>

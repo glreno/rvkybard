@@ -21,20 +21,17 @@
 <text x="@{W/2}" y="@{H/4-FS2*1.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S1}</text>
 <text x="@{W/2}" y="@{H/4-FS2*.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S2}</text>
 
-<!-- Shield -->
-<rect fill='@{TXTC}' x='@{W/2-2*P*2.5}' y='@{H/2-P*10-P*2.5}' width='@{P*2*5}' height='@{P*2*25}'
-style="fill:rgba(@{CTRLCOLORD},.42)" />
-<rect fill='@{TXTC}' x='@{W/2-2*P*7.5}' y='@{H/2+P*10-P*2.5}' width='@{P*2*15}' height='@{P*2*10}'
-style="fill:rgba(@{CTRLCOLORD},.42)" />
-<rect fill='@{TXTC}' x='@{W/2-2*P*12.5}' y='@{H/2+P*15+P*2.5}' width='@{P*2*5}' height='@{P*2*10}'
-style="fill:rgba(@{CTRLCOLORD},.42)" />
-<rect fill='@{TXTC}' x='@{W/2+2*P*7.5}' y='@{H/2+P*15+P*2.5}' width='@{P*2*5}' height='@{P*2*10}'
-style="fill:rgba(@{CTRLCOLORD},.42)" />
+<g transform="translate(@{W/2},@{H/2+P*5*2.5})" >
+</g>
+
 
 <!-- SPACESHIP! -->
-<rect fill='@{TXTC}' x='@{W/2-P*2.5}' y='@{H/2}' width='@{P*5}' height='@{P*25}'/>
-<rect fill='@{TXTC}' x='@{W/2-P*7.5}' y='@{H/2+P*10}' width='@{P*15}' height='@{P*10}'/>
-<rect fill='@{TXTC}' x='@{W/2-P*12.5}' y='@{H/2+P*15}' width='@{P*5}' height='@{P*10}'/>
-<rect fill='@{TXTC}' x='@{W/2+P*7.5}' y='@{H/2+P*15}' width='@{P*5}' height='@{P*10}'/>
+<g transform="translate(@{W/2},@{H/2+P*5*2.5})" >
+<!-- Shield, which is another spaceship, just bigger and more transparent -->
+@include{TOP+'atari/raiders/keys/spaceship.svgt';colour='rgba('+CTRLCOLORD+',.42)';pxsz=10*P}
+<!-- the actual spaceship -->
+@include{TOP+'atari/raiders/keys/spaceship.svgt';colour=TXTC;pxsz=5*P}
+</g>
+
 
 </svg>
