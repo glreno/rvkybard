@@ -60,14 +60,14 @@
     kb.key("S","KB_S",6,6,null,null,"",D2+"keyS.svgt","S1=Shields","S2=","INC1="+D2+"spaceship_r2.svgt","INC2="+D2+"spaceship_r2s.svgt");
     kb.spacer(1);
     kb.key("MENU","",4,3,"panic()",kb.MENU,"",KM,"FS=16","BGC="+SHIFTCOLOR);
-    kb.key("OPTION","KB_F5",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
+    kb.key("OPTION","KB_F4",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
     // Pause Select
     kb.startRow();
     kb.spacer(20);
     kb.key("P","KB_P",4,3,null,null,"",D2+"keyPause.svgt","S2=PAUSE");
-    kb.key("SELECT","KB_F6",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
+    kb.key("SELECT","KB_F3",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
     // Space   Start
@@ -76,7 +76,7 @@
     kb.spacer(1);
     kb.key("Battle Window&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System Chart ","KB_SPACE",16,3,null,null,"",null,"FS=16");
     kb.spacer(6);
-    kb.key("START","KB_F7",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
+    kb.key("START","KB_F2",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
     //
