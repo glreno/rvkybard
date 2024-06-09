@@ -305,7 +305,7 @@ public class KybardJspHelperTest
     }
 
     @Test
-    public void shouldWriteEndPage()
+    public void shouldWriteEndPageLongCopy()
     {
         StringWriter out = new StringWriter();
         KybardJspHelper h = new KybardJspHelper(out, "MyTitle", "");
@@ -314,7 +314,22 @@ public class KybardJspHelperTest
         String s = out.toString();
         assertTrue(s,s.endsWith("</body>\n</html>\n"));
         assertTrue(s,s.contains("panic();"));
-        assertTrue(s,s.contains("rvkybard and the \"MyTitle\" keyboard Copyright &copy;"));
+        assertTrue(s,s.contains("rrvkb and the \"MyTitle\" keyboard Copyright &copy;"));
+        assertTrue(s,s.contains("Additional copyright message"));
+    }
+
+    @Test
+    public void shouldWriteEndPageShortCopy()
+    {
+        StringWriter out = new StringWriter();
+        KybardJspHelper h = new KybardJspHelper(out, "MyTitle", "");
+        h.includeTitleInCopyright(false);
+        h.loadDefault("COPYRIGHTMESSAGE", "Additional copyright message");
+        h.endHtml();
+        String s = out.toString();
+        assertTrue(s,s.endsWith("</body>\n</html>\n"));
+        assertTrue(s,s.contains("panic();"));
+        assertTrue(s,s.contains("rrvkb Copyright &copy;"));
         assertTrue(s,s.contains("Additional copyright message"));
     }
 

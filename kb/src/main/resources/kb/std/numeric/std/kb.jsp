@@ -5,6 +5,8 @@
     // Page title, and keyboard size in cells. 4 keys * 3 cells wide, 5 keys * 3 + 1 cells high
     // (extra row for contact & numlock lights)
     KybardJspHelper kb=new KybardJspHelper(out,"Simple Keypad",4*3+2,5*3+2,null);
+    // secret incantation to remove the keyboard title from the copyright message.
+    kb.includeTitleInCopyright(false);
 
     // Default key SVG and size (in cell spans)
     String DS="std/keys/";

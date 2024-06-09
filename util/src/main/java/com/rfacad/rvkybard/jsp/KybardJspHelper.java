@@ -69,7 +69,13 @@ public class KybardJspHelper
         this.menuRows=gridRows-1;
         top = new File("webapps/ROOT/kb"); // TODO we are assuming that we are running under Tomcat as the ROOT webapp!
         templateProcessor.loadDefault("TITLE", title);
+        templateProcessor.loadDefault("INCLUDE_TITLE_IN_COPYRIGHT",true);
         calculateDefaultSizes();
+    }
+
+    public void includeTitleInCopyright(boolean b)
+    {
+        templateProcessor.loadDefault("INCLUDE_TITLE_IN_COPYRIGHT",b);
     }
 
     public void readMouseMode()
@@ -497,5 +503,6 @@ public class KybardJspHelper
     {
         copyResource("/endPage.htmlt", Collections.emptyMap());
     }
+
 
 }
