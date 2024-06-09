@@ -25,7 +25,7 @@
   bottom: 12px;
 }
 </style>
-<img class='logo' alt='rvkybard, the retro remote virtual keyboard' src='rvkybard_logo.png' />
+<img class='logo' alt='rrvkb, the retro remote virtual keyboard' src='rvkybard_logo.png' />
 <h2>RvKybard Configuration</h2>
 <form action="/config" method='POST'>
     <hr>
@@ -49,7 +49,7 @@
 <a href="/">Cancel</a>
 <footer class='copyrightfooter'>
 <br>
-rvkybard Copyright &copy; 2024 Gerald Reno, Jr.
+rrvkb Copyright &copy; 2024 Gerald Reno, Jr.
 </footer>
 </body>
 </html>
