@@ -7,7 +7,7 @@
 <%@ page import="com.rfacad.rvkybard.index.Keyboard"%>
 <%@ page import="com.rfacad.rvkybard.index.Protocol"%>
 <%
-    KybardJspHelper kb=new KybardJspHelper(out,"rvkybard",8+12+6,3,null);
+    KybardJspHelper kb=new KybardJspHelper(out,"rrvkb",8+12+6,3,null);
     kb.setMouseMode(MouseMode.CLICK);
     kb.setDefaultSvg("artdeco/keys/keywide.svgt",3,3,"BORD=4","BORDC=#CD7F32","BGC=#eec","TXTC=#000","FS=16");
     kb.setDefaultCellSize(10,10,1,2);
@@ -63,7 +63,7 @@ function menuOpenClose(button,menuid)
 </script>
 </head>
 <body class='logopage'>
-<img class='logo' alt='rvkybard, the retro remote virtual keyboard' src='rvkybard_logo.png' />
+<img class='logo' alt='rrvkb, the retro remote virtual keyboard' src='rrvkb_logo.png' />
 <%
     IndexHelper ih=new IndexHelper("webapps/ROOT/kb");
     int themeid=0;
@@ -123,7 +123,7 @@ function menuOpenClose(button,menuid)
 </script>
 <footer>
 <br>
-rvkybard version ${project.version}
+rrvkb version ${project.version}
 <br>
 Copyright &copy; 2024 Gerald Reno, Jr.
 </footer>
