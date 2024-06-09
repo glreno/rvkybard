@@ -28,7 +28,7 @@
 <!-- SPACESHIP! -->
 <g transform="translate(@{W/2},@{H/2+P*5*2.5})" >
 <!-- Shield, which is another spaceship, just bigger and more transparent -->
-@include{TOP+INC1;colour='rgba('+CTRLCOLORD+',.42)';pxsz=10*P}
+@include{TOP+INC2;colour='rgba('+CTRLCOLORD+',.42)';pxsz=10*P}
 <!-- the actual spaceship -->
 @include{TOP+INC1;colour=TXTC;pxsz=5*P}
 </g>

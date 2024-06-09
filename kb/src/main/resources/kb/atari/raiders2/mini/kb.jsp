@@ -56,8 +56,8 @@
     kb.startRow();
     kb.spacer(1);
     kb.key("W","KB_W",6,6,null,null,"",D2+"keyW.svgt","S1=Weapons");
-    kb.key("T","KB_T",6,6,null,null,"",D2+"keyC.svgt","S1=Tactical");
-    kb.key("S","KB_S",6,6,null,null,"",D2+"keyS.svgt","S1=Shields","S2=","INC1="+D2+"spaceship.svgt");
+    kb.key("T","KB_T",6,6,null,null,"",D2+"keyT_r2.svgt","S1=Tactical");
+    kb.key("S","KB_S",6,6,null,null,"",D2+"keyS.svgt","S1=Shields","S2=","INC1="+D2+"spaceship_r2.svgt","INC2="+D2+"spaceship_r2s.svgt");
     kb.spacer(1);
     kb.key("MENU","",4,3,"panic()",kb.MENU,"",KM,"FS=16","BGC="+SHIFTCOLOR);
     kb.key("OPTION","KB_F5",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
