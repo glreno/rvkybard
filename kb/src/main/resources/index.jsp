@@ -63,7 +63,7 @@ function menuOpenClose(button,menuid)
 </script>
 </head>
 <body class='logopage'>
-<img class='logo' alt='rrvkb, the retro remote virtual keyboard' src='rvkybard_logo.png' />
+<img class='logo' alt='rrvkb, the retro remote virtual keyboard' src='rrvkb_logo.png' />
 <%
     IndexHelper ih=new IndexHelper("webapps/ROOT/kb");
     int themeid=0;

@@ -25,7 +25,7 @@
   bottom: 12px;
 }
 </style>
-<img class='logo' alt='rrvkb, the retro remote virtual keyboard' src='rvkybard_logo.png' />
+<img class='logo' alt='rrvkb, the retro remote virtual keyboard' src='rrvkb_logo.png' />
 <h2>RvKybard Configuration</h2>
 <form action="/config" method='POST'>
     <hr>
