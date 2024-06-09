@@ -2,8 +2,8 @@
     pageEncoding="US-ASCII"%>
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
-    KybardJspHelper kb=new KybardJspHelper(out,"Raiders Copilot",11*3+3,5*3+2,null);
-    kb.loadDefault("COPYRIGHTMESSAGE", "ATARI, Star Raiders, and the ATARI logo are trademarks of Atari Interactive Inc.");
+    KybardJspHelper kb=new KybardJspHelper(out,"Raiders2 Copilot",9*3+2,3*3+2,null);
+    kb.loadDefault("COPYRIGHTMESSAGE", "ATARI, Star Raiders 2, and the ATARI logo are trademarks of Atari Interactive Inc.");
 
     // Standard colours
     String BACKCOLOR= "#434343"; // 67,67,67
@@ -45,62 +45,38 @@
 <body>
 <%
     kb.startKeyboard();
-    //
-    // Keyboard rows start here
-    //
     kb.startRow();
     kb.endRowThirds(1);
 
-    // Top Row
-    kb.startRow();
-    kb.spacer(1);
-    kb.key("1","KB_1");
-    kb.key("2","KB_2");
-    kb.key("3","KB_3");
-    kb.key("4","KB_4");
-    kb.key("5","KB_5");
-    kb.key("6","KB_6");
-    kb.key("7","KB_7");
-    kb.key("8","KB_8");
-    kb.key("9","KB_9");
-    kb.spacer(3);
-    kb.key("0","KB_0",4,3,null,null,"",null,"BGC="+SHIFTCOLOR);
-    kb.endRow();
+    //
+    // Keyboard rows start here
+    //
 
-    // T C F G H Option
+    // W T S Menu Option
     kb.startRow();
     kb.spacer(1);
-    kb.key("T","KB_T",6,6,null,null,"",D2+"keyT.svgt","S1=Targeting","S2=Computer");
-    kb.key("C","KB_C",6,6,null,null,"",D2+"keyC.svgt","S1=Attack","S2=Computer");
-    kb.key("F","KB_F",6,6,null,null,"",D2+"keyF.svgt","S1=Forward","S2=View");
-    kb.key("G","KB_G",6,6,null,null,"",D2+"keyG.svgt","S1=Galactic","S2=Chart");
-    kb.key("H","KB_H",6,6,null,null,"",D2+"keyH.svgt","S1=Hyperwarp","S2=");
+    kb.key("W","KB_W",6,6,null,null,"",D2+"keyW.svgt","S1=Weapons");
+    kb.key("T","KB_T",6,6,null,null,"",D2+"keyT_r2.svgt","S1=Tactical");
+    kb.key("S","KB_S",6,6,null,null,"",D2+"keyS.svgt","S1=Shields","S2=","INC1="+D2+"spaceship_r2.svgt","INC2="+D2+"spaceship_r2s.svgt");
+    kb.spacer(1);
+    kb.key("MENU","",4,3,"panic()",kb.MENU,"",KM,"FS=16","BGC="+SHIFTCOLOR);
     kb.key("OPTION","KB_F5",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
-    // Select
+    // Pause Select
     kb.startRow();
-    kb.spacer(31);
+    kb.spacer(20);
+    kb.key("P","KB_P",4,3,null,null,"",D2+"keyPause.svgt","S2=PAUSE");
     kb.key("SELECT","KB_F6",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
 
-    // M S A L   Start
+    // Space   Start
     kb.startRow();
     kb.spacer(1);
-    kb.key("M","KB_M",6,6,null,null,"",D2+"keyM.svgt","S1=Manual Target","S2=Select");
-    kb.key("S","KB_S",6,6,null,null,"",D2+"keyS.svgt","S1=Shields","S2=","INC1="+D2+"spaceship.svgt","INC2="+D2+"spaceship.svgt");
-    kb.key("A","KB_A",6,6,null,null,"",D2+"keyA.svgt","S1=Aft","S2=View");
-    kb.key("L","KB_L",6,6,null,null,"",D2+"keyL.svgt","S1=Long Range","S2=Scanner");
-    kb.spacer(2);
-    kb.key("P","KB_P",4,3,null,null,"",D2+"keyPause.svgt","S2=PAUSE");
+    kb.spacer(1);
+    kb.key("Battle Window&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System Chart ","KB_SPACE",16,3,null,null,"",null,"FS=16");
+    kb.spacer(6);
     kb.key("START","KB_F7",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
-    kb.endRow();
-
-    // P
-    kb.startRow();
-    kb.spacer(25);
-    kb.key(" ","KB_SPACE",6,3,null,null,"",null);
-    kb.key("MENU","",4,3,"panic()",kb.MENU,"",KM,"FS=16","BGC="+SHIFTCOLOR);
     kb.endRow();
 
     //

@@ -1,0 +1,56 @@
+<svg width="@{W}" height="@{H}">
+
+<circle fill="@{BORDC}" cx="8" cy="8" r="8"/>
+<circle fill="@{BORDC}" cx="@{W-8}" cy="8" r="8"/>
+<circle fill="@{BORDC}" cx="8" cy="@{H-8}" r="8"/>
+<circle fill="@{BORDC}" cx="@{W-8}" cy="@{H-8}" r="8"/>
+<rect fill="@{BORDC}" x="0" y="8" width="@{W}" height="@{H-16}"/>
+<rect fill="@{BORDC}" x="8" y="0" width="@{W-16}" height="@{H}"/>
+
+<circle fill="@{SHFBGC}" cx="12" cy="12" r="8"/>
+<circle fill="@{SHFBGC}" cx="@{W-12}" cy="12" r="8"/>
+<circle fill="@{BGC}" cx="12" cy="@{H-12}" r="8"/>
+<circle fill="@{BGC}" cx="@{W-12}" cy="@{H-12}" r="8"/>
+
+<rect fill="@{SHFBGC}" x="4" y="12" width="@{W-8}" height="@{H/3-14}"/>
+<rect fill="@{BGC}" x="4" y="@{H/3+2}" width="@{W-8}" height="@{H*2/3-14}"/>
+<rect fill="@{SHFBGC}" x="12" y="4" width="@{W-24}" height="@{H/3-8}"/>
+<rect fill="@{BGC}" x="12" y="@{H/3+2}" width="@{W-24}" height="@{H*2/3-6}"/>
+
+<text x="16" y="@{H-FS2*1.40+FIXLY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
+<text x="@{W/2}" y="@{H/4-FS2*1.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S1}</text>
+<text x="@{W/2}" y="@{H/4-FS2*.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S2}</text>
+
+<!-- little crosshair - north - center is W*.5,H*.45 -->
+<line x1='@{W*.5}' y1='@{H*.40}' x2='@{W*.5}' y2='@{H*.50}' style='stroke:@{TXTC};stroke-width:@{P*3};' />
+<line x1='@{W*.4}' y1='@{H*.45}' x2='@{W*.6}' y2='@{H*.45}' style='stroke:@{TXTC}; stroke-width:@{P*3};' />
+
+<!-- little crosshair - south - center is W*.5,H*.85 -->
+<line x1='@{W*.5}' y1='@{H*.80}' x2='@{W*.5}' y2='@{H*.90}' style='stroke:@{TXTC};stroke-width:@{P*3};' />
+<line x1='@{W*.4}' y1='@{H*.85}' x2='@{W*.6}' y2='@{H*.85}' style='stroke:@{TXTC}; stroke-width:@{P*3};' />
+
+<!-- little crosshair - west - center is W*.15,H*.65 -->
+<line x1='@{W*.15}' y1='@{H*.58}' x2='@{W*.15}' y2='@{H*.72}' style='stroke:@{TXTC};stroke-width:@{P*3};' />
+<line x1='@{W*.05}' y1='@{H*.65}' x2='@{W*.25}' y2='@{H*.65}' style='stroke:@{TXTC}; stroke-width:@{P*3};' />
+
+<!-- little crosshair - east - center is W*.85,H*.65 -->
+<line x1='@{W*.85}' y1='@{H*.58}' x2='@{W*.85}' y2='@{H*.72}' style='stroke:@{TXTC};stroke-width:@{P*3};' />
+<line x1='@{W*.75}' y1='@{H*.65}' x2='@{W*.95}' y2='@{H*.65}' style='stroke:@{TXTC}; stroke-width:@{P*3};' />
+
+<!-- big square -- matches the inner size of the little crosshairs:
+     N:H*.5 S:H*.8 W:W*.25 E:W*.75
+-->
+<line x1='@{W*.25}' y1='@{H*.5}' x2='@{W*.75}' y2='@{H*.5}' style='stroke:@{TXTC};stroke-width:@{P*3};' />
+<line x1='@{W*.25}' y1='@{H*.8}' x2='@{W*.75}' y2='@{H*.8}' style='stroke:@{TXTC};stroke-width:@{P*3};' />
+
+<line x1='@{W*.25}' y1='@{H*.5}' x2='@{W*.25}' y2='@{H*.8}' style='stroke:@{TXTC};stroke-width:@{P*3};' />
+<line x1='@{W*.75}' y1='@{H*.5}' x2='@{W*.75}' y2='@{H*.8}' style='stroke:@{TXTC};stroke-width:@{P*3};' />
+
+<!-- saucer -->
+<g transform="translate(@{W*.6},@{H*.6})" >
+@{raster(SHFBGC,P*2,-4.5,-1.5,'  ##### ')}
+@{raster(SHFBGC,P*2,-4.5, -.5,'#########')}
+@{raster(SHFBGC,P*2,-4.5,  .5,'  ##### ')}
+</g>
+</svg>
+

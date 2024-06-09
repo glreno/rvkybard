@@ -181,6 +181,25 @@ public class TemplateFillerTest
 
         ret=processLine(tf,"@{quote}@{b}@{quote}",params);
         assertEquals("&#x2019;bob&#x2019;",ret);
+
+        ret=processLine(tf,"@code{newvar=1234}@{newvar}",params);
+        assertEquals("1234",ret);
+
+        ret=processLine(tf,"@{b} @code{b='brown'} @{b}",params);
+        assertEquals("bob  brown",ret);
+
+    }
+
+    @Test
+    public void shouldCallCustomFunc() throws IOException
+    {
+        TemplateProcessor tf=new TemplateFiller(tmpdir.toString(),"src.txt");
+        String ret;
+        Map<String, Object> params = tf.parseParams(new String[] {"x=-3","y=5","c=#FFF"});
+
+        ret=processLine(tf,"@{raster(c,2,x,y,'#')}",params);
+        System.err.println(ret);
+        assertEquals("<!-- [#] -->\n<rect fill='#FFF' x='-6.0' y='10.0' width='2.0' height='2.0' />\n",ret);
     }
 
     @Test

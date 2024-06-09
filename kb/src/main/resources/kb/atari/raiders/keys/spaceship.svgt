@@ -1,0 +1,8 @@
+<!-- SPACESHIP! -->
+<!-- Required vars: colour, pxsz -->
+<!-- 5x5 raster, centered -->
+@{raster(colour,pxsz,-2.5,-2.5,'  #')}
+@{raster(colour,pxsz,-2.5,-1.5,'  #')}
+@{raster(colour,pxsz,-2.5, -.5,' ###')}
+@{raster(colour,pxsz,-2.5,  .5,'#####')}
+@{raster(colour,pxsz,-2.5, 1.5,'# # #')}

@@ -63,10 +63,14 @@
 
 
 <!-- SPACESHIP! -->
+<!--
 <rect fill='@{TXTC}' x='@{W/2-P*1}' y='@{H*2/3-P*6}' width='@{P*3}' height='@{P*15}'/>
 <rect fill='@{TXTC}' x='@{W/2-P*4}' y='@{H*2/3+P*0}' width='@{P*9}' height='@{P*6}'/>
 <rect fill='@{TXTC}' x='@{W/2-P*7}' y='@{H*2/3+P*3}' width='@{P*3}' height='@{P*6}'/>
 <rect fill='@{TXTC}' x='@{W/2+P*5}' y='@{H*2/3+P*3}' width='@{P*3}' height='@{P*6}'/>
-
+-->
+<g transform='translate(@{W/2},@{H*2/3+1.5*P})'>
+@include{TOP+'atari/raiders/keys/spaceship.svgt';colour=TXTC;pxsz=3*P}
+</g>
 
 </svg>

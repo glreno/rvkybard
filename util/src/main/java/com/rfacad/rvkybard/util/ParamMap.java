@@ -1,6 +1,7 @@
 package com.rfacad.rvkybard.util;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -24,6 +25,7 @@ public class ParamMap<V> implements Map<String,V>
 {
     private Map<String, V> defaultValues;
     private Map<String, V> values;
+    private Map<String, V> runtimeValues;
     private V emptyValue;
 
     public ParamMap(Map<String,V> defaultValues, Map<String,V> values, V emptyValue)
@@ -31,6 +33,7 @@ public class ParamMap<V> implements Map<String,V>
         this.defaultValues=defaultValues;
         this.values=values;
         this.emptyValue=emptyValue;
+        this.runtimeValues=new HashMap<>();
     }
 
     @Override
@@ -42,7 +45,7 @@ public class ParamMap<V> implements Map<String,V>
     @Override
     public boolean isEmpty()
     {
-        return defaultValues.isEmpty() && values.isEmpty();
+        return runtimeValues.isEmpty() && defaultValues.isEmpty() && values.isEmpty();
     }
 
     @Override
@@ -60,7 +63,12 @@ public class ParamMap<V> implements Map<String,V>
     @Override
     public V get(Object key)
     {
-        V ret = values.get(key);
+        V ret = runtimeValues.get(key);
+        if ( ret != null )
+        {
+            return ret;
+        }
+        ret = values.get(key);
         if ( ret != null )
         {
             return ret;
@@ -76,7 +84,7 @@ public class ParamMap<V> implements Map<String,V>
     @Override
     public V put(String key, V value)
     {
-        throw new UnsupportedOperationException();
+        return runtimeValues.put(key,value);
     }
 
     @Override
@@ -102,6 +110,7 @@ public class ParamMap<V> implements Map<String,V>
     {
         // This set is SUPPOSED to be backed by the original Map. It isn't.
         Set<String> ret=new TreeSet<>();
+        ret.addAll(runtimeValues.keySet());
         ret.addAll(defaultValues.keySet());
         ret.addAll(values.keySet());
         return ret;

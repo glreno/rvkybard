@@ -21,10 +21,19 @@
 <text x="@{W/2}" y="@{H/4-FS2*.12+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S2}</text>
 
 <!-- Paws -->
-<ellipse rx='@{P*16}' ry='@{P*6}' cx='@{W/2+P*12}' cy='@{H*3/4+P*4}' style='fill:${SHFBGC};' />
-<ellipse rx='@{P*8}' ry='@{P*8}' cx='@{W/2+P*12}' cy='@{H*3/4+P*2}' style='fill:${SHFBGC};' />
-<ellipse rx='@{P*6}' ry='@{P*8}' cx='@{W/2-P*3}' cy='@{H*3/4-P*10}' style='fill:${SHFBGC};' />
-<ellipse rx='@{P*6}' ry='@{P*8}' cx='@{W/2+P*7}' cy='@{H*3/4-P*15}' style='fill:${SHFBGC};' />
-<ellipse rx='@{P*6}' ry='@{P*8}' cx='@{W/2+P*17}' cy='@{H*3/4-P*15}' style='fill:${SHFBGC};' />
-<ellipse rx='@{P*6}' ry='@{P*8}' cx='@{W/2+P*27}' cy='@{H*3/4-P*10}' style='fill:${SHFBGC};' />
+<!-- left -->
+<ellipse rx='@{P*8}' ry='@{P*3}' cx='@{W*.4+P*12/2}' cy='@{H*3/4+P*4/2}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*4}' ry='@{P*4}' cx='@{W*.4+P*12/2}' cy='@{H*3/4+P*2/2}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*3}' ry='@{P*4}' cx='@{W*.4-P*3/2}' cy='@{H*3/4-P*10/2}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*3}' ry='@{P*4}' cx='@{W*.4+P*7/2}' cy='@{H*3/4-P*15/2}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*3}' ry='@{P*4}' cx='@{W*.4+P*17/2}' cy='@{H*3/4-P*15/2}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*3}' ry='@{P*4}' cx='@{W*.4+P*27/2}' cy='@{H*3/4-P*10/2}' style='fill:${SHFBGC};' />
+<!-- right -->
+<ellipse rx='@{P*8}' ry='@{P*3}' cx='@{W*.63+P*12/2}' cy='@{H*3/5+P*4/2}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*4}' ry='@{P*4}' cx='@{W*.63+P*12/2}' cy='@{H*3/5+P*2/2}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*3}' ry='@{P*4}' cx='@{W*.63-P*3/2}' cy='@{H*3/5-P*10/2}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*3}' ry='@{P*4}' cx='@{W*.63+P*7/2}' cy='@{H*3/5-P*15/2}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*3}' ry='@{P*4}' cx='@{W*.63+P*17/2}' cy='@{H*3/5-P*15/2}' style='fill:${SHFBGC};' />
+<ellipse rx='@{P*3}' ry='@{P*4}' cx='@{W*.63+P*27/2}' cy='@{H*3/5-P*10/2}' style='fill:${SHFBGC};' />
+
 </svg>

@@ -21,16 +21,14 @@
 <text x="@{W/2}" y="@{H/4-FS2*1.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S1}</text>
 <text x="@{W/2}" y="@{H/4-FS2*.10+FIXSY}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS2}" fill="@{TXTC}" font-family="sans-serif">@{S2}</text>
 
-<!-- View -->
-<polygon points="
-     @{W/2},@{H/2+P*25}
-     @{W/2-P*18},@{H/2+P*35}
-     @{W/2+P*18},@{H/2+P*35}
-" style="fill:rgba(@{CTRLCOLORD},.24)" />
-
-<!-- SPACESHIP! -->
-<g transform="translate(@{W/2},@{H/2+P*5*2.5})" >
-@include{TOP+'atari/raiders/keys/spaceship.svgt';colour=TXTC;pxsz=5*P}
-</g>
+<!-- 1: Pulse Laser -->
+<rect stroke="@{TXTC}" stroke-width='2' fill="none" x="@{W*.06}" y="@{H*.42-FS2*.65*.5}" width="@{W*.1}" height="@{FS2*.5}"/>
+<text x="@{W*.2}" y="@{H*.42}" dominant-baseline="middle" text-anchor="left" font-size="@{FS2*.65}" fill="@{TXTC}" font-family="sans-serif">Pulse Laser</text>
+<!-- 2: Ion Cannon -->
+<rect stroke="@{TXTC}" stroke-width='2' fill="none" x="@{W*.06}" y="@{H*.54-FS2*.65*.5}" width="@{W*.1}" height="@{FS2*.5}"/>
+<text x="@{W*.2}" y="@{H*.54}" dominant-baseline="middle" text-anchor="left" font-size="@{FS2*.65}" fill="@{TXTC}" font-family="sans-serif">Ion Cannon</text>
+<!-- 3: Surface Star Burst -->
+<rect stroke="@{TXTC}" stroke-width='2' fill="none" x="@{W*.06}" y="@{H*.66-FS2*.65*.5}" width="@{W*.1}" height="@{FS2*.5}"/>
+<text x="@{W*.2}" y="@{H*.66}" dominant-baseline="middle" text-anchor="left" font-size="@{FS2*.65}" fill="@{TXTC}" font-family="sans-serif">Surface Star Burst</text>
 
 </svg>
