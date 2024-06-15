@@ -44,6 +44,34 @@
 </style>
 <script type="text/javascript" language="javascript">
     // custom javascript goes here
+    function keypadKeyDown(elem,key,arrow) {
+        //console.log('Down?:'+key+" "+arrow);
+        const elems = document.getElementsByClassName('NUMLOCK-LED-ON');
+        if ( elems.length == 0 )
+        {
+            //console.log('Down:'+arrow);
+            keyDown(elem,arrow);
+        }
+        else
+        {
+            //console.log('Down:'+key);
+            keyDown(elem,key);
+        }
+    }
+    function keypadKeyUp(elem,key,arrow) {
+        //console.log('Up?:'+key+" "+arrow);
+        const elems = document.getElementsByClassName('NUMLOCK-LED-ON');
+        if ( elems.length == 0 )
+        {
+            //console.log('Up:'+arrow);
+            keyUp(elem,arrow);
+        }
+        else
+        {
+            //console.log('Up:'+key);
+            keyUp(elem,key);
+        }
+    }
 </script>
 </head>
 <body>
@@ -58,7 +86,7 @@
     kb.startRow();
     kb.spacer(1);
     kb.key("7","KP_7",3,3,null,null,"",K2);
-    kb.key("8","KP_8",3,3,null,null,"",K3,"ARROWCOLOR=#000","ARROW=180","INC1="+DART+"arrow.svgt");
+    kb.key("8","KP_8",3,3,"keypadKeyDown(this,'8','KB_UPARROW')","keypadKeyUp(this,'8','KB_UPARROW')","",K3,"ARROWCOLOR=#000","ARROW=180","INC1="+DART+"arrow.svgt");
     kb.key("9","KP_9",3,3,null,null,"",K2);
     kb.key("LOCK","KP_NUMLOCK",3,3,null,null,"",K2,"FS=30","S=NUM");
     kb.key("","",1,3,"doNothing()","doNothing()","",KLED,"CLS=NUMLOCK-LED");
@@ -68,9 +96,9 @@
     // 4 5 6 ret option
     kb.startRow();
     kb.spacer(1);
-    kb.key("4","KP_4",3,3,null,null,"",K3,"ARROWCOLOR=#000","ARROW=90","INC1="+DART+"arrow.svgt");
+    kb.key("4","KP_4",3,3,"keypadKeyDown(this,'4','KB_LEFTARROW')","keypadKeyUp(this,'4','KB_LEFTARROW')","",K3,"ARROWCOLOR=#000","ARROW=90","INC1="+DART+"arrow.svgt");
     kb.key("5","KP_5",3,3,null,null,"",K2);
-    kb.key("6","KP_6",3,3,null,null,"",K3,"ARROWCOLOR=#000","ARROW=270","INC1="+DART+"arrow.svgt");
+    kb.key("6","KP_6",3,3,"keypadKeyDown(this,'6','KB_RIGHTARROW')","keypadKeyUp(this,'6','KB_RIGHTARROW')","",K3,"ARROWCOLOR=#000","ARROW=270","INC1="+DART+"arrow.svgt");
     kb.key("RET","KP_ENTER",3,6,null,null,"",K,"FS=16");
     kb.key("OPTION","KB_F5",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
@@ -79,7 +107,7 @@
     kb.startRow();
     kb.spacer(1);
     kb.key("1","KP_1",3,3,null,null,"",K2);
-    kb.key("2","KP_2",3,3,null,null,"",K3,"ARROWCOLOR=#000","ARROW=0","INC1="+DART+"arrow.svgt");
+    kb.key("2","KP_2",3,3,"keypadKeyDown(this,'2','KB_DOWNARROW')","keypadKeyUp(this,'2','KB_DOWNARROW')","",K3,"ARROWCOLOR=#000","ARROW=0","INC1="+DART+"arrow.svgt");
     kb.key("3","KP_3",3,3,null,null,"",K2);
     kb.spacer(3);
     kb.key("SELECT","KB_F6",4,3,null,null,"",K,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
