@@ -24,9 +24,11 @@
 }
 .CAPSLOCK-LED-ON {
     stroke: #b00;
+    fill: #b00;
 }
 .CAPSLOCK-LED-OFF {
     stroke: #eec;
+    fill: #eec;
 }
 </style>
 <script type="text/javascript" language="javascript">

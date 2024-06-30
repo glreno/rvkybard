@@ -9,7 +9,7 @@
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"rrvkb",8+12+6,3,null);
     kb.setMouseMode(MouseMode.CLICK);
-    kb.setDefaultSvg("artdeco/keys/keywide.svgt",3,3,"BORD=4","BORDC=#CD7F32","BGC=#eec","TXTC=#000","FS=16");
+    kb.setDefaultSvg("artdeco/keys/keywidehalfheight.svgt",3,3,"BORD=4","BORDC=#CD7F32","BGC=#eec","TXTC=#000","FS=16");
     kb.setDefaultCellSize(10,10,1,2);
 
 	kb.startHtml();
@@ -123,7 +123,7 @@ function menuOpenClose(button,menuid)
 </script>
 <footer>
 <br>
-rrvkb version ${project.version}
+rrvkb version 0.09dev
 <br>
 Copyright &copy; 2024 Gerald Reno, Jr.
 </footer>
