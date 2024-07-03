@@ -7,9 +7,11 @@
     // Default key SVG and size
     String DA="atari/keys/";
     String DS="std/keys/";
+    String DART="std/keys/art/";
     String DK="artdeco/keys/";
     kb.setDefaultSvg(DK+"key.svgt",3,3,"FS=48","BORD=4","BORDC=#CD7F32","BGC=#eec","TXTC=#000");
     String K2=DK+"key2.svgt";
+    String KI=DK+"keyi.svgt";
     String KW=DK+"keywide.svgt";
     String KLED=DS+"led.svgt";
     String KCAPSLOCK=DK+"capslock.svgt";
@@ -127,7 +129,7 @@
     kb.key("'","KB_APOSTROPHE",3,3,null,null,"",K2,"S=&quot;");
     kb.key("Enter","KB_ENTER",5,3,null,null,"",KW,"FS=18");
     kb.spacer(8);
-    kb.key("Menu","",3,3,"panic()",kb.MENU,"",K2,"FS=24");
+    kb.key("Menu","",3,3,"panic()",kb.MENU,"",null,"FS=18");
     kb.endRow();
 
     // shift zxcvbnm,./ shift space uparrow
@@ -145,21 +147,21 @@
     kb.key("/","/",3,3,null,null,"",K2,"S=?");
     kb.key("Shift","RIGHT_SHIFT",4,3,kb.SHIFT,kb.SHIFT,"",KW,"FS=18");
     kb.spacer(8);
-    kb.key("UP","KB_UPARROW",3,3,null,null,"",null,"FS=18");
+    kb.key("UP","KB_UPARROW",3,3,null,null,"",KI,"FS=18","ARROWCOLOR=#000","ARROW=180","INC1="+DART+"arrow.svgt");
     kb.endRow();
 
     // ctrl windows alt spacebarn alt windows ctrl space left down right
     kb.startRow();
     kb.key("Ctrl","LEFT_CTRL",4,3,kb.SHIFT,kb.SHIFT,"",KW,"FS=18","TXTC=#400");
-    kb.key("Windows","LEFT_GUI",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
+    kb.key("Windows","LEFT_GUI",3,3,kb.SHIFT,kb.SHIFT,"",KI,"FS=18","TXTC=#400","colour=#505050","pxsz=2","INC1="+DART+"cmd8bit.svgt");
     kb.key("Alt","LEFT_ALT",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
     kb.key("","KB_SPACE",24,3,null,null,"",KW);
     kb.key("Alt","RIGHT_ALT",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
     kb.key("Ctrl","RIGHT_CTRL",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=18","TXTC=#400");
     kb.spacer(5);
-    kb.key("Left","KB_LEFTARROW",3,3,null,null,"",null,"FS=18");
-    kb.key("Down","KB_DOWNARROW",3,3,null,null,"",null,"FS=18");
-    kb.key("Right","KB_RIGHTARROW",3,3,null,null,"",null,"FS=18");
+    kb.key("Left","KB_LEFTARROW",3,3,null,null,"",KI,"FS=18","ARROWCOLOR=#000","ARROW=90","INC1="+DART+"arrow.svgt");
+    kb.key("Down","KB_DOWNARROW",3,3,null,null,"",KI,"FS=18","ARROWCOLOR=#000","ARROW=0","INC1="+DART+"arrow.svgt");
+    kb.key("Right","KB_RIGHTARROW",3,3,null,null,"",KI,"FS=18","ARROWCOLOR=#000","ARROW=270","INC1="+DART+"arrow.svgt");
     kb.endRow();
 
     // crtl windoze alt space alt ctrl
