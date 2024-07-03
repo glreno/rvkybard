@@ -38,4 +38,9 @@ public interface AuthTokenI
      * @return a token containing the nonce value
      */
     Cookie makeCookie();
+
+    /**
+     * Forcibly expire this token (i.e., set lifespan to 0)
+     */
+    void expire();
 }

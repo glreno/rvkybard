@@ -250,10 +250,16 @@ public class AuthImpl implements AuthI
     @Override
     public void logout(AuthTokenI token)
     {
-        LOG.debug("Logged out {}",token);
-        tokendb.clear();
-        // Should be doing this:
-        //((AuthToken)token).setExpiration(0);
+        if ( token == null )
+        {
+            LOG.debug("Logged out all users");
+            tokendb.clear();
+        }
+        else
+        {
+            LOG.debug("Logged out {}",token);
+            token.expire();
+        }
     }
 
     // needed for testing
@@ -262,7 +268,7 @@ public class AuthImpl implements AuthI
         AuthTokenI a = findToken(nonce);
         if ( a != null )
         {
-            ((AuthToken)a).setExpiration(0);
+            a.expire();
         }
     }
 
