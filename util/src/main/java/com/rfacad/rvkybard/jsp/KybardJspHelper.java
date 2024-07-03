@@ -336,12 +336,12 @@ public class KybardJspHelper
                 buf.append(" ");
                 buf.append(cssClass);
             }
-            buf.append("'");
+            buf.append("' ");
             buf.append(mm.getDown());
             buf.append('=');
             buf.append('"');
             buf.append(down);
-            buf.append('"');
+            buf.append("\" ");
             buf.append(mm.getUp());
             buf.append('=');
             buf.append('"');
