@@ -154,6 +154,7 @@ public class AuthImplTest
     public void shouldLogInAndOut() throws IOException
     {
         AuthImpl a = new AuthImpl();
+        a.singlelogin=true;
         a.setPinFile(createPinFile("8080"));
         AuthTokenI token=a.login("8080"); // token expires in ten minutes
         String nonce = token.getNonce();
@@ -162,11 +163,53 @@ public class AuthImplTest
         a.logout(token);
         assertFalse(a.findToken(nonce).isOK());
 
+        // Check that whitespace is ignored
         token=a.login("  8080  ");
         nonce = token.getNonce();
         assertTrue(a.findToken(nonce).isOK());
 
+        // Verify that there can be only one login
+        AuthTokenI token2=a.login("8080");
+        String nonce2 = token2.getNonce();
+        assertTrue(a.findToken(nonce2).isOK());
+        assertFalse(a.findToken(nonce).isOK());
+
+        a.logout(token2);
+        assertFalse(a.findToken(nonce2).isOK());
+        assertFalse(a.findToken(nonce).isOK());
+    }
+
+    @Test
+    public void shouldLogInMultipleUsers() throws IOException
+    {
+        AuthImpl a = new AuthImpl();
+        a.singlelogin=false;
+        a.setPinFile(createPinFile("8080"));
+        AuthTokenI token=a.login("8080"); // token expires in ten minutes
+        String nonce = token.getNonce();
+        assertTrue(a.findToken(nonce).isOK());
+
         a.logout(token);
+        assertFalse(a.findToken(nonce).isOK());
+
+        // Check that whitespace is ignored
+        token=a.login("  8080  ");
+        nonce = token.getNonce();
+        assertTrue(a.findToken(nonce).isOK());
+
+        // Verify that there can be two logins
+        AuthTokenI token2=a.login("8080");
+        String nonce2 = token2.getNonce();
+        assertTrue(a.findToken(nonce2).isOK());
+        assertTrue(a.findToken(nonce).isOK());
+
+        // Logging out one doesn't log out the other
+        a.logout(token2);
+        assertFalse(a.findToken(nonce2).isOK());
+        assertTrue(a.findToken(nonce).isOK());
+
+        a.logout(token);
+        assertFalse(a.findToken(nonce2).isOK());
         assertFalse(a.findToken(nonce).isOK());
     }
 

@@ -219,12 +219,16 @@ public class AuthImpl implements AuthI
         LOG.debug("Logged in");
         // OK, it's good. Log them in by generating a cookie
         // NOTE: We only store one cookie, so this WILL log someone else out
-        logout(null);
+        if ( singlelogin )
+        {
+            logout(null);
+        }
         String s = createNonce();
         AuthTokenI a = new AuthToken(s,AuthTokenI.DEFAULT_LIFESPAN_MILLIS);
         tokendb.storeToken(a);
         return tokendb.getToken(s);
     }
+    boolean singlelogin = false; // todo make this a real setting
 
     protected String createNonce()
     {

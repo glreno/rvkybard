@@ -49,7 +49,7 @@ public class AuthServlet extends HttpServlet
         this.authi = authi;
     }
 
-    boolean singlelogin = true; // todo make this a real setting
+    boolean singlelogin = false; // todo make this a real setting
     @Override
     protected void doGet( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
