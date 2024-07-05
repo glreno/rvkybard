@@ -30,7 +30,7 @@ public class RvKybardConfig implements AuthConfigI
 
     private static final String MOUSEMODE = "MouseMode";
 
-    private static final String SINGLEUSERMODE = "SingleUserMode";
+    private static final String SINGLELOGINMODE = "SingleLoginMode";
 
     private static RvKybardConfig SINGLETON;
 
@@ -86,6 +86,7 @@ public class RvKybardConfig implements AuthConfigI
         // update cache
         for(Map.Entry<String, String[]> e : values.entrySet() )
         {
+            LOG.debug("Storing setting "+e.getKey()+" = "+e.getValue()[0]);
             content.setProperty(e.getKey(), e.getValue()[0]);
         }
         // rewrite the file
@@ -125,7 +126,7 @@ public class RvKybardConfig implements AuthConfigI
     @Override
     public boolean isSingleLoginMode()
     {
-        String s = getValue(SINGLEUSERMODE);
+        String s = getValue(SINGLELOGINMODE);
         if ( s != null && !Boolean.valueOf(s) )
         {
             return false;
@@ -136,6 +137,6 @@ public class RvKybardConfig implements AuthConfigI
     @Override
     public void setSingleLoginMode(boolean b)
     {
-        setValue(SINGLEUSERMODE,Boolean.toString(b));
+        setValue(SINGLELOGINMODE,Boolean.toString(b));
     }
 }
