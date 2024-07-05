@@ -13,6 +13,7 @@
     String K2=DK+"key2.svgt";
     String KI=DK+"keyi.svgt";
     String KW=DK+"keywide.svgt";
+    String KWI=DK+"keywidei.svgt";
     String KLED=DS+"led.svgt";
     String KCAPSLOCK=DK+"capslock.svgt";
     String MK=DA+"key2.svgt";
@@ -84,7 +85,7 @@
     kb.key("0","0",3,3,null,null,"",K2,"S=)");
     kb.key("-","-",3,3,null,null,"",K2,"S=_");
     kb.key("=","=",3,3,null,null,"",K2,"S=+");
-    kb.key("BS","KB_BACKSPACE",4,3,null,null,"",KW,"TXTC=#400");
+    kb.key("BS","KB_BACKSPACE",4,3,null,null,"",KWI,"ARROWCOLOR=#000","ARROW=90","ARROWLENGTH=32","ARROWWIDTH=8","INC1="+DART+"arrow2.svgt");
     kb.spacer(2);
     kb.key("Ins","KB_INSERT",3,3,null,null,"",null,"FS=18","TXTC=#400");
     kb.key("Home","KB_HOME",3,3,null,null,"",null,"FS=18","TXTC=#400");

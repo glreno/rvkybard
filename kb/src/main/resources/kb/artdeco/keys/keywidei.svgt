@@ -1,0 +1,21 @@
+<svg width="@{W}" height="@{H}">
+  <defs>
+    <linearGradient id="grad1" x1="0%" x2="100%" y1="100%" y2="0%" >
+      <stop offset="0%" stop-color="#fff" />
+      <stop offset="10%" stop-color="#fff" />
+      <stop offset="20%" stop-color="@{BORDC}" />
+      <stop offset="80%" stop-color="@{BORDC}" />
+      <stop offset="90%" stop-color="#fff" />
+      <stop offset="100%" stop-color="#fff" />
+    </linearGradient>
+  </defs>
+<circle fill="url(#grad1)" cx="@{stdW/2}" cy="50%" r="@{stdW/2}"/>
+<circle fill="url(#grad1)" cx="@{W-stdW/2}" cy="50%" r="@{stdW/2}"/>
+<rect fill="@{BORDC}" x="@{stdW/2}" y="0" width="@{W-stdW}" height="@{H}"/>
+<circle fill="@{BGC}" cx="@{stdW/2}" cy="50%" r="@{stdW/2-BORD}"/>
+<circle fill="@{BGC}" cx="@{W-stdW/2}" cy="50%" r="@{stdW/2-BORD}"/>
+<rect fill="@{BGC}" x="@{stdW/2}" y="@{BORD}" width="@{W-stdW}" height="@{H-BORD-BORD}"/>
+<g transform="translate(@{W/2},@{H/2})" >
+@include{TOP+INC1}
+</g>
+</svg>
