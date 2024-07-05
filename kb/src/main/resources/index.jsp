@@ -123,7 +123,7 @@ function menuOpenClose(button,menuid)
 </script>
 <footer>
 <br>
-rrvkb version 0.09dev
+rrvkb version ${project.version}
 <br>
 Copyright &copy; 2024 Gerald Reno, Jr.
 </footer>
