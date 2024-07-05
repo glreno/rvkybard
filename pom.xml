@@ -13,12 +13,12 @@
 
 <modelVersion>4.0.0</modelVersion>
 
-<groupId>com.rfacad.rvkybard</groupId>
-<artifactId>rvkybard</artifactId>
+<groupId>com.rfacad.rrvkb</groupId>
+<artifactId>rrvkb</artifactId>
 <version>1.00</version>
 <packaging>pom</packaging>
 
-<name>rvkybard</name>
+<name>rrvkb</name>
 <description>Remote Retro Virtual Keyboard</description>
 
 <licenses>
