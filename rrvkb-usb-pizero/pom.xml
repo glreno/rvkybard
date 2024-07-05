@@ -88,11 +88,11 @@
                             <artifactItem>
         <groupId>com.rfacad.rvkybard</groupId>
         <artifactId>com.rfacad.rvkybard.kb</artifactId>
-        <version>${rvkybard.version}</version>
+        <version>${rrvkb.version}</version>
         <type>jar</type>
                             </artifactItem>
                         </artifactItems>
-                        <outputDirectory>${project.build.directory}/rvkybard-usb-pizero-${rvkybard.version}</outputDirectory>
+                        <outputDirectory>${project.build.directory}/rvkybard-usb-pizero-${rrvkb.version}</outputDirectory>
                         <excludes>META-INF/**/*,**/*.class</excludes>
                         <excludeTransitive>true</excludeTransitive>
                     </configuration>

@@ -35,11 +35,11 @@
     <module>auth</module>
     <module>keyserver</module>
     <module>kb</module>
-    <module>rvkybard-usb-pizero</module>
+    <module>rrvkb-usb-pizero</module>
 </modules>
 
 <properties>
-    <rvkybard.version>1.00</rvkybard.version>
+    <rrvkb.version>1.00</rrvkb.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
