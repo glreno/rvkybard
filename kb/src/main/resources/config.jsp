@@ -29,7 +29,7 @@
 <h2>RvKybard Configuration</h2>
 <form action="/config" method='POST'>
     <hr>
-    <h3>USABILITY</h3>
+    <h2>USABILITY</h2>
     <h3>Key click sensitivity:</h3>
     <input type="radio" name='MouseMode' value='MOUSE' <%=(MouseMode.MOUSE==cfg.getMouseMode())?"CHECKED":""%>>
     <label for="MOUSE">Mouse</label>
@@ -41,10 +41,19 @@
     <p>
     Mouse mode does not work well with touchscreens; it causes dropped and stuck keys.
     <hr>
-    <h3>SECURITY</h3>
+    <h2>SECURITY</h2>
+    <h3>PIN</h3>
     <a href="setpin.html">Set PIN</a>
+    <h3>Simultaneous Users:</h3>
+    <input type="radio" name='SingleLoginMode' value='true' <%=(cfg.isSingleLoginMode())?"CHECKED":""%>>
+    <label for="true">Single Login Mode</label>
+    <br>
+    <input type="radio" name='SingleLoginMode' value='false' <%=(!cfg.isSingleLoginMode())?"CHECKED":""%>>
+    <label for="false">Multiple Login Mode</label>
+    <br>
+    In Single Login Mode, only one user may be logged in at a time. If someone else logs in, the previous user will be logged out automatically.
     <hr>
-    <button type="SUBMIT">OK</button>
+    <button type="SUBMIT" style="font-size:xx-large;">OK</button>
 </form>
 <a href="/">Cancel</a>
 <footer class='copyrightfooter'>

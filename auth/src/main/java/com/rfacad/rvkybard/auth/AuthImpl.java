@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.rfacad.rvkybard.interfaces.AuthConfigI;
 import com.rfacad.rvkybard.interfaces.AuthI;
 import com.rfacad.rvkybard.interfaces.AuthS;
 import com.rfacad.rvkybard.interfaces.AuthTokenI;
@@ -47,6 +48,17 @@ public class AuthImpl implements AuthI
     private TokenDb tokendb = new TokenDb();
     private String loginPageUrl = "/login.jsp";
     private Random randy = new SecureRandom();
+    private AuthConfigI config;
+
+    public AuthConfigI getConfig()
+    {
+        return config;
+    }
+
+    public void setConfig(AuthConfigI config)
+    {
+        this.config = config;
+    }
 
     public void setPinFile(String fn)
     {
@@ -104,6 +116,7 @@ public class AuthImpl implements AuthI
     {
         this.loginPageUrl=loginPageUrl;
     }
+
     @Override
     public String getLoginPageUrl()
     {
@@ -219,7 +232,10 @@ public class AuthImpl implements AuthI
         LOG.debug("Logged in");
         // OK, it's good. Log them in by generating a cookie
         // NOTE: We only store one cookie, so this WILL log someone else out
-        logout(null);
+        if ( isSingleLoginMode() )
+        {
+            logout(null);
+        }
         String s = createNonce();
         AuthTokenI a = new AuthToken(s,AuthTokenI.DEFAULT_LIFESPAN_MILLIS);
         tokendb.storeToken(a);
@@ -250,10 +266,22 @@ public class AuthImpl implements AuthI
     @Override
     public void logout(AuthTokenI token)
     {
-        LOG.debug("Logged out {}",token);
-        tokendb.clear();
-        // Should be doing this:
-        //((AuthToken)token).setExpiration(0);
+        if ( token == null )
+        {
+            LOG.debug("Logged out all users");
+            tokendb.clear();
+        }
+        else
+        {
+            LOG.debug("Logged out {}",token);
+            token.expire();
+        }
+    }
+
+    @Override
+    public boolean isSingleLoginMode()
+    {
+        return config.isSingleLoginMode();
     }
 
     // needed for testing
@@ -262,7 +290,7 @@ public class AuthImpl implements AuthI
         AuthTokenI a = findToken(nonce);
         if ( a != null )
         {
-            ((AuthToken)a).setExpiration(0);
+            a.expire();
         }
     }
 

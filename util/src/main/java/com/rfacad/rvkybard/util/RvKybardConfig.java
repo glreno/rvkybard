@@ -11,6 +11,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.rfacad.rvkybard.interfaces.AuthConfigI;
 import com.rfacad.rvkybard.interfaces.MouseMode;
 
 //
@@ -23,11 +24,13 @@ import com.rfacad.rvkybard.interfaces.MouseMode;
 //http://www.apache.org/licenses/LICENSE-2.0
 //
 
-public class RvKybardConfig
+public class RvKybardConfig implements AuthConfigI
 {
     private static Logger LOG = LoggerFactory.getLogger(RvKybardConfig.class);
 
     private static final String MOUSEMODE = "MouseMode";
+
+    private static final String SINGLELOGINMODE = "SingleLoginMode";
 
     private static RvKybardConfig SINGLETON;
 
@@ -83,6 +86,7 @@ public class RvKybardConfig
         // update cache
         for(Map.Entry<String, String[]> e : values.entrySet() )
         {
+            LOG.debug("Storing setting "+e.getKey()+" = "+e.getValue()[0]);
             content.setProperty(e.getKey(), e.getValue()[0]);
         }
         // rewrite the file
@@ -117,5 +121,22 @@ public class RvKybardConfig
     public void setMouseMode(MouseMode mouseMode)
     {
         setValue(MOUSEMODE,mouseMode.toString());
+    }
+
+    @Override
+    public boolean isSingleLoginMode()
+    {
+        String s = getValue(SINGLELOGINMODE);
+        if ( s != null && !Boolean.valueOf(s) )
+        {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void setSingleLoginMode(boolean b)
+    {
+        setValue(SINGLELOGINMODE,Boolean.toString(b));
     }
 }

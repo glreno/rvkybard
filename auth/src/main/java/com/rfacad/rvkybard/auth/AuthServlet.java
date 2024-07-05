@@ -52,12 +52,22 @@ public class AuthServlet extends HttpServlet
     @Override
     protected void doGet( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        // ANY get is a log out. That'll show 'em.
-        // I mean, really it should just log out the provided cookie.
-        // But since the goal of all this is to maintain only a SINGLE active user,
-        // I can just log out everybody.
-        LOG.debug("Logging out!");
-        authi.logout(null);
+        if ( authi.isSingleLoginMode() )
+        {
+            // ANY get is a log out. That'll show 'em.
+            // The goal of all this is to maintain only a SINGLE active user,
+            // so I can just log out everybody.
+            LOG.debug("Logging out all sessions!");
+            authi.logout(null);
+        }
+        else
+        {
+            AuthTokenI token = authi.checkForValidCookie(req.getCookies());
+            // Log out the provided cookie.
+            LOG.debug("Logging out "+token);
+            authi.logout(token);
+        }
+        resp.sendRedirect(authi.getLoginPageUrl());
     }
 
     @Override

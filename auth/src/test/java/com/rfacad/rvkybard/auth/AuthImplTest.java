@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import com.rfacad.rvkybard.interfaces.AuthConfigI;
 import com.rfacad.rvkybard.interfaces.AuthI;
 import com.rfacad.rvkybard.interfaces.AuthS;
 import com.rfacad.rvkybard.interfaces.AuthTokenI;
@@ -40,11 +41,13 @@ import com.rfacad.rvkybard.interfaces.AuthTokenI;
 public class AuthImplTest
 {
     List<File> toDelete;
+    AuthConfigI config;
 
     @Before
     public void setup()
     {
         toDelete = new ArrayList<>();
+        config = mock(AuthConfigI.class);
     }
     @After
     public void cleanup()
@@ -65,6 +68,7 @@ public class AuthImplTest
         f.deleteOnExit();
         toDelete.add(f);
         AuthImpl a1 = new AuthImpl();
+        a1.setConfig(config);
         a1.setPinFile(fn);
         a1.writePin(pin);
         return fn;
@@ -76,16 +80,19 @@ public class AuthImplTest
         AuthS.setAuthI(null);
         assertNull(AuthS.getAuthI());
         AuthImpl a = new AuthImpl();
+        a.setConfig(config);
         a.init();
         a.setLoginPageUrl("foo");
         assertEquals(a,AuthS.getAuthI());
         assertEquals("foo",AuthS.getAuthI().getLoginPageUrl());
+        assertEquals(config,a.getConfig());
     }
 
     @Test
     public void shouldRejectBadCookie() throws IOException
     {
         AuthImpl a = new AuthImpl();
+        a.setConfig(config);
         a.setPinFile(createPinFile(""));
         // no one is logged in!
         assertFalse(a.findToken(null).isOK());
@@ -103,6 +110,7 @@ public class AuthImplTest
     public void shouldRejectExpiredToken() throws IOException
     {
         AuthImpl a1 = new AuthImpl();
+        a1.setConfig(config);
         a1.setPinFile(createPinFile("8080"));
 
         assertNull(a1.login("68000"));
@@ -120,8 +128,10 @@ public class AuthImplTest
     public void shouldRejectBadPin() throws IOException
     {
         AuthImpl a1 = new AuthImpl();
+        a1.setConfig(config);
         a1.setPinFile(createPinFile("8080"));
         AuthImpl a2 = new AuthImpl();
+        a2.setConfig(config);
         a2.setPinFile(createPinFile("68000")); // 68000
 
         assertNull(a1.login(null));
@@ -154,6 +164,8 @@ public class AuthImplTest
     public void shouldLogInAndOut() throws IOException
     {
         AuthImpl a = new AuthImpl();
+        a.setConfig(config);
+        doReturn(true).when(config).isSingleLoginMode();
         a.setPinFile(createPinFile("8080"));
         AuthTokenI token=a.login("8080"); // token expires in ten minutes
         String nonce = token.getNonce();
@@ -162,11 +174,54 @@ public class AuthImplTest
         a.logout(token);
         assertFalse(a.findToken(nonce).isOK());
 
+        // Check that whitespace is ignored
         token=a.login("  8080  ");
         nonce = token.getNonce();
         assertTrue(a.findToken(nonce).isOK());
 
+        // Verify that there can be only one login
+        AuthTokenI token2=a.login("8080");
+        String nonce2 = token2.getNonce();
+        assertTrue(a.findToken(nonce2).isOK());
+        assertFalse(a.findToken(nonce).isOK());
+
+        a.logout(token2);
+        assertFalse(a.findToken(nonce2).isOK());
+        assertFalse(a.findToken(nonce).isOK());
+    }
+
+    @Test
+    public void shouldLogInMultipleUsers() throws IOException
+    {
+        AuthImpl a = new AuthImpl();
+        a.setConfig(config);
+        doReturn(false).when(config).isSingleLoginMode();
+        a.setPinFile(createPinFile("8080"));
+        AuthTokenI token=a.login("8080"); // token expires in ten minutes
+        String nonce = token.getNonce();
+        assertTrue(a.findToken(nonce).isOK());
+
         a.logout(token);
+        assertFalse(a.findToken(nonce).isOK());
+
+        // Check that whitespace is ignored
+        token=a.login("  8080  ");
+        nonce = token.getNonce();
+        assertTrue(a.findToken(nonce).isOK());
+
+        // Verify that there can be two logins
+        AuthTokenI token2=a.login("8080");
+        String nonce2 = token2.getNonce();
+        assertTrue(a.findToken(nonce2).isOK());
+        assertTrue(a.findToken(nonce).isOK());
+
+        // Logging out one doesn't log out the other
+        a.logout(token2);
+        assertFalse(a.findToken(nonce2).isOK());
+        assertTrue(a.findToken(nonce).isOK());
+
+        a.logout(token);
+        assertFalse(a.findToken(nonce2).isOK());
         assertFalse(a.findToken(nonce).isOK());
     }
 
@@ -183,6 +238,7 @@ public class AuthImplTest
         // Setting pinfile to something that doesn't exist
         // will create that file, and load it with default 6502
         AuthImpl a1 = new AuthImpl();
+        a1.setConfig(config);
         a1.setPinFile(f.getAbsolutePath());
         assertTrue(f.exists());
         //cat("Created",f);
@@ -196,6 +252,7 @@ public class AuthImplTest
 
         // Now read that file into a new auth object
         AuthImpl a2 = new AuthImpl();
+        a2.setConfig(config);
         a2.setPinFile(f.getAbsolutePath());
         //cat("Unchanged",f);
         assertNull( a2.login("6502") );
@@ -232,6 +289,7 @@ public class AuthImplTest
         // findToken(n2), verify that it is not expired and does not need refresh
 
         AuthImpl a1 = new AuthImpl();
+        a1.setConfig(config);
         a1.setPinFile(createPinFile("8080"));
 
         // Log in, get token with nonce n1

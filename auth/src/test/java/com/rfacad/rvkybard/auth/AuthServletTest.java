@@ -142,6 +142,48 @@ public class AuthServletTest
     }
 
     @Test
+    public void shouldLogOutAll() throws ServletException, IOException
+    {
+        AuthServlet as = new AuthServlet();
+        as.setAuthi(mockAuthi);
+        doReturn(true).when(mockAuthi).isSingleLoginMode();
+        AuthTokenI tok = mockAuthi.login("6502");
+        Cookie[] cookies = new Cookie[] { tok.makeCookie() };
+        when(mockAuthi.checkForValidCookie(cookies)).thenReturn(tok);
+
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        when(req.getCookies()).thenReturn(cookies);
+
+        as.doGet(req, resp);
+        assertEquals(0,statusCaptor.getAllValues().size());
+        assertEquals(0,updateCaptor.getAllValues().size());
+        assertEquals("/loginPage",redirectCaptor.getValue());
+        assertEquals(0,cookieCaptor.getAllValues().size());
+        verify(mockAuthi,times(1)).logout(null);
+    }
+
+    @Test
+    public void shouldLogOutOne() throws ServletException, IOException
+    {
+        AuthServlet as = new AuthServlet();
+        as.setAuthi(mockAuthi);
+        doReturn(false).when(mockAuthi).isSingleLoginMode();
+        AuthTokenI tok = mockAuthi.login("6502");
+        Cookie[] cookies = new Cookie[] { tok.makeCookie() };
+        when(mockAuthi.checkForValidCookie(cookies)).thenReturn(tok);
+
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        when(req.getCookies()).thenReturn(cookies);
+
+        as.doGet(req, resp);
+        assertEquals(0,statusCaptor.getAllValues().size());
+        assertEquals(0,updateCaptor.getAllValues().size());
+        assertEquals("/loginPage",redirectCaptor.getValue());
+        assertEquals(0,cookieCaptor.getAllValues().size());
+        verify(mockAuthi,times(1)).logout(tok);
+    }
+
+    @Test
     public void shouldChangePin() throws ServletException, IOException
     {
         AuthServlet as = new AuthServlet();

@@ -1,7 +1,6 @@
 package com.rfacad.rvkybard.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -95,6 +94,41 @@ public class RvKybardConfigTest
         c.init();
         assertEquals(c,RvKybardConfig.getConfig());
         assertEquals(MouseMode.TOUCH,c.getMouseMode());
+
+    }
+
+    @Test
+    public void shouldReadWriteSingleLoginModeToConfigFile()
+    {
+        RvKybardConfig c = new RvKybardConfig();
+        c.setConfigFile(testfile.getAbsolutePath());
+        c.init();
+        assertEquals(c,RvKybardConfig.getConfig());
+
+        // Default value of single login mode is TRUE
+        assertTrue(c.isSingleLoginMode());
+        c.setSingleLoginMode(false);
+        assertFalse(c.isSingleLoginMode());
+
+        // Create a new config object
+        RvKybardConfig.setConfig(null);
+        c = new RvKybardConfig();
+        assertTrue(c.isSingleLoginMode());
+        c.setConfigFile(testfile.getAbsolutePath());
+        c.init();
+        assertEquals(c,RvKybardConfig.getConfig());
+        assertFalse(c.isSingleLoginMode());
+        c.setSingleLoginMode(true);
+        assertTrue(c.isSingleLoginMode());
+
+        // Create a new config object again
+        RvKybardConfig.setConfig(null);
+        c = new RvKybardConfig();
+        assertTrue(c.isSingleLoginMode());
+        c.setConfigFile(testfile.getAbsolutePath());
+        c.init();
+        assertEquals(c,RvKybardConfig.getConfig());
+        assertTrue(c.isSingleLoginMode());
 
     }
 

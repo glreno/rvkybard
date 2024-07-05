@@ -55,7 +55,7 @@ public interface AuthI
 
     /**
      * Expires token immediately, removing it from the list of logged-in tokens
-     * @param token
+     * @param token token to log out; if null, logs out ALL tokens
      */
     void logout(AuthTokenI token);
 
@@ -63,5 +63,10 @@ public interface AuthI
      * @return the relative URL of the login page
      */
     String getLoginPageUrl();
+
+    /**
+     * @return true if Authentication should only permit one login at a time
+     */
+    boolean isSingleLoginMode();
 
 }
