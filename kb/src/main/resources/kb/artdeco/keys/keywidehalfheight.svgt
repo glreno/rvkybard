@@ -3,8 +3,8 @@
     <linearGradient id="grad1" x1="0%" x2="100%" y1="100%" y2="0%" >
       <stop offset="0%" stop-color="#fff" />
       <stop offset="10%" stop-color="#fff" />
-      <stop offset="20%" stop-color="@{BORDC}" />
-      <stop offset="80%" stop-color="@{BORDC}" />
+      <stop offset="25%" stop-color="@{BORDC}" />
+      <stop offset="75%" stop-color="@{BORDC}" />
       <stop offset="90%" stop-color="#fff" />
       <stop offset="100%" stop-color="#fff" />
     </linearGradient>

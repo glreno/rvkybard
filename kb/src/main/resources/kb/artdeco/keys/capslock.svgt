@@ -1,16 +1,19 @@
 <svg width="@{W}" height="@{H}">
   <defs>
-    <linearGradient id="grad1" x1="10%" x2="100%" y1="100%" y2="0%" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="@{BORDC}" />
+    <linearGradient id="grad1" x1="0%" x2="100%" y1="100%" y2="0%" >
+      <stop offset="0%" stop-color="#fff" />
+      <stop offset="10%" stop-color="#fff" />
+      <stop offset="20%" stop-color="@{BORDC}" />
+      <stop offset="80%" stop-color="@{BORDC}" />
+      <stop offset="90%" stop-color="#fff" />
       <stop offset="100%" stop-color="#fff" />
     </linearGradient>
   </defs>
 <g style='fill:url(#grad1);fill-opacity:1'>
-<circle cx="50%" cy="50%" r="10.5"/>
 <circle cx="@{stdW/2}" cy="50%" r="@{stdW/2}"/>
 <circle cx="@{W-stdW/2}" cy="50%" r="@{stdW/2}"/>
-<rect x="@{stdW/2}" y="0" width="@{W-stdW}" height="@{H}"/>
 </g>
+<rect fill=@{BORDC} x="@{stdW/2}" y="0" width="@{W-stdW}" height="@{H}"/>
 <circle class="CAPSLOCK-LED CAPSLOCK-LED-OFF" cx="@{stdW/2}" cy="50%" r="@{stdW/2-BORD}"/>
 <circle class="CAPSLOCK-LED CAPSLOCK-LED-OFF" cx="@{W-stdW/2}" cy="50%" r="@{stdW/2-BORD}"/>
 <circle fill="@{BGC}" cx="@{stdW/2}" cy="50%" r="@{stdW/2-BORD-BORD}"/>
