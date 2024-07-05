@@ -26,7 +26,7 @@
 }
 </style>
 <img class='logo' alt='rrvkb, the retro remote virtual keyboard' src='rrvkb_logo.png' />
-<h2>RvKybard Configuration</h2>
+<h2>rrvkb Configuration</h2>
 <form action="/config" method='POST'>
     <hr>
     <h2>USABILITY</h2>

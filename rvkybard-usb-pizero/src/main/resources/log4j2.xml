@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN" name="ROOT">
     <Appenders>
-      <File name="MyFile" fileName="/var/log/tomcat8/rvkybard.log">
+      <File name="MyFile" fileName="/var/log/tomcat8/rrvkb.log">
         <PatternLayout>
           <Pattern>%d [%p{length=6}] [%t] %c | %m%n%ex</Pattern>
         </PatternLayout>
       </File>
-      <File name="LinedFile" fileName="/var/log/tomcat8/rvkybard.log">
+      <File name="LinedFile" fileName="/var/log/tomcat8/rrvkb.log">
         <PatternLayout>
           <Pattern>%d [%p{length=6}] [%t] %C.%M:%L | %m%n%ex</Pattern>
         </PatternLayout>
