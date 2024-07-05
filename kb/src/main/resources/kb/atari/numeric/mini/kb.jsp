@@ -90,7 +90,7 @@
     kb.key("9","KP_9",3,3,null,null,"",K2);
     kb.key("LOCK","KP_NUMLOCK",3,3,null,null,"",K2,"FS=30","S=NUM");
     kb.key("","",1,3,"doNothing()","doNothing()","",KLED,"CLS=NUMLOCK-LED");
-    kb.key("MENU","",3,3,"panic()",kb.MENU,"",K,"FS=16","BGC="+SHIFTCOLOR);
+    kb.key("MENU","",3,3,"panic()",kb.MENU,"",KM,"FS=16","BGC="+SHIFTCOLOR);
     kb.endRow();
 
     // 4 5 6 ret option
