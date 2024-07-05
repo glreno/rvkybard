@@ -1,5 +1,23 @@
 # Version History
 
+## 1.0
+
+- Renamed to rrvkb, because I couldn't decide between 'retro' and 'remote'
+- New logo!
+
+- Ability to change PIN
+- Option to support multiple logins
+- log4j2 logging to /var/log/tomcat/rrvkb.log
+
+- Raiders2 Copilot keyboard for Atari's Star Raiders 2
+- Atascii keyboard
+- Clean up artdeco keyboard
+- Improved index page layout
+- Contact LED on keyboards to show when contact is lost
+
+- Fixed D12 Atari numeric keypad arrows don't work
+- Fixed D14 logs out after one hour
+
 ## 0.09dev
 
 Dev release
