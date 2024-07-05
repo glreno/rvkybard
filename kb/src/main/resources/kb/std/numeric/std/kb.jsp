@@ -27,16 +27,16 @@
     background-color: rgb(98,48,48);
 }
 .NUMLOCK-LED-ON {
-  color: #f9d465;
-}
-.CONTACT-LED-ON {
-  color: #f9d465;
-}
-.CONTACT-LED-OFF {
-  color: #aaa;
+  fill: #64d743;
 }
 .NUMLOCK-LED-OFF {
-  color: #aaa;
+  fill: #aaa;
+}
+.CONTACT-LED-ON {
+  fill: #64d743;
+}
+.CONTACT-LED-OFF {
+  fill: #aaa;
 }
 
 </style>
@@ -91,9 +91,14 @@
     // 0 . (0 is two cols, Enter is two rows)
     kb.startRow();
     kb.spacer(1);
-    kb.key("0","KP_0",6,3,null,null,"",KP,"S=Insert","W=132");
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=CONTACT-LED");
+    kb.key("0","KP_0",5,3,null,null,"",KP,"S=Insert");
     kb.key(".","KP_DOT",3,3,null,null,"",KP,"S=Del");
-    kb.endRow();
+    kb.endRowThirds(2);
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=NUMLOCK-LED");
+    kb.endRowThirds(1);
 
     //
     // Keyboard is finished

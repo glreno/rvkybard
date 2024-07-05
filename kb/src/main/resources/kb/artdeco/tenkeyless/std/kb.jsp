@@ -33,6 +33,12 @@
     stroke: #eec;
     fill: #eec;
 }
+.CONTACTLOST-LED-ON {
+  fill: #b00;
+}
+.CONTACTLOST-LED-OFF {
+  fill: #aaa;
+}
 </style>
 <script type="text/javascript" language="javascript">
     // custom javascript goes here
@@ -129,7 +135,9 @@
     kb.key(";",";",3,3,null,null,"",K2,"S=:");
     kb.key("'","KB_APOSTROPHE",3,3,null,null,"",K2,"S=&quot;");
     kb.key("Enter","KB_ENTER",5,3,null,null,"",KW,"FS=18");
-    kb.spacer(8);
+    kb.spacer(6);
+    kb.key("","",1,3,"doNothing()","doNothing()","",KLED,"CLS=CONTACTLOST-LED");
+    kb.spacer(1);
     kb.key("Menu","",3,3,"panic()",kb.MENU,"",null,"FS=18");
     kb.endRow();
 
