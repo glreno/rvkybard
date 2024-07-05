@@ -49,11 +49,10 @@ public class AuthServlet extends HttpServlet
         this.authi = authi;
     }
 
-    boolean singlelogin = false; // todo make this a real setting
     @Override
     protected void doGet( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        if ( singlelogin )
+        if ( authi.isSingleLoginMode() )
         {
             // ANY get is a log out. That'll show 'em.
             // The goal of all this is to maintain only a SINGLE active user,

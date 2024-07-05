@@ -64,4 +64,9 @@ public interface AuthI
      */
     String getLoginPageUrl();
 
+    /**
+     * @return true if Authentication should only permit one login at a time
+     */
+    boolean isSingleLoginMode();
+
 }

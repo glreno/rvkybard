@@ -145,8 +145,8 @@ public class AuthServletTest
     public void shouldLogOutAll() throws ServletException, IOException
     {
         AuthServlet as = new AuthServlet();
-        as.singlelogin=true; // make this a real setting
         as.setAuthi(mockAuthi);
+        doReturn(true).when(mockAuthi).isSingleLoginMode();
         AuthTokenI tok = mockAuthi.login("6502");
         Cookie[] cookies = new Cookie[] { tok.makeCookie() };
         when(mockAuthi.checkForValidCookie(cookies)).thenReturn(tok);
@@ -166,8 +166,8 @@ public class AuthServletTest
     public void shouldLogOutOne() throws ServletException, IOException
     {
         AuthServlet as = new AuthServlet();
-        as.singlelogin=false; // todo make this a proper setting
         as.setAuthi(mockAuthi);
+        doReturn(false).when(mockAuthi).isSingleLoginMode();
         AuthTokenI tok = mockAuthi.login("6502");
         Cookie[] cookies = new Cookie[] { tok.makeCookie() };
         when(mockAuthi.checkForValidCookie(cookies)).thenReturn(tok);
