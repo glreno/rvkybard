@@ -31,13 +31,13 @@ http://www.apache.org/licenses/LICENSE-2.0
     </bean>
 
     <bean id="auth" class="com.rfacad.rvkybard.auth.AuthImpl" init-method = "init">
-        <property name='pinFile' value='/var/lib/rvkybard/pin' />
+        <property name='pinFile' value='/var/lib/rrvkb/pin' />
         <property name='loginPageUrl' value='/login.html' />
         <property name='config' ref='config' />
     </bean>
 
     <bean id="config" class="com.rfacad.rvkybard.util.RvKybardConfig" init-method = "init">
-        <property name='configFile' value='/var/lib/rvkybard/config.txt' />
+        <property name='configFile' value='/var/lib/rrvkb/config.txt' />
     </bean>
 
 </beans>

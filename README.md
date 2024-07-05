@@ -37,7 +37,7 @@ and can run Tomcat or Jetty.
 
 You will need to set up an HID driver; rrvkb sets it up in /dev/hidg0 as a libcomposite usb gadget. See http://www.isticktoit.net/?p=1383
 
-The server is in Java, so it should work on just about anything. Just install tomcat and replace ROOT.war with rvkybard-usb-pizero-0.08.war
+The server is in Java, so it should work on just about anything. Just install tomcat and replace ROOT.war with rrvkb-usb-pizero-1.00.war
 
 If you need it to write to a device other than /dev/hidg0, the definition is in WEB-INF/applicationContext.xml
 

@@ -1,11 +1,11 @@
 #!/bin/bash
 
 echo Updating permissions
-\chown -R tomcat8.tomcat8 /var/lib/rvkybard
+\chown -R tomcat8.tomcat8 /var/lib/rrvkb
 
 echo Configuring USB device
 # Update a few system files
-BDIR=/tmp/rvkybard_inst_backup.$$
+BDIR=/tmp/rrvkb_inst_backup.$$
 \mkdir $BDIR
 \cp /boot/config.txt $BDIR
 \cp /etc/modules $BDIR
@@ -37,13 +37,13 @@ fi
 
 # Create permission rules for /dev/hidg0
 echo Creating device permission rules
-echo 'KERNEL=="hidg0", GROUP="tomcat8", MODE="0660"' > /etc/udev/rules.d/rvkybard.rules
+echo 'KERNEL=="hidg0", GROUP="tomcat8", MODE="0660"' > /etc/udev/rules.d/rrvkb.rules
 
 echo Checking rc/local
 ls -lh /etc/rc.local
 echo Checking rc/local more
 
-if grep -q rvkybard_usb /etc/rc.local
+if grep -q rrvkb_usb /etc/rc.local
 then
     echo /etc/rc.local already up to date
 else
@@ -51,7 +51,7 @@ else
     ed /etc/rc.local << __EOF__
 /^exit
 i
-/usr/bin/rvkybard_usb # libcomposite configuration
+/usr/bin/rrvkb_usb # libcomposite configuration
 .
 w
 q
