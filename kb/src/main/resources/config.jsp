@@ -56,6 +56,8 @@
     <button type="SUBMIT" style="font-size:xx-large;">OK</button>
 </form>
 <a href="/">Cancel</a>
+<hr>
+<p>&nbsp;
 <footer class='copyrightfooter'>
 <br>
 rrvkb Copyright &copy; 2024 Gerald Reno, Jr.

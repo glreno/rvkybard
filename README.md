@@ -1,6 +1,6 @@
-# rrvkb
+![Image: rrvkb logo](https://raw.githubusercontent.com/wiki/glreno/rvkybard/imx/rrvkb_logo.png)
 
-Retro Remote Virtual Keyboard
+# rrvkb: Retro Remote Virtual Keyboard
 
 ![Image: 400ish keyboard on tablet with THE400MINI](https://raw.githubusercontent.com/wiki/glreno/rvkybard/imx/rvkybard_setup.0.06.jpg)
 
@@ -18,17 +18,9 @@ And because it would be nice to have all the keys of a Spectrum emulator properl
 
 Note that my goal here is to play Star Raiders, not Quake. This is not a high-response-speed gamer keyboard. It is a replacement for a membrane keyboard on an early 80s microcomputer. And the tactile feedback is just as good as a ZX81.
 
-# Requirements
+# Setup
 
-- A Raspberry Pi Zero W
-    - It must have Wifi, so a plain Zero with a USB Wifi adapter would probably work
-    - It must work as a USB OTG gadget, so it must be a Zero
-- A blank MicroSD card
-    - 4GB is more than enough
-- A computer that can flash the SD card
-- A USB cable
-
-Setup instructions are on the wiki: https://github.com/glreno/rvkybard/wiki/Step-by-Step-Installation---Raspberry-Pi-Zero-W
+System requirements and setup instructions are on the wiki: https://github.com/glreno/rvkybard/wiki/Step-by-Step-Installation---Raspberry-Pi-Zero-W
 
 # What about something other than a Raspberry Pi?
 
