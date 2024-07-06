@@ -15,14 +15,14 @@
 
 <groupId>com.rfacad.rrvkb</groupId>
 <artifactId>com.rfacad.rrvkb.util</artifactId>
-<version>1.00</version>
+<version>1.01dev</version>
 <packaging>jar</packaging>
 <description>Utilities for rrvkb</description>
 
 <parent>
     <groupId>com.rfacad.rrvkb</groupId>
     <artifactId>rrvkb</artifactId>
-    <version>1.00</version>
+    <version>1.01dev</version>
 </parent>
 
 <licenses>
@@ -37,7 +37,7 @@
     <dependency>
         <groupId>com.rfacad.rrvkb</groupId>
         <artifactId>com.rfacad.rrvkb.interfaces</artifactId>
-        <version>1.00</version>
+        <version>1.01dev</version>
     </dependency>
     <dependency>
         <groupId>org.apache.logging.log4j</groupId>

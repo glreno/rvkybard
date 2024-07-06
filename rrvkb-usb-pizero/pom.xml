@@ -15,7 +15,7 @@
 
 <groupId>com.rfacad.rrvkb</groupId>
 <artifactId>rrvkb-usb-pizero</artifactId>
-<version>1.00</version>
+<version>1.01dev</version>
 <packaging>war</packaging>
 
 <description>rrvkb USB for Raspberry Pi Zero</description>
@@ -23,7 +23,7 @@
 <parent>
     <groupId>com.rfacad.rrvkb</groupId>
     <artifactId>rrvkb</artifactId>
-    <version>1.00</version>
+    <version>1.01dev</version>
 </parent>
 
 <licenses>
@@ -38,17 +38,17 @@
     <dependency>
         <groupId>com.rfacad.rrvkb</groupId>
         <artifactId>com.rfacad.rrvkb.keyserver</artifactId>
-        <version>1.00</version>
+        <version>1.01dev</version>
     </dependency>
     <dependency>
         <groupId>com.rfacad.rrvkb</groupId>
         <artifactId>com.rfacad.rrvkb.auth</artifactId>
-        <version>1.00</version>
+        <version>1.01dev</version>
     </dependency>
     <dependency>
         <groupId>com.rfacad.rrvkb</groupId>
         <artifactId>com.rfacad.rrvkb.kb</artifactId>
-        <version>1.00</version>
+        <version>1.01dev</version>
     </dependency>
     <dependency>
         <groupId>org.apache.logging.log4j</groupId>
