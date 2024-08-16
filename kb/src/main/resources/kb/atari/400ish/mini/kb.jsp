@@ -134,7 +134,7 @@
     kb.key(",","KB_COMMA",3,3,"keyDownRemap(this,[],'KB_COMMA',[],'KB_OPEN_BRACKET',['LEFT_CTRL'],'KB_COMMA')","keyUpRemap(this,'KB_COMMA','KB_OPEN_BRACKET','KB_COMMA')","",K2,"S=[","FIXSY=-2","FIXLY=-4");
     kb.key(".",".",3,3,"keyDownRemap(this,[],'.',[],'KB_CLOSE_BRACKET',['LEFT_CTRL'],'.')","keyUpRemap(this,'.','KB_CLOSE_BRACKET','.')","",K2,"S=]","FIXSY=-2","FIXLY=-4");
     kb.key("/","/",3,3,null,null,"",K2,"S=?");
-    kb.key("atari","KB_END",3,3,null,null,"",KA);
+    kb.key("atari","KB_F10",3,3,null,null,"",KA);
     kb.key("SHIFT","RIGHT_SHIFT",4,3,kb.SHIFT,kb.SHIFT,"",null,"FS=16","BGC="+SHIFTCOLOR);
     kb.spacer(2);
     kb.key("START","F7",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
