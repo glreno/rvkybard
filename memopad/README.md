@@ -28,3 +28,15 @@ The rom is 2K in size, but load it as an 8K cartridge.
 On an Atari 800 emulator, it boots to memopad, on an XL, Self Test.
 Completely useless.
 
+Except if you need a quick way to get THE400 to something that you can
+test the keyboard with.
+
+So I posted this to Atariage, 
+https://forums.atariage.com/topic/371060-the-most-useless-cartridge
+where we realized that you can do all sorts of things before starting
+the Memo Pad code. 
+
+
+...and the first part of doing THAT is to get a REAL assembler (MAC/65)
+and rebuild the cartridge again -- useless.asm
+
