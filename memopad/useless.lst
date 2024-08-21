@@ -1,0 +1,25 @@
+10       .TITLE      The World's Most Useless Cartridge
+20 ;
+30 ; All this thing does is boot up,
+40 ; change the background color,
+50 ; and then JMP $E471.
+60 ; Useless.
+70 ; That triggers Self Test on an XL
+80 ; but on an Atari 400/800, it is
+90 ; ATARI COMPUTER - MEMO PAD
+0100     .PAGE       Addresses
+0110 BLKBDV = $E471
+0120 PCOLR0 = $02C6
+0130     .PAGE       Cartridge Startup
+0140     *=  $A000   ; 8K Cartridge
+0150 STARTUP LDA #$A0
+0160     STA PCOLR0
+0170     JMP BLKBDV  ; start memopad
+0180     .PAGE       Cartridge Trailer
+0190     *=  $BFF9
+0200 CARTINIT RTS 
+0210     .WORD STARTUP
+0220     .BYTE 0     ; just a zero
+0230     .BYTE 4     ; boot opt - no disk
+0240     .WORD CARTINIT
+0250     .END 
