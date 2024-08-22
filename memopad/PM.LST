@@ -30,50 +30,41 @@ COLPM0   =   $02C0
 COLPM1   =   $02C1
 COLPM2   =   $02C2
 COLPM3   =   $02C3
+         .PAGE       Some handy macros
+;
+; @LC -- load a constant byte into an address
+         .MACRO @LC
+            LDA # %1
+            STA %2
+         .ENDM
+;
          .PAGE       Cartridge Startup
          *=  $A000   ; 8K Cartridge
 STARTUP
-ENABLEPM LDA #$B8
-         STA PMBASE
-         LDA #3
-         STA GRACTL
-         LDA #$2E    ; 2(norm playfield)+4(missiles)+8(players)+32(enable ANTIC)
-         STA SDMCTL
-         LDA #1
-         STA GPRIOR
+ENPM     @LC $B8,PMBASE
+         @LC 3,GRACTL
+         @LC $2E,SDMCTL    ; 2(norm playfield)+4(missiles)+8(players)+32(enable ANTIC)
+         @LC 1,GPRIOR
 ; SET SIZES
          LDA #2
          STA SIZEP0
          STA SIZEP1
          STA SIZEP2
          STA SIZEP3
-         LDA #$55
-         STA SIZEM
+         @LC $55,SIZEM
 ; SET COLORS
-         LDA #$9C
-         STA COLPM0
-         LDA #$AC
-         STA COLPM1
-         LDA #$BC
-         STA COLPM2
-         LDA #$CC
-         STA COLPM3
-         LDA #$60
-         STA HPOSP0
-         LDA #$68
-         STA HPOSP1
-         LDA #$90
-         STA HPOSP3
-         LDA #$98
-         STA HPOSP2
-         LDA #$78
-         STA HPOSM0
-         LDA #$7C
-         STA HPOSM1
-         LDA #$80
-         STA HPOSM2
-         LDA #$84
-         STA HPOSM3
+         @LC $9C,COLPM0
+         @LC $AC,COLPM1
+         @LC $BC,COLPM2
+         @LC $CC,COLPM3
+         @LC $60,HPOSP0
+         @LC $68,HPOSP1
+         @LC $90,HPOSP3
+         @LC $98,HPOSP2
+         @LC $78,HPOSM0
+         @LC $7C,HPOSM1
+         @LC $80,HPOSM2
+         @LC $84,HPOSM3
          JMP BLKBDV  ; start memopad
          .PAGE       PM Image data
          *=  $B800   ; START OF PM DATA
@@ -124,9 +115,9 @@ ENABLEPM LDA #$B8
          .BYTE "0123456789ABCDEF"
          .PAGE       Cartridge Trailer
          *=  $BFF9
-CARTINIT RTS 
+CARTINI  RTS
          .WORD STARTUP
          .BYTE 0     ; just a zero
          .BYTE 4     ; boot opt - no disk
-         .WORD CARTINIT
+         .WORD CARTINI
          .END 
