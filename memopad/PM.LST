@@ -1,123 +1,139 @@
-         .TITLE      PM GRAPICS TEST
+        .TITLE      PM GRAPICS TEST
 ;
 ; All this thing does is boot up,
 ; create a few PM graphics,
-; change the background color,
 ; and then JMP $E471.
 ;
 ;
 ;
-         .PAGE       Addresses
-BLKBDV   =   $E471
-PMBASE   =   $D407
-GRACTL   =   $D01D
-SDMCTL   =   $022F
-GPRIOR   =   $026F
-HPOSP0   =   $D000
-HPOSP1   =   $D001
-HPOSP2   =   $D002
-HPOSP3   =   $D003
-HPOSM0   =   $D004
-HPOSM1   =   $D005
-HPOSM2   =   $D006
-HPOSM3   =   $D007
-SIZEP0   =   $D008
-SIZEP1   =   $D009
-SIZEP2   =   $D00A
-SIZEP3   =   $D00B
-SIZEM    =   $D00C
-COLPM0   =   $02C0
-COLPM1   =   $02C1
-COLPM2   =   $02C2
-COLPM3   =   $02C3
-         .PAGE       Some handy macros
+;
+        .OPT OBJ
+        .PAGE       Addresses
+BLKBDV  =   $E471
+PMBASE  =   $D407
+GRACTL  =   $D01D
+SDMCTL  =   $022F
+GPRIOR  =   $026F
+HPOSP0  =   $D000
+HPOSP1  =   $D001
+HPOSP2  =   $D002
+HPOSP3  =   $D003
+HPOSM0  =   $D004
+HPOSM1  =   $D005
+HPOSM2  =   $D006
+HPOSM3  =   $D007
+SIZEP0  =   $D008
+SIZEP1  =   $D009
+SIZEP2  =   $D00A
+SIZEP3  =   $D00B
+SIZEM   =   $D00C
+COLPM0  =   $02C0
+COLPM1  =   $02C1
+COLPM2  =   $02C2
+COLPM3  =   $02C3
+        .PAGE       Some handy macros
 ;
 ; @LC -- load a constant byte into an address
-         .MACRO @LC
+        .MACRO @LC
             LDA # %1
             STA %2
-         .ENDM
+        .ENDM
 ;
-         .PAGE       Cartridge Startup
-         *=  $A000   ; 8K Cartridge
+; Put %1 copies of %2 into a .BYTE op
+; "@B 4 $FF" instead of ".BYTE $FF $FF $FF $FF"
+        .MACRO @B
+            .IF %1 > 0
+                .BYTE %2
+                @B %1-1,%2
+            .ENDIF
+        .ENDM
+;
+        .PAGE       Cartridge Startup
+        *=  $A000   ; 8K Cartridge
 STARTUP
-ENPM     @LC $B8,PMBASE
-         @LC 3,GRACTL
-         @LC $2E,SDMCTL    ; 2(norm playfield)+4(missiles)+8(players)+32(enable ANTIC)
-         @LC 1,GPRIOR
+ENPM    @LC $B8,PMBASE
+        @LC 3,GRACTL
+        @LC $2E,SDMCTL    ; 2(norm playfield)+4(missiles)+8(players)+32(enable ANTIC)
+        @LC 1,GPRIOR
 ; SET SIZES
-         LDA #2
-         STA SIZEP0
-         STA SIZEP1
-         STA SIZEP2
-         STA SIZEP3
-         @LC $55,SIZEM
+        LDA #2
+        STA SIZEP0
+        STA SIZEP1
+        STA SIZEP2
+        STA SIZEP3
+        @LC $55,SIZEM
 ; SET COLORS
-         @LC $9C,COLPM0
-         @LC $AC,COLPM1
-         @LC $BC,COLPM2
-         @LC $CC,COLPM3
-         @LC $60,HPOSP0
-         @LC $68,HPOSP1
-         @LC $90,HPOSP3
-         @LC $98,HPOSP2
-         @LC $78,HPOSM0
-         @LC $7C,HPOSM1
-         @LC $80,HPOSM2
-         @LC $84,HPOSM3
-         JMP BLKBDV  ; start memopad
-         .PAGE       PM Image data
-         *=  $B800   ; START OF PM DATA
-         *=  $B980   ; START OF MISSILES
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         *=  $BA00   ; START OF P0
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         *=  $BA80   ; START OF P1
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         *=  $BB00   ; START OF P2
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         *=  $BB80   ; START OF P3
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .BYTE "0123456789ABCDEF"
-         .PAGE       Cartridge Trailer
-         *=  $BFF9
-CARTINI  RTS
-         .WORD STARTUP
-         .BYTE 0     ; just a zero
-         .BYTE 4     ; boot opt - no disk
-         .WORD CARTINI
-         .END 
+        @LC $2C,COLPM0
+        @LC $5C,COLPM1
+        @LC $8C,COLPM2
+        @LC $BC,COLPM3
+; Move them all in to place
+        @LC $60,HPOSP0
+        @LC $68,HPOSP1
+        @LC $90,HPOSP3
+        @LC $98,HPOSP2
+        @LC $84,HPOSM0
+        @LC $80,HPOSM1
+        @LC $7C,HPOSM2
+        @LC $78,HPOSM3
+        JMP BLKBDV  ; start memopad
+        .PAGE       PM Image data
+        *=  $B800   ; START OF PM DATA
+        *=  $B980   ; START OF MISSILES
+        ; Missiles are stored M3 M2 M1 M0
+        ;          bit flags: C0 30 0C 03
+        ; The first four bytes (11,22,33,44) are off screen
+        .BYTE $11,$22,$33,$44, $55,$66,$77,$88, $99,$AA,$BB,$CC, $DD,$EE,$FF,$00  ; top border
+M       @B 16,$DB ; 1101 1011      ; top of E:
+        @B 16,$7E ; 0111 1110      ; more above the halfway mark
+        @B 16,0                    ; above the halfway mark
+        @B 16,$7E ; 0111 1110      ; below the halfway mark
+        @B 16,0                    ; more below the halfway mark
+        @B 16,$99 ; 1001 1001      ; bottom of E:
+        .BYTE $00,$FF,$EE,$DD, $CC,$BB,$AA,$99, $88,$77,$66,$55, $44,$33,$22,$11  ; bottom border
+        ; The last four bytes (11,22,33,44) are off screen
+        *=  $BA00   ; START OF PLAYER 0
+P0      @B 16,0     ; above E:
+        @B 16,$99
+        @B 16,$99
+        .BYTE 0,$FF,0,$7E, $81,$81,$81,$81, $81,$7E,0,$FF, 0,0,0,0 ; ZERO
+        @B 16,$99
+        @B 16,$99
+        @B 16,$99
+        @B 16,0     ; below E:
+        *=  $BA80   ; START OF PLAYER 1
+P1      @B 16,$0    ; above E:
+        @B 16,$99
+        @B 16,$99
+        .BYTE 0,$FF,0,$18, $38,$58,$18,$18, $18,$18,0,$FF, 0,0,0,0 ; ONE
+        @B 16,$99
+        @B 16,$99
+        @B 16,$99
+        @B 16,0     ; below E:
+        *=  $BB00   ; START OF PLAYER 2
+P2      @B 16,0     ; above E:
+        @B 16,$99
+        @B 16,$99
+        .BYTE 0,$FF,0,$7E, $01,$01,$7E,$80, $80,$7E,0,$FF, 0,0,0,0 ; TWO
+        @B 16,$99
+        @B 16,$99
+        @B 16,$99
+        @B 16,0     ; below E:
+        *=  $BB80   ; START OF PLAYER 3
+P3      @B 16,0     ; above E:
+        @B 16,$99
+        @B 16,$99
+        .BYTE 0,$FF,0,$7E, $01,$01,$7E,$01, $01,$7E,0,$FF, 0,0,0,0 ; THREE
+        @B 16,$99
+        @B 16,$99
+        @B 16,$99
+        @B 16,0 ; below E:
+        ; End of PM graphics data at $BC00
+        .PAGE       Cartridge Trailer
+        *=  $BFF9
+CARTINI RTS
+        .WORD STARTUP
+        .BYTE 0     ; just a zero
+        .BYTE 4     ; boot opt - no disk
+        .WORD CARTINI
+        .END 
