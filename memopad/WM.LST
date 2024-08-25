@@ -90,12 +90,12 @@ EN_PM   @LC $B8,PMBASE
         LDA #$C0
         STA NMIEN
         @LC $2E,SDMCTL  ; 2(norm playfield)+4(missiles)+8(players)+32(enable ANTIC)
-; SET SIZES
-        LDA #2
-        STA SIZEP0
-        STA SIZEP1
-        STA SIZEP2
-        STA SIZEP3
+; SET SIZES     $55=01 01 01 01 -> 01=double-wide
+;       LDA #2
+;       STA SIZEP0
+;       STA SIZEP1
+;       STA SIZEP2
+;       STA SIZEP3
         @LC $55,SIZEM
 ; SET COLORS
         @LC $2C,COLPM0
@@ -115,16 +115,67 @@ EN_PM   @LC $B8,PMBASE
         .PAGE       Display List Interrupt
 DLI     PHA ; always save the accumulator!
         LDA VCOUNT
+        STA $CC
+        CMP #15     ; first line of E:
+        BEQ ROW16
+        CMP #19     ; second line (things are still invisible, no need to sync)
+        BEQ ROW20
+        CMP #23     ; third line
+        BEQ ROW24
+        CMP #107     ; third line
+        BEQ ROW107
+        ; default: draw diagonal, should never get here
         STA WSYNC ; wait for sync, without this the PM graphics go wonky when you type
         STA HPOSP0
         PLA ; restore A
         RTI
+        ;
+        ; Above E: -- set all sizes to 2 (double-wide) (3 is quad-wide)
+ROW16   LDA #2
+        STA SIZEP0
+        STA SIZEP1
+        STA SIZEP2
+        LDA #3
+        STA SIZEP3
+        ; STA WSYNC ; no need to sync, all are invisible
+        PLA ; restore A
+        RTI
+        ;
+        ; Test line
+ROW20   @LC $20,HPOSP0
+        @LC $30,HPOSP1
+        @LC $40,HPOSP3
+        @LC $50,HPOSP2
+        ; STA WSYNC ; no need to sync, all are invisible
+        PLA ; restore A
+        RTI
+        ; Test line
+ROW107  @LC $90,HPOSP0
+        @LC $A0,HPOSP1
+        @LC $B0,HPOSP3
+        @LC $C0,HPOSP2
+        ; STA WSYNC ; no need to sync, all are invisible
+        PLA ; restore A
+        RTI
+        ; Still above E: -- set all positions
+ROW24   @LC $50,HPOSP0
+        @LC $70,HPOSP1
+        @LC $88,HPOSP3
+        @LC $90,HPOSP2
+        ; STA WSYNC ; no need to sync, all are invisible
+        PLA ; restore A
+        RTI
         .PAGE       PM Image data
+        ;
+        ;
+        ;
         *=  $B800   ; START OF PM DATA
         *=  $B980   ; START OF MISSILES
         ; Missiles are stored M3 M2 M1 M0
         ;          bit flags: C0 30 0C 03
         ; The first four bytes (11,22,33,44) are off screen
+        ;
+        ;
 M       @B 16,0                    ; above E:
         @B 16,0                    ; Each 16 bytes is 4 chars high; 5 char margin above image
         @B 4, $0
@@ -137,38 +188,54 @@ M       @B 16,0                    ; above E:
         @B 16,0                    ; below E:
         ; The last four bytes (11,22,33,44) are off screen
         *=  $BA00   ; START OF PLAYER 0
-P0      @B 16,$FF     ; above E:
-        @B 16,$FF
-        @B 16,$FF
+P0      ;@B 16,$0     ; above E:
         .BYTE 0,$FF,0,$7E, $81,$81,$81,$81, $81,$7E,0,$FF, 0,0,0,0 ; ZERO
+        @B 16,$FF
+        @B 16,$FF
+        @B 16,$FF
         @B 16,$FF
         @B 16,$FF
         @B 16,$FF
         @B 16,$FF     ; below E:
         *=  $BA80   ; START OF PLAYER 1
-P1      @B 16,$0    ; above E:
-        @B 16,$99
-        @B 16,$99
+P1      ;@B 16,$0    ; above E:
         .BYTE 0,$FF,0,$18, $38,$58,$18,$18, $18,$18,0,$FF, 0,0,0,0 ; ONE
+        @B 16,$99
+        @B 16,$99
+        @B 16,$99
         @B 16,$99
         @B 16,$99
         @B 16,$99
         @B 16,0     ; below E:
         *=  $BB00   ; START OF PLAYER 2
-P2      @B 16,0     ; above E:
-        @B 16,$99
-        @B 16,$99
+P2      ;@B 16,0     ; above E:
         .BYTE 0,$FF,0,$7E, $01,$01,$7E,$80, $80,$7E,0,$FF, 0,0,0,0 ; TWO
-        @B 16,$99
-        @B 16,$99
+        @B 16,$0
+        @B 16,$0
+        @B 16,$0    ; that's all in player 3
+        @B 4, $0
+        @B 4, $C0
+        @B 2, $F0
+        @B 2, $FC
+        @B 2, $FF
+        @B 14,$99
         @B 16,$99
         @B 16,0     ; below E:
         *=  $BB80   ; START OF PLAYER 3
-P3      @B 16,0     ; above E:
-        @B 16,$99
-        @B 16,$99
+P3      ; @B 16,0     ; above E:
         .BYTE 0,$FF,0,$7E, $01,$01,$7E,$01, $01,$7E,0,$FF, 0,0,0,0 ; THREE
         @B 16,$99
+        @B 4,$0     ; last of 5 char margin
+                    ; 4 characters of vertical line 4px wide
+        @B 16,$F0
+                    ; then start shifting over; 5px wide for 1 char, 6px wide for 1 char
+        .BYTE       $F8,$F8,$F8,$F8, $FC,$FC,$FC,$FC
+                    ; stay at 6px wide, and shift over for 1 char, then shift over for one char
+        .BYTE       $7E,$7E,$7E,$7E, $3F,$3F,$3F,$3F
+                    ; this is the point where Player2 starts
+        .BYTE       $1F,$1F,$1F,$1F, $0F,$0F,$0F,$0F
+        @B 2, $07
+        @B 10,$99
         @B 16,$99
         @B 16,$99
         @B 16,0 ; below E:
