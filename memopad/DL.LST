@@ -1,9 +1,9 @@
-        .TITLE      PM GRAPICS TEST
+        .TITLE      DL GRAPICS TEST
 ;
 ; All this thing does is boot up,
+; set up a custom Display List,
 ; create a few PM graphics,
 ; and then JMP $E471.
-;
 ;
 ;
 ;
@@ -31,6 +31,14 @@ COLPM0  =   $02C0
 COLPM1  =   $02C1
 COLPM2  =   $02C2
 COLPM3  =   $02C3
+WSYNC   =   $D40A
+VCOUNT  =   $D40B
+VDLSTL  =   $0200 ; location of display list
+VDLSTH  =   $0201
+SDLSTL  =   $230
+SDLSTH  =   $231
+NMIEN   =   $D40E ; 0x80=DLI 0x40=VBI 0x20=RESET, default is 0x40
+
         .PAGE       Some handy macros
 ;
 ; @LC -- load a constant byte into an address
@@ -51,10 +59,37 @@ COLPM3  =   $02C3
         .PAGE       Cartridge Startup
         *=  $A000   ; 8K Cartridge
 STARTUP
-ENPM    @LC $B8,PMBASE
+CR_DL   @LC 0,SDMCTL    ; turn off ANTIC while updating dlist
+        ; copy dlist addr to page zero $CC
+        LDA SDLSTL
+        STA $CC
+        LDA SDLSTH
+        STA $CD
+        LDY #3
+        LDA ($CC),Y
+        ORA #$80
+        STA ($CC),Y
+        INY
+        INY
+LOOP    INY
+        LDA ($CC),Y
+        CMP #2
+        BNE EN_DL ; done, enable DLI
+        ORA #$80
+        STA ($CC),Y
+        BNE LOOP ; let's just do one for now
+EN_DL
+        LDA #<DLI
+        STA VDLSTL
+        LDA #>DLI
+        STA VDLSTH
+EN_PM   @LC $B8,PMBASE
         @LC 3,GRACTL
-        @LC $2E,SDMCTL    ; 2(norm playfield)+4(missiles)+8(players)+32(enable ANTIC)
         @LC 1,GPRIOR
+        ; after dlist and pm are set up, enable Interrupts and ANTIC
+        LDA #$C0
+        STA NMIEN
+        @LC $2E,SDMCTL  ; 2(norm playfield)+4(missiles)+8(players)+32(enable ANTIC)
 ; SET SIZES
         LDA #2
         STA SIZEP0
@@ -77,6 +112,13 @@ ENPM    @LC $B8,PMBASE
         @LC $7C,HPOSM2
         @LC $78,HPOSM3
         JMP BLKBDV  ; start memopad
+        .PAGE       Display List Interrupt
+DLI     PHA ; always save the accumulator!
+        LDA VCOUNT
+        STA WSYNC ; wait for sync, without this the PM graphics go wonky when you type
+        STA HPOSP0
+        PLA ; restore A
+        RTI
         .PAGE       PM Image data
         *=  $B800   ; START OF PM DATA
         *=  $B980   ; START OF MISSILES
@@ -93,14 +135,14 @@ M       @B 16,$DB ; 1101 1011      ; top of E:
         .BYTE $00,$FF,$EE,$DD, $CC,$BB,$AA,$99, $88,$77,$66,$55, $44,$33,$22,$11  ; bottom border
         ; The last four bytes (11,22,33,44) are off screen
         *=  $BA00   ; START OF PLAYER 0
-P0      @B 16,0     ; above E:
-        @B 16,$99
-        @B 16,$99
+P0      @B 16,$FF     ; above E:
+        @B 16,$FF
+        @B 16,$FF
         .BYTE 0,$FF,0,$7E, $81,$81,$81,$81, $81,$7E,0,$FF, 0,0,0,0 ; ZERO
-        @B 16,$99
-        @B 16,$99
-        @B 16,$99
-        @B 16,0     ; below E:
+        @B 16,$FF
+        @B 16,$FF
+        @B 16,$FF
+        @B 16,$FF     ; below E:
         *=  $BA80   ; START OF PLAYER 1
 P1      @B 16,$0    ; above E:
         @B 16,$99
