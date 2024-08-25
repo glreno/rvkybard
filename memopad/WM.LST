@@ -91,7 +91,7 @@ EN_PM   @LC $B8,PMBASE
         STA NMIEN
         @LC $2E,SDMCTL  ; 2(norm playfield)+4(missiles)+8(players)+32(enable ANTIC)
 ; SET SIZES     $55=01 01 01 01 -> 01=double-wide
-;       LDA #2
+;       LDA #0
 ;       STA SIZEP0
 ;       STA SIZEP1
 ;       STA SIZEP2
@@ -103,68 +103,78 @@ EN_PM   @LC $B8,PMBASE
         @LC $8C,COLPM2
         @LC $BC,COLPM3
 ; Move them all in to place
-        @LC $60,HPOSP0
-        @LC $68,HPOSP1
-        @LC $90,HPOSP3
-        @LC $98,HPOSP2
+;       @LC $60,HPOSP0
+;       @LC $68,HPOSP1
+;       @LC $90,HPOSP3
+;       @LC $98,HPOSP2
         @LC $84,HPOSM0
         @LC $80,HPOSM1
         @LC $7C,HPOSM2
         @LC $78,HPOSM3
         JMP BLKBDV  ; start memopad
+;
+;
+;
+
         .PAGE       Display List Interrupt
+;
+;
 DLI     PHA ; always save the accumulator!
         LDA VCOUNT
-        STA $CC
-        CMP #15     ; first line of E:
-        BEQ ROW16
         CMP #19     ; second line (things are still invisible, no need to sync)
         BEQ ROW20
         CMP #23     ; third line
         BEQ ROW24
-        CMP #107     ; third line
-        BEQ ROW107
+        CMP #79      ; 16th line
+        BEQ ROW80
+        CMP #107     ; twentythird line
+        BEQ ROW108
         ; default: draw diagonal, should never get here
-        STA WSYNC ; wait for sync, without this the PM graphics go wonky when you type
+        ;STA WSYNC ; wait for sync, without this the PM graphics go wonky when you type
         STA HPOSP0
-        PLA ; restore A
+DLDONE  PLA ; restore A
         RTI
         ;
-        ; Above E: -- set all sizes to 2 (double-wide) (3 is quad-wide)
-ROW16   LDA #2
-        STA SIZEP0
-        STA SIZEP1
-        STA SIZEP2
-        LDA #3
-        STA SIZEP3
-        ; STA WSYNC ; no need to sync, all are invisible
-        PLA ; restore A
-        RTI
-        ;
-        ; Test line
-ROW20   @LC $20,HPOSP0
+        ; First row in the editor
+        ; Set all sizes to 0 (normal) (1 is double-wide) (3 is quad-wide)
+        ; Move to the left for debug
+ROW20   @LC $14,$0614
+        STA WSYNC ; no need to sync, all are invisible
+        @LC $20,HPOSP0
         @LC $30,HPOSP1
         @LC $40,HPOSP3
         @LC $50,HPOSP2
-        ; STA WSYNC ; no need to sync, all are invisible
-        PLA ; restore A
-        RTI
-        ; Test line
-ROW107  @LC $90,HPOSP0
-        @LC $A0,HPOSP1
-        @LC $B0,HPOSP3
-        @LC $C0,HPOSP2
-        ; STA WSYNC ; no need to sync, all are invisible
-        PLA ; restore A
-        RTI
-        ; Still above E: -- set all positions
-ROW24   @LC $50,HPOSP0
+        LDA #0
+        STA SIZEP0
+        STA SIZEP1
+        STA SIZEP2
+        STA SIZEP3
+        JMP DLDONE
+        ; Still above logo -- set all positions
+ROW24   @LC $18,$0618
+        @LC $50,HPOSP0
         @LC $70,HPOSP1
         @LC $88,HPOSP3
         @LC $90,HPOSP2
         ; STA WSYNC ; no need to sync, all are invisible
-        PLA ; restore A
-        RTI
+        JMP DLDONE
+        ; the big one - double all sizes, and shift to new positions
+ROW80   @LC $5C,$065C
+        LDA #3
+        STA SIZEP0
+        STA SIZEP1
+        STA SIZEP2
+        STA SIZEP3
+        ;STA WSYNC ; wait for sync, we're drawing here
+        JMP DLDONE
+        ; Test line - move everything to the left side
+ROW108  @LC $6C,$066C
+        @LC $90,HPOSP0
+        ;STA WSYNC ; no need to sync, all are invisible
+        @LC $A0,HPOSP1
+        @LC $B0,HPOSP3
+        @LC $C0,HPOSP2
+        JMP DLDONE
         .PAGE       PM Image data
         ;
         ;
@@ -218,7 +228,8 @@ P2      ;@B 16,0     ; above E:
         @B 2, $F0
         @B 2, $FC
         @B 2, $FF
-        @B 14,$99
+        @B 2, $99
+        @B 16,$99
         @B 16,$99
         @B 16,0     ; below E:
         *=  $BB80   ; START OF PLAYER 3
@@ -229,14 +240,16 @@ P3      ; @B 16,0     ; above E:
                     ; 4 characters of vertical line 4px wide
         @B 16,$F0
                     ; then start shifting over; 5px wide for 1 char, 6px wide for 1 char
-        .BYTE       $F8,$F8,$F8,$F8, $FC,$FC,$FC,$FC
+        @B 4,$F8
+        @B 4,$FC
                     ; stay at 6px wide, and shift over for 1 char, then shift over for one char
-        .BYTE       $7E,$7E,$7E,$7E, $3F,$3F,$3F,$3F
+        @B 4,$7E
+        @B 4,$3F
                     ; this is the point where Player2 starts
-        .BYTE       $1F,$1F,$1F,$1F, $0F,$0F,$0F,$0F
-        @B 2, $07
-        @B 10,$99
-        @B 16,$99
+        @B 4,$1F
+        @B 4,$0F
+        @B 2, $03
+        @B 14,$99
         @B 16,$99
         @B 16,0 ; below E:
         ; End of PM graphics data at $BC00
