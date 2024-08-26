@@ -99,10 +99,15 @@ EN_PM   @LC $B8,PMBASE
         STA SIZEP2
         @LC $1C,SIZEM
 ; SET COLORS
-        @LC $2C,COLPM0
-        @LC $5C,COLPM1
-        @LC $8C,COLPM2
-        @LC $BC,COLPM3
+        LDA #$84 ; DARK BLUE for the watermark (82 -- too dark, 8C -- too bright)
+        ; LDA $2C ; ORANGE for P0
+        STA COLPM0
+        ; LDA $5C ; PINK for P1
+        STA COLPM1
+        ; LDA $8C ; BLUE for P2
+        STA COLPM2
+        ; LDA $BC ; GREEN for P3
+        STA COLPM3
 ; Move them all in to place
 ;       @LC $6C,HPOSP0
         @LC $5C,HPOSP1
@@ -141,9 +146,6 @@ ROW20   @LC $14,$0614
         LDA #0
         STA SIZEP0
         STA SIZEP3
-;       LDA #1
-;       STA SIZEP1
-;       STA SIZEP2
         JMP DLDONE
         ; Still above logo -- set all positions
 ROW24   @LC $18,$0618
@@ -178,11 +180,11 @@ ROW80   @LC $5C,$065C
         ;
 M       @B 16,0                    ; above E:
         @B 16,0                    ; Each 16 bytes is 4 chars high; 5 char margin above image
-        @B 4, $0
+        @B 4,0
         ; Vertical stripe on M2 M1: $3C = 00 11 11 00
-        @B 12,$3C                  ; above the halfway mark - 3 rows
-        @B 16,$3C                  ; below the halfway mark - 4 more rows, total 7
-        @B 16,$3C                  ; more below the halfway mark - total 11
+        @B 12,$3C
+        @B 16,$3C
+        @B 16,$3C
         @B 2,$FF ; 1111 1111  
         @B 4,$BD ; 1011 1101   
         @B 9,$3C
@@ -191,50 +193,75 @@ M       @B 16,0                    ; above E:
         @B 16,0                    ; below E:
         ; The last four bytes (11,22,33,44) are off screen
         *=  $BA00   ; START OF PLAYER 0
-P0      ;@B 16,$0     ; above E:
-        .BYTE 0,$FF,0,$7E, $81,$81,$81,$81, $81,$7E,0,$FF, 0,0,0,0 ; ZERO
-        @B 16,$00
-        @B 16,$00
-        @B 16,$99
-        @B 16,$99
-        @B 16,$99
-        @B 16,$99
+P0      @B 16,$0     ; above E:
+        ;.BYTE 0,$FF,0,$7E, $81,$81,$81,$81, $81,$7E,0,$FF, 0,0,0,0 ; ZERO
+        @B 16,0     ; margin
+        @B 4,0      ; last of 5 char margin
+                    ; 4.5 chars of vertical line 4px wide
+        @B 16,$0F
+        @B 2,$0F
+                    ; then start shifting over; 5px wide for 1 char, 6px wide for 1 char
+        @B 4,$1F
+        @B 4,$3F
+                    ; stay at 6px wide, and shift over for 1 char, then shift over for one char
+        @B 4,$7E
+        @B 4,$FC
+                    ; this is the point where Player1 starts
+        @B 4,$F8
+        @B 4,$F0
+        @B 2,$C0
+        @B 4,$00   ; blank space while we switch sides and switch to size 3(8px)
+        @B 1,$01
+        @B 1,$03
+        @B 8,$0F
+        @B 1,$0C
+        @B 1,0
+        @B 16,0
         @B 16,0       ; below E:
         *=  $BA80   ; START OF PLAYER 1
-P1      ;@B 16,$0    ; above E:
-        .BYTE 0,$FF,0,$18, $38,$58,$18,$18, $18,$18,0,$FF, 0,0,0,0 ; ONE
-        @B 16,$00
-        @B 16,$00
-        @B 16,$99
-        @B 16,$99
-        @B 16,$99
-        @B 16,$99
+P1      @B 16,$0    ; above E:
+        ;.BYTE 0,$FF,0,$18, $38,$58,$18,$18, $18,$18,0,$FF, 0,0,0,0 ; ONE
+        @B 16,$0
+        @B 16,$0
+        @B 16,$0    ; that's all in player 0
+        @B 6,$0
+        @B 4,$01
+        @B 2,$03
+        @B 2,$07
+        @B 2,$0F
+        @B 2,$1F
+        @B 1,$3F
+        @B 3,$FF
+        @B 4,$FE
+        @B 2,$F8
+        @B 4,0
+        @B 16,0
         @B 16,0     ; below E:
         *=  $BB00   ; START OF PLAYER 2
-P2      ;@B 16,0     ; above E:
-        .BYTE 0,$FF,0,$7E, $01,$01,$7E,$80, $80,$7E,0,$FF, 0,0,0,0 ; TWO
-        @B 16,$99
+P2      @B 16,0     ; above E:
+        ;.BYTE 0,$FF,0,$7E, $01,$01,$7E,$80, $80,$7E,0,$FF, 0,0,0,0 ; TWO
+        @B 16,$0
         @B 16,$0
         @B 16,$0    ; that's all in player 3
-        @B 6, $0
-        @B 4, $80
-        @B 2, $C0
-        @B 2, $E0
-        @B 2, $F0
-        @B 2, $F8
-        @B 1, $FC
-        @B 3, $FF
-        @B 4, $7F
+        @B 6,$0
+        @B 4,$80
+        @B 2,$C0
+        @B 2,$E0
+        @B 2,$F0
+        @B 2,$F8
+        @B 1,$FC
+        @B 3,$FF
+        @B 4,$7F
         @B 2,$1F
-        @B 4,$0
-        @B 16,$99
+        @B 4,0
+        @B 16,0
         @B 16,0     ; below E:
         *=  $BB80   ; START OF PLAYER 3
-P3      ; @B 16,0     ; above E:
-        .BYTE 0,$FF,0,$7E, $01,$01,$7E,$01, $01,$7E,0,$FF, 0,0,0,0 ; THREE
-        @B 16,$99
-        @B 4,$0     ; last of 5 char margin
-                    ; 4 characters of vertical line 4px wide
+P3      @B 16,0     ; above E:
+        ;.BYTE 0,$FF,0,$7E, $01,$01,$7E,$01, $01,$7E,0,$FF, 0,0,0,0 ; THREE
+        @B 16,0     ; margin
+        @B 4,0      ; last of 5 char margin
+                    ; 4.5 chars of vertical line 4px wide
         @B 16,$F0
         @B 2,$F0
                     ; then start shifting over; 5px wide for 1 char, 6px wide for 1 char
@@ -246,15 +273,14 @@ P3      ; @B 16,0     ; above E:
                     ; this is the point where Player2 starts
         @B 4,$1F
         @B 4,$0F
-        @B 2, $03
-        @B 4, $00   ; blank space while we switch sides
+        @B 2,$03
+        @B 4,$00   ; blank space while we switch sides and switch to size 3(8px)
         @B 1,$80
         @B 1,$C0
-        @B 1,$F0
-        @B 7,$F0
+        @B 8,$F0
         @B 1,$30
-        @B 3,$00
-        @B 14,$99
+        @B 1,0
+        @B 16,0
         @B 16,0 ; below E:
         ; End of PM graphics data at $BC00
         .PAGE       Cartridge Trailer
