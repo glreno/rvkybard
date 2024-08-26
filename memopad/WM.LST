@@ -104,14 +104,14 @@ EN_PM   @LC $B8,PMBASE
         @LC $8C,COLPM2
         @LC $BC,COLPM3
 ; Move them all in to place
-;       @LC $60,HPOSP0
-        @LC $58,HPOSP1
+;       @LC $6C,HPOSP0
+        @LC $5C,HPOSP1
 ;       @LC $88,HPOSP3
         @LC $90,HPOSP2
         @LC $8E,HPOSM0 ; HPOSP3 + 6px orange
         @LC $7C,HPOSM1 ; was 80 pink
         @LC $78,HPOSM2 ; was 7C blue
-        @LC $40,HPOSM3 ; HPOSP0 + 1px green
+        @LC $6C,HPOSM3 ; HPOSP0
         JMP BLKBDV  ; start memopad
 ;
 ;
@@ -128,8 +128,6 @@ DLI     PHA ; always save the accumulator!
         BEQ ROW24
         CMP #79      ; 16th line
         BEQ ROW80
-        CMP #107     ; twentythird line
-        BEQ ROW108
         ; All done with all the lines
         ;STA WSYNC ; wait for sync, without this the PM graphics go wonky when you type
 DLDONE  PLA ; restore A
@@ -140,8 +138,6 @@ DLDONE  PLA ; restore A
         ; Move to the left for debug
 ROW20   @LC $14,$0614
         ;STA WSYNC ; no need to sync, all are invisible
-        @LC $20,HPOSP0
-        @LC $40,HPOSP3
         LDA #0
         STA SIZEP0
         STA SIZEP3
@@ -151,8 +147,8 @@ ROW20   @LC $14,$0614
         JMP DLDONE
         ; Still above logo -- set all positions
 ROW24   @LC $18,$0618
-        @LC $50,HPOSP0
-;       @LC $70,HPOSP1
+        @LC $6C,HPOSP0
+;       @LC $5C,HPOSP1
         @LC $88,HPOSP3
 ;       @LC $90,HPOSP2
         ; STA WSYNC ; no need to sync, all are invisible
@@ -162,14 +158,9 @@ ROW80   @LC $5C,$065C
         LDA #3
         STA SIZEP0
         STA SIZEP3
+        @LC $3C,HPOSP0 ; HPOSP1-32
         @LC $A0,HPOSP3 ; HPOSP2+16
         ;STA WSYNC ; wait for sync, we're drawing here
-        JMP DLDONE
-        ; Test line - move everything to the left side
-ROW108  @LC $6C,$066C
-        @LC $50,HPOSP0
-        ;STA WSYNC ; no need to sync, all are invisible
-        @LC $B0,HPOSP3
         JMP DLDONE
         .PAGE       PM Image data
         ;
