@@ -90,13 +90,14 @@ EN_PM   @LC $B8,PMBASE
         LDA #$C0
         STA NMIEN
         @LC $2E,SDMCTL  ; 2(norm playfield)+4(missiles)+8(players)+32(enable ANTIC)
-; SET SIZES     $55=01 01 01 01 -> 01=double-wide
+; SET SIZES     $1C=00 01 11 00 -> 01=double-wide, 11=quad-wide
 ;       LDA #0
 ;       STA SIZEP0
-;       STA SIZEP1
-;       STA SIZEP2
 ;       STA SIZEP3
-        @LC $55,SIZEM
+        LDA #1
+        STA SIZEP1
+        STA SIZEP2
+        @LC $1C,SIZEM
 ; SET COLORS
         @LC $2C,COLPM0
         @LC $5C,COLPM1
@@ -104,13 +105,13 @@ EN_PM   @LC $B8,PMBASE
         @LC $BC,COLPM3
 ; Move them all in to place
 ;       @LC $60,HPOSP0
-;       @LC $68,HPOSP1
-;       @LC $90,HPOSP3
-;       @LC $98,HPOSP2
-        @LC $84,HPOSM0
-        @LC $80,HPOSM1
-        @LC $7C,HPOSM2
-        @LC $78,HPOSM3
+        @LC $58,HPOSP1
+;       @LC $88,HPOSP3
+        @LC $90,HPOSP2
+        @LC $8E,HPOSM0 ; HPOSP3 + 6px orange
+        @LC $7C,HPOSM1 ; was 80 pink
+        @LC $78,HPOSM2 ; was 7C blue
+        @LC $40,HPOSM3 ; HPOSP0 + 1px green
         JMP BLKBDV  ; start memopad
 ;
 ;
@@ -129,9 +130,8 @@ DLI     PHA ; always save the accumulator!
         BEQ ROW80
         CMP #107     ; twentythird line
         BEQ ROW108
-        ; default: draw diagonal, should never get here
+        ; All done with all the lines
         ;STA WSYNC ; wait for sync, without this the PM graphics go wonky when you type
-        STA HPOSP0
 DLDONE  PLA ; restore A
         RTI
         ;
@@ -139,41 +139,37 @@ DLDONE  PLA ; restore A
         ; Set all sizes to 0 (normal) (1 is double-wide) (3 is quad-wide)
         ; Move to the left for debug
 ROW20   @LC $14,$0614
-        STA WSYNC ; no need to sync, all are invisible
+        ;STA WSYNC ; no need to sync, all are invisible
         @LC $20,HPOSP0
-        @LC $30,HPOSP1
         @LC $40,HPOSP3
-        @LC $50,HPOSP2
         LDA #0
         STA SIZEP0
-        STA SIZEP1
-        STA SIZEP2
         STA SIZEP3
+;       LDA #1
+;       STA SIZEP1
+;       STA SIZEP2
         JMP DLDONE
         ; Still above logo -- set all positions
 ROW24   @LC $18,$0618
         @LC $50,HPOSP0
-        @LC $70,HPOSP1
+;       @LC $70,HPOSP1
         @LC $88,HPOSP3
-        @LC $90,HPOSP2
+;       @LC $90,HPOSP2
         ; STA WSYNC ; no need to sync, all are invisible
         JMP DLDONE
         ; the big one - double all sizes, and shift to new positions
 ROW80   @LC $5C,$065C
         LDA #3
         STA SIZEP0
-        STA SIZEP1
-        STA SIZEP2
         STA SIZEP3
+        @LC $A0,HPOSP3 ; HPOSP2+16
         ;STA WSYNC ; wait for sync, we're drawing here
         JMP DLDONE
         ; Test line - move everything to the left side
 ROW108  @LC $6C,$066C
-        @LC $90,HPOSP0
+        @LC $50,HPOSP0
         ;STA WSYNC ; no need to sync, all are invisible
-        @LC $A0,HPOSP1
         @LC $B0,HPOSP3
-        @LC $C0,HPOSP2
         JMP DLDONE
         .PAGE       PM Image data
         ;
@@ -183,35 +179,41 @@ ROW108  @LC $6C,$066C
         *=  $B980   ; START OF MISSILES
         ; Missiles are stored M3 M2 M1 M0
         ;          bit flags: C0 30 0C 03
+        ; Missile 0 is on the RIGHT side of the screen with Player 3
+        ; Missile 3 is on the LEFT side of the screen with Player 0
+        ; Missiles 1&2 are in the center; 2 is quad size.
         ; The first four bytes (11,22,33,44) are off screen
         ;
         ;
 M       @B 16,0                    ; above E:
         @B 16,0                    ; Each 16 bytes is 4 chars high; 5 char margin above image
         @B 4, $0
-        @B 12,$7E                  ; above the halfway mark - 3 rows
-        @B 16,$7E ; 0111 1110      ; below the halfway mark - 4 more rows, total 7
-        @B 16,$7E                  ; more below the halfway mark - total 11
-        @B 12,$7E                  ;                        - 3 more rows, total 14
-        @B 4, $0
+        ; Vertical stripe on M2 M1: $3C = 00 11 11 00
+        @B 12,$3C                  ; above the halfway mark - 3 rows
+        @B 16,$3C                  ; below the halfway mark - 4 more rows, total 7
+        @B 16,$3C                  ; more below the halfway mark - total 11
+        @B 2,$FF ; 1111 1111  
+        @B 4,$BD ; 1011 1101   
+        @B 9,$3C
+        @B 1,0
         @B 16,$0                   ; 5 char margin to the end of E:
         @B 16,0                    ; below E:
         ; The last four bytes (11,22,33,44) are off screen
         *=  $BA00   ; START OF PLAYER 0
 P0      ;@B 16,$0     ; above E:
         .BYTE 0,$FF,0,$7E, $81,$81,$81,$81, $81,$7E,0,$FF, 0,0,0,0 ; ZERO
-        @B 16,$FF
-        @B 16,$FF
-        @B 16,$FF
-        @B 16,$FF
-        @B 16,$FF
-        @B 16,$FF
-        @B 16,$FF     ; below E:
+        @B 16,$00
+        @B 16,$00
+        @B 16,$99
+        @B 16,$99
+        @B 16,$99
+        @B 16,$99
+        @B 16,0       ; below E:
         *=  $BA80   ; START OF PLAYER 1
 P1      ;@B 16,$0    ; above E:
         .BYTE 0,$FF,0,$18, $38,$58,$18,$18, $18,$18,0,$FF, 0,0,0,0 ; ONE
-        @B 16,$99
-        @B 16,$99
+        @B 16,$00
+        @B 16,$00
         @B 16,$99
         @B 16,$99
         @B 16,$99
@@ -220,16 +222,20 @@ P1      ;@B 16,$0    ; above E:
         *=  $BB00   ; START OF PLAYER 2
 P2      ;@B 16,0     ; above E:
         .BYTE 0,$FF,0,$7E, $01,$01,$7E,$80, $80,$7E,0,$FF, 0,0,0,0 ; TWO
-        @B 16,$0
+        @B 16,$99
         @B 16,$0
         @B 16,$0    ; that's all in player 3
-        @B 4, $0
-        @B 4, $C0
+        @B 6, $0
+        @B 4, $80
+        @B 2, $C0
+        @B 2, $E0
         @B 2, $F0
-        @B 2, $FC
-        @B 2, $FF
-        @B 2, $99
-        @B 16,$99
+        @B 2, $F8
+        @B 1, $FC
+        @B 3, $FF
+        @B 4, $7F
+        @B 2,$1F
+        @B 4,$0
         @B 16,$99
         @B 16,0     ; below E:
         *=  $BB80   ; START OF PLAYER 3
@@ -239,6 +245,7 @@ P3      ; @B 16,0     ; above E:
         @B 4,$0     ; last of 5 char margin
                     ; 4 characters of vertical line 4px wide
         @B 16,$F0
+        @B 2,$F0
                     ; then start shifting over; 5px wide for 1 char, 6px wide for 1 char
         @B 4,$F8
         @B 4,$FC
@@ -249,8 +256,14 @@ P3      ; @B 16,0     ; above E:
         @B 4,$1F
         @B 4,$0F
         @B 2, $03
+        @B 4, $00   ; blank space while we switch sides
+        @B 1,$80
+        @B 1,$C0
+        @B 1,$F0
+        @B 7,$F0
+        @B 1,$30
+        @B 3,$00
         @B 14,$99
-        @B 16,$99
         @B 16,0 ; below E:
         ; End of PM graphics data at $BC00
         .PAGE       Cartridge Trailer
