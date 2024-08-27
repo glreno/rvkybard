@@ -10,6 +10,7 @@
         .OPT OBJ
         .PAGE       Addresses
 BLKBDV  =   $E471
+NOCLIK  =   $02DB ; alas, XL only
 PMBASE  =   $D407
 GRACTL  =   $D01D
 SDMCTL  =   $022F
@@ -58,26 +59,19 @@ NMIEN   =   $D40E ; 0x80=DLI 0x40=VBI 0x20=RESET, default is 0x40
 ;
         .PAGE       Cartridge Startup
         *=  $A000   ; 8K Cartridge
-STARTUP
+STARTUP @LC 1,NOCLIK ; maybe it will help
 CR_DL   @LC 0,SDMCTL    ; turn off ANTIC while updating dlist
         ; copy dlist addr to page zero $CC
+        ; We're just going to modify the dlist in place
         LDA SDLSTL
         STA $CC
         LDA SDLSTH
         STA $CD
-        LDY #3
-        LDA ($CC),Y
-        ORA #$80
+        LDA #$82
+        LDY #6      ; interrupt on text line 1
         STA ($CC),Y
-        INY
-        INY
-LOOP    INY
-        LDA ($CC),Y
-        CMP #2
-        BNE EN_DL ; done, enable DLI
-        ORA #$80
+        LDY #20     ; interrupt on text line 15
         STA ($CC),Y
-        BNE LOOP ; let's just do one for now
 EN_DL
         LDA #<DLI
         STA VDLSTL
@@ -99,7 +93,7 @@ EN_PM   @LC $B8,PMBASE
         STA SIZEP2
         @LC $1C,SIZEM
 ; SET COLORS
-        LDA #$84 ; DARK BLUE for the watermark (82 -- too dark, 8C -- too bright)
+        LDA #$92 ; DARK BLUE for the watermark (1 step less than the default bkgd $94)
         ; LDA $2C ; ORANGE for P0
         STA COLPM0
         ; LDA $5C ; PINK for P1
@@ -127,43 +121,37 @@ EN_PM   @LC $B8,PMBASE
 ;
 DLI     PHA ; always save the accumulator!
         LDA VCOUNT
-        CMP #19     ; second line (things are still invisible, no need to sync)
-        BEQ ROW20
-        CMP #23     ; third line
-        BEQ ROW24
+;       CMP #23     ; third line
+;       BEQ ROW24
         CMP #79      ; 16th line
         BEQ ROW80
         ; All done with all the lines
         ;STA WSYNC ; wait for sync, without this the PM graphics go wonky when you type
-DLDONE  PLA ; restore A
-        RTI
+;DLDONE  PLA ; restore A
+;       RTI
         ;
-        ; First row in the editor
-        ; Set all sizes to 0 (normal) (1 is double-wide) (3 is quad-wide)
-        ; Move to the left for debug
-ROW20   @LC $14,$0614
-        ;STA WSYNC ; no need to sync, all are invisible
-        LDA #0
-        STA SIZEP0
-        STA SIZEP3
-        JMP DLDONE
-        ; Still above logo -- set all positions
-ROW24   @LC $18,$0618
+        ; Above logo -- set all positions and sizes
+ROW24   ;@LC $18,$0618
         @LC $6C,HPOSP0
 ;       @LC $5C,HPOSP1
         @LC $88,HPOSP3
 ;       @LC $90,HPOSP2
+        LDA #0
+        STA SIZEP0
+        STA SIZEP3
         ; STA WSYNC ; no need to sync, all are invisible
-        JMP DLDONE
-        ; the big one - double all sizes, and shift to new positions
-ROW80   @LC $5C,$065C
+        PLA
+        RTI
+        ; top of logo done - change P0,P3 sizes, and shift to new positions
+ROW80   ;@LC $5C,$065C
         LDA #3
         STA SIZEP0
         STA SIZEP3
         @LC $3C,HPOSP0 ; HPOSP1-32
         @LC $A0,HPOSP3 ; HPOSP2+16
         ;STA WSYNC ; wait for sync, we're drawing here
-        JMP DLDONE
+        PLA
+        RTI
         .PAGE       PM Image data
         ;
         ;
