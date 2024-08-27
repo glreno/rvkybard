@@ -49,7 +49,7 @@ NMIEN   =   $D40E ; 0x80=DLI 0x40=VBI 0x20=RESET, default is 0x40
         .ENDM
 ;
 ; Put %1 copies of %2 into a .BYTE op
-; "@B 4 $FF" instead of ".BYTE $FF $FF $FF $FF"
+; "@B 4,$FF" instead of ".BYTE $FF $FF $FF $FF"
         .MACRO @B
             .IF %1 > 0
                 .BYTE %2
@@ -86,8 +86,8 @@ EN_PM   @LC $B8,PMBASE
         @LC $2E,SDMCTL  ; 2(norm playfield)+4(missiles)+8(players)+32(enable ANTIC)
 ; SET SIZES     $1C=00 01 11 00 -> 01=double-wide, 11=quad-wide
 ;       LDA #0
-;       STA SIZEP0
-;       STA SIZEP3
+;       STA SIZEP0  ; handled in DLI
+;       STA SIZEP3  ; handled in DLI
         LDA #1
         STA SIZEP1
         STA SIZEP2
@@ -103,9 +103,9 @@ EN_PM   @LC $B8,PMBASE
         ; LDA $BC ; GREEN for P3
         STA COLPM3
 ; Move them all in to place
-;       @LC $6C,HPOSP0
+;       @LC $6C,HPOSP0  ; handled in DLI
         @LC $5C,HPOSP1
-;       @LC $88,HPOSP3
+;       @LC $88,HPOSP3  ; handled in DLI
         @LC $90,HPOSP2
         @LC $8E,HPOSM0 ; HPOSP3 + 6px orange
         @LC $7C,HPOSM1 ; was 80 pink
@@ -121,26 +121,18 @@ EN_PM   @LC $B8,PMBASE
 ;
 DLI     PHA ; always save the accumulator!
         LDA VCOUNT
-;       CMP #23     ; third line
-;       BEQ ROW24
         CMP #79      ; 16th line
         BEQ ROW80
-        ; All done with all the lines
-        ;STA WSYNC ; wait for sync, without this the PM graphics go wonky when you type
-;DLDONE  PLA ; restore A
-;       RTI
         ;
         ; Above logo -- set all positions and sizes
 ROW24   ;@LC $18,$0618
         @LC $6C,HPOSP0
-;       @LC $5C,HPOSP1
         @LC $88,HPOSP3
-;       @LC $90,HPOSP2
         LDA #0
         STA SIZEP0
         STA SIZEP3
         ; STA WSYNC ; no need to sync, all are invisible
-        PLA
+        PLA  ; restore accumulator
         RTI
         ; top of logo done - change P0,P3 sizes, and shift to new positions
 ROW80   ;@LC $5C,$065C
@@ -149,13 +141,15 @@ ROW80   ;@LC $5C,$065C
         STA SIZEP3
         @LC $3C,HPOSP0 ; HPOSP1-32
         @LC $A0,HPOSP3 ; HPOSP2+16
-        ;STA WSYNC ; wait for sync, we're drawing here
-        PLA
+        ;STA WSYNC ; no need for sync, P0 and P3 are empty on this line
+        PLA  ; restore accumulator
         RTI
+;
+;
         .PAGE       PM Image data
-        ;
-        ;
-        ;
+;
+;
+;
         *=  $B800   ; START OF PM DATA
         *=  $B980   ; START OF MISSILES
         ; Missiles are stored M3 M2 M1 M0
