@@ -9,6 +9,13 @@
 ;
         .OPT OBJ
         .PAGE       Addresses
+; Where the assembled code goes!
+STARTAP =   $A000 ; 8K left cartridge
+STARTPM =   $B800 ; 2K before end of cart
+CARTINI =   $BFF9 ; end of left cartridge
+;
+; OS address constants
+;
 BLKBDV  =   $E471
 NOCLIK  =   $02DB ; alas, XL only
 PMBASE  =   $D407
@@ -34,12 +41,12 @@ COLPM2  =   $02C2
 COLPM3  =   $02C3
 WSYNC   =   $D40A
 VCOUNT  =   $D40B
-VDLSTL  =   $0200 ; location of display list
+VDLSTL  =   $0200 ; vector for display list interrupt
 VDLSTH  =   $0201
-SDLSTL  =   $230
-SDLSTH  =   $231
+SDLSTL  =   $0230 ; location of display list
+SDLSTH  =   $0231
 NMIEN   =   $D40E ; 0x80=DLI 0x40=VBI 0x20=RESET, default is 0x40
-
+;
         .PAGE       Some handy macros
 ;
 ; @LC -- load a constant byte into an address
@@ -57,9 +64,10 @@ NMIEN   =   $D40E ; 0x80=DLI 0x40=VBI 0x20=RESET, default is 0x40
             .ENDIF
         .ENDM
 ;
+;
         .PAGE       Cartridge Startup
-        *=  $A000   ; 8K Cartridge
-STARTUP @LC 1,NOCLIK ; maybe it will help
+        *=  STARTAP
+STARTUP ; @LC 1,NOCLIK ; maybe it will help
 CR_DL   @LC 0,SDMCTL    ; turn off ANTIC while updating dlist
         ; copy dlist addr to page zero $CC
         ; We're just going to modify the dlist in place
@@ -77,7 +85,8 @@ EN_DL
         STA VDLSTL
         LDA #>DLI
         STA VDLSTH
-EN_PM   @LC $B8,PMBASE
+EN_PM   LDA #>STARTPM
+        STA PMBASE
         @LC 3,GRACTL
         @LC 1,GPRIOR
         ; after dlist and pm are set up, enable Interrupts and ANTIC
@@ -150,8 +159,8 @@ ROW80   ;@LC $5C,$065C
 ;
 ;
 ;
-        *=  $B800   ; START OF PM DATA
-        *=  $B980   ; START OF MISSILES
+        *=  STARTPM   ; START OF PM DATA
+        *=  STARTPM+$180   ; START OF MISSILES
         ; Missiles are stored M3 M2 M1 M0
         ;          bit flags: C0 30 0C 03
         ; Missile 0 is on the RIGHT side of the screen with Player 3
@@ -174,7 +183,7 @@ M       @B 16,0                    ; above E:
         @B 16,$0                   ; 5 char margin to the end of E:
         @B 16,0                    ; below E:
         ; The last four bytes (11,22,33,44) are off screen
-        *=  $BA00   ; START OF PLAYER 0
+        *=  STARTPM+$200   ; START OF PLAYER 0
 P0      @B 16,$0     ; above E:
         ;.BYTE 0,$FF,0,$7E, $81,$81,$81,$81, $81,$7E,0,$FF, 0,0,0,0 ; ZERO
         @B 16,0     ; margin
@@ -200,7 +209,7 @@ P0      @B 16,$0     ; above E:
         @B 1,0
         @B 16,0
         @B 16,0       ; below E:
-        *=  $BA80   ; START OF PLAYER 1
+        *=  STARTPM+$280   ; START OF PLAYER 1
 P1      @B 16,$0    ; above E:
         ;.BYTE 0,$FF,0,$18, $38,$58,$18,$18, $18,$18,0,$FF, 0,0,0,0 ; ONE
         @B 16,$0
@@ -219,7 +228,7 @@ P1      @B 16,$0    ; above E:
         @B 4,0
         @B 16,0
         @B 16,0     ; below E:
-        *=  $BB00   ; START OF PLAYER 2
+        *=  STARTPM+$300  ; START OF PLAYER 2
 P2      @B 16,0     ; above E:
         ;.BYTE 0,$FF,0,$7E, $01,$01,$7E,$80, $80,$7E,0,$FF, 0,0,0,0 ; TWO
         @B 16,$0
@@ -238,7 +247,7 @@ P2      @B 16,0     ; above E:
         @B 4,0
         @B 16,0
         @B 16,0     ; below E:
-        *=  $BB80   ; START OF PLAYER 3
+        *=  STARTPM+$380   ; START OF PLAYER 3
 P3      @B 16,0     ; above E:
         ;.BYTE 0,$FF,0,$7E, $01,$01,$7E,$01, $01,$7E,0,$FF, 0,0,0,0 ; THREE
         @B 16,0     ; margin
@@ -266,8 +275,8 @@ P3      @B 16,0     ; above E:
         @B 16,0 ; below E:
         ; End of PM graphics data at $BC00
         .PAGE       Cartridge Trailer
-        *=  $BFF9
-CARTINI RTS
+        *=  CARTINI
+        RTS
         .WORD STARTUP
         .BYTE 0     ; just a zero
         .BYTE 4     ; boot opt - no disk
