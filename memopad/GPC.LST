@@ -1,0 +1,295 @@
+        .TITLE      PM Graphics Overlay Color Picker
+;
+; All this thing does is boot up,
+; load a custom display list and font and some PM graphics,
+; and then hang.
+;
+; To load into MAC65: ENTER #D:PMO.LST,A
+;
+        .PAGE       SETUP
+        .OPT OBJ
+; Pick one of: 0=Cassette
+;              1=Disk
+;              2=2KB Cartridge
+;              4=4KB Cartridge
+;              8=8KB Cartridge
+; (this is Line 200)
+TARGET  = 8
+;
+; Where the assembled code goes!
+        .IF TARGET = 8
+STARTAP =   $A000 ; 8K left cartridge
+        .ENDIF
+        .IF TARGET = 4
+STARTAP =   $B000 ; 4K left cartridge
+        .ENDIF
+        .IF TARGET = 2
+STARTAP =   $B800 ; 2K left cartridge
+        .ENDIF
+        .IF TARGET = 2 .OR TARGET = 4 .OR TARGET = 8 ; any size cartridge
+CARTINI =   $BFF9 ; end of left cartridge
+STARTDL =   $B800
+STARTPM =   $B800 ; 2K before end of cart
+SCREEN  =   $0800 ; who needs DOS
+        .ENDIF
+;
+        .IF TARGET = 1 ; disk
+; disk start vector ; this is line 400
+STARTAP =   $2800 ; just above memlo after DOS loads
+RUNAD   = $02E0
+        *= RUNAD
+        .WORD STARTUP
+        .ENDIF
+
+        .IF TARGET = 0 ; cassette
+STARTAP =   $0700 ; 
+CASINI  = $02
+        *= CASINI
+        .WORD STARTUP
+        .ENDIF
+
+; MEMORY MAP (for cartridge)
+; 0800 screen RAM - 960 bytes
+; A000 application
+; B400 font - 1K
+; B800 display list (it's small, 32 bytes)
+; B800 PMBASE - 1K with 384 unused bytes at the start
+FONT    = $B400
+
+        .PAGE       Addresses
+;
+; OS address constants
+;
+BLKBDV  =   $E471
+NOCLIK  =   $02DB ; alas, XL only
+PMBASE  =   $D407
+GRACTL  =   $D01D
+SDMCTL  =   $022F
+GPRIOR  =   $026F
+HPOSP0  =   $D000
+HPOSP1  =   $D001
+HPOSP2  =   $D002
+HPOSP3  =   $D003
+HPOSM0  =   $D004
+HPOSM1  =   $D005
+HPOSM2  =   $D006
+HPOSM3  =   $D007
+SIZEP0  =   $D008
+SIZEP1  =   $D009
+SIZEP2  =   $D00A
+SIZEP3  =   $D00B
+SIZEM   =   $D00C
+CHBASE  =   $D409 ; location of font
+COLPM0  =   $02C0
+COLPM1  =   $02C1
+COLPM2  =   $02C2
+COLPM3  =   $02C3
+WSYNC   =   $D40A
+VCOUNT  =   $D40B
+VDLSTL  =   $0200 ; vector for display list interrupt
+VDLSTH  =   $0201
+SDLSTL  =   $0230 ; location of display list
+SDLSTH  =   $0231
+CHBAS   =   $02F4 ; location of font
+SAVMSC  =   $0058 ; start of screen RAM
+NMIEN   =   $D40E ; 0x80=DLI 0x40=VBI 0x20=RESET, default is 0x40
+TMPL    =   $CC ; zero-page scratch location
+TMPH    =   $CD ; zero-page scratch location
+;
+; Simple multiplication routine
+; Multiple $CE * $CF, store results in $CC,$CD
+M2      = $CF
+M1      = $CE
+PRODL   = $CC
+PRODH   = $CD
+;
+;
+
+        .PAGE       Some handy macros
+;
+; @LC -- load a constant byte into an address
+        .MACRO @LC
+            LDA # %1
+            STA %2
+        .ENDM
+;
+; Put %1 copies of %2 into a .BYTE op
+; "@B 4,$FF" instead of ".BYTE $FF $FF $FF $FF"
+        .MACRO @B
+            .IF %1 > 0
+                .BYTE %2
+                @B %1-1,%2
+            .ENDIF
+        .ENDM
+;
+; Put a character on the screen at a const location:
+; @PR x,y,char
+;
+        .MACRO @PR
+            TYA
+            PHA
+            LDY # %2
+            TXA
+            PHA
+            LDX # %1
+            LDA # %3
+            @PRXY
+            PLA
+            TAX
+            PLA
+            TAY
+        .ENDM
+;
+; Put character in A on the screen at location in X,Y registers
+; Overwrites the Y register; X and A will be unchanged
+; @PRXY char
+;
+        .MACRO @PRXY
+            ; Start with %2 (y coord) times 40
+            ; Max Y is 24; 40*24=960 ($3C0) so need to carry
+            ; 40 = 32 + 8; ASL 5 + ASL 3
+            PHA ; stash the byte to print
+            STY M1
+            LDA #40
+            STA M2
+            JSR MULTIPLY
+            ; Max X is 40, so just shove it into Y
+            ; (I mean, it will WORK with X>40, but it will go on the next line)
+            TXA
+            TAY
+            ; add screen base address
+            LDA PRODH
+            ADC # >SCREEN
+            STA PRODH
+            ; store stashed byte at that location
+            PLA
+            STA (PRODL),Y ; good thing PRODL is in Page 0
+        .ENDM
+;
+;
+;
+        .PAGE       Application Startup
+        *=  STARTAP
+STARTUP ; @LC 1,NOCLIK ; Uncomment to turn of key click
+;
+;
+;
+; Set up display list and screen RAM
+CR_DL   @LC 0,SDMCTL    ; turn off ANTIC while updating dlist
+        LDA #>STARTDL
+        STA SDLSTH
+        LDA #<STARTDL
+        STA SDLSTL
+        LDA #>FONT
+        STA CHBAS ; shadow register for font
+EN_DL   LDA #<DLI
+        STA VDLSTL
+        LDA #>DLI
+        STA VDLSTH
+EN_PM   LDA #>STARTPM
+        STA PMBASE
+        @LC 3,GRACTL
+        @LC 1,GPRIOR
+        ; after dlist and pm are set up, enable Interrupts and ANTIC
+        LDA #$C0
+        STA NMIEN
+        @LC $2E,SDMCTL  ; 2(norm playfield)+4(missiles)+8(players)+32(enable ANTIC)
+
+; Load the screen
+        @PR 0,0,$10 ; X,Y,C
+        @PR 39,0,$11
+        @PR 40,0,$12
+        @PR 0,23,$13
+; Hello
+        @PR 8,2,40
+        @PR 9,2,101
+        @PR 10,2,108
+        @PR 11,2,108
+        @PR 12,2,111
+        @LC 40,$0830 ; these are row 1
+        @LC 101,$0831
+        @LC 108,$0832
+        @LC 108,$0833
+        @LC 111,$0834
+;
+; Plot all 128 characters, twice.
+        LDX #127
+LOOP1   LDY #4
+        TXA
+        @PRXY
+        ORA #$80
+        LDY #8
+        @PRXY
+        DEX
+        BNE LOOP1
+;
+FOREVER JMP FOREVER
+;
+;
+;
+; Simple multiplication routine
+; snarfed from "The Atari Assembler" p. 218 and 222
+; Multiple $CE * $CF, store results in $CC,$CD   (my page zero addrs)
+; Multiple 1102*1103, store results in 1100,1101 (orig addrs in book)
+;M2      = $CF ; 1103
+;M1      = $CE ; 1102
+;PRODL   = $CC ; 1101
+;PRODH   = $CD ; 1100
+MULTIPLY
+        TXA
+        PHA
+        LDX #8
+        LDA #0
+        STA PRODL
+        STA PRODH
+MULTLP  ASL A
+        ROL PRODH
+        ASL M2
+        BCC MULTSK
+        CLC
+        ADC M1
+        BCC MULTSK
+        INC PRODH
+MULTSK  DEX
+        BNE MULTLP
+        STA PRODL
+        PLA
+        TAX
+        RTS
+;
+;       .PAGE       Font at B400
+        *= FONT
+    
+        .PAGE       Display list and PMbase at B800
+        *= STARTDL
+        .BYTE $70,$70,$70
+        .BYTE $44
+        .WORD SCREEN
+        @B 10,4
+        @B 9,4
+        .BYTE $84 ; three lines for E:, interrupt first
+        .BYTE 2
+        .BYTE 2
+        .BYTE 2
+        .BYTE $41
+        .WORD STARTDL
+; and now the interrupt
+DLI     PHA ; always save the accumulator!
+        LDA #99
+        STA $D018 ; COLPF2 hardware register
+        LDA #$E0 ; Atari ROM character set
+        STA $D409 ; CHBASE hardware register; shadow is $2F4 CHBAS
+        PLA
+        RTI
+;
+        .PAGE       Cartridge Trailer
+        .IF TARGET = 2 .OR TARGET = 4 .OR TARGET = 8 ; any size cartridge
+        *=  CARTINI
+        ; Cart init code goes here -- usually nothing at all!
+        RTS ; end of cart initialization
+        .WORD STARTUP ; where to JMP after cart and OS are initted
+        .BYTE 0     ; just a zero
+        .BYTE 4     ; boot opt - no disk
+        .WORD CARTINI
+        .ENDIF
+        .END
