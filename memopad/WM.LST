@@ -7,12 +7,43 @@
 ; which is the built-in ATARI COMPUTER MEMO PAD application.
 ; This cartridge does NOT work on XL/XE computers!
 ;
+; To load into MAC65: ENTER #D:WM.LST,A
+;
+        .PAGE       SETUP
         .OPT OBJ
+; Pick one of: 0=Cassette
+;              1=Disk
+;              2=2KB Cartridge
+;              4=4KB Cartridge
+;              8=8KB Cartridge
+; (this is Line 200)
+TARGET  = 1
+;
         .PAGE       Addresses
 ; Where the assembled code goes!
+        .IF TARGET = 8
 STARTAP =   $A000 ; 8K left cartridge
+        .ENDIF
+        .IF TARGET = 4
+STARTAP =   $B000 ; 4K left cartridge
+        .ENDIF
+        .IF TARGET = 2
+STARTAP =   $B800 ; 2K left cartridge
+        .ENDIF
+        .IF TARGET = 2 .OR TARGET = 4 .OR TARGET = 8 ; any size cartridge
 STARTPM =   $B800 ; 2K before end of cart
 CARTINI =   $BFF9 ; end of left cartridge
+        .ENDIF
+;
+        .IF TARGET = 1 ; disk
+; disk start vector ; this is line 400
+STARTAP =   $2800 ; just above memlo after DOS loads
+STARTPM =   $2800
+RUNAD   = $02E0
+        *= RUNAD
+        .WORD STARTUP ; uncomment if building for disk
+        .ENDIF
+
 ;
 ; OS address constants
 ;
@@ -65,12 +96,12 @@ NMIEN   =   $D40E ; 0x80=DLI 0x40=VBI 0x20=RESET, default is 0x40
         .ENDM
 ;
 ;
-        .PAGE       Cartridge Startup
+        .PAGE       Application Startup
         *=  STARTAP
-STARTUP ; @LC 1,NOCLIK ; maybe it will help
+STARTUP ; @LC 1,NOCLIK ; Uncomment to turn of key click
 CR_DL   @LC 0,SDMCTL    ; turn off ANTIC while updating dlist
-        ; copy dlist addr to page zero $CC
         ; We're just going to modify the dlist in place
+        ; copy dlist addr to page zero $CC
         LDA SDLSTL
         STA $CC
         LDA SDLSTH
@@ -80,8 +111,7 @@ CR_DL   @LC 0,SDMCTL    ; turn off ANTIC while updating dlist
         STA ($CC),Y
         LDY #20     ; interrupt on text line 15
         STA ($CC),Y
-EN_DL
-        LDA #<DLI
+EN_DL   LDA #<DLI
         STA VDLSTL
         LDA #>DLI
         STA VDLSTH
@@ -103,13 +133,13 @@ EN_PM   LDA #>STARTPM
         @LC $1C,SIZEM
 ; SET COLORS
         LDA #$92 ; DARK BLUE for the watermark (1 step less than the default bkgd $94)
-        ; LDA $2C ; ORANGE for P0
+        ; LDA #$2C ; ORANGE for P0
         STA COLPM0
-        ; LDA $5C ; PINK for P1
+        ; LDA #$5C ; PINK for P1
         STA COLPM1
-        ; LDA $8C ; BLUE for P2
+        ; LDA #$8C ; BLUE for P2
         STA COLPM2
-        ; LDA $BC ; GREEN for P3
+        ; LDA #$BC ; GREEN for P3
         STA COLPM3
 ; Move them all in to place
 ;       @LC $6C,HPOSP0  ; handled in DLI
@@ -176,8 +206,8 @@ M       @B 16,0                    ; above E:
         @B 12,$3C
         @B 16,$3C
         @B 16,$3C
-        @B 2,$FF ; 1111 1111  
-        @B 4,$BD ; 1011 1101   
+        @B 2,$FF ; 1111 1111
+        @B 4,$BD ; 1011 1101
         @B 9,$3C
         @B 1,0
         @B 16,$0                   ; 5 char margin to the end of E:
@@ -275,10 +305,13 @@ P3      @B 16,0     ; above E:
         @B 16,0 ; below E:
         ; End of PM graphics data at $BC00
         .PAGE       Cartridge Trailer
+        .IF TARGET = 2 .OR TARGET = 4 .OR TARGET = 8 ; any size cartridge
         *=  CARTINI
-        RTS
-        .WORD STARTUP
+        ; Cart init code goes here -- usually nothing at all!
+        RTS ; end of cart initialization
+        .WORD STARTUP ; where to JMP after cart and OS are initted
         .BYTE 0     ; just a zero
         .BYTE 4     ; boot opt - no disk
         .WORD CARTINI
-        .END 
+        .ENDIF
+        .END

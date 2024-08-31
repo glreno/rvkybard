@@ -1,0 +1,124 @@
+        .TITLE      Skeleton Application
+;
+; All this thing does is boot up,
+; and then JMP $E471,
+; which is the built-in ATARI COMPUTER MEMO PAD or SELF TEST.
+;
+; To load into MAC65: ENTER #D:SKEL.LST,A
+;
+        .PAGE       SETUP
+        .OPT OBJ
+; Pick one of: 0=Cassette
+;              1=Disk
+;              2=2KB Cartridge
+;              4=4KB Cartridge
+;              8=8KB Cartridge
+; (this is Line 200)
+TARGET  = 1
+;
+; Where the assembled code goes!
+        .IF TARGET = 8
+STARTAP =   $A000 ; 8K left cartridge
+        .ENDIF
+        .IF TARGET = 4
+STARTAP =   $B000 ; 4K left cartridge
+        .ENDIF
+        .IF TARGET = 2
+STARTAP =   $B800 ; 2K left cartridge
+        .ENDIF
+        .IF TARGET = 2 .OR TARGET = 4 .OR TARGET = 8 ; any size cartridge
+CARTINI =   $BFF9 ; end of left cartridge
+        .ENDIF
+;
+        .IF TARGET = 1 ; disk
+; disk start vector ; this is line 400
+STARTAP =   $2800 ; just above memlo after DOS loads
+RUNAD   = $02E0
+        *= RUNAD
+        .WORD STARTUP
+        .ENDIF
+
+        .IF TARGET = 0 ; cassette
+STARTAP =   $0700 ; 
+CASINI  = $02
+        *= CASINI
+        .WORD STARTUP
+        .ENDIF
+
+        .PAGE       Addresses
+;
+; OS address constants
+;
+BLKBDV  =   $E471
+NOCLIK  =   $02DB ; alas, XL only
+PMBASE  =   $D407
+GRACTL  =   $D01D
+SDMCTL  =   $022F
+GPRIOR  =   $026F
+HPOSP0  =   $D000
+HPOSP1  =   $D001
+HPOSP2  =   $D002
+HPOSP3  =   $D003
+HPOSM0  =   $D004
+HPOSM1  =   $D005
+HPOSM2  =   $D006
+HPOSM3  =   $D007
+SIZEP0  =   $D008
+SIZEP1  =   $D009
+SIZEP2  =   $D00A
+SIZEP3  =   $D00B
+SIZEM   =   $D00C
+COLPM0  =   $02C0
+COLPM1  =   $02C1
+COLPM2  =   $02C2
+COLPM3  =   $02C3
+WSYNC   =   $D40A
+VCOUNT  =   $D40B
+VDLSTL  =   $0200 ; vector for display list interrupt
+VDLSTH  =   $0201
+SDLSTL  =   $0230 ; location of display list
+SDLSTH  =   $0231
+NMIEN   =   $D40E ; 0x80=DLI 0x40=VBI 0x20=RESET, default is 0x40
+;
+        .PAGE       Some handy macros
+;
+; @LC -- load a constant byte into an address
+        .MACRO @LC
+            LDA # %1
+            STA %2
+        .ENDM
+;
+; Put %1 copies of %2 into a .BYTE op
+; "@B 4,$FF" instead of ".BYTE $FF $FF $FF $FF"
+        .MACRO @B
+            .IF %1 > 0
+                .BYTE %2
+                @B %1-1,%2
+            .ENDIF
+        .ENDM
+;
+;
+        .PAGE       Application Startup
+        *=  STARTAP
+STARTUP ; @LC 1,NOCLIK ; Uncomment to turn of key click
+;
+;
+;
+;       Put your application here!
+;
+        JMP BLKBDV  ; start memopad
+;
+;
+;
+
+        .PAGE       Cartridge Trailer
+        .IF TARGET = 2 .OR TARGET = 4 .OR TARGET = 8 ; any size cartridge
+        *=  CARTINI
+        ; Cart init code goes here -- usually nothing at all!
+        RTS ; end of cart initialization
+        .WORD STARTUP ; where to JMP after cart and OS are initted
+        .BYTE 0     ; just a zero
+        .BYTE 4     ; boot opt - no disk
+        .WORD CARTINI
+        .ENDIF
+        .END
