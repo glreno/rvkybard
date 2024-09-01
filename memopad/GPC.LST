@@ -142,7 +142,8 @@ PRODH   = $CD
 ;
 ; Put character in A on the screen at location in X,Y registers
 ; Overwrites the Y register; X and A will be unchanged
-; @PRXY char
+; @PRXY
+; THIS SHOULD BE A SUBROUTINE NOT A MACRO
 ;
         .MACRO @PRXY
             ; Start with %2 (y coord) times 40
@@ -164,6 +165,38 @@ PRODH   = $CD
             ; store stashed byte at that location
             PLA
             STA (PRODL),Y ; good thing PRODL is in Page 0
+        .ENDM
+;
+; Print the number in A in hex at a constant location
+; X and Y will be unchanged
+; @PRN x,y
+;
+        .MACRO @PRN
+            TYA
+            PHA
+            LDY # %2
+            TXA
+            PHA
+            LDX # %1
+            LDA # %3
+            @PRNXY
+            PLA
+            TAX
+            PLA
+            TAY
+        .ENDM
+;
+; Print the number in A in hex at location in X,Y registers
+; Stashes & restores X and Y
+; @PRNXY
+; THIS SHOULD BE A SUBROUTINE NOT A MACRO
+;
+        .MACRO @PRNXY
+        ; Stash X, Y and A
+        ; grab the high nybble of A
+        @PRXY
+        ; increment X, grab the low nybble of A
+        ; Restore X, Y
         .ENDM
 ;
 ;
@@ -200,17 +233,19 @@ EN_PM   LDA #>STARTPM
         @PR 39,0,$11
         @PR 40,0,$12
         @PR 0,23,$13
+        @PR 0,20,$13
+        @PR 39,20,$14
 ; Hello
-        @PR 8,2,40
-        @PR 9,2,101
-        @PR 10,2,108
-        @PR 11,2,108
-        @PR 12,2,111
+        @PR 8,2,CHAR_H
+        @PR 9,2,CHAR_E
+        @PR 10,2,CHAR_L
+        @PR 11,2,CHAR_L
+        @PR 12,2,CHAR_O
         @LC 40,$0830 ; these are row 1
-        @LC 101,$0831
-        @LC 108,$0832
-        @LC 108,$0833
-        @LC 111,$0834
+        @LC CHAR_E,$0831
+        @LC CHAR_L,$0832
+        @LC CHAR_L,$0833
+        @LC CHAR_O,$0834
 ;
 ; Plot all 128 characters, twice.
         LDX #127
@@ -257,9 +292,119 @@ MULTSK  DEX
         TAX
         RTS
 ;
-;       .PAGE       Font at B400
+;
+;
+;
+        .PAGE       Font at B400
         *= FONT
-    
+        ; Char 00 ASCII 32 (space)
+        .BYTE 0,0,0,0, 0,0,0,0
+        ; Char $01 ASCII 33 !    Color 01 block
+        .BYTE $55,$55,$55,$55, $55,$55,$55,$55 ; 0101 0101 = $55
+        ; Char $02 ASCII 34 "    Color 10 block
+        .BYTE $AA,$AA,$AA,$AA, $AA,$AA,$AA,$AA ; 1010 1010 = $AA
+        ; Char $03 ASCII 35 #    Color 11 block
+        .BYTE $FF,$FF,$FF,$FF, $FF,$FF,$FF,$FF ; 1111 1111 = $FF
+        ; Char $04 ASCII 36 $
+        .BYTE 0,$30,$FC,$C0, $FC,$0C,$FC,$30
+        ; Char $05 ASCII 37 %
+        .BYTE 0,0,0,0, 0,0,0,0
+        ; Char $06 ASCII 38 &
+        .BYTE 0,0,0,0, 0,0,0,0
+        ; Char $07 ASCII 39 '
+        .BYTE 0,0,0,0, 0,0,0,0
+        ; Char $08 ASCII 40 (
+        .BYTE 0,$30,$C0,$C0, $C0,$C0,$30,0
+        ; Char $09 ASCII 41 )
+        .BYTE 0,$30,$0C,$0C, $0C,$0C,$30,0
+        ; Char $0A ASCII 42 *
+        .BYTE 0,0,0,0, 0,0,0,0
+        ; Char $0B ASCII 43 +
+        .BYTE 0,0,$30,$FC, $30,0,0,0
+        ; Char $0C ASCII 44 ,
+        ; Char $0D ASCII 45 -
+        ; Char $0E ASCII 46 .
+        ; Char $0F ASCII 47 /
+        ;
+        *= FONT + 8*$10
+        ; Font block 16 -- numbers
+        ; All numbers are drawn as 4x6 using color 3
+        ;
+        ; Char $10 ASCII 48 Digit zero
+        .BYTE 0,$FC,$CC,$CC, $CC,$CC,$FC,0 ; 11001100 = $CC
+        ; Char $11 ASCII 49 Digit one
+        .BYTE 0,$0C,$0C,$0C, $0C,$0C,$0C,0 ; 00001100 = $0C
+        ; Char $12 ASCII 50 Digit two
+        .BYTE 0,$FC,$0C,$0C, $FC,$C0,$FC,0 ; 11111100 = $FC
+        ; Char $13 ASCII 51 Digit three
+        .BYTE 0,$FC,$0C,$FC, $0C,$0C,$FC,0 ;
+        ; Char $14 ASCII 52 Digit four
+        .BYTE 0,$CC,$CC,$CC, $FC,$0C,$0C,0 ;
+        ; Char $15 ASCII 53 Digit five
+        .BYTE 0,$FC,$C0,$FC, $0C,$0C,$FC,0 ;
+        ; Char $16 ASCII 54 Digit six
+        .BYTE 0,$FC,$C0,$FC, $CC,$CC,$FC,0 ;
+        ; Char $17 ASCII 55 Digit seven
+        .BYTE 0,$FC,$0C,$0C, $30,$30,$30,0 ;
+        ; Char $18 ASCII 56 Digit eight
+        .BYTE 0,$FC,$CC,$CC, $FC,$CC,$FC,0 ;
+        ; Char $19 ASCII 57 Digit nine
+        .BYTE 0,$FC,$CC,$FC, $0C,$0C,$0C,0 ;
+        ; Char $1A ASCII 58 : but here hex A
+        .BYTE 0,$FC,$CC,$FC, $CC,$CC,$CC,0 ;
+        ; Char $1B ASCII 59 ; but here hex B
+        .BYTE 0,$F0,$CC,$F0, $CC,$CC,$F0,0 ;
+        ; Char $1C ASCII 60 < but here hex C
+        .BYTE 0,$3C,$C0,$C0, $C0,$C0,$3C,0 ;
+        ; Char $1D ASCII 61 = but here hex D
+        .BYTE 0,$F0,$CC,$CC, $CC,$CC,$F0,0 ;
+        ; Char $1E ASCII 62 > but here hex E
+        .BYTE 0,$FC,$C0,$FC, $C0,$C0,$FC,0 ;
+        ; Char $1F ASCII 63 ? but here hex F
+        .BYTE 0,$FC,$C0,$FC, $C0,$C0,$C0,0 ;
+        ;
+        ; Font block 32 -- letters
+        ; This is sparse, but I'll copy A-F anyway
+        ;
+        ; Char $20 ASCII 64 @
+        .BYTE 0,0,0,0, 0,0,0,0
+        ; Char $21 ASCII 65 A
+        .BYTE 0,$FC,$CC,$FC, $CC,$CC,$CC,0 ;
+        ; Char $22 ASCII 66 B
+        .BYTE 0,$F0,$CC,$F0, $CC,$CC,$F0,0 ;
+        ; Char $23 ASCII 67 C
+        .BYTE 0,$3C,$C0,$C0, $C0,$C0,$3C,0 ;
+        ; Char $24 ASCII 68 D
+        .BYTE 0,$F0,$CC,$CC, $CC,$CC,$F0,0 ;
+CHAR_E = $25 ; Char $25 ASCII 69 E
+        .BYTE 0,$FC,$C0,$FC, $C0,$C0,$FC,0 ;
+CHAR_F = $26 ; Char $26 ASCII 70 F
+        .BYTE 0,$FC,$C0,$FC, $C0,$C0,$C0,0 ;
+        ; Char $27 ASCII 71 G
+        .BYTE 0,0,0,0, 0,0,0,0
+CHAR_H = $28; ; Char $28 ASCII 72 H
+        .BYTE 0,$CC,$CC,$FC, $CC,$CC,$CC,0
+        ; Char $29 ASCII 73 I
+        .BYTE 0,0,0,0, 0,0,0,0
+        ; Char $2A ASCII 74 J
+        .BYTE 0,0,0,0, 0,0,0,0
+        ; Char $2B ASCII 75 K
+        .BYTE 0,0,0,0, 0,0,0,0
+CHAR_L = $2C ; Char $2C ASCII 76 L
+        .BYTE 0,$C0,$C0,$C0, $C0,$C0,$FC,0
+        ; Char $2D ASCII 77 M
+        .BYTE 0,0,0,0, 0,0,0,0
+        ; Char $2E ASCII 78 N
+        .BYTE 0,0,0,0, 0,0,0,0
+CHAR_O = $2F ; Char $2F ASCII 79 O
+        .BYTE 0,$30,$CC,$CC, $CC,$CC,$30,0
+CHAR_P = $30 ; Char $30 ASCII 80 O
+        .BYTE 0,$F0,$CC,$F0, $C0,$C0,$C0,0
+
+;
+;
+;
+
         .PAGE       Display list and PMbase at B800
         *= STARTDL
         .BYTE $70,$70,$70
