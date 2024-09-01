@@ -80,10 +80,15 @@ SIZEP2  =   $D00A
 SIZEP3  =   $D00B
 SIZEM   =   $D00C
 CHBASE  =   $D409 ; location of font
-COLPM0  =   $02C0
-COLPM1  =   $02C1
-COLPM2  =   $02C2
-COLPM3  =   $02C3
+PCOLR0  =   $02C0
+PCOLR1  =   $02C1
+PCOLR2  =   $02C2
+PCOLR3  =   $02C3
+COLOR0  =   $02C4
+COLOR1  =   $02C5
+COLOR2  =   $02C6
+COLOR3  =   $02C7
+COLOR4  =   $02C8
 WSYNC   =   $D40A
 VCOUNT  =   $D40B
 VDLSTL  =   $0200 ; vector for display list interrupt
@@ -122,6 +127,15 @@ PRODH   = $CD
             .ENDIF
         .ENDM
 ;
+; Look up wht internal character code for a given hex digit
+; @GETCHARCODE
+        .MACRO @GETCHARCODE
+        STX M1
+        TAX
+        LDA HEXMAP,X
+        LDX M1
+        .ENDM
+;
 ; Put a character on the screen at a const location:
 ; @PR x,y,char
 ;
@@ -133,38 +147,11 @@ PRODH   = $CD
             PHA
             LDX # %1
             LDA # %3
-            @PRXY
+            JSR PRXY
             PLA
             TAX
             PLA
             TAY
-        .ENDM
-;
-; Put character in A on the screen at location in X,Y registers
-; Overwrites the Y register; X and A will be unchanged
-; @PRXY
-; THIS SHOULD BE A SUBROUTINE NOT A MACRO
-;
-        .MACRO @PRXY
-            ; Start with %2 (y coord) times 40
-            ; Max Y is 24; 40*24=960 ($3C0) so need to carry
-            ; 40 = 32 + 8; ASL 5 + ASL 3
-            PHA ; stash the byte to print
-            STY M1
-            LDA #40
-            STA M2
-            JSR MULTIPLY
-            ; Max X is 40, so just shove it into Y
-            ; (I mean, it will WORK with X>40, but it will go on the next line)
-            TXA
-            TAY
-            ; add screen base address
-            LDA PRODH
-            ADC # >SCREEN
-            STA PRODH
-            ; store stashed byte at that location
-            PLA
-            STA (PRODL),Y ; good thing PRODL is in Page 0
         .ENDM
 ;
 ; Print the number in A in hex at a constant location
@@ -172,31 +159,19 @@ PRODH   = $CD
 ; @PRN x,y
 ;
         .MACRO @PRN
+            STA M1
             TYA
             PHA
             LDY # %2
             TXA
             PHA
             LDX # %1
-            LDA # %3
-            @PRNXY
+            LDA M1
+            JSR PRNXY
             PLA
             TAX
             PLA
             TAY
-        .ENDM
-;
-; Print the number in A in hex at location in X,Y registers
-; Stashes & restores X and Y
-; @PRNXY
-; THIS SHOULD BE A SUBROUTINE NOT A MACRO
-;
-        .MACRO @PRNXY
-        ; Stash X, Y and A
-        ; grab the high nybble of A
-        @PRXY
-        ; increment X, grab the low nybble of A
-        ; Restore X, Y
         .ENDM
 ;
 ;
@@ -235,6 +210,32 @@ EN_PM   LDA #>STARTPM
         @PR 0,23,$13
         @PR 0,20,$13
         @PR 39,20,$14
+        LDA COLOR0
+        @PRN 3,21
+        LDA COLOR1
+        @PRN 6,21
+        LDA COLOR2
+        @PRN 9,21
+        LDA COLOR3
+        @PRN 12,21
+        LDA COLOR4
+        @PRN 15,21
+        LDX #3
+        LDY #15
+        LDA COLOR0
+        JSR PRNXY
+        INY
+        LDA COLOR1
+        JSR PRNXY
+        INY
+        LDA COLOR2
+        JSR PRNXY
+        INY
+        LDA COLOR3
+        JSR PRNXY
+        INY
+        LDA COLOR4
+        JSR PRNXY
 ; Hello
         @PR 8,2,CHAR_H
         @PR 9,2,CHAR_E
@@ -251,10 +252,10 @@ EN_PM   LDA #>STARTPM
         LDX #127
 LOOP1   LDY #4
         TXA
-        @PRXY
+        JSR PRXY
         ORA #$80
         LDY #8
-        @PRXY
+        JSR PRXY
         DEX
         BNE LOOP1
 ;
@@ -292,6 +293,72 @@ MULTSK  DEX
         TAX
         RTS
 ;
+; Put character in A on the screen at location in X,Y registers
+; Overwrites the Y register; X and A will be unchanged
+; PRXY
+;
+PRXY
+        ; Start with Y coord times 40
+        ; Max Y is 24; 40*24=960 ($3C0) so need to carry
+        ; 40 = 32 + 8; ASL 5 + ASL 3
+        PHA ; stash the byte to print
+        STY M1
+        LDA #40
+        STA M2
+        JSR MULTIPLY
+        ; Max X is 40, so just shove it into Y
+        ; (I mean, it will WORK with X>40, but it will go on the next line)
+        TXA
+        TAY
+        ; add screen base address
+        LDA PRODH
+        ADC # >SCREEN
+        STA PRODH
+        ; store stashed byte at that location
+        PLA
+        STA (PRODL),Y ; good thing PRODL is in Page 0
+        RTS
+;
+; Print the number in A in hex at location in X,Y registers
+; Stashes & restores X and Y
+; PRNXY
+;
+PRNXY
+        ; Stash X, Y and A
+        STA M1
+        TXA
+        PHA     ; Stack: X
+        TYA
+        PHA     ; Stack: X Y
+        PHA     ; Stack: X Y Y
+        LDA M1
+        PHA     ; Stack: X Y Y A
+        ; grab the high nybble of A
+        AND #$F0
+        ROR A
+        ROR A
+        ROR A
+        ROR A
+        ; Look up char code
+        @GETCHARCODE
+        JSR PRXY
+        ; increment X, grab the low nybble of A
+        INX
+        PLA     ; StackL X Y Y -> A
+        STA M1
+        PLA     ; StackL X Y -> Y A
+        TAY
+        LDA M1
+        AND #$0F
+        @GETCHARCODE
+        JSR PRXY
+        ; Restore X, Y
+        PLA
+        TAY
+        PLA
+        TAX
+        RTS
+;
 ;
 ;
 ;
@@ -306,7 +373,7 @@ MULTSK  DEX
         ; Char $03 ASCII 35 #    Color 11 block
         .BYTE $FF,$FF,$FF,$FF, $FF,$FF,$FF,$FF ; 1111 1111 = $FF
         ; Char $04 ASCII 36 $
-        .BYTE 0,$30,$FC,$C0, $FC,$0C,$FC,$30
+        .BYTE $30,$FC,$C0,$FC, $0C,$FC,$30,0
         ; Char $05 ASCII 37 %
         .BYTE 0,0,0,0, 0,0,0,0
         ; Char $06 ASCII 38 &
@@ -328,40 +395,40 @@ MULTSK  DEX
         ;
         *= FONT + 8*$10
         ; Font block 16 -- numbers
-        ; All numbers are drawn as 4x6 using color 3
+        ; All numbers are drawn as 3x7 using color 3
         ;
         ; Char $10 ASCII 48 Digit zero
-        .BYTE 0,$FC,$CC,$CC, $CC,$CC,$FC,0 ; 11001100 = $CC
+        .BYTE $FC,$CC,$CC,$CC, $CC,$CC,$FC,0 ; 11001100 = $CC
         ; Char $11 ASCII 49 Digit one
-        .BYTE 0,$0C,$0C,$0C, $0C,$0C,$0C,0 ; 00001100 = $0C
+        .BYTE $30,$30,$30,$30, $30,$30,$30,0 ; 00110000 = $30
         ; Char $12 ASCII 50 Digit two
-        .BYTE 0,$FC,$0C,$0C, $FC,$C0,$FC,0 ; 11111100 = $FC
+        .BYTE $FC,$0C,$0C, $FC,$C0,$C0,$FC,0 ; 11111100 = $FC
         ; Char $13 ASCII 51 Digit three
-        .BYTE 0,$FC,$0C,$FC, $0C,$0C,$FC,0 ;
+        .BYTE $FC,$0C,$0C,$FC, $0C,$0C,$FC,0 ;
         ; Char $14 ASCII 52 Digit four
-        .BYTE 0,$CC,$CC,$CC, $FC,$0C,$0C,0 ;
+        .BYTE $CC,$CC,$CC,$FC, $0C,$0C,$0C,0 ;
         ; Char $15 ASCII 53 Digit five
-        .BYTE 0,$FC,$C0,$FC, $0C,$0C,$FC,0 ;
+        .BYTE $FC,$C0,$C0,$FC, $0C,$0C,$FC,0 ;
         ; Char $16 ASCII 54 Digit six
-        .BYTE 0,$FC,$C0,$FC, $CC,$CC,$FC,0 ;
+        .BYTE $FC,$C0,$C0,$FC, $CC,$CC,$FC,0 ;
         ; Char $17 ASCII 55 Digit seven
-        .BYTE 0,$FC,$0C,$0C, $30,$30,$30,0 ;
+        .BYTE $FC,$0C,$0C,$0C, $30,$30,$30,0 ;
         ; Char $18 ASCII 56 Digit eight
-        .BYTE 0,$FC,$CC,$CC, $FC,$CC,$FC,0 ;
+        .BYTE $FC,$CC,$CC,$FC, $CC,$CC,$FC,0 ;
         ; Char $19 ASCII 57 Digit nine
-        .BYTE 0,$FC,$CC,$FC, $0C,$0C,$0C,0 ;
-        ; Char $1A ASCII 58 : but here hex A
-        .BYTE 0,$FC,$CC,$FC, $CC,$CC,$CC,0 ;
-        ; Char $1B ASCII 59 ; but here hex B
-        .BYTE 0,$F0,$CC,$F0, $CC,$CC,$F0,0 ;
-        ; Char $1C ASCII 60 < but here hex C
-        .BYTE 0,$3C,$C0,$C0, $C0,$C0,$3C,0 ;
-        ; Char $1D ASCII 61 = but here hex D
-        .BYTE 0,$F0,$CC,$CC, $CC,$CC,$F0,0 ;
-        ; Char $1E ASCII 62 > but here hex E
-        .BYTE 0,$FC,$C0,$FC, $C0,$C0,$FC,0 ;
-        ; Char $1F ASCII 63 ? but here hex F
-        .BYTE 0,$FC,$C0,$FC, $C0,$C0,$C0,0 ;
+        .BYTE $FC,$CC,$CC,$FC, $0C,$0C,$0C,0 ;
+        ; Char $1A ASCII 58 :
+        .BYTE 0,0,0,$30, 0,$30,0,0
+        ; Char $1B ASCII 59 ;
+        .BYTE 0,0,0,$30, 0,$30,$C0,0
+        ; Char $1C ASCII 60 <
+        .BYTE 0,0,$0C,$30, $C0,$30,$0C,0
+        ; Char $1D ASCII 61 =
+        .BYTE 0,0,$FC,0, 0,$FC,0,0
+        ; Char $1E ASCII 62 >
+        .BYTE 0,0,$C0,$30, $0C,$30,$C0,0
+        ; Char $1F ASCII 63 ?
+        .BYTE 0,$FC,$0C,$3C, $30,0,$30,0
         ;
         ; Font block 32 -- letters
         ; This is sparse, but I'll copy A-F anyway
@@ -369,21 +436,21 @@ MULTSK  DEX
         ; Char $20 ASCII 64 @
         .BYTE 0,0,0,0, 0,0,0,0
         ; Char $21 ASCII 65 A
-        .BYTE 0,$FC,$CC,$FC, $CC,$CC,$CC,0 ;
+        .BYTE $FC,$CC,$CC,$FC, $CC,$CC,$CC,0 ;
         ; Char $22 ASCII 66 B
-        .BYTE 0,$F0,$CC,$F0, $CC,$CC,$F0,0 ;
+        .BYTE $F0,$CC,$CC,$F0, $CC,$CC,$F0,0 ;
         ; Char $23 ASCII 67 C
-        .BYTE 0,$3C,$C0,$C0, $C0,$C0,$3C,0 ;
+        .BYTE $3C,$C0,$C0,$C0, $C0,$C0,$3C,0 ;
         ; Char $24 ASCII 68 D
-        .BYTE 0,$F0,$CC,$CC, $CC,$CC,$F0,0 ;
+        .BYTE $F0,$CC,$CC,$CC, $CC,$CC,$F0,0 ;
 CHAR_E = $25 ; Char $25 ASCII 69 E
-        .BYTE 0,$FC,$C0,$FC, $C0,$C0,$FC,0 ;
+        .BYTE $FC,$C0,$C0,$FC, $C0,$C0,$FC,0 ;
 CHAR_F = $26 ; Char $26 ASCII 70 F
-        .BYTE 0,$FC,$C0,$FC, $C0,$C0,$C0,0 ;
+        .BYTE $FC,$C0,$C0,$FC, $C0,$C0,$C0,0 ;
         ; Char $27 ASCII 71 G
         .BYTE 0,0,0,0, 0,0,0,0
 CHAR_H = $28; ; Char $28 ASCII 72 H
-        .BYTE 0,$CC,$CC,$FC, $CC,$CC,$CC,0
+        .BYTE $CC,$CC,$CC,$FC, $CC,$CC,$CC,0
         ; Char $29 ASCII 73 I
         .BYTE 0,0,0,0, 0,0,0,0
         ; Char $2A ASCII 74 J
@@ -391,15 +458,15 @@ CHAR_H = $28; ; Char $28 ASCII 72 H
         ; Char $2B ASCII 75 K
         .BYTE 0,0,0,0, 0,0,0,0
 CHAR_L = $2C ; Char $2C ASCII 76 L
-        .BYTE 0,$C0,$C0,$C0, $C0,$C0,$FC,0
+        .BYTE $C0,$C0,$C0,$C0, $C0,$C0,$FC,0
         ; Char $2D ASCII 77 M
         .BYTE 0,0,0,0, 0,0,0,0
         ; Char $2E ASCII 78 N
         .BYTE 0,0,0,0, 0,0,0,0
 CHAR_O = $2F ; Char $2F ASCII 79 O
-        .BYTE 0,$30,$CC,$CC, $CC,$CC,$30,0
+        .BYTE $30,$CC,$CC,$CC, $CC,$CC,$30,0
 CHAR_P = $30 ; Char $30 ASCII 80 O
-        .BYTE 0,$F0,$CC,$F0, $C0,$C0,$C0,0
+        .BYTE $F0,$CC,$CC,$F0, $C0,$C0,$C0,0
 
 ;
 ;
@@ -420,13 +487,18 @@ CHAR_P = $30 ; Char $30 ASCII 80 O
         .WORD STARTDL
 ; and now the interrupt
 DLI     PHA ; always save the accumulator!
-        LDA #99
+        LDA #$28
+        STA $D016 ; COLPF0 hardware register
+        LDA #$94
         STA $D018 ; COLPF2 hardware register
         LDA #$E0 ; Atari ROM character set
         STA $D409 ; CHBASE hardware register; shadow is $2F4 CHBAS
         PLA
         RTI
 ;
+; Map of what internal char code goes with which hex digit
+HEXMAP  .BYTE $10,$11,$12,$13, $14,$15,$16,$17
+        .BYTE $18,$19,$21,$22, $23,$24,$25,$26
         .PAGE       Cartridge Trailer
         .IF TARGET = 2 .OR TARGET = 4 .OR TARGET = 8 ; any size cartridge
         *=  CARTINI
