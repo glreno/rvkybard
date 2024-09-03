@@ -8,6 +8,7 @@
 ;
         .PAGE       SETUP
         .OPT OBJ
+FUNCHEADERS = 1
 ; Pick one of: 0=Cassette
 ;              1=Disk
 ;              2=2KB Cartridge
@@ -98,6 +99,7 @@ SDLSTH  =   $0231
 CHBAS   =   $02F4 ; location of font
 SAVMSC  =   $0058 ; start of screen RAM
 NMIEN   =   $D40E ; 0x80=DLI 0x40=VBI 0x20=RESET, default is 0x40
+KEYBDV  =   $E420 ; Keyboard driver vectors
 TMPL    =   $CC ; zero-page scratch location
 TMPH    =   $CD ; zero-page scratch location
 ;
@@ -242,24 +244,43 @@ EN_PM   LDA #>STARTPM
         @PR 10,2,CHAR_L
         @PR 11,2,CHAR_L
         @PR 12,2,CHAR_O
-        @LC 40,$0830 ; these are row 1
-        @LC CHAR_E,$0831
-        @LC CHAR_L,$0832
-        @LC CHAR_L,$0833
-        @LC CHAR_O,$0834
 ;
 ; Plot all 128 characters, twice.
-        LDX #127
-LOOP1   LDY #4
-        TXA
-        JSR PRXY
-        ORA #$80
-        LDY #8
-        JSR PRXY
-        DEX
-        BNE LOOP1
+;        LDX #127
+;LOOP1   LDY #4
+;        TXA
+;        JSR PRXY
+;        ORA #$80
+;        LDY #8
+;        JSR PRXY
+;        DEX
+;        BNE LOOP1
 ;
-FOREVER JMP FOREVER
+FOREVER
+        JSR DOKGETCH
+        LDY #22
+        LDX #30
+        JSR PRNXY
+        JMP FOREVER
+        .IF FUNCHEADERS = 1
+        .BYTE 0,0,0,"End of main program",0,0,0
+        .ENDIF
+;
+;
+; Call KGETCH or KGB -- get a character from keyboard, return it in A
+; This returns the ATASCII value; 0x30 is '0', 0x41 is 'A' 0x61 is 'a'
+;                        Inverse: 0xB1         0xC1        0xE1
+;
+        .IF FUNCHEADERS = 1
+        .BYTE 0,0,0,"DOKGETCH",0,0,0
+        .ENDIF
+DOKGETCH
+        LDA KEYBDV+5;   (high byte of KGETCH or KGB)
+        PHA
+        LDA KEYBDV+4;   (high byte of KGETCH or KGB)
+        PHA
+        RTS ; Simulate JMP (KGETCH or KGB)
+        ; The keyboard driver will return to whoever did JSR DOKGETCH
 ;
 ;
 ;
@@ -267,6 +288,9 @@ FOREVER JMP FOREVER
 ; snarfed from "The Atari Assembler" p. 218 and 222
 ; Multiple $CE * $CF, store results in $CC,$CD   (my page zero addrs)
 ; Multiple 1102*1103, store results in 1100,1101 (orig addrs in book)
+        .IF FUNCHEADERS = 1
+        .BYTE 0,0,0,"MULTIPLY",0,0,0
+        .ENDIF
 ;M2      = $CF ; 1103
 ;M1      = $CE ; 1102
 ;PRODL   = $CC ; 1101
@@ -297,6 +321,9 @@ MULTSK  DEX
 ; Overwrites the Y register; X and A will be unchanged
 ; PRXY
 ;
+        .IF FUNCHEADERS = 1
+        .BYTE 0,0,0,"PRXY",0,0,0
+        .ENDIF
 PRXY
         ; Start with Y coord times 40
         ; Max Y is 24; 40*24=960 ($3C0) so need to carry
@@ -323,6 +350,9 @@ PRXY
 ; Stashes & restores X and Y
 ; PRNXY
 ;
+        .IF FUNCHEADERS = 1
+        .BYTE 0,0,0,"PRNXY",0,0,0
+        .ENDIF
 PRNXY
         ; Stash X, Y and A
         STA M1
@@ -362,6 +392,10 @@ PRNXY
 ;
 ;
 ;
+        .IF FUNCHEADERS = 1
+        *= FONT-12
+        .BYTE 0,0,0,"FONT",0,0,0
+        .ENDIF
         .PAGE       Font at B400
         *= FONT
         ; Char 00 ASCII 32 (space)
@@ -501,6 +535,10 @@ HEXMAP  .BYTE $10,$11,$12,$13, $14,$15,$16,$17
         .BYTE $18,$19,$21,$22, $23,$24,$25,$26
         .PAGE       Cartridge Trailer
         .IF TARGET = 2 .OR TARGET = 4 .OR TARGET = 8 ; any size cartridge
+        .IF FUNCHEADERS = 1
+        *=  CARTINI - 32
+        .BYTE 0,0,0,"Cartridge Header",0,0,0
+        .ENDIF
         *=  CARTINI
         ; Cart init code goes here -- usually nothing at all!
         RTS ; end of cart initialization
