@@ -8,7 +8,7 @@
 ;
         .PAGE       SETUP
         .OPT OBJ
-FUNCHEADERS = 1
+DEBUGMODE = 1
 ; Pick one of: 0=Cassette
 ;              1=Disk
 ;              2=2KB Cartridge
@@ -103,12 +103,17 @@ KEYBDV  =   $E420 ; Keyboard driver vectors
 TMPL    =   $CC ; zero-page scratch location
 TMPH    =   $CD ; zero-page scratch location
 ;
+; Page 0 variables
 ; Simple multiplication routine
 ; Multiple $CE * $CF, store results in $CC,$CD
 M2      = $CF
 M1      = $CE
 PRODL   = $CC
 PRODH   = $CD
+;
+; Page 6 variables
+DIGIT1  = $0600
+DIGIT2  = $0601
 ;
 ;
 
@@ -127,15 +132,6 @@ PRODH   = $CD
                 .BYTE %2
                 @B %1-1,%2
             .ENDIF
-        .ENDM
-;
-; Look up wht internal character code for a given hex digit
-; @GETCHARCODE
-        .MACRO @GETCHARCODE
-        STX M1
-        TAX
-        LDA HEXMAP,X
-        LDX M1
         .ENDM
 ;
 ; Put a character on the screen at a const location:
@@ -257,24 +253,50 @@ EN_PM   LDA #>STARTPM
 ;        BNE LOOP1
 ;
 FOREVER
+        ;
+        ; Read two keys, then store result in PF2
+        ;
+        ; Read first digit, store in DIGIT1 and display at 30,22
         JSR DOKGETCH
+        JSR ASCIITONYBBLE
+        STA DIGIT1
+        JSR GETCHARCODE
         LDY #22
         LDX #30
-        JSR PRNXY
+        JSR PRXY
+        ; Read second digit, store in DIGIT2 and display at 30,23
+        JSR DOKGETCH
+        JSR ASCIITONYBBLE
+        STA DIGIT2
+        JSR GETCHARCODE
+        LDY #22
+        LDX #31
+        JSR PRXY
+        ; Turn them in to an actual number
+        LDA DIGIT1
+        ASL A
+        ASL A
+        ASL A
+        ASL A
+        ORA DIGIT2
+        STA COLOR2
         JMP FOREVER
-        .IF FUNCHEADERS = 1
-        .BYTE 0,0,0,"End of main program",0,0,0
+        .IF DEBUGMODE = 1
+              ;0123456789ABCDEF
+        .BYTE "XXX End of app X"
         .ENDIF
-;
 ;
 ; Call KGETCH or KGB -- get a character from keyboard, return it in A
 ; This returns the ATASCII value; 0x30 is '0', 0x41 is 'A' 0x61 is 'a'
 ;                        Inverse: 0xB1         0xC1        0xE1
 ;
-        .IF FUNCHEADERS = 1
-        .BYTE 0,0,0,"DOKGETCH",0,0,0
+        .IF DEBUGMODE = 1
+        *= $A600
+              ;0123456789ABCDEF
+        .BYTE "XXX DOKGETCH XXX"
         .ENDIF
 DOKGETCH
+.LOCAL
         LDA KEYBDV+5;   (high byte of KGETCH or KGB)
         PHA
         LDA KEYBDV+4;   (high byte of KGETCH or KGB)
@@ -284,34 +306,100 @@ DOKGETCH
 ;
 ;
 ;
+; Converts an ASCII character to the equivalent HEX digit.
+; Ignores case and the 0x80 Inverse flag.
+; Anything else returns 0
+; Ascii digits run from 0x30(0) to 0x39(9) ... 0x30 = 0011 0000
+; Ascii lettrs run from 0x41(A) to 0x46(F) ... 0x40 = 0100 0000
+; Lowercase    run from 0x61(A) to 0x66(F) ... 0x60 = 0110 0000
+; ASCIITONYBBLE
+        .IF DEBUGMODE = 1
+        *= $A700
+              ;0123456789ABCDEF
+        .BYTE "X ASCIITONYBBLE "
+        .ENDIF
+ASCIITONYBBLE
+.LOCAL
+        ; get that pesky INVERSE bit out of the way
+        AND #$7F
+        STA M1 ; stash it in M1
+        ; eliminate everything under 30
+        SEC
+        SBC #$30
+        BMI ?RTZERO
+        ; Check for numbers; they should be 0-9 now!
+        CMP #10
+        BMI ?RTNUM
+        ; Make sure it's not a weird punctuation mark between 9 and A
+        LDA M1
+        SEC
+        SBC #$41
+        BMI ?RTZERO
+        ; It's probably a letter. Get rid of the high bits.
+        LDA M1
+        AND #$1F
+        ; Make sure it's below G
+        CMP #7
+        BMI ?RTLET
+        ; Give up and return zero
+?RTZERO LDA #0
+        RTS
+?RTNUM  LDA M1
+        SEC
+        SBC #$30
+        RTS
+?RTLET  ADC #9 ; it's a letter, and if acc has '1' that means 'A'
+        RTS
+;
+;
+; Look up internal character code for a given hex digit in A
+; GETCHARCODE
+        .IF DEBUGMODE = 1
+        *= $A800
+              ;0123456789ABCDEF
+        .BYTE "XX GETCHARCODE X"
+        .ENDIF
+GETCHARCODE
+.LOCAL
+        STX M1
+        TAX
+        LDA HEXMAP,X
+        LDX M1
+        RTS
+;
+;
+;
 ; Simple multiplication routine
 ; snarfed from "The Atari Assembler" p. 218 and 222
 ; Multiple $CE * $CF, store results in $CC,$CD   (my page zero addrs)
 ; Multiple 1102*1103, store results in 1100,1101 (orig addrs in book)
-        .IF FUNCHEADERS = 1
-        .BYTE 0,0,0,"MULTIPLY",0,0,0
+        .IF DEBUGMODE = 1
+        *= $A900
+              ;0123456789ABCDEF
+        .BYTE "XX  MULTIPLY  XX"
         .ENDIF
 ;M2      = $CF ; 1103
 ;M1      = $CE ; 1102
 ;PRODL   = $CC ; 1101
 ;PRODH   = $CD ; 1100
 MULTIPLY
+.LOCAL
         TXA
         PHA
         LDX #8
         LDA #0
         STA PRODL
         STA PRODH
-MULTLP  ASL A
+?MULTLP ASL A
         ROL PRODH
         ASL M2
-        BCC MULTSK
+        BCC ?MULTSK
         CLC
         ADC M1
-        BCC MULTSK
+        BCC ?MULTSK
         INC PRODH
-MULTSK  DEX
-        BNE MULTLP
+?MULTSK DEX
+        BNE ?MULTLP
         STA PRODL
         PLA
         TAX
@@ -321,10 +409,13 @@ MULTSK  DEX
 ; Overwrites the Y register; X and A will be unchanged
 ; PRXY
 ;
-        .IF FUNCHEADERS = 1
-        .BYTE 0,0,0,"PRXY",0,0,0
+        .IF DEBUGMODE = 1
+        *= $AA00
+              ;0123456789ABCDEF
+        .BYTE "XXX   PRXY   XXX"
         .ENDIF
 PRXY
+.LOCAL
         ; Start with Y coord times 40
         ; Max Y is 24; 40*24=960 ($3C0) so need to carry
         ; 40 = 32 + 8; ASL 5 + ASL 3
@@ -350,10 +441,13 @@ PRXY
 ; Stashes & restores X and Y
 ; PRNXY
 ;
-        .IF FUNCHEADERS = 1
-        .BYTE 0,0,0,"PRNXY",0,0,0
+        .IF DEBUGMODE = 1
+        *= $AB00
+              ;0123456789ABCDEF
+        .BYTE "XXXX  PRNXY XXXX"
         .ENDIF
 PRNXY
+.LOCAL
         ; Stash X, Y and A
         STA M1
         TXA
@@ -370,7 +464,7 @@ PRNXY
         ROR A
         ROR A
         ; Look up char code
-        @GETCHARCODE
+        JSR GETCHARCODE
         JSR PRXY
         ; increment X, grab the low nybble of A
         INX
@@ -380,7 +474,7 @@ PRNXY
         TAY
         LDA M1
         AND #$0F
-        @GETCHARCODE
+        JSR GETCHARCODE
         JSR PRXY
         ; Restore X, Y
         PLA
@@ -390,11 +484,15 @@ PRNXY
         RTS
 ;
 ;
+; END OF FUNCTIONS
+.LOCAL
 ;
 ;
-        .IF FUNCHEADERS = 1
-        *= FONT-12
-        .BYTE 0,0,0,"FONT",0,0,0
+;
+        .IF DEBUGMODE = 1
+        *= FONT-16
+              ;0123456789ABCDEF
+        .BYTE "XXXXX FONT XXXXX"
         .ENDIF
         .PAGE       Font at B400
         *= FONT
@@ -535,7 +633,7 @@ HEXMAP  .BYTE $10,$11,$12,$13, $14,$15,$16,$17
         .BYTE $18,$19,$21,$22, $23,$24,$25,$26
         .PAGE       Cartridge Trailer
         .IF TARGET = 2 .OR TARGET = 4 .OR TARGET = 8 ; any size cartridge
-        .IF FUNCHEADERS = 1
+        .IF DEBUGMODE = 1
         *=  CARTINI - 32
         .BYTE 0,0,0,"Cartridge Header",0,0,0
         .ENDIF
