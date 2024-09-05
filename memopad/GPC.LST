@@ -4,7 +4,7 @@
 ; load a custom display list and font and some PM graphics,
 ; and then hang.
 ;
-; To load into MAC65: ENTER #D:PMO.LST,A
+; To load into MAC65: ENTER #D:GPC.LST,A
 ;
         .PAGE       SETUP
         .OPT OBJ
@@ -153,7 +153,7 @@ DIGIT2  = $0601
         .ENDM
 ;
 ; Print the number in A in hex at a constant location
-; X and Y will be unchanged
+; X and Y registers will be unchanged, A will be discarded
 ; @PRN x,y
 ;
         .MACRO @PRN
@@ -201,13 +201,41 @@ EN_PM   LDA #>STARTPM
         STA NMIEN
         @LC $2E,SDMCTL  ; 2(norm playfield)+4(missiles)+8(players)+32(enable ANTIC)
 
+; Main program. There are four basic parts:
+; 1. LDSSCR Load the static screen
+; 1.A. Load the static Players
+; 1.B. Load the static text
+; 2. LDDSCR Update the dynamic screen
+; 2.A. Load the updated text fields in the Editor pane
+; 2.B. Load the updated register values all over the dynamic screen
+; 2.C. Load the calculated fields in the dynamic screen
+; (1 is done once, 2 will need to be done over and over again)
+; 3. EDIT Edit a field
+; 3.A. Set cursor in the current active text field
+; 3.B. Accept two characters of input (or a tab to skip - 2A will undo changes)
+; 3.C. Update the current active color shadow register
+; 3.D. Increment to the next field and color register
+; 4. DONE Loop back to 2.A.
+; 
+
 ; Load the screen
+LDSSCR  ; Load the static screen
+        ; print numbers in the corners
         @PR 0,0,$10 ; X,Y,C
         @PR 39,0,$11
         @PR 40,0,$12
         @PR 0,23,$13
         @PR 0,20,$13
         @PR 39,20,$14
+        ; print hello
+        @PR 8,2,CHAR_H
+        @PR 9,2,CHAR_E
+        @PR 10,2,CHAR_L
+        @PR 11,2,CHAR_L
+        @PR 12,2,CHAR_O
+FOREVER
+LDDSCR  ; Load the dynamic screen
+        ; print the color registers across line 21
         LDA COLOR0
         @PRN 3,21
         LDA COLOR1
@@ -218,6 +246,7 @@ EN_PM   LDA #>STARTPM
         @PRN 12,21
         LDA COLOR4
         @PRN 15,21
+        ; print the color registers at 3,15+idx
         LDX #3
         LDY #15
         LDA COLOR0
@@ -234,12 +263,6 @@ EN_PM   LDA #>STARTPM
         INY
         LDA COLOR4
         JSR PRNXY
-; Hello
-        @PR 8,2,CHAR_H
-        @PR 9,2,CHAR_E
-        @PR 10,2,CHAR_L
-        @PR 11,2,CHAR_L
-        @PR 12,2,CHAR_O
 ;
 ; Plot all 128 characters, twice.
 ;        LDX #127
@@ -252,7 +275,7 @@ EN_PM   LDA #>STARTPM
 ;        DEX
 ;        BNE LOOP1
 ;
-FOREVER
+EDIT
         ;
         ; Read two keys, then store result in PF2
         ;
@@ -280,7 +303,7 @@ FOREVER
         ASL A
         ORA DIGIT2
         STA COLOR2
-        JMP FOREVER
+DONE    JMP FOREVER
         .IF DEBUGMODE = 1
               ;0123456789ABCDEF
         .BYTE "XXX End of app X"
