@@ -43,7 +43,7 @@ RUNAD   = $02E0
         .ENDIF
 
         .IF TARGET = 0 ; cassette
-STARTAP =   $0700 ; 
+STARTAP =   $0700 ;
 CASINI  = $02
         *= CASINI
         .WORD STARTUP
@@ -169,11 +169,27 @@ EN_DL   LDA #<DLI
 EN_PM   LDA #>STARTPM
         STA PMBASE
         @LC 3,GRACTL
-        @LC 1,GPRIOR
+        @LC 32,GPRIOR
         ; after dlist and pm are set up, enable Interrupts and ANTIC
         LDA #$C0
         STA NMIEN
         @LC $2E,SDMCTL  ; 2(norm playfield)+4(missiles)+8(players)+32(enable ANTIC)
+        ; position the Players
+        LDA #88
+        STA HPOSP0
+        STA HPOSP1
+        STA HPOSP2
+        STA HPOSP3
+        LDA #3
+        STA SIZEP0
+        STA SIZEP1
+        STA SIZEP2
+        STA SIZEP3
+        @LC $06,PCOLR0
+        @LC $26,PCOLR1
+        @LC $48,PCOLR2
+        @LC $A8,PCOLR3
+
 
 ; Main program. There are four basic parts:
 ; 1. LDSSCR Load the static screen
@@ -234,7 +250,7 @@ SSCRLOOP
         LDA COLRIDX
         SEC
         SBC #4
-        LDX #4 
+        LDX #4
         LDY COLRIDX
         JSR PRNXY
 
@@ -280,7 +296,7 @@ SSCRLOOP
 SKIPPF1
         ; print colrindx at X=4 -- leading 0 will be overwritten with 'P'
         LDA COLRIDX
-        LDX #4 
+        LDX #4
         LDY COLRIDX
         JSR PRNXY
 
@@ -316,7 +332,7 @@ ENDSSCRLOOP
         JSR INVERTXY
         LDY #7
         JSR INVERTXY
-        
+
 FOREVER
 LDDSCR  ; Load the dynamic screen
 ; In the viewer, the plain colors are at Y=COLRIDX
@@ -379,6 +395,9 @@ EDIT
         LDY #EDITY
         JSR INVERTXY
         JSR DOKGETCH
+        ; check for tab: (discard changes and sckip to next field)
+        CMP #127
+        BEQ NOSETINV
         CMP #49 ; "1" to set invert mode
         BNE SETINV
         LDA #INVMASK
@@ -386,6 +405,9 @@ EDIT
 SETINV  PLA
         STA INVERT
         ; instead of jumping to DONE or FOREVER do a full refresh
+        JMP LDSSCR
+NOSETINV
+        PLA
         JMP LDSSCR
 
         ;
@@ -497,7 +519,7 @@ ACCEPT  LDA DIGIT1
 
         ; Done editing that color
 NEXTIDX INC EDITIDX
-        
+
 DONE    JMP FOREVER
         .IF DEBUGMODE = 1
               ;0123456789ABCDEF
@@ -908,6 +930,21 @@ DLI     PHA ; always save the accumulator!
 ; Map of what internal char code goes with which hex digit
 HEXMAP  .BYTE $10,$11,$12,$13, $14,$15,$16,$17
         .BYTE $18,$19,$21,$22, $23,$24,$25,$26
+
+; Player Definitions
+        *=  STARTPM+$200   ; START OF PLAYER 0
+        *= *+16
+        @B 4,$40
+        *=  STARTPM+$280   ; START OF PLAYER 1
+        *= *+20
+        @B 4,$40
+        *=  STARTPM+$300  ; START OF PLAYER 2
+        *= *+24
+        @B 4,$40
+        *=  STARTPM+$380   ; START OF PLAYER 3
+        *= *+28
+        @B 4,$40
+
         .PAGE       Cartridge Trailer
         .IF TARGET = 2 .OR TARGET = 4 .OR TARGET = 8 ; any size cartridge
         .IF DEBUGMODE = 1
