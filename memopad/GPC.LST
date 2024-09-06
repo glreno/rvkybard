@@ -101,6 +101,9 @@ SAVMSC  =   $0058 ; start of screen RAM
 NMIEN   =   $D40E ; 0x80=DLI 0x40=VBI 0x20=RESET, default is 0x40
 KEYBDV  =   $E420 ; Keyboard driver vectors
 
+INVMASK = $80
+LABELY  = 23
+EDITY   = 22
 ;
 ; Page 0 variables
 ; Simple multiplication routine
@@ -122,7 +125,8 @@ DIGIT2  = $0601
 COLRIDX = $0602
 ; index of the color being edited
 EDITIDX = $0603
-;
+; Set to $80 to invert all the text in the display
+INVERT  = $0604
 ;
 
         .PAGE       Some handy macros
@@ -140,44 +144,6 @@ EDITIDX = $0603
                 .BYTE %2
                 @B %1-1,%2
             .ENDIF
-        .ENDM
-;
-; Put a character on the screen at a const location:
-; @PR x,y,char
-;
-        .MACRO @PR
-            TYA
-            PHA
-            LDY # %2
-            TXA
-            PHA
-            LDX # %1
-            LDA # %3
-            JSR PRXY
-            PLA
-            TAX
-            PLA
-            TAY
-        .ENDM
-;
-; Print the number in A in hex at a constant location
-; X and Y registers will be unchanged, A will be discarded
-; @PRN x,y
-;
-        .MACRO @PRN
-            STA M1
-            TYA
-            PHA
-            LDY # %2
-            TXA
-            PHA
-            LDX # %1
-            LDA M1
-            JSR PRNXY
-            PLA
-            TAX
-            PLA
-            TAY
         .ENDM
 ;
 ;
@@ -227,16 +193,32 @@ EN_PM   LDA #>STARTPM
 ;
 
 ; Load the screen
+        @LC 0,INVERT
+        LDA #4 ; start editing with PF0
+        STA EDITIDX
 LDSSCR  ; Load the static screen
         ; Five lines, one for each PF color, eg.:
         ; 3456789ABC
         ; PF0=28 #
         ; where '#' is a color block.
 ; In the viewer, the plain colors are at Y=COLRIDX
-        LDA #4 ; start editing with PF0
-        STA EDITIDX
         LDA #8
         STA COLRIDX
+
+        LDX #36
+        LDY #LABELY
+        LDA #CHAR_I
+        JSR PRXY
+
+        LDX #37
+        LDY #LABELY
+        LDA #CHAR_N
+        JSR PRXY
+
+        LDX #38
+        LDY #LABELY
+        LDA #CHAR_V
+        JSR PRXY
 SSCRLOOP
         LDX #6
         LDA #$1D ; equal sign
@@ -259,22 +241,22 @@ SSCRLOOP
         LDA COLRIDX
         ASL A
         ASL A
-        ADC #3
+        ADC #1
         TAX
         LDA COLRIDX
         SEC
         SBC #4
-        LDY #22
+        LDY #LABELY
         JSR PRNXY
 
         ; Same coordinate!
         LDA #CHAR_F
-        LDY #22
+        LDY #LABELY
         JSR PRXY
 
         DEX
         LDA #CHAR_P
-        LDY #22
+        LDY #LABELY
         JSR PRXY
 
         ; PF color is char 0-3, and INVERSE 3
@@ -305,14 +287,14 @@ SKIPPF1
         LDA COLRIDX
         ASL A
         ASL A
-        ADC #3
+        ADC #1
         TAX
         LDA COLRIDX
-        LDY #22
+        LDY #LABELY
         JSR PRNXY
         ; Same coordinate!
         LDA #CHAR_P
-        LDY #22
+        LDY #LABELY
         JSR PRXY
 
         LDX #4
@@ -321,9 +303,19 @@ SKIPPF1
         JSR PRXY
 SKIPPM1
         DEC COLRIDX
-        BMI LDDSCR
+        BMI ENDSSCRLOOP
         JMP SSCRLOOP
-        
+
+ENDSSCRLOOP
+        LDA INVERT
+        CMP #INVMASK
+        BNE LDDSCR
+        ; We're inverting the text, so need to REinvert the inverted colorblock colors
+        LDX #$A
+        LDY #6
+        JSR INVERTXY
+        LDY #7
+        JSR INVERTXY
         
 FOREVER
 LDDSCR  ; Load the dynamic screen
@@ -340,75 +332,161 @@ DSCRLOOP
         LDA COLRIDX
         ASL A
         ASL A
-        ADC #3
+        ADC #1
         TAX
         LDY COLRIDX
         LDA PCOLR0,Y
-        LDY #21
+        LDY #EDITY
         JSR PRNXY
 
         DEC COLRIDX
         BPL DSCRLOOP
+
+        LDX #38
+        LDY #EDITY
+        LDA #CHAR_0
+        PHA
+        LDA INVERT
+        CMP #INVMASK
+        BNE NOINV
+        PLA
+        LDA #CHAR_1
+        PHA
+NOINV   PLA
+        JSR PRXY
 ;
 ; Plot all 128 characters, twice.
 ;        LDX #127
 ;LOOP1   LDY #4
 ;        TXA
 ;        JSR PRXY
-;        ORA #$80
+;        ORA #INVMASK
 ;        LDY #8
 ;        JSR PRXY
 ;        DEX
 ;        BNE LOOP1
 ;
 EDIT
+        LDA EDITIDX
+        CMP #9
+        BNE GETD1
+        LDA #0
+        STA EDITIDX
+        ; Field 9 (at 38,22) is a 0/1 field for setting the invert flag
+        LDA #0
+        PHA
+        LDX #38
+        LDY #EDITY
+        JSR INVERTXY
+        JSR DOKGETCH
+        CMP #49 ; "1" to set invert mode
+        BNE SETINV
+        LDA #INVMASK
+        PHA
+SETINV  PLA
+        STA INVERT
+        ; instead of jumping to DONE or FOREVER do a full refresh
+        JMP LDSSCR
+
         ;
         ; Read two keys, then store result in PF2
         ;
         ; Read first digit, store in DIGIT1 and display at 30,22
-        LDA EDITIDX
+GETD1   LDA EDITIDX
         ASL A
         ASL A
-        ADC #3
+        ADC #1
         TAX
-        LDY #21
+        LDY #EDITY
         JSR INVERTXY
 
+        STX M1
         JSR DOKGETCH
-        JSR ASCIITONYBBLE
+        LDX M1
+        LDY #EDITY
+        JSR INVERTXY
+        ; check for tab: (discard changes and sckip to next field)
+        CMP #127
+        BEQ N2 ; NEXTIDX is too far away!
+        CMP #126 ; backspace not allowed
+        BEQ GETD1
+        CMP #155 ; enter not allowed
+        BEQ GETD1
+STORED1 JSR ASCIITONYBBLE
         STA DIGIT1
 
         LDA EDITIDX
         ASL A
         ASL A
-        ADC #3
+        ADC #1
         TAX
         LDA DIGIT1
         JSR GETCHARCODE
-        LDY #21
+        LDY #EDITY
         JSR PRXY
 
         ; Read second digit, store in DIGIT2 and display at 30,23
-        INX
-        LDY #21
+GETD2   LDA EDITIDX
+        ASL A
+        ASL A
+        ADC #2
+        TAX
+        LDY #EDITY
         JSR INVERTXY
 
+        STX M1
         JSR DOKGETCH
-        JSR ASCIITONYBBLE
+        LDX M1
+        LDY #EDITY
+        JSR INVERTXY
+        ; check for tab: (discard changes and sckip to next field)
+        CMP #127
+        BEQ NEXTIDX
+        CMP #155 ; enter not allowed
+        BEQ GETD2
+        ; check for backspace (go back one digit)
+        CMP #126
+        BNE STORED2
+        ;DEC EDITIDX
+        JMP GETD1
+        ; store it
+STORED2 JSR ASCIITONYBBLE
         STA DIGIT2
 
         LDA EDITIDX
         ASL A
         ASL A
-        ADC #4
+        ADC #2
         TAX
         LDA DIGIT2
         JSR GETCHARCODE
-        LDY #21
+        LDY #EDITY
         JSR PRXY
 
+        ; Wait for return
+WAITCR  INX
+        LDY #EDITY
+        JSR INVERTXY
+        STX M1
+        JSR DOKGETCH
+        LDX M1
+        LDY #EDITY
+        JSR INVERTXY
+        ; Return: 155 = $9B
+        CMP #155
+        BEQ ACCEPT
+        ; Tab: 127 $7F
+        CMP #127
+N2      BEQ NEXTIDX
+
+        ; Backspace: 127 $7E
+        CMP #126
+        BNE WAITCR
+        ;DEC EDITIDX
+        JMP GETD2
+
         ; Turn them in to an actual number
-        LDA DIGIT1
+ACCEPT  LDA DIGIT1
         ASL A
         ASL A
         ASL A
@@ -418,12 +496,7 @@ EDIT
         STA PCOLR0,Y
 
         ; Done editing that color
-        INC EDITIDX
-        LDA EDITIDX
-        CMP #9
-        BNE DONE
-        LDA #0
-        STA EDITIDX
+NEXTIDX INC EDITIDX
         
 DONE    JMP FOREVER
         .IF DEBUGMODE = 1
@@ -579,6 +652,7 @@ PRXY
         STA PRODH
         ; store stashed byte at that location
         PLA
+        EOR INVERT ; this will be either $80 or 0 -- and so invert the high bit
         STA (PRODL),Y ; good thing PRODL is in Page 0
         RTS
 ;
@@ -721,9 +795,9 @@ COLORBLOCK .BYTE 0,0,0,0, 1,2,3,131, 0
         ; Font block 16 -- numbers
         ; All numbers are drawn as 3x7 using color 3
         ;
-        ; Char $10 ASCII 48 Digit zero
+CHAR_0 = $10 ; Char $10 ASCII 48 Digit zero
         .BYTE $FC,$CC,$CC,$CC, $CC,$CC,$FC,0 ; 11001100 = $CC
-        ; Char $11 ASCII 49 Digit one
+CHAR_1 = $11 ; Char $11 ASCII 49 Digit one
         .BYTE $30,$30,$30,$30, $30,$30,$30,0 ; 00110000 = $30
         ; Char $12 ASCII 50 Digit two
         .BYTE $FC,$0C,$0C, $FC,$C0,$C0,$FC,0 ; 11111100 = $FC
@@ -773,10 +847,10 @@ CHAR_F = $26 ; Char $26 ASCII 70 F
         .BYTE $FC,$C0,$C0,$FC, $C0,$C0,$C0,0 ;
         ; Char $27 ASCII 71 G
         .BYTE 0,0,0,0, 0,0,0,0
-CHAR_H = $28; ; Char $28 ASCII 72 H
+CHAR_H = $28 ; Char $28 ASCII 72 H
         .BYTE $CC,$CC,$CC,$FC, $CC,$CC,$CC,0
-        ; Char $29 ASCII 73 I
-        .BYTE 0,0,0,0, 0,0,0,0
+CHAR_I = $29 ; Char $29 ASCII 73 I
+        .BYTE $FC,$30,$30,$30, $30,$30,$FC,0
         ; Char $2A ASCII 74 J
         .BYTE 0,0,0,0, 0,0,0,0
         ; Char $2B ASCII 75 K
@@ -785,12 +859,24 @@ CHAR_L = $2C ; Char $2C ASCII 76 L
         .BYTE $C0,$C0,$C0,$C0, $C0,$C0,$FC,0
         ; Char $2D ASCII 77 M
         .BYTE 0,0,0,0, 0,0,0,0
-        ; Char $2E ASCII 78 N
+CHAR_N = $2E ; Char $2E ASCII 78 N
         .BYTE 0,0,0,0, 0,0,0,0
 CHAR_O = $2F ; Char $2F ASCII 79 O
         .BYTE $30,$CC,$CC,$CC, $CC,$CC,$30,0
-CHAR_P = $30 ; Char $30 ASCII 80 O
+CHAR_P = $30 ; Char $30 ASCII 80 P
         .BYTE $F0,$CC,$CC,$F0, $C0,$C0,$C0,0
+CHAR_Q = $31 ; Char $31 ASCII 81 Q
+        .BYTE 0,0,0,0, 0,0,0,0
+        ; Char $32 ASCII 82 R
+        .BYTE 0,0,0,0, 0,0,0,0
+        ; Char $33 ASCII 83 S
+        .BYTE 0,0,0,0, 0,0,0,0
+        ; Char $34 ASCII 84 T
+        .BYTE 0,0,0,0, 0,0,0,0
+        ; Char $35 ASCII 85 U
+        .BYTE 0,0,0,0, 0,0,0,0
+CHAR_V = $36 ; Char $36 ASCII 86 V
+        .BYTE 0,0,0,0, 0,0,0,0
 
 ;
 ;
@@ -802,9 +888,8 @@ CHAR_P = $30 ; Char $30 ASCII 80 O
         .BYTE $44
         .WORD SCREEN
         @B 10,4
-        @B 9,4
-        .BYTE $84 ; three lines for E:, interrupt first
-        .BYTE 2
+        @B 10,4
+        .BYTE $84 ; two lines for E:, interrupt first
         .BYTE 2
         .BYTE 2
         .BYTE $41
