@@ -112,6 +112,9 @@ M2      = $CF
 M1      = $CE
 PRODL   = $CC
 PRODH   = $CD
+; Loop var for PRINT
+PL      = $D0
+PH      = $D1
 ;
 ; Page 6 variables
 ; chars in the current editor
@@ -127,7 +130,8 @@ COLRIDX = $0602
 EDITIDX = $0603
 ; Set to $80 to invert all the text in the display
 INVERT  = $0604
-;
+; Y param for the PRINT routine
+P_Y     = $0606
 
         .PAGE       Some handy macros
 ;
@@ -146,6 +150,18 @@ INVERT  = $0604
             .ENDIF
         .ENDM
 ;
+; Print a string located at %2 at coords 0,%1
+; Uses PRXY, so the char will be inverted if INVERT is set
+; Local variable: PL,PH in page zero and P_Y
+        .MACRO @PRINT
+            LDA # <%2
+            STA PL
+            LDA # >%2
+            STA PH
+            LDA # %1
+            STA P_Y
+            JSR PRINT
+        .ENDM
 ;
 ;
         .PAGE       Application Startup
@@ -220,126 +236,39 @@ EN_PM   LDA #>STARTPM
         LDA #4 ; start editing with PF0
         STA EDITIDX
 LDSSCR  ; Load the static screen
-        ; Five lines, one for each PF color, eg.:
-        ; 3456789ABC
-        ; PF0=28 #
-        ; where '#' is a color block.
-; In the viewer, the plain colors are at Y=COLRIDX
-        LDA #8
-        STA COLRIDX
-
-        LDX #36
-        LDY #LABELY
-        LDA #CHAR_I
+        ; print 20 lines
+        @PRINT 0,R00S
+        @PRINT 1,R01S
+        @PRINT 2,R02S
+        @PRINT 3,R03S
+        @PRINT 4,R04S
+        @PRINT 5,R05S
+        @PRINT 6,R06S
+        @PRINT 7,R07S
+        @PRINT 8,R08S
+        @PRINT 9,R09S
+        @PRINT 10,R10S
+        @PRINT 11,R11S
+        @PRINT 12,R12S
+        @PRINT 13,R13S
+        @PRINT 14,R14S
+        @PRINT 15,R15S
+        @PRINT 16,R16S
+        @PRINT 17,R17S
+        @PRINT 18,R18S
+        @PRINT 19,R19S
+        @PRINT 20,R20S
+        @PRINT 23,R23S ; editor labels
+        ; now 20 equal signs
+        LDA #20
+        STA P_Y
+        LDX #25
+        LDA #$1D
+EQLOOP  LDY P_Y
         JSR PRXY
-
-        LDX #37
-        LDY #LABELY
-        LDA #CHAR_N
-        JSR PRXY
-
-        LDX #38
-        LDY #LABELY
-        LDA #CHAR_V
-        JSR PRXY
-SSCRLOOP
-        LDX #6
-        LDA #$1D ; equal sign
-        LDY COLRIDX
-        JSR PRXY
-
-        LDA COLRIDX
-        SEC
-        SBC #4 ; it's a PM if COLRIDX<4
-        BMI SKIPPF1
-
-        ; print colrindx-4 at X=4 -- leading 0 will be overwritten with 'F'
-        LDA COLRIDX
-        SEC
-        SBC #4
-        LDX #4
-        LDY COLRIDX
-        JSR PRNXY
-
-        LDA COLRIDX
-        ASL A
-        ASL A
-        ADC #1
-        TAX
-        LDA COLRIDX
-        SEC
-        SBC #4
-        LDY #LABELY
-        JSR PRNXY
-
-        ; Same coordinate!
-        LDA #CHAR_F
-        LDY #LABELY
-        JSR PRXY
-
-        DEX
-        LDA #CHAR_P
-        LDY #LABELY
-        JSR PRXY
-
-        ; PF color is char 0-3, and INVERSE 3
-        ; These chars are stored in array COLORBLOCK
-        LDX #$A
-        LDY COLRIDX
-        LDA COLORBLOCK,Y
-        JSR PRXY
-
-        LDX #3
-        LDA #CHAR_P
-        LDY COLRIDX
-        JSR PRXY
-
-        LDX #4
-        LDA #CHAR_F
-        LDY COLRIDX
-        JSR PRXY
-
-        JMP SKIPPM1
-SKIPPF1
-        ; print colrindx at X=4 -- leading 0 will be overwritten with 'P'
-        LDA COLRIDX
-        LDX #4
-        LDY COLRIDX
-        JSR PRNXY
-
-        LDA COLRIDX
-        ASL A
-        ASL A
-        ADC #1
-        TAX
-        LDA COLRIDX
-        LDY #LABELY
-        JSR PRNXY
-        ; Same coordinate!
-        LDA #CHAR_P
-        LDY #LABELY
-        JSR PRXY
-
-        LDX #4
-        LDA #CHAR_P
-        LDY COLRIDX
-        JSR PRXY
-SKIPPM1
-        DEC COLRIDX
-        BMI ENDSSCRLOOP
-        JMP SSCRLOOP
-
-ENDSSCRLOOP
-        LDA INVERT
-        CMP #INVMASK
-        BNE LDDSCR
-        ; We're inverting the text, so need to REinvert the inverted colorblock colors
-        LDX #$A
-        LDY #6
-        JSR INVERTXY
-        LDY #7
-        JSR INVERTXY
-
+        DEC P_Y
+        BPL EQLOOP
+        
 FOREVER
 LDDSCR  ; Load the dynamic screen
 ; In the viewer, the plain colors are at Y=COLRIDX
@@ -365,6 +294,7 @@ DSCRLOOP
         DEC COLRIDX
         BPL DSCRLOOP
 
+        ; update the editor's 'invert' value
         LDX #38
         LDY #EDITY
         LDA #CHAR_0
@@ -377,18 +307,6 @@ DSCRLOOP
         PHA
 NOINV   PLA
         JSR PRXY
-;
-; Plot all 128 characters, twice.
-;        LDX #127
-;LOOP1   LDY #4
-;        TXA
-;        JSR PRXY
-;        ORA #INVMASK
-;        LDY #8
-;        JSR PRXY
-;        DEX
-;        BNE LOOP1
-;
 EDIT
         LDA EDITIDX
         CMP #9
@@ -766,6 +684,31 @@ PRNXY
         TAX
         RTS
 ;
+; Print a string (addr in PL,PH) on line y=P_Y starting at x=0
+; Uses PRXY, so the char will be inverted if INVERT is set
+; PRXY maintains X,A but wipes out the Y register
+;
+; PRINT
+.LOCAL
+        .IF DEBUGMODE = 1
+        *= $AC00
+              ;0123456789ABCDEF
+        .BYTE "XXXX PRINT  XXXX"
+        .ENDIF
+PRINT
+        LDX #0
+PLOOP   ; get the text value
+        TXA
+        TAY
+        LDA (PL),Y
+        BMI PDONE ; negative value means end of string
+        ; get Y coord
+        LDY P_Y
+        JSR PRXY
+        ; x++ and loop
+        INX
+        JMP PLOOP
+PDONE   RTS
 ;
 ; END OF FUNCTIONS
 .LOCAL
@@ -781,6 +724,35 @@ PRNXY
 COLORBLOCK .BYTE 0,0,0,0, 1,2,3,131, 0
 ;
 ;
+; The display layout! Each row is a string to print,
+; (use .SBYTE to store the printable internal char codes)
+; and a macro that does the dynamic display. Note
+; that the macro ends in RTS!
+
+;              PFx Py Pz xXyz xx yy zz = ss  1111 1111
+;             01234567890123456789012345678901234567890
+R00S    .SBYTE "    P0",-1
+R01S    .SBYTE "    P1",-1
+R02S    .SBYTE "    P2",-1
+R03S    .SBYTE "    P3",-1
+R04S    .SBYTE "PF0",-1
+R05S    .SBYTE "PF1",-1
+R06S    .SBYTE "PF2",-1
+R07S    .SBYTE "PF3",-1
+R08S    .SBYTE "PF4",-1
+R09S    .SBYTE "    P0 P1",-1
+R10S    .SBYTE "    P0 P2",-1
+R11S    .SBYTE "    P0 P3",-1
+R12S    .SBYTE "    P0 P4",-1
+R13S    .SBYTE "    P1 P1",-1
+R14S    .SBYTE "    P1 P2",-1
+R15S    .SBYTE "    P1 P3",-1
+R16S    .SBYTE "    P1 P4",-1
+R17S    .SBYTE "PF0",-1
+R18S    .SBYTE "PF1",-1
+R19S    .SBYTE "PF2",-1
+R20S    .SBYTE "PF3",-1
+R23S    .SBYTE " P0  P1  P2  P3 PF0 PF1 PF2 PF3 PF4 INV",-1
 ;
 ;
 ;
