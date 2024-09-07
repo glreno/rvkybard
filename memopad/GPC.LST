@@ -185,10 +185,17 @@ EN_PM   LDA #>STARTPM
         STA SIZEP1
         STA SIZEP2
         STA SIZEP3
-        @LC $06,PCOLR0
-        @LC $26,PCOLR1
-        @LC $48,PCOLR2
-        @LC $A8,PCOLR3
+        ; initial colors, chosen to show overlaps. The Players are grey.
+        @LC $02,PCOLR0
+        @LC $04,PCOLR1
+        @LC $06,PCOLR2
+        @LC $08,PCOLR3
+        ; the playfields are all intensity 4 except BAK
+        @LC $14,COLOR0
+        @LC $24,COLOR1
+        @LC $44,COLOR2
+        @LC $84,COLOR3
+        @LC $00,COLOR4
 
 
 ; Main program. There are four basic parts:
@@ -933,17 +940,109 @@ HEXMAP  .BYTE $10,$11,$12,$13, $14,$15,$16,$17
 
 ; Player Definitions
         *=  STARTPM+$200   ; START OF PLAYER 0
-        *= *+16
-        @B 4,$40
+        *=  STARTPM+$200+16
+        @B 4,$60 ; PLAYER 0 ROW  0
+        @B 4,$00 ; PLAYER 0 ROW  1
+        @B 4,$00 ; PLAYER 0 ROW  2
+        @B 4,$00 ; PLAYER 0 ROW  3
+        @B 4,$00 ; PLAYER 0 ROW  4
+        @B 4,$00 ; PLAYER 0 ROW  5
+        @B 4,$00 ; PLAYER 0 ROW  6
+        @B 4,$00 ; PLAYER 0 ROW  7
+        @B 4,$00 ; PLAYER 0 ROW  8
+        @B 4,$00 ; PLAYER 0 ROW  9
+        @B 4,$00 ; PLAYER 0 ROW 10
+        @B 4,$00 ; PLAYER 0 ROW 11
+        @B 4,$00 ; PLAYER 0 ROW 12
+        @B 4,$00 ; PLAYER 0 ROW 13
+        @B 4,$00 ; PLAYER 0 ROW 14
+        @B 4,$00 ; PLAYER 0 ROW 15
+        @B 4,$00 ; PLAYER 0 ROW 16
+        @B 4,$00 ; PLAYER 0 ROW 17
+        @B 4,$00 ; PLAYER 0 ROW 18
+        @B 4,$00 ; PLAYER 0 ROW 19
+        @B 4,$00 ; PLAYER 0 ROW 20
+        @B 4,$00 ; PLAYER 0 ROW 21
+        @B 4,$00 ; PLAYER 0 ROW 22
+        @B 4,$00 ; PLAYER 0 ROW 23
         *=  STARTPM+$280   ; START OF PLAYER 1
-        *= *+20
-        @B 4,$40
+        *=  STARTPM+$280+16
+        @B 4,$00 ; PLAYER 1 ROW  0
+        @B 4,$60 ; PLAYER 1 ROW  1
+        @B 4,$00 ; PLAYER 1 ROW  2
+        @B 4,$00 ; PLAYER 1 ROW  3
+        @B 4,$00 ; PLAYER 1 ROW  4
+        @B 4,$00 ; PLAYER 1 ROW  5
+        @B 4,$00 ; PLAYER 1 ROW  6
+        @B 4,$00 ; PLAYER 1 ROW  7
+        @B 4,$00 ; PLAYER 1 ROW  8
+        @B 4,$00 ; PLAYER 1 ROW  9
+        @B 4,$00 ; PLAYER 1 ROW 10
+        @B 4,$00 ; PLAYER 1 ROW 11
+        @B 4,$00 ; PLAYER 1 ROW 12
+        @B 4,$00 ; PLAYER 1 ROW 13
+        @B 4,$00 ; PLAYER 1 ROW 14
+        @B 4,$00 ; PLAYER 1 ROW 15
+        @B 4,$00 ; PLAYER 1 ROW 16
+        @B 4,$00 ; PLAYER 1 ROW 17
+        @B 4,$00 ; PLAYER 1 ROW 18
+        @B 4,$00 ; PLAYER 1 ROW 19
+        @B 4,$00 ; PLAYER 1 ROW 20
+        @B 4,$00 ; PLAYER 1 ROW 21
+        @B 4,$00 ; PLAYER 1 ROW 22
+        @B 4,$00 ; PLAYER 1 ROW 23
         *=  STARTPM+$300  ; START OF PLAYER 2
-        *= *+24
-        @B 4,$40
+        *=  STARTPM+$300+16
+        @B 4,$00 ; PLAYER 2 ROW  0
+        @B 4,$00 ; PLAYER 2 ROW  1
+        @B 4,$60 ; PLAYER 2 ROW  2
+        @B 4,$00 ; PLAYER 2 ROW  3
+        @B 4,$00 ; PLAYER 2 ROW  4
+        @B 4,$00 ; PLAYER 2 ROW  5
+        @B 4,$00 ; PLAYER 2 ROW  6
+        @B 4,$00 ; PLAYER 2 ROW  7
+        @B 4,$00 ; PLAYER 2 ROW  8
+        @B 4,$00 ; PLAYER 2 ROW  9
+        @B 4,$00 ; PLAYER 2 ROW 10
+        @B 4,$00 ; PLAYER 2 ROW 11
+        @B 4,$00 ; PLAYER 2 ROW 12
+        @B 4,$00 ; PLAYER 2 ROW 13
+        @B 4,$00 ; PLAYER 2 ROW 14
+        @B 4,$00 ; PLAYER 2 ROW 15
+        @B 4,$00 ; PLAYER 2 ROW 16
+        @B 4,$00 ; PLAYER 2 ROW 17
+        @B 4,$00 ; PLAYER 2 ROW 18
+        @B 4,$00 ; PLAYER 2 ROW 19
+        @B 4,$00 ; PLAYER 2 ROW 20
+        @B 4,$00 ; PLAYER 2 ROW 21
+        @B 4,$00 ; PLAYER 2 ROW 22
+        @B 4,$00 ; PLAYER 2 ROW 23
         *=  STARTPM+$380   ; START OF PLAYER 3
-        *= *+28
-        @B 4,$40
+        *=  STARTPM+$380+16
+        @B 4,$00 ; PLAYER 3 ROW  0
+        @B 4,$00 ; PLAYER 3 ROW  1
+        @B 4,$00 ; PLAYER 3 ROW  2
+        @B 4,$60 ; PLAYER 3 ROW  3
+        @B 4,$00 ; PLAYER 3 ROW  4
+        @B 4,$00 ; PLAYER 3 ROW  5
+        @B 4,$00 ; PLAYER 3 ROW  6
+        @B 4,$00 ; PLAYER 3 ROW  7
+        @B 4,$00 ; PLAYER 3 ROW  8
+        @B 4,$00 ; PLAYER 3 ROW  9
+        @B 4,$00 ; PLAYER 3 ROW 10
+        @B 4,$00 ; PLAYER 3 ROW 11
+        @B 4,$00 ; PLAYER 3 ROW 12
+        @B 4,$00 ; PLAYER 3 ROW 13
+        @B 4,$00 ; PLAYER 3 ROW 14
+        @B 4,$00 ; PLAYER 3 ROW 15
+        @B 4,$00 ; PLAYER 3 ROW 16
+        @B 4,$00 ; PLAYER 3 ROW 17
+        @B 4,$00 ; PLAYER 3 ROW 18
+        @B 4,$00 ; PLAYER 3 ROW 19
+        @B 4,$00 ; PLAYER 3 ROW 20
+        @B 4,$00 ; PLAYER 3 ROW 21
+        @B 4,$00 ; PLAYER 3 ROW 22
+        @B 4,$00 ; PLAYER 3 ROW 23
 
         .PAGE       Cartridge Trailer
         .IF TARGET = 2 .OR TARGET = 4 .OR TARGET = 8 ; any size cartridge
