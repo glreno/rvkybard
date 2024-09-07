@@ -130,6 +130,7 @@ COLRIDX = $0602
 EDITIDX = $0603
 ; Set to $80 to invert all the text in the display
 INVERT  = $0604
+INVERT2 = $0605
 ; Y param for the PRINT routine
 P_Y     = $0606
 
@@ -141,13 +142,14 @@ P_Y     = $0606
             STA %2
         .ENDM
 ;
-; Put %1 copies of %2 into a .BYTE op
-; "@B 4,$FF" instead of ".BYTE $FF $FF $FF $FF"
-        .MACRO @B
-            .IF %1 > 0
-                .BYTE %2
-                @B %1-1,%2
-            .ENDIF
+;
+; Put 4 copies of %1 into a .BYTE op
+; "@B4 #FF" instead of @B 4,$FF" instead of ".BYTE $FF $FF $FF $FF"
+        .MACRO @B4
+            .BYTE %1,%1,%1,%1
+        .ENDM
+        .MACRO @B4__00
+            *= *+4
         .ENDM
 ;
 ; Print a string located at %2 at coords 0,%1
@@ -191,7 +193,7 @@ EN_PM   LDA #>STARTPM
         STA NMIEN
         @LC $2E,SDMCTL  ; 2(norm playfield)+4(missiles)+8(players)+32(enable ANTIC)
         ; position the Players
-        LDA #88
+        LDA #92
         STA HPOSP0
         STA HPOSP1
         STA HPOSP2
@@ -258,6 +260,7 @@ LDSSCR  ; Load the static screen
         @PRINT 18,R18S
         @PRINT 19,R19S
         @PRINT 20,R20S
+        @PRINT 21,R21S
         @PRINT 23,R23S ; editor labels
         ; now 20 equal signs
         LDA #20
@@ -276,11 +279,12 @@ LDDSCR  ; Load the dynamic screen
         LDA #8
         STA COLRIDX
 DSCRLOOP
-        LDY COLRIDX
-        LDX #7
-        LDA PCOLR0,Y
-        JSR PRNXY
+;       LDY COLRIDX
+;       LDX #7
+;       LDA PCOLR0,Y
+;       JSR PRNXY
 
+        ; load color value into editor
         LDA COLRIDX
         ASL A
         ASL A
@@ -293,6 +297,29 @@ DSCRLOOP
 
         DEC COLRIDX
         BPL DSCRLOOP
+
+        JSR R00D
+        JSR R01D
+        JSR R02D
+        JSR R03D
+        JSR R04D
+        JSR R05D
+        JSR R06D
+        JSR R07D
+        JSR R08D
+        JSR R09D
+        JSR R10D
+        JSR R11D
+        JSR R12D
+        JSR R13D
+        JSR R14D
+        JSR R15D
+        JSR R16D
+        JSR R17D
+        JSR R18D
+        JSR R19D
+        JSR R20D
+        JSR R21D
 
         ; update the editor's 'invert' value
         LDX #38
@@ -602,6 +629,19 @@ PRXY
         EOR INVERT ; this will be either $80 or 0 -- and so invert the high bit
         STA (PRODL),Y ; good thing PRODL is in Page 0
         RTS
+PRXYNOINV
+        PHA
+        PHA
+        LDA INVERT
+        STA INVERT2
+        LDA #0
+        STA INVERT
+        PLA
+        JSR PRXY
+        LDA INVERT2
+        STA INVERT
+        PLA
+        RTS
 ;
 ; Read character on screen at location in X,Y registers
 ; and invert it
@@ -720,10 +760,131 @@ PDONE   RTS
         .BYTE "XXX CONSTANTS XX"
         .ENDIF
 ; ascii codes for the single blocks of color for each PF.
-; The first four indexes are PM, and thus have no color.
-COLORBLOCK .BYTE 0,0,0,0, 1,2,3,131, 0
+COLORBLOCK .BYTE 1,2,3,131,0
 ;
 ;
+    ; A row that contains only PF4, the background
+    .MACRO @ROW_NO
+        RTS
+    .ENDM
+    ; A row that contains only a PF color
+    .MACRO @ROW_F
+        ; Print color block in col 11 and 12
+        LDA COLORBLOCK+%2
+        LDX #11
+        LDY # %1
+        JSR PRXYNOINV
+        LDX #12
+        LDY # %1
+        JSR PRXYNOINV
+        ; Print PF value in col 16
+        LDA COLOR0+%2
+        LDX #16
+        LDY # %1
+        JSR PRNXY
+        ; Print sum in col 27
+        LDA COLOR0+%2
+        LDX #27
+        LDY # %1
+        JSR PRNXY
+        RTS
+    .ENDM
+    ; A row that contains a PF and a PM
+    .MACRO @ROW_FP
+        ; Print color block in col 11 and 12
+        LDA COLORBLOCK+%2
+        LDX #11
+        LDY # %1
+        JSR PRXYNOINV
+        LDX #12
+        LDY # %1
+        JSR PRXYNOINV
+        ; Print PF value in col 16
+        LDA COLOR0+%2
+        LDX #16
+        LDY # %1
+        JSR PRNXY
+        ; Print PM value in col 19
+        LDA PCOLR0+%3
+        LDX #19
+        LDY # %1
+        JSR PRNXY
+        ; Print sum in col 27
+        LDA COLOR0+%2
+        ORA PCOLR0+%3
+        LDX #27
+        LDY # %1
+        JSR PRNXY
+        RTS
+    .ENDM
+    ; A row that contains a PF and two PMs
+    .MACRO @ROWFPP
+        ; Print color block in col 11 and 12
+        LDA COLORBLOCK+%2
+        LDX #11
+        LDY # %1
+        JSR PRXYNOINV
+        LDX #12
+        LDY # %1
+        JSR PRXYNOINV
+        ; Print PF value in col 16
+        LDA COLOR0+%2
+        LDX #16
+        LDY # %1
+        JSR PRNXY
+        ; Print PM-A value in col 19
+        LDA PCOLR0+%3
+        LDX #19
+        LDY # %1
+        JSR PRNXY
+        ; Print PM-B value in col 22
+        LDA PCOLR0+%4
+        LDX #22
+        LDY # %1
+        JSR PRNXY
+        ; Print sum in col 27
+        LDA COLOR0+%2
+        ORA PCOLR0+%3
+        ORA PCOLR0+%4
+        LDX #27
+        LDY # %1
+        JSR PRNXY
+        RTS
+    .ENDM
+    ; A row that contains only a single PM color
+    .MACRO @ROW_P
+        ; Print PM value in col 19
+        LDA PCOLR0+%2
+        LDX #19
+        LDY # %1
+        JSR PRNXY
+        ; Print sum in col 27
+        LDA PCOLR0+%2
+        LDX #27
+        LDY # %1
+        JSR PRNXY
+        RTS
+    .ENDM
+    ; A row that contains two PM colors
+    .MACRO @ROW_PP
+        ; Print PM-A value in col 19
+        LDA PCOLR0+%2
+        LDX #19
+        LDY # %1
+        JSR PRNXY
+        ; Print PM-B value in col 22
+        LDA PCOLR0+%3
+        LDX #22
+        LDY # %1
+        JSR PRNXY
+        ; Print sum in col 27
+        LDA PCOLR0+%2
+        ORA PCOLR0+%3
+        LDX #27
+        LDY # %1
+        JSR PRNXY
+        RTS
+    .ENDM
 ; The display layout! Each row is a string to print,
 ; (use .SBYTE to store the printable internal char codes)
 ; and a macro that does the dynamic display. Note
@@ -741,18 +902,43 @@ R06S    .SBYTE "PF2",-1
 R07S    .SBYTE "PF3",-1
 R08S    .SBYTE "PF4",-1
 R09S    .SBYTE "    P0 P1",-1
-R10S    .SBYTE "    P0 P2",-1
-R11S    .SBYTE "    P0 P3",-1
-R12S    .SBYTE "    P0 P4",-1
-R13S    .SBYTE "    P1 P1",-1
-R14S    .SBYTE "    P1 P2",-1
-R15S    .SBYTE "    P1 P3",-1
-R16S    .SBYTE "    P1 P4",-1
-R17S    .SBYTE "PF0",-1
-R18S    .SBYTE "PF1",-1
-R19S    .SBYTE "PF2",-1
-R20S    .SBYTE "PF3",-1
+R10S    .SBYTE "    P2 P3",-1
+R11S    .SBYTE "PF0 P0",-1
+R12S    .SBYTE "PF0 P1",-1
+R13S    .SBYTE "PF0 P0 P1",-1
+R14S    .SBYTE "PF1 P0",-1
+R15S    .SBYTE "PF1 P1",-1
+R16S    .SBYTE "PF1 P0 P1",-1
+R17S    .SBYTE "PF4",-1
+R18S    .SBYTE "PF4",-1
+R19S    .SBYTE "PF4",-1
+R20S    .SBYTE "PF4",-1
+R21S    .SBYTE "PF1",-1
 R23S    .SBYTE " P0  P1  P2  P3 PF0 PF1 PF2 PF3 PF4 INV",-1
+
+R00D @ROW_P   0,0
+R01D @ROW_P   1,1
+R02D @ROW_P   2,2
+R03D @ROW_P   3,3
+R04D @ROW_F   4,0
+R05D @ROW_F   5,1
+R06D @ROW_F   6,2
+R07D @ROW_F   7,3
+R08D @ROW_F   8,4
+R09D @ROW_PP  9,0,1
+R10D @ROW_PP 10,2,3
+R11D @ROW_FP 11,0,0
+R12D @ROW_FP 12,0,1
+R13D @ROWFPP 13,0,0,1
+R14D @ROW_FP 14,1,0
+R15D @ROW_FP 15,1,1
+R16D @ROWFPP 16,1,0,1
+R17D @ROW_NO 17
+R18D @ROW_NO 18
+R19D @ROW_NO 19
+R20D @ROW_NO 20
+R21D @ROW_F  21,1
+
 ;
 ;
 ;
@@ -888,8 +1074,8 @@ CHAR_V = $36 ; Char $36 ASCII 86 V
         .BYTE $70,$70,$70
         .BYTE $44
         .WORD SCREEN
-        @B 10,4
-        @B 10,4
+        .BYTE 4,4,4,4,4, 4,4,4,4,4
+        .BYTE 4,4,4,4,4, 4,4,4,4,4
         .BYTE $84 ; two lines for E:, interrupt first
         .BYTE 2
         .BYTE 2
@@ -913,108 +1099,108 @@ HEXMAP  .BYTE $10,$11,$12,$13, $14,$15,$16,$17
 ; Player Definitions
         *=  STARTPM+$200   ; START OF PLAYER 0
         *=  STARTPM+$200+16
-        @B 4,$60 ; PLAYER 0 ROW  0
-        @B 4,$00 ; PLAYER 0 ROW  1
-        @B 4,$00 ; PLAYER 0 ROW  2
-        @B 4,$00 ; PLAYER 0 ROW  3
-        @B 4,$00 ; PLAYER 0 ROW  4
-        @B 4,$00 ; PLAYER 0 ROW  5
-        @B 4,$00 ; PLAYER 0 ROW  6
-        @B 4,$00 ; PLAYER 0 ROW  7
-        @B 4,$00 ; PLAYER 0 ROW  8
-        @B 4,$00 ; PLAYER 0 ROW  9
-        @B 4,$00 ; PLAYER 0 ROW 10
-        @B 4,$00 ; PLAYER 0 ROW 11
-        @B 4,$00 ; PLAYER 0 ROW 12
-        @B 4,$00 ; PLAYER 0 ROW 13
-        @B 4,$00 ; PLAYER 0 ROW 14
-        @B 4,$00 ; PLAYER 0 ROW 15
-        @B 4,$00 ; PLAYER 0 ROW 16
-        @B 4,$00 ; PLAYER 0 ROW 17
-        @B 4,$00 ; PLAYER 0 ROW 18
-        @B 4,$00 ; PLAYER 0 ROW 19
-        @B 4,$00 ; PLAYER 0 ROW 20
-        @B 4,$00 ; PLAYER 0 ROW 21
-        @B 4,$00 ; PLAYER 0 ROW 22
-        @B 4,$00 ; PLAYER 0 ROW 23
+        @B4 $60 ; PLAYER 0 ROW  0
+        @B4__00 ; PLAYER 0 ROW  1
+        @B4__00 ; PLAYER 0 ROW  2
+        @B4__00 ; PLAYER 0 ROW  3
+        @B4__00 ; PLAYER 0 ROW  4
+        @B4__00 ; PLAYER 0 ROW  5
+        @B4__00 ; PLAYER 0 ROW  6
+        @B4__00 ; PLAYER 0 ROW  7
+        @B4__00 ; PLAYER 0 ROW  8
+        @B4 $60 ; PLAYER 0 ROW  9
+        @B4__00 ; PLAYER 0 ROW 10
+        @B4 $60 ; PLAYER 0 ROW 11
+        @B4__00 ; PLAYER 0 ROW 12
+        @B4 $60 ; PLAYER 0 ROW 13
+        @B4 $60 ; PLAYER 0 ROW 14
+        @B4__00 ; PLAYER 0 ROW 15
+        @B4 $60 ; PLAYER 0 ROW 16
+        @B4__00 ; PLAYER 0 ROW 17
+        @B4__00 ; PLAYER 0 ROW 18
+        @B4__00 ; PLAYER 0 ROW 19
+        @B4__00 ; PLAYER 0 ROW 20
+        @B4__00 ; PLAYER 0 ROW 21
+        @B4__00 ; PLAYER 0 ROW 22
+        @B4__00 ; PLAYER 0 ROW 23
         *=  STARTPM+$280   ; START OF PLAYER 1
         *=  STARTPM+$280+16
-        @B 4,$00 ; PLAYER 1 ROW  0
-        @B 4,$60 ; PLAYER 1 ROW  1
-        @B 4,$00 ; PLAYER 1 ROW  2
-        @B 4,$00 ; PLAYER 1 ROW  3
-        @B 4,$00 ; PLAYER 1 ROW  4
-        @B 4,$00 ; PLAYER 1 ROW  5
-        @B 4,$00 ; PLAYER 1 ROW  6
-        @B 4,$00 ; PLAYER 1 ROW  7
-        @B 4,$00 ; PLAYER 1 ROW  8
-        @B 4,$00 ; PLAYER 1 ROW  9
-        @B 4,$00 ; PLAYER 1 ROW 10
-        @B 4,$00 ; PLAYER 1 ROW 11
-        @B 4,$00 ; PLAYER 1 ROW 12
-        @B 4,$00 ; PLAYER 1 ROW 13
-        @B 4,$00 ; PLAYER 1 ROW 14
-        @B 4,$00 ; PLAYER 1 ROW 15
-        @B 4,$00 ; PLAYER 1 ROW 16
-        @B 4,$00 ; PLAYER 1 ROW 17
-        @B 4,$00 ; PLAYER 1 ROW 18
-        @B 4,$00 ; PLAYER 1 ROW 19
-        @B 4,$00 ; PLAYER 1 ROW 20
-        @B 4,$00 ; PLAYER 1 ROW 21
-        @B 4,$00 ; PLAYER 1 ROW 22
-        @B 4,$00 ; PLAYER 1 ROW 23
+        @B4 $00 ; PLAYER 1 ROW  0
+        @B4 $60 ; PLAYER 1 ROW  1
+        @B4 $00 ; PLAYER 1 ROW  2
+        @B4 $00 ; PLAYER 1 ROW  3
+        @B4 $00 ; PLAYER 1 ROW  4
+        @B4 $00 ; PLAYER 1 ROW  5
+        @B4 $00 ; PLAYER 1 ROW  6
+        @B4 $00 ; PLAYER 1 ROW  7
+        @B4 $00 ; PLAYER 1 ROW  8
+        @B4 $50 ; PLAYER 1 ROW  9
+        @B4 $00 ; PLAYER 1 ROW 10
+        @B4 $00 ; PLAYER 1 ROW 11
+        @B4 $60 ; PLAYER 1 ROW 12
+        @B4 $50 ; PLAYER 1 ROW 13
+        @B4 $00 ; PLAYER 1 ROW 14
+        @B4 $60 ; PLAYER 1 ROW 15
+        @B4 $50 ; PLAYER 1 ROW 16
+        @B4__00 ; PLAYER 1 ROW 17
+        @B4__00 ; PLAYER 1 ROW 18
+        @B4__00 ; PLAYER 1 ROW 19
+        @B4__00 ; PLAYER 1 ROW 20
+        @B4__00 ; PLAYER 1 ROW 21
+        @B4__00 ; PLAYER 1 ROW 22
+        @B4__00 ; PLAYER 1 ROW 23
         *=  STARTPM+$300  ; START OF PLAYER 2
         *=  STARTPM+$300+16
-        @B 4,$00 ; PLAYER 2 ROW  0
-        @B 4,$00 ; PLAYER 2 ROW  1
-        @B 4,$60 ; PLAYER 2 ROW  2
-        @B 4,$00 ; PLAYER 2 ROW  3
-        @B 4,$00 ; PLAYER 2 ROW  4
-        @B 4,$00 ; PLAYER 2 ROW  5
-        @B 4,$00 ; PLAYER 2 ROW  6
-        @B 4,$00 ; PLAYER 2 ROW  7
-        @B 4,$00 ; PLAYER 2 ROW  8
-        @B 4,$00 ; PLAYER 2 ROW  9
-        @B 4,$00 ; PLAYER 2 ROW 10
-        @B 4,$00 ; PLAYER 2 ROW 11
-        @B 4,$00 ; PLAYER 2 ROW 12
-        @B 4,$00 ; PLAYER 2 ROW 13
-        @B 4,$00 ; PLAYER 2 ROW 14
-        @B 4,$00 ; PLAYER 2 ROW 15
-        @B 4,$00 ; PLAYER 2 ROW 16
-        @B 4,$00 ; PLAYER 2 ROW 17
-        @B 4,$00 ; PLAYER 2 ROW 18
-        @B 4,$00 ; PLAYER 2 ROW 19
-        @B 4,$00 ; PLAYER 2 ROW 20
-        @B 4,$00 ; PLAYER 2 ROW 21
-        @B 4,$00 ; PLAYER 2 ROW 22
-        @B 4,$00 ; PLAYER 2 ROW 23
+        @B4 $00 ; PLAYER 2 ROW  0
+        @B4 $00 ; PLAYER 2 ROW  1
+        @B4 $60 ; PLAYER 2 ROW  2
+        @B4 $00 ; PLAYER 2 ROW  3
+        @B4 $00 ; PLAYER 2 ROW  4
+        @B4 $00 ; PLAYER 2 ROW  5
+        @B4 $00 ; PLAYER 2 ROW  6
+        @B4 $00 ; PLAYER 2 ROW  7
+        @B4 $00 ; PLAYER 2 ROW  8
+        @B4 $00 ; PLAYER 2 ROW  9
+        @B4 $60 ; PLAYER 2 ROW 10
+        @B4__00 ; PLAYER 2 ROW 11
+        @B4__00 ; PLAYER 2 ROW 12
+        @B4__00 ; PLAYER 2 ROW 13
+        @B4__00 ; PLAYER 2 ROW 14
+        @B4__00 ; PLAYER 2 ROW 15
+        @B4__00 ; PLAYER 2 ROW 16
+        @B4__00 ; PLAYER 2 ROW 17
+        @B4__00 ; PLAYER 2 ROW 18
+        @B4__00 ; PLAYER 2 ROW 19
+        @B4__00 ; PLAYER 2 ROW 20
+        @B4__00 ; PLAYER 2 ROW 21
+        @B4__00 ; PLAYER 2 ROW 22
+        @B4__00 ; PLAYER 2 ROW 23
         *=  STARTPM+$380   ; START OF PLAYER 3
         *=  STARTPM+$380+16
-        @B 4,$00 ; PLAYER 3 ROW  0
-        @B 4,$00 ; PLAYER 3 ROW  1
-        @B 4,$00 ; PLAYER 3 ROW  2
-        @B 4,$60 ; PLAYER 3 ROW  3
-        @B 4,$00 ; PLAYER 3 ROW  4
-        @B 4,$00 ; PLAYER 3 ROW  5
-        @B 4,$00 ; PLAYER 3 ROW  6
-        @B 4,$00 ; PLAYER 3 ROW  7
-        @B 4,$00 ; PLAYER 3 ROW  8
-        @B 4,$00 ; PLAYER 3 ROW  9
-        @B 4,$00 ; PLAYER 3 ROW 10
-        @B 4,$00 ; PLAYER 3 ROW 11
-        @B 4,$00 ; PLAYER 3 ROW 12
-        @B 4,$00 ; PLAYER 3 ROW 13
-        @B 4,$00 ; PLAYER 3 ROW 14
-        @B 4,$00 ; PLAYER 3 ROW 15
-        @B 4,$00 ; PLAYER 3 ROW 16
-        @B 4,$00 ; PLAYER 3 ROW 17
-        @B 4,$00 ; PLAYER 3 ROW 18
-        @B 4,$00 ; PLAYER 3 ROW 19
-        @B 4,$00 ; PLAYER 3 ROW 20
-        @B 4,$00 ; PLAYER 3 ROW 21
-        @B 4,$00 ; PLAYER 3 ROW 22
-        @B 4,$00 ; PLAYER 3 ROW 23
+        @B4 $00 ; PLAYER 3 ROW  0
+        @B4 $00 ; PLAYER 3 ROW  1
+        @B4 $00 ; PLAYER 3 ROW  2
+        @B4 $60 ; PLAYER 3 ROW  3
+        @B4 $00 ; PLAYER 3 ROW  4
+        @B4 $00 ; PLAYER 3 ROW  5
+        @B4 $00 ; PLAYER 3 ROW  6
+        @B4 $00 ; PLAYER 3 ROW  7
+        @B4 $00 ; PLAYER 3 ROW  8
+        @B4 $00 ; PLAYER 3 ROW  9
+        @B4 $50 ; PLAYER 3 ROW 10
+        @B4__00 ; PLAYER 3 ROW 11
+        @B4__00 ; PLAYER 3 ROW 12
+        @B4__00 ; PLAYER 3 ROW 13
+        @B4__00 ; PLAYER 3 ROW 14
+        @B4__00 ; PLAYER 3 ROW 15
+        @B4__00 ; PLAYER 3 ROW 16
+        @B4__00 ; PLAYER 3 ROW 17
+        @B4__00 ; PLAYER 3 ROW 18
+        @B4__00 ; PLAYER 3 ROW 19
+        @B4__00 ; PLAYER 3 ROW 20
+        @B4__00 ; PLAYER 3 ROW 21
+        @B4__00 ; PLAYER 3 ROW 22
+        @B4__00 ; PLAYER 3 ROW 23
 
         .PAGE       Cartridge Trailer
         .IF TARGET = 2 .OR TARGET = 4 .OR TARGET = 8 ; any size cartridge
