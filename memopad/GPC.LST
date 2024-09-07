@@ -8,7 +8,7 @@
 ;
         .PAGE       SETUP
         .OPT OBJ
-DEBUGMODE = 1
+DEBUGMODE = 0
 ; Pick one of: 0=Cassette
 ;              1=Disk
 ;              2=2KB Cartridge
@@ -102,8 +102,8 @@ NMIEN   =   $D40E ; 0x80=DLI 0x40=VBI 0x20=RESET, default is 0x40
 KEYBDV  =   $E420 ; Keyboard driver vectors
 
 INVMASK = $80
-LABELY  = 23
-EDITY   = 22
+LABELY  = 24
+EDITY   = 23
 ;
 ; Page 0 variables
 ; Simple multiplication routine
@@ -261,7 +261,8 @@ LDSSCR  ; Load the static screen
         @PRINT 19,R19S
         @PRINT 20,R20S
         @PRINT 21,R21S
-        @PRINT 23,R23S ; editor labels
+        @PRINT 22,R22S
+        @PRINT 24,R24S ; editor labels
         ; now 20 equal signs
         LDA #20
         STA P_Y
@@ -320,6 +321,7 @@ DSCRLOOP
         JSR R19D
         JSR R20D
         JSR R21D
+        JSR R22D
 
         ; update the editor's 'invert' value
         LDX #38
@@ -340,7 +342,7 @@ EDIT
         BNE GETD1
         LDA #0
         STA EDITIDX
-        ; Field 9 (at 38,22) is a 0/1 field for setting the invert flag
+        ; Field 9 (at 38,23) is a 0/1 field for setting the invert flag
         LDA #0
         PHA
         LDX #38
@@ -365,7 +367,7 @@ NOSETINV
         ;
         ; Read two keys, then store result in PF2
         ;
-        ; Read first digit, store in DIGIT1 and display at 30,22
+        ; Read first digit, store in DIGIT1 and display at 30,23
 GETD1   LDA EDITIDX
         ASL A
         ASL A
@@ -909,12 +911,13 @@ R13S    .SBYTE "PF0 P0 P1",-1
 R14S    .SBYTE "PF1 P0",-1
 R15S    .SBYTE "PF1 P1",-1
 R16S    .SBYTE "PF1 P0 P1",-1
-R17S    .SBYTE "PF4",-1
-R18S    .SBYTE "PF4",-1
-R19S    .SBYTE "PF4",-1
-R20S    .SBYTE "PF4",-1
-R21S    .SBYTE "PF1",-1
-R23S    .SBYTE " P0  P1  P2  P3 PF0 PF1 PF2 PF3 PF4 INV",-1
+R17S    .SBYTE "PF2 P2",-1
+R18S    .SBYTE "PF2 P3",-1
+R19S    .SBYTE "PF2 P2 P3",-1
+R20S    .SBYTE "PF3 P2",-1
+R21S    .SBYTE "PF3 P3",-1
+R22S    .SBYTE "PF3 P2,P3",-1
+R24S    .SBYTE " P0  P1  P2  P3 PF0 PF1 PF2 PF3 PF4 INV",-1
 
 R00D @ROW_P   0,0
 R01D @ROW_P   1,1
@@ -933,11 +936,12 @@ R13D @ROWFPP 13,0,0,1
 R14D @ROW_FP 14,1,0
 R15D @ROW_FP 15,1,1
 R16D @ROWFPP 16,1,0,1
-R17D @ROW_NO 17
-R18D @ROW_NO 18
-R19D @ROW_NO 19
-R20D @ROW_NO 20
-R21D @ROW_F  21,1
+R17D @ROW_FP 17,2,2
+R18D @ROW_FP 18,2,3
+R19D @ROWFPP 19,2,2,3
+R20D @ROW_FP 20,3,2
+R21D @ROW_FP 21,3,3
+R22D @ROWFPP 22,3,2,3
 
 ;
 ;
@@ -1076,6 +1080,7 @@ CHAR_V = $36 ; Char $36 ASCII 86 V
         .WORD SCREEN
         .BYTE 4,4,4,4,4, 4,4,4,4,4
         .BYTE 4,4,4,4,4, 4,4,4,4,4
+        .BYTE 4 ; one more line than normal
         .BYTE $84 ; two lines for E:, interrupt first
         .BYTE 2
         .BYTE 2
@@ -1168,12 +1173,12 @@ HEXMAP  .BYTE $10,$11,$12,$13, $14,$15,$16,$17
         @B4__00 ; PLAYER 2 ROW 14
         @B4__00 ; PLAYER 2 ROW 15
         @B4__00 ; PLAYER 2 ROW 16
-        @B4__00 ; PLAYER 2 ROW 17
+        @B4 $60 ; PLAYER 2 ROW 17
         @B4__00 ; PLAYER 2 ROW 18
-        @B4__00 ; PLAYER 2 ROW 19
-        @B4__00 ; PLAYER 2 ROW 20
+        @B4 $60 ; PLAYER 2 ROW 19
+        @B4 $60 ; PLAYER 2 ROW 20
         @B4__00 ; PLAYER 2 ROW 21
-        @B4__00 ; PLAYER 2 ROW 22
+        @B4 $60 ; PLAYER 2 ROW 22
         @B4__00 ; PLAYER 2 ROW 23
         *=  STARTPM+$380   ; START OF PLAYER 3
         *=  STARTPM+$380+16
@@ -1195,11 +1200,11 @@ HEXMAP  .BYTE $10,$11,$12,$13, $14,$15,$16,$17
         @B4__00 ; PLAYER 3 ROW 15
         @B4__00 ; PLAYER 3 ROW 16
         @B4__00 ; PLAYER 3 ROW 17
-        @B4__00 ; PLAYER 3 ROW 18
-        @B4__00 ; PLAYER 3 ROW 19
+        @B4 $60 ; PLAYER 3 ROW 18
+        @B4 $50 ; PLAYER 3 ROW 19
         @B4__00 ; PLAYER 3 ROW 20
-        @B4__00 ; PLAYER 3 ROW 21
-        @B4__00 ; PLAYER 3 ROW 22
+        @B4 $60 ; PLAYER 3 ROW 21
+        @B4 $50 ; PLAYER 3 ROW 22
         @B4__00 ; PLAYER 3 ROW 23
 
         .PAGE       Cartridge Trailer
