@@ -208,11 +208,11 @@ EN_PM   LDA #>STARTPM
         @LC $04,PCOLR1
         @LC $06,PCOLR2
         @LC $08,PCOLR3
-        ; the playfields are all intensity 4 except BAK
-        @LC $14,COLOR0
-        @LC $24,COLOR1
-        @LC $44,COLOR2
-        @LC $84,COLOR3
+        ; the playfields
+        @LC $10,COLOR0
+        @LC $20,COLOR1
+        @LC $80,COLOR2
+        @LC $40,COLOR3
         @LC $00,COLOR4
 
 
