@@ -49,6 +49,11 @@ public class ObjToRom
         int shi=in.read();
         if ( shi<0 ) return false;
         int s = shi*256+slo;
+        if ( s == 0xffff )
+        {
+            // Oh look, the optional block header
+            return readblock(in);
+        }
         int elo=in.read();
         if ( elo<0 ) return false;
         int ehi=in.read();

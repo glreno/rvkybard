@@ -1,0 +1,345 @@
+        .TITLE      Cartridge Tester
+;
+; 1. Boot to the normal 8K cart at $A000
+; 2. Store the bank ID in 0600
+; 3. Print "Booted bank A"
+; 4. Check for ID number in right cart area $8000
+; 5. Print "Bank 8 mapped to bank "+ID
+; 6. Wait for a key
+; 7. Clear screen, print "Enabling bank "+X
+; 8. Enable the bank
+; 9. Jump to 4
+;
+; Steps 3 and 4 are hardcoded addresses in bank A000.
+; Every bank contains the SAME step 1&2, then jumps to 3.
+;
+; To load into MAC65: ENTER #D:C.LST,A
+;
+        .PAGE       SETUP
+        .OPT OBJ
+; This is line 200
+NUMBANKS = 8
+
+; Where the assembled code goes!
+STARTAP =   $A000 ; 8K left cartridge
+BANKAID =   $A010 ; ID number
+SCRCLR =    $A026 ; 125,155
+BOOTMSG =   $A040 ; "Booting bank:",155
+BANKMSG =   $A060 ; "Active bank:",155
+QUERY =     $A080 ; "Pick bank to switch to?",155
+LOGBOOT =   $A100 ; step 3 above
+LOGBANK =   $A200 ; step 4 above
+DOKGETCH =  $A300
+PUTLIN  =   $A400
+ASCIITONYBBLE = $A500
+BANKBID =   $B010 ; ID number
+CARTINI =   $BFF9 ; end of left cartridge
+
+        .IF NUMBANKS = 1
+BANK8ID =   $A010 ; ID number
+        .ELSE
+BANK8ID =   $8010 ; ID number
+        .ENDIF
+        .IF NUMBANKS < 8
+REALSTARTAP =   $A000 ; 8K left cartridge
+REALBANKAID =   $A010 ; ID number
+REALSCRCLR =    $A026 ; 125,155
+REALBOOTMSG =   $A040 ; "Booting bank:",155
+REALBANKMSG =   $A060 ; "Active bank:",155
+REALQUERY =     $A080 ; "Pick bank to switch to?",155
+REALLOGBOOT =   $A100
+REALLOGBANK =   $A200
+REALDOKGETCH =  $A300
+REALPUTLIN  =   $A400
+REALASCIITONYBBLE = $A500
+REALBANKBID =   $B010 ; ID number
+REALCARTINI =   $BFF9 ; end of left cartridge
+        .ENDIF
+        .IF NUMBANKS = 8
+REALSTARTAP =   $E000 ; 8K left cartridge
+REALBANKAID =   $E010 ; ID number
+REALSCRCLR =    $E026 ; 125,155
+REALBOOTMSG =   $E040 ; "Booting bank:",155
+REALBANKMSG =   $E060 ; "Active bank:",155
+REALQUERY =     $E080 ; "Pick bank to switch to?",155
+REALLOGBOOT =   $E100
+REALLOGBANK =   $E200
+REALDOKGETCH =  $E300
+REALPUTLIN  =   $E400
+REALASCIITONYBBLE = $E500
+REALBANKBID =   $F010 ; ID number
+REALCARTINI =   $FFF9 ; end of left cartridge
+        .ENDIF
+;
+        .PAGE       Addresses
+;
+; OS address constants
+;
+KEYBDV  =   $E420 ; Keyboard driver vectors
+;
+;
+; VARIABLES
+M1      = $CE
+BANKA   = $0600
+BANK8   = $0601
+SELBANK = $0602
+
+;
+;
+        .PAGE   Lower Banks
+;
+        .IF NUMBANKS = 2 .OR NUMBANKS = 4 .OR NUMBANKS = 8
+; EVERY bank starts with this exact code:
+        *= $0000
+        LDA BANKAID ; byte $10 of this bank
+        STA BANKA
+        JMP LOGBOOT ;
+        *= $0010
+        .BYTE $0
+        .BYTE  " THIS IS BANK 0",155
+        *= $1010
+        .BYTE $1
+        .BYTE  " THIS IS BANK 1??",155
+
+; EVERY bank starts with this exact code:
+        *= $2000
+        LDA BANKAID ; byte $10 of this bank
+        STA BANKA
+        JMP LOGBOOT ;
+        *= $2010
+        .BYTE $2
+        .BYTE  " THIS IS BANK 2",155
+        *= $3010
+        .BYTE $3
+        .BYTE  " THIS IS BANK 3??",155
+
+        .ENDIF
+
+        .IF NUMBANKS = 4 .OR NUMBANKS = 8
+
+; EVERY bank starts with this exact code:
+        *= $4000
+        LDA BANKAID ; byte $10 of this bank
+        STA BANKA
+        JMP LOGBOOT ;
+        *= $4010
+        .BYTE $4
+        .BYTE  " THIS IS BANK 4",155
+        *= $5010
+        .BYTE $5
+        .BYTE  " THIS IS BANK 5??",155
+
+; EVERY bank starts with this exact code:
+        *= $6000
+        LDA BANKAID ; byte $10 of this bank
+        STA BANKA
+        JMP LOGBOOT ;
+        *= $6010
+        .BYTE $6
+        .BYTE  " THIS IS BANK 6",155
+        *= $7010
+        .BYTE $7
+        .BYTE  " THIS IS BANK 7??",155
+
+        .ENDIF
+
+        .IF NUMBANKS > 1
+; EVERY bank starts with this exact code:
+        *= $8000
+        LDA BANKAID ; byte $10 of this bank
+        STA BANKA
+        JMP LOGBOOT ;
+        *= $8010
+        .BYTE $8
+        .BYTE  " THIS IS BANK 8",155
+        *= $9010
+        .BYTE $9
+        .BYTE  " THIS IS BANK 9??",155
+
+        .ENDIF
+
+        .IF NUMBANKS = 8
+
+
+        *= $A000
+        LDA BANKAID ; byte $10 of this bank
+        STA BANKA
+        JMP LOGBOOT ;
+        *= $A010
+        .BYTE $A
+        .BYTE  " THIS IS BANK A",155
+        *= $B010
+        .BYTE $B
+        .BYTE  " THIS IS BANK B??",155
+
+        *= $C000
+        LDA BANKAID ; byte $10 of this bank
+        STA BANKA
+        JMP LOGBOOT ;
+        *= $C010
+        .BYTE $C
+        .BYTE  " THIS IS BANK C",155
+        *= $D010
+        .BYTE $D
+        .BYTE  " THIS IS BANK D??",155
+
+
+        .ENDIF
+
+        .PAGE       Application Startup
+;
+;
+;       Put your application here!
+;       Do NOT use any absolute JUMPS!
+;       We are assembling to E000, but assembling FOR A000 !
+;
+; EVERY bank starts with this exact code:
+        *=  REALSTARTAP ; E000, which is A000 in the cart itself.
+        LDA BANKAID ; byte $10 of this bank
+        STA BANKA
+        JMP LOGBOOT ;
+        *= REALBANKAID
+        .BYTE $E
+        .BYTE  " THIS IS BANK E",155
+        ;      01234567890ABCDEF
+
+        *= REALSCRCLR
+        .BYTE 125,155
+              ;0123456789ABCDEF
+        *= REALBOOTMSG
+        .BYTE "Booting LF bank:",155
+        *= REALBANKMSG
+        .BYTE " Active RT bank:",155
+        *= REALQUERY
+        .BYTE "Pick bank to switch to?",155
+        
+        *= REALLOGBOOT
+        LDX #<SCRCLR
+        LDY #>SCRCLR
+        JSR PUTLIN
+        LDX #<BOOTMSG
+        LDY #>BOOTMSG
+        JSR PUTLIN
+        LDX #<BANKAID
+        LDY #>BANKAID
+        JSR PUTLIN
+        JMP LOGBANK
+        
+        *= REALLOGBANK
+        LDA BANK8ID ; byte $10 of this bank
+        STA BANK8
+        LDX #<BANKMSG
+        LDY #>BANKMSG
+        JSR PUTLIN
+        LDX #<BANK8ID
+        LDY #>BANK8ID
+        JSR PUTLIN
+
+        ; Now ask for a new bank to switch to
+        LDX #<QUERY
+        LDY #>QUERY
+        JSR PUTLIN
+        ; Wait for it
+        JSR DOKGETCH
+        JSR ASCIITONYBBLE
+        STA SELBANK
+        LDX #<SCRCLR
+        LDY #>SCRCLR
+        JSR PUTLIN
+        ; Bankswitch!
+        LDA SELBANK
+        STA $D500
+
+        JMP LOGBANK  ; Repeat
+;
+;
+; Call KGETCH or KGB -- get a character from keyboard, return it in A
+; This returns the ATASCII value; 0x30 is '0', 0x41 is 'A' 0x61 is 'a'
+        *= REALDOKGETCH
+        LDA KEYBDV+5;   (high byte of KGETCH or KGB)
+        PHA
+        LDA KEYBDV+4;   (high byte of KGETCH or KGB)
+        PHA
+        RTS ; Simulate JMP (KGETCH or KGB)
+        ; The keyboard driver will return to whoever did JSR DOKGETCH
+;
+;
+;
+;
+; ASCIITONYBBLE
+        *= REALASCIITONYBBLE
+.LOCAL
+        ; get that pesky INVERSE bit out of the way
+        AND #$7F
+        STA M1 ; stash it in M1
+        ; eliminate everything under 30
+        SEC
+        SBC #$30
+        BMI ?RTZERO
+        ; Check for numbers; they should be 0-9 now!
+        CMP #10
+        BMI ?RTNUM
+        ; Make sure it's not a weird punctuation mark between 9 and A
+        LDA M1
+        SEC
+        SBC #$41
+        BMI ?RTZERO
+        ; It's probably a letter. Get rid of the high bits.
+        LDA M1
+        AND #$1F
+        ; Make sure it's below G
+        CMP #7
+        BMI ?RTLET
+        ; Give up and return zero
+?RTZERO LDA #0
+        RTS
+?RTNUM  LDA M1
+        SEC
+        SBC #$30
+        RTS
+?RTLET  ADC #9 ; it's a letter, and if acc has '1' that means 'A'
+        RTS
+;
+; ------------------SNARFED FROM THE ATARI 800 OS --------------
+; PUT LINE ON SCREEN AT PRESENT CURSOR POSITION
+;
+;    X-REG -- LO BYTE, BEGIN ADDR OF LINE
+;    Y-REG -- HI BYTE, BEGIN ADDR OF LINE
+;
+ICBAL = $0344 ; IOCB buffer address low byte
+ICBAH = $0345 ; IOCB buffer address high byte
+ICBLL = $0348 ; IOCB buffer length low byte
+ICCOM = $0342 ; IOCB command code
+CIOV  = $E456 ; CIO utility entry point
+PUTTXT =  $9  ;"PUT TEXT RECORD" CIO COMMANDCODE
+        *= REALPUTLIN
+        TXA
+        LDX      #0           ; SCREEN EDITOR 10CR INDEX
+        STA      ICBAL,X
+        TYA
+        STA      ICBAH,X      ;SET UP ADDR OF BEGIN OF LINE
+        LDA      #PUTTXT
+        STA      ICCOM,X      ;"PUT TEXT RECORD" COMMAND
+        LDA      #$FF
+        STA      ICBLL,X      ;SET BUFFER LENGTH
+        JSR      CIOV          ;PUT LINE ON SCREEN
+        RTS
+;
+;
+;
+;
+        *= REALBANKBID
+        .BYTE $F
+        .BYTE  " THIS IS BANK F",155
+        ;      01234567890ABCDEF
+        
+
+        .PAGE       Cartridge Trailer
+        *=  REALCARTINI ; FFF9 pretending to be BFF9
+        ; Cart init code goes here -- usually nothing at all!
+        RTS ; end of cart initialization
+        .WORD STARTAP ; where to JMP after cart and OS are initted - A000
+        .BYTE 0     ; just a zero
+        .BYTE 4     ; boot opt - no disk
+        .WORD CARTINI ; BFF9
+        .END

@@ -1,0 +1,8 @@
+/* A very small but useless program that launches ATARI COMPUTER - MEMO PAD */
+#define COLOR2 0x2c6
+#define BLKBDV 0xe471
+main()
+$(
+    poke(COLOR2,0xa0);
+    usr(BLKBDV);
+$)
