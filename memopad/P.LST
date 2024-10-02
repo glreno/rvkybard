@@ -1,0 +1,1224 @@
+        .TITLE      PM Graphics Overlay Color Picker
+
+
+
+
+
+
+
+        .PAGE       SETUP
+        .OPT OBJ
+DEBUGMODE = 0
+
+
+
+
+
+
+TARGET  = 8
+
+
+        .IF TARGET = 8
+STARTAP =   $A000 
+        .ENDIF
+        .IF TARGET = 4
+STARTAP =   $B000 
+        .ENDIF
+        .IF TARGET = 2
+STARTAP =   $B800 
+        .ENDIF
+        .IF TARGET = 2 .OR TARGET = 4 .OR TARGET = 8 
+CARTINI =   $BFF9 
+STARTDL =   $B800
+STARTPM =   $B800 
+SCREEN  =   $0800 
+        .ENDIF
+
+        .IF TARGET = 1 
+
+STARTAP =   $2800 
+RUNAD   = $02E0
+        *= RUNAD
+        .WORD STARTUP
+        .ENDIF
+
+        .IF TARGET = 0 
+STARTAP =   $0700 
+CASINI  = $02
+        *= CASINI
+        .WORD STARTUP
+        .ENDIF
+
+
+
+
+
+
+
+FONT    = $B400
+
+        .PAGE       Addresses
+
+
+
+BLKBDV  =   $E471
+NOCLIK  =   $02DB 
+PMBASE  =   $D407
+GRACTL  =   $D01D
+SDMCTL  =   $022F
+GPRIOR  =   $026F
+HPOSP0  =   $D000
+HPOSP1  =   $D001
+HPOSP2  =   $D002
+HPOSP3  =   $D003
+HPOSM0  =   $D004
+HPOSM1  =   $D005
+HPOSM2  =   $D006
+HPOSM3  =   $D007
+SIZEP0  =   $D008
+SIZEP1  =   $D009
+SIZEP2  =   $D00A
+SIZEP3  =   $D00B
+SIZEM   =   $D00C
+CHBASE  =   $D409 
+PCOLR0  =   $02C0
+PCOLR1  =   $02C1
+PCOLR2  =   $02C2
+PCOLR3  =   $02C3
+COLOR0  =   $02C4
+COLOR1  =   $02C5
+COLOR2  =   $02C6
+COLOR3  =   $02C7
+COLOR4  =   $02C8
+WSYNC   =   $D40A
+VCOUNT  =   $D40B
+VDLSTL  =   $0200 
+VDLSTH  =   $0201
+SDLSTL  =   $0230 
+SDLSTH  =   $0231
+CHBAS   =   $02F4 
+SAVMSC  =   $0058 
+NMIEN   =   $D40E 
+KEYBDV  =   $E420 
+
+INVMASK = $80
+LABELY  = 24
+EDITY   = 23
+
+
+
+
+M2      = $CF
+M1      = $CE
+PRODL   = $CC
+PRODH   = $CD
+
+PL      = $D0
+PH      = $D1
+
+
+
+DIGIT1  = $0600
+DIGIT2  = $0601
+
+
+
+
+
+COLRIDX = $0602
+
+EDITIDX = $0603
+
+INVERT  = $0604
+INVERT2 = $0605
+
+P_Y     = $0606
+
+        .PAGE       Some handy macros
+
+
+        .MACRO @LC
+            LDA # %1
+            STA %2
+        .ENDM
+
+
+
+
+        .MACRO @B4
+            .BYTE %1,%1,%1,%1
+        .ENDM
+        .MACRO @B4__00
+            *= *+4
+        .ENDM
+
+
+
+
+        .MACRO @PRINT
+            LDA # <%2
+            STA PL
+            LDA # >%2
+            STA PH
+            LDA # %1
+            STA P_Y
+            JSR PRINT
+        .ENDM
+
+
+        .PAGE       Application Startup
+        *=  STARTAP
+STARTUP 
+
+
+
+
+CR_DL   @LC 0,SDMCTL    
+        LDA #>STARTDL
+        STA SDLSTH
+        LDA #<STARTDL
+        STA SDLSTL
+        LDA #>FONT
+        STA CHBAS 
+EN_DL   LDA #<DLI
+        STA VDLSTL
+        LDA #>DLI
+        STA VDLSTH
+EN_PM   LDA #>STARTPM
+        STA PMBASE
+        @LC 3,GRACTL
+        @LC 32,GPRIOR
+        
+        LDA #$C0
+        STA NMIEN
+        @LC $2E,SDMCTL  
+        
+        LDA #92
+        STA HPOSP0
+        STA HPOSP1
+        STA HPOSP2
+        STA HPOSP3
+        LDA #3
+        STA SIZEP0
+        STA SIZEP1
+        STA SIZEP2
+        STA SIZEP3
+        
+        @LC $02,PCOLR0
+        @LC $04,PCOLR1
+        @LC $06,PCOLR2
+        @LC $08,PCOLR3
+        
+        @LC $10,COLOR0
+        @LC $20,COLOR1
+        @LC $80,COLOR2
+        @LC $40,COLOR3
+        @LC $00,COLOR4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        @LC 0,INVERT
+        LDA #4 
+        STA EDITIDX
+LDSSCR  
+        
+        @PRINT 0,R00S
+        @PRINT 1,R01S
+        @PRINT 2,R02S
+        @PRINT 3,R03S
+        @PRINT 4,R04S
+        @PRINT 5,R05S
+        @PRINT 6,R06S
+        @PRINT 7,R07S
+        @PRINT 8,R08S
+        @PRINT 9,R09S
+        @PRINT 10,R10S
+        @PRINT 11,R11S
+        @PRINT 12,R12S
+        @PRINT 13,R13S
+        @PRINT 14,R14S
+        @PRINT 15,R15S
+        @PRINT 16,R16S
+        @PRINT 17,R17S
+        @PRINT 18,R18S
+        @PRINT 19,R19S
+        @PRINT 20,R20S
+        @PRINT 21,R21S
+        @PRINT 22,R22S
+        @PRINT 24,R24S 
+        
+        LDA #20
+        STA P_Y
+        LDX #25
+        LDA #$1D
+EQLOOP  LDY P_Y
+        JSR PRXY
+        DEC P_Y
+        BPL EQLOOP
+        
+FOREVER
+LDDSCR  
+
+
+        LDA #8
+        STA COLRIDX
+DSCRLOOP
+
+
+
+
+
+        
+        LDA COLRIDX
+        ASL A
+        ASL A
+        ADC #1
+        TAX
+        LDY COLRIDX
+        LDA PCOLR0,Y
+        LDY #EDITY
+        JSR PRNXY
+
+        DEC COLRIDX
+        BPL DSCRLOOP
+
+        JSR R00D
+        JSR R01D
+        JSR R02D
+        JSR R03D
+        JSR R04D
+        JSR R05D
+        JSR R06D
+        JSR R07D
+        JSR R08D
+        JSR R09D
+        JSR R10D
+        JSR R11D
+        JSR R12D
+        JSR R13D
+        JSR R14D
+        JSR R15D
+        JSR R16D
+        JSR R17D
+        JSR R18D
+        JSR R19D
+        JSR R20D
+        JSR R21D
+        JSR R22D
+
+        
+        LDX #38
+        LDY #EDITY
+        LDA #CHAR_0
+        PHA
+        LDA INVERT
+        CMP #INVMASK
+        BNE NOINV
+        PLA
+        LDA #CHAR_1
+        PHA
+NOINV   PLA
+        JSR PRXY
+EDIT
+        LDA EDITIDX
+        CMP #9
+        BNE GETD1
+        LDA #0
+        STA EDITIDX
+        
+        LDA #0
+        PHA
+        LDX #38
+        LDY #EDITY
+        JSR INVERTXY
+        JSR DOKGETCH
+        
+        CMP #127
+        BEQ NOSETINV
+        CMP #49 
+        BNE SETINV
+        LDA #INVMASK
+        PHA
+SETINV  PLA
+        STA INVERT
+        
+        JMP LDSSCR
+NOSETINV
+        PLA
+        JMP LDSSCR
+
+        
+        
+        
+        
+GETD1   LDA EDITIDX
+        ASL A
+        ASL A
+        ADC #1
+        TAX
+        LDY #EDITY
+        JSR INVERTXY
+
+        STX M1
+        JSR DOKGETCH
+        LDX M1
+        LDY #EDITY
+        JSR INVERTXY
+        
+        CMP #127
+        BEQ N2 
+        CMP #126 
+        BEQ GETD1
+        CMP #155 
+        BEQ GETD1
+STORED1 JSR ASCIITONYBBLE
+        STA DIGIT1
+
+        LDA EDITIDX
+        ASL A
+        ASL A
+        ADC #1
+        TAX
+        LDA DIGIT1
+        JSR GETCHARCODE
+        LDY #EDITY
+        JSR PRXY
+
+        
+GETD2   LDA EDITIDX
+        ASL A
+        ASL A
+        ADC #2
+        TAX
+        LDY #EDITY
+        JSR INVERTXY
+
+        STX M1
+        JSR DOKGETCH
+        LDX M1
+        LDY #EDITY
+        JSR INVERTXY
+        
+        CMP #127
+        BEQ NEXTIDX
+        CMP #155 
+        BEQ GETD2
+        
+        CMP #126
+        BNE STORED2
+        
+        JMP GETD1
+        
+STORED2 JSR ASCIITONYBBLE
+        STA DIGIT2
+
+        LDA EDITIDX
+        ASL A
+        ASL A
+        ADC #2
+        TAX
+        LDA DIGIT2
+        JSR GETCHARCODE
+        LDY #EDITY
+        JSR PRXY
+
+        
+WAITCR  INX
+        LDY #EDITY
+        JSR INVERTXY
+        STX M1
+        JSR DOKGETCH
+        LDX M1
+        LDY #EDITY
+        JSR INVERTXY
+        
+        CMP #155
+        BEQ ACCEPT
+        
+        CMP #127
+N2      BEQ NEXTIDX
+
+        
+        CMP #126
+        BNE WAITCR
+        
+        JMP GETD2
+
+        
+ACCEPT  LDA DIGIT1
+        ASL A
+        ASL A
+        ASL A
+        ASL A
+        ORA DIGIT2
+        LDY EDITIDX
+        STA PCOLR0,Y
+
+        
+NEXTIDX INC EDITIDX
+
+DONE    JMP FOREVER
+        .IF DEBUGMODE = 1
+              
+        .BYTE "XXX End of app X"
+        .ENDIF
+
+
+
+
+
+        .IF DEBUGMODE = 1
+        *= $A600
+              
+        .BYTE "XXX DOKGETCH XXX"
+        .ENDIF
+DOKGETCH
+.LOCAL
+        LDA KEYBDV+5
+        PHA
+        LDA KEYBDV+4
+        PHA
+        RTS 
+        
+
+
+
+
+
+
+
+
+
+
+        .IF DEBUGMODE = 1
+        *= $A700
+              
+        .BYTE "X ASCIITONYBBLE "
+        .ENDIF
+ASCIITONYBBLE
+.LOCAL
+        
+        AND #$7F
+        STA M1 
+        
+        SEC
+        SBC #$30
+        BMI ?RTZERO
+        
+        CMP #10
+        BMI ?RTNUM
+        
+        LDA M1
+        SEC
+        SBC #$41
+        BMI ?RTZERO
+        
+        LDA M1
+        AND #$1F
+        
+        CMP #7
+        BMI ?RTLET
+        
+?RTZERO LDA #0
+        RTS
+?RTNUM  LDA M1
+        SEC
+        SBC #$30
+        RTS
+?RTLET  ADC #9 
+        RTS
+
+
+
+
+        .IF DEBUGMODE = 1
+        *= $A800
+              
+        .BYTE "XX GETCHARCODE X"
+        .ENDIF
+GETCHARCODE
+.LOCAL
+        STX M1
+        TAX
+        LDA HEXMAP,X
+        LDX M1
+        RTS
+
+
+
+
+
+
+
+        .IF DEBUGMODE = 1
+        *= $A900
+              
+        .BYTE "XX  MULTIPLY  XX"
+        .ENDIF
+
+
+
+
+MULTIPLY
+.LOCAL
+        TXA
+        PHA
+        LDX #8
+        LDA #0
+        STA PRODL
+        STA PRODH
+?MULTLP ASL A
+        ROL PRODH
+        ASL M2
+        BCC ?MULTSK
+        CLC
+        ADC M1
+        BCC ?MULTSK
+        INC PRODH
+?MULTSK DEX
+        BNE ?MULTLP
+        STA PRODL
+        PLA
+        TAX
+        RTS
+
+
+
+
+
+        .IF DEBUGMODE = 1
+        *= $AA00
+              
+        .BYTE "XXX   PRXY   XXX"
+        .ENDIF
+PRXY
+.LOCAL
+        
+        
+        
+        PHA 
+        STY M1
+        LDA #40
+        STA M2
+        JSR MULTIPLY
+        
+        
+        TXA
+        TAY
+        
+        LDA PRODH
+        ADC # >SCREEN
+        STA PRODH
+        
+        PLA
+        EOR INVERT 
+        STA (PRODL),Y 
+        RTS
+PRXYNOINV
+        PHA
+        PHA
+        LDA INVERT
+        STA INVERT2
+        LDA #0
+        STA INVERT
+        PLA
+        JSR PRXY
+        LDA INVERT2
+        STA INVERT
+        PLA
+        RTS
+
+
+
+
+
+
+        .IF DEBUGMODE = 1
+        *= $AA80
+              
+        .BYTE "XXX   INVERTXY   XXX"
+        .ENDIF
+INVERTXY
+.LOCAL
+        
+        
+        
+        PHA
+        STY M1
+        LDA #40
+        STA M2
+        JSR MULTIPLY
+        
+        
+        TXA
+        TAY
+        
+        LDA PRODH
+        ADC # >SCREEN
+        STA PRODH
+        
+        LDA (PRODL),Y 
+        EOR #$80
+        STA (PRODL),Y 
+        PLA
+        RTS
+
+
+
+
+
+        .IF DEBUGMODE = 1
+        *= $AB00
+              
+        .BYTE "XXXX  PRNXY XXXX"
+        .ENDIF
+PRNXY
+.LOCAL
+        
+        STA M1
+        TXA
+        PHA     
+        TYA
+        PHA     
+        PHA     
+        LDA M1
+        PHA     
+        
+        AND #$F0
+        LSR A
+        LSR A
+        LSR A
+        LSR A
+        
+        JSR GETCHARCODE
+        JSR PRXY
+        
+        INX
+        PLA     
+        STA M1
+        PLA     
+        TAY
+        LDA M1
+        AND #$0F
+        JSR GETCHARCODE
+        JSR PRXY
+        
+        PLA
+        TAY
+        PLA
+        TAX
+        RTS
+
+
+
+
+
+
+.LOCAL
+        .IF DEBUGMODE = 1
+        *= $AC00
+              
+        .BYTE "XXXX PRINT  XXXX"
+        .ENDIF
+PRINT
+        LDX #0
+PLOOP   
+        TXA
+        TAY
+        LDA (PL),Y
+        BMI PDONE 
+        
+        LDY P_Y
+        JSR PRXY
+        
+        INX
+        JMP PLOOP
+PDONE   RTS
+
+
+.LOCAL
+
+
+
+        .IF DEBUGMODE = 1
+              
+        .BYTE "XXX CONSTANTS XX"
+        .ENDIF
+
+COLORBLOCK .BYTE 1,2,3,131,0
+
+
+    
+    .MACRO @ROW_NO
+        RTS
+    .ENDM
+    
+    .MACRO @ROW_F
+        
+        LDA COLORBLOCK+%2
+        LDX #11
+        LDY # %1
+        JSR PRXYNOINV
+        LDX #12
+        LDY # %1
+        JSR PRXYNOINV
+        
+        LDA COLOR0+%2
+        LDX #16
+        LDY # %1
+        JSR PRNXY
+        
+        LDA COLOR0+%2
+        LDX #27
+        LDY # %1
+        JSR PRNXY
+        RTS
+    .ENDM
+    
+    .MACRO @ROW_FP
+        
+        LDA COLORBLOCK+%2
+        LDX #11
+        LDY # %1
+        JSR PRXYNOINV
+        LDX #12
+        LDY # %1
+        JSR PRXYNOINV
+        
+        LDA COLOR0+%2
+        LDX #16
+        LDY # %1
+        JSR PRNXY
+        
+        LDA PCOLR0+%3
+        LDX #19
+        LDY # %1
+        JSR PRNXY
+        
+        LDA COLOR0+%2
+        ORA PCOLR0+%3
+        LDX #27
+        LDY # %1
+        JSR PRNXY
+        RTS
+    .ENDM
+    
+    .MACRO @ROWFPP
+        
+        LDA COLORBLOCK+%2
+        LDX #11
+        LDY # %1
+        JSR PRXYNOINV
+        LDX #12
+        LDY # %1
+        JSR PRXYNOINV
+        
+        LDA COLOR0+%2
+        LDX #16
+        LDY # %1
+        JSR PRNXY
+        
+        LDA PCOLR0+%3
+        LDX #19
+        LDY # %1
+        JSR PRNXY
+        
+        LDA PCOLR0+%4
+        LDX #22
+        LDY # %1
+        JSR PRNXY
+        
+        LDA COLOR0+%2
+        ORA PCOLR0+%3
+        ORA PCOLR0+%4
+        LDX #27
+        LDY # %1
+        JSR PRNXY
+        RTS
+    .ENDM
+    
+    .MACRO @ROW_P
+        
+        LDA PCOLR0+%2
+        LDX #19
+        LDY # %1
+        JSR PRNXY
+        
+        LDA PCOLR0+%2
+        LDX #27
+        LDY # %1
+        JSR PRNXY
+        RTS
+    .ENDM
+    
+    .MACRO @ROW_PP
+        
+        LDA PCOLR0+%2
+        LDX #19
+        LDY # %1
+        JSR PRNXY
+        
+        LDA PCOLR0+%3
+        LDX #22
+        LDY # %1
+        JSR PRNXY
+        
+        LDA PCOLR0+%2
+        ORA PCOLR0+%3
+        LDX #27
+        LDY # %1
+        JSR PRNXY
+        RTS
+    .ENDM
+
+
+
+
+
+
+
+R00S    .SBYTE "    P0",-1
+R01S    .SBYTE "    P1",-1
+R02S    .SBYTE "    P2",-1
+R03S    .SBYTE "    P3",-1
+R04S    .SBYTE "PF0",-1
+R05S    .SBYTE "PF1",-1
+R06S    .SBYTE "PF2",-1
+R07S    .SBYTE "PF3",-1
+R08S    .SBYTE "PF4",-1
+R09S    .SBYTE "    P0 P1",-1
+R10S    .SBYTE "    P2 P3",-1
+R11S    .SBYTE "PF0 P0",-1
+R12S    .SBYTE "PF0 P1",-1
+R13S    .SBYTE "PF0 P0 P1",-1
+R14S    .SBYTE "PF1 P0",-1
+R15S    .SBYTE "PF1 P1",-1
+R16S    .SBYTE "PF1 P0 P1",-1
+R17S    .SBYTE "PF2 P2",-1
+R18S    .SBYTE "PF2 P3",-1
+R19S    .SBYTE "PF2 P2 P3",-1
+R20S    .SBYTE "PF3 P2",-1
+R21S    .SBYTE "PF3 P3",-1
+R22S    .SBYTE "PF3 P2,P3",-1
+R24S    .SBYTE " P0  P1  P2  P3 PF0 PF1 PF2 PF3 PF4 INV",-1
+
+R00D @ROW_P   0,0
+R01D @ROW_P   1,1
+R02D @ROW_P   2,2
+R03D @ROW_P   3,3
+R04D @ROW_F   4,0
+R05D @ROW_F   5,1
+R06D @ROW_F   6,2
+R07D @ROW_F   7,3
+R08D @ROW_F   8,4
+R09D @ROW_PP  9,0,1
+R10D @ROW_PP 10,2,3
+R11D @ROW_FP 11,0,0
+R12D @ROW_FP 12,0,1
+R13D @ROWFPP 13,0,0,1
+R14D @ROW_FP 14,1,0
+R15D @ROW_FP 15,1,1
+R16D @ROWFPP 16,1,0,1
+R17D @ROW_FP 17,2,2
+R18D @ROW_FP 18,2,3
+R19D @ROWFPP 19,2,2,3
+R20D @ROW_FP 20,3,2
+R21D @ROW_FP 21,3,3
+R22D @ROWFPP 22,3,2,3
+
+
+
+
+        .IF DEBUGMODE = 1
+        *= FONT-16
+              
+        .BYTE "XXXXX FONT XXXXX"
+        .ENDIF
+        .PAGE       Font at B400
+        *= FONT
+        
+        .BYTE 0,0,0,0, 0,0,0,0
+        
+        .BYTE $55,$55,$55,$55, $55,$55,$55,$55 
+        
+        .BYTE $AA,$AA,$AA,$AA, $AA,$AA,$AA,$AA 
+        
+        .BYTE $FF,$FF,$FF,$FF, $FF,$FF,$FF,$FF 
+        
+        .BYTE $30,$FC,$C0,$FC, $0C,$FC,$30,0
+        
+        .BYTE 0,0,0,0, 0,0,0,0
+        
+        .BYTE 0,0,0,0, 0,0,0,0
+        
+        .BYTE 0,0,0,0, 0,0,0,0
+        
+        .BYTE 0,$30,$C0,$C0, $C0,$C0,$30,0
+        
+        .BYTE 0,$30,$0C,$0C, $0C,$0C,$30,0
+        
+        .BYTE 0,0,0,0, 0,0,0,0
+        
+        .BYTE 0,0,$30,$FC, $30,0,0,0
+        
+        
+        
+        
+        
+        *= FONT + 8*$10
+        
+        
+        
+CHAR_0 = $10 
+        .BYTE $FC,$CC,$CC,$CC, $CC,$CC,$FC,0 
+CHAR_1 = $11 
+        .BYTE $30,$30,$30,$30, $30,$30,$30,0 
+        
+        .BYTE $FC,$0C,$0C, $FC,$C0,$C0,$FC,0 
+        
+        .BYTE $FC,$0C,$0C,$FC, $0C,$0C,$FC,0 
+        
+        .BYTE $CC,$CC,$CC,$FC, $0C,$0C,$0C,0 
+        
+        .BYTE $FC,$C0,$C0,$FC, $0C,$0C,$FC,0 
+        
+        .BYTE $FC,$C0,$C0,$FC, $CC,$CC,$FC,0 
+        
+        .BYTE $FC,$0C,$0C,$0C, $30,$30,$30,0 
+        
+        .BYTE $FC,$CC,$CC,$FC, $CC,$CC,$FC,0 
+        
+        .BYTE $FC,$CC,$CC,$FC, $0C,$0C,$0C,0 
+        
+        .BYTE 0,0,0,$30, 0,$30,0,0
+        
+        .BYTE 0,0,0,$30, 0,$30,$C0,0
+        
+        .BYTE 0,0,$0C,$30, $C0,$30,$0C,0
+        
+        .BYTE 0,0,$FC,0, 0,$FC,0,0
+        
+        .BYTE 0,0,$C0,$30, $0C,$30,$C0,0
+        
+        .BYTE 0,$FC,$0C,$3C, $30,0,$30,0
+        
+        
+        
+        
+        
+        .BYTE 0,0,0,0, 0,0,0,0
+        
+        .BYTE $FC,$CC,$CC,$FC, $CC,$CC,$CC,0 
+        
+        .BYTE $F0,$CC,$CC,$F0, $CC,$CC,$F0,0 
+        
+        .BYTE $3C,$C0,$C0,$C0, $C0,$C0,$3C,0 
+        
+        .BYTE $F0,$CC,$CC,$CC, $CC,$CC,$F0,0 
+CHAR_E = $25 
+        .BYTE $FC,$C0,$C0,$FC, $C0,$C0,$FC,0 
+CHAR_F = $26 
+        .BYTE $FC,$C0,$C0,$FC, $C0,$C0,$C0,0 
+        
+        .BYTE 0,0,0,0, 0,0,0,0
+CHAR_H = $28 
+        .BYTE $CC,$CC,$CC,$FC, $CC,$CC,$CC,0
+CHAR_I = $29 
+        .BYTE $FC,$30,$30,$30, $30,$30,$FC,0
+        
+        .BYTE 0,0,0,0, 0,0,0,0
+        
+        .BYTE 0,0,0,0, 0,0,0,0
+CHAR_L = $2C 
+        .BYTE $C0,$C0,$C0,$C0, $C0,$C0,$FC,0
+        
+        .BYTE 0,0,0,0, 0,0,0,0
+CHAR_N = $2E 
+        .BYTE 0,0,0,0, 0,0,0,0
+CHAR_O = $2F 
+        .BYTE $30,$CC,$CC,$CC, $CC,$CC,$30,0
+CHAR_P = $30 
+        .BYTE $F0,$CC,$CC,$F0, $C0,$C0,$C0,0
+CHAR_Q = $31 
+        .BYTE 0,0,0,0, 0,0,0,0
+        
+        .BYTE 0,0,0,0, 0,0,0,0
+        
+        .BYTE 0,0,0,0, 0,0,0,0
+        
+        .BYTE 0,0,0,0, 0,0,0,0
+        
+        .BYTE 0,0,0,0, 0,0,0,0
+CHAR_V = $36 
+        .BYTE 0,0,0,0, 0,0,0,0
+
+
+
+
+
+        .PAGE       Display list and PMbase at B800
+        *= STARTDL
+        .BYTE $70,$70,$70
+        .BYTE $44
+        .WORD SCREEN
+        .BYTE 4,4,4,4,4, 4,4,4,4,4
+        .BYTE 4,4,4,4,4, 4,4,4,4,4
+        .BYTE 4 
+        .BYTE $84 
+        .BYTE 2
+        .BYTE 2
+        .BYTE $41
+        .WORD STARTDL
+
+DLI     PHA 
+        LDA #$CA
+        STA $D017 
+        LDA #$94
+        STA $D018 
+        LDA #$E0 
+        STA $D409 
+        PLA
+        RTI
+
+
+HEXMAP  .BYTE $10,$11,$12,$13, $14,$15,$16,$17
+        .BYTE $18,$19,$21,$22, $23,$24,$25,$26
+
+
+        *=  STARTPM+$200   
+        *=  STARTPM+$200+16
+        @B4 $60 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4 $60 
+        @B4__00 
+        @B4 $60 
+        @B4__00 
+        @B4 $60 
+        @B4 $60 
+        @B4__00 
+        @B4 $60 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        *=  STARTPM+$280   
+        *=  STARTPM+$280+16
+        @B4 $00 
+        @B4 $60 
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $50 
+        @B4 $00 
+        @B4 $00 
+        @B4 $60 
+        @B4 $50 
+        @B4 $00 
+        @B4 $60 
+        @B4 $50 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        *=  STARTPM+$300  
+        *=  STARTPM+$300+16
+        @B4 $00 
+        @B4 $00 
+        @B4 $60 
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $60 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4 $60 
+        @B4__00 
+        @B4 $60 
+        @B4 $60 
+        @B4__00 
+        @B4 $60 
+        @B4__00 
+        *=  STARTPM+$380   
+        *=  STARTPM+$380+16
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $60 
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $00 
+        @B4 $50 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4__00 
+        @B4 $60 
+        @B4 $50 
+        @B4__00 
+        @B4 $60 
+        @B4 $50 
+        @B4__00 
+
+        .PAGE       Cartridge Trailer
+        .IF TARGET = 2 .OR TARGET = 4 .OR TARGET = 8 
+        .IF DEBUGMODE = 1
+        *=  CARTINI - 32
+        .BYTE 0,0,0,"Cartridge Header",0,0,0
+        .ENDIF
+        *=  CARTINI
+        
+        RTS 
+        .WORD STARTUP 
+        .BYTE 0     
+        .BYTE 4     
+        .WORD CARTINI
+        .ENDIF
+        .END
