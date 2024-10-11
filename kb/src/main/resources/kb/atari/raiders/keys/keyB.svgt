@@ -34,6 +34,8 @@
             <polygon points="
                 70,50 70,40 50,40
             " style="fill:@{CTLBGC}" />
+            <!-- side fin -->
+            <line x1="50" y1="20" x2="70", y2="20" stroke="@{CTLBGC}" stroke-width="2" />
         </g>
     </g>
 </g>
@@ -41,11 +43,28 @@
 <!-- Bomb face : center is W*.3, H*.75 -->
 <circle fill="@{SHFBGC}" cx="@{W*.3}" cy="@{H*.75}" r="20"/>
 <!-- Glasses -->
-<line x1="@{W*.21}" y1="@{H*.68}" x2="@{W*.3}" y2="@{H*.65}" style='stroke:#000;stroke-width:1;' />
-<line x1="@{W*.35}" y1="@{H*.68}" x2="@{W*.3}" y2="@{H*.65}" style='stroke:#000;stroke-width:1;' />
+<line x1="@{W*.21}" y1="@{H*.68}" x2="@{W*.3}" y2="@{H*.66}" style='stroke:#000;stroke-width:1;' />
+<line x1="@{W*.35}" y1="@{H*.68}" x2="@{W*.3}" y2="@{H*.66}" style='stroke:#000;stroke-width:1;' />
+<circle cx="@{W*.17}" cy="@{H*.7}" r="5" fill="@{BORDC}" />
+<circle cx="@{W*.17}" cy="@{H*.7}" r="5" style='stroke:#000;stroke-width:1;fill:none' />
 <circle cx="@{W*.21}" cy="@{H*.7}" r="5" fill="@{BORDC}" />
 <circle cx="@{W*.21}" cy="@{H*.7}" r="5" style='stroke:#000;stroke-width:1;fill:none' />
 <!-- Mortarboard -->
+<polygon points="
+     @{W*.15},@{H*.56},
+     @{W*.43},@{H*.70},
+     @{W*.54},@{H*.51},
+     @{W*.27},@{H*.46},
+" style="fill:@{BGC};stroke:@{BORDC};stroke-width:1" />
+
+<!-- Center point of mortarboard: (.15+.54)/2=.345; (.51+.56)/2=.535
+Center point of front bot line:   (.15+.43)/2=.29;  (.56+.70)/2=.63
+ -->
+<circle cx="@{W*.345}" cy="@{H*.535}" r="2" fill="@{CTLBGC}" />
+<line x1="@{W*.345}" y1="@{H*.535}" x2="@{W*.29}" y2="@{H*.63}" stroke="@{CTLBGC}" />
+<line x1="@{W*.29}" y1="@{H*.85}" x2="@{W*.29}" y2="@{H*.63}" stroke="@{CTLBGC}" />
+<circle cx="@{W*.29}" cy="@{H*.75}" r="2" fill="@{CTLBGC}" />
+<line x1="@{W*.29}" y1="@{H*.75}" x2="@{W*.29}" y2="@{H*.83}" stroke="@{CTLBGC}" stroke-width="3" />
 
 
 </svg>
