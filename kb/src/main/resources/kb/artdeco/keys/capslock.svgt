@@ -21,5 +21,5 @@
 <rect fill="@{BGC}" x="@{stdW/2}" y="@{BORD}" width="@{W-stdW}" height="@{H-BORD-BORD}"/>
 <line class="CAPSLOCK-LED CAPSLOCK-LED-OFF" x1="@{stdW/2}" x2="@{W-stdW/2}" y1="@{BORD/2+BORD}" y2="@{BORD/2+BORD}" stroke-width="@{BORD}" />
 <line class="CAPSLOCK-LED CAPSLOCK-LED-OFF" x1="@{stdW/2}" x2="@{W-stdW/2}" y1="@{H-BORD/2-BORD}" y2="@{H-BORD/2-BORD}" stroke-width="@{BORD}" />
-<text x="50%" y="${H/2+FS*.15}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
+<text x="50%" y="${H/2+FS*.15}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-family="Diplomata">@{name}</text>
 </svg>
