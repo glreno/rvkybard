@@ -3,8 +3,10 @@ package com.rfacad.rvkybard.index;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 import org.apache.commons.io.FileUtils;
 //
 //Copyright (c) 2024 Gerald Reno, Jr.
@@ -18,12 +20,12 @@ import org.apache.commons.io.FileUtils;
 
 public class Theme
 {
-    private List<Keyboard> keyboards;
+    private SortedMap<String,Keyboard> keyboards;
     private String name;
 
     protected Theme()
     {
-        keyboards=new ArrayList<>();
+        keyboards=new TreeMap<>();
         name = null;
     }
 
@@ -71,12 +73,12 @@ public class Theme
 
     protected void add(Keyboard k)
     {
-        keyboards.add(k);
+        keyboards.put(k.getName(),k);
     }
 
-    public List<Keyboard> getKeyboards()
+    public Collection<Keyboard> getKeyboards()
     {
-        return keyboards;
+        return keyboards.values();
     }
 
     public void setName(String name)
