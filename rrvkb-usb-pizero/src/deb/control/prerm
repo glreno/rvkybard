@@ -1,0 +1,18 @@
+#!/bin/sh
+
+echo "Preparing to clean up /etc/rc.local"
+\rm /etc/rc.local.bak
+if [ -f /etc/rc.local.bak ]
+then
+    echo "Unable to remove /etc/rc.local.bak, not modifying /etc/rc.local"
+else
+    cp /etc/rc.local /etc/rc.local.bak
+    if [ -f /etc/rc.local.bak ]
+    then
+        echo "Removing rrvkb_usb from /etc/rc.local"
+        \rm /etc/rc.local
+        \grep -v rrvkb_usb /etc/rc.local.bak > /etc/rc.local
+    else
+        echo "Unable to back up /etc/rc.local, not modifying it"
+    fi
+fi

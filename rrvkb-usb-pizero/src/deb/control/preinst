@@ -9,5 +9,6 @@ BDIR=/tmp/rrvkb_inst_backup.$$
 echo Backing up tomcat conf files to $BDIR
 \mkdir $BDIR
 \cp /etc/tomcat8/logging.properties $BDIR
+\cp /etc/tomcat8/catalina.properties $BDIR
 \cp /etc/tomcat8/server.xml $BDIR
 exit 0
