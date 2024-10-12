@@ -41,7 +41,7 @@
 </g>
 
 <!-- Bomb face : center is W*.3, H*.75 -->
-<circle fill="@{SHFBGC}" cx="@{W*.3}" cy="@{H*.75}" r="20"/>
+<circle fill="@{SHFBGC}" cx="@{W*.3}" cy="@{H*.75}" r="19"/>
 <!-- Glasses -->
 <line x1="@{W*.21}" y1="@{H*.68}" x2="@{W*.3}" y2="@{H*.66}" style='stroke:#000;stroke-width:1;' />
 <line x1="@{W*.35}" y1="@{H*.68}" x2="@{W*.3}" y2="@{H*.66}" style='stroke:#000;stroke-width:1;' />
@@ -55,7 +55,7 @@
      @{W*.43},@{H*.70},
      @{W*.54},@{H*.51},
      @{W*.27},@{H*.46},
-" style="fill:@{BGC};stroke:@{BORDC};stroke-width:1" />
+" style="fill:@{BORDC};stroke:@{BGC};stroke-width:1" />
 
 <!-- Center point of mortarboard: (.15+.54)/2=.345; (.51+.56)/2=.535
 Center point of front bot line:   (.15+.43)/2=.29;  (.56+.70)/2=.63

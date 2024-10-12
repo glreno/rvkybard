@@ -2,7 +2,7 @@
     pageEncoding="US-ASCII"%>
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
-    KybardJspHelper kb=new KybardJspHelper(out,"Raiders Copilot",6*3+2,4*3+2,null);
+    KybardJspHelper kb=new KybardJspHelper(out,"Defender Copilot",6*3+2,4*3+2,null);
     kb.loadDefault("COPYRIGHTMESSAGE", "ATARI, Defender, and the ATARI logo are trademarks of Atari Interactive Inc.");
 
     // Standard colours
@@ -69,7 +69,7 @@
     // Space   Start
     kb.startRow();
     kb.spacer(1);
-    kb.key(" ","KB_SPACE",6,6,null,null,"",D2+"keyT.svgt","S2=SMART BOMB");
+    kb.key(" ","KB_SPACE",6,6,null,null,"",D2+"keyB.svgt","S2=SMART BOMB");
     kb.spacer(8);
     kb.key("START","KB_F7",4,3,null,null,"",null,"FS=16","BGC="+CTRLCOLOR,"TXTC=#000");
     kb.endRow();
