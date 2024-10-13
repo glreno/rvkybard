@@ -15,7 +15,7 @@
     String KI=DK+"keyi.svgt";
     String KW=DK+"keywide.svgt";
     String KWI=DK+"keywidei.svgt";
-    String KLED=DS+"led.svgt";
+    String KLED=DS+"led2state.svgt";
     String KCAPSLOCK=DK+"capslock.svgt";
     String MK=DA+"key2.svgt";
 
@@ -38,6 +38,12 @@
   fill: #b00;
 }
 .CONTACTLOST-LED-OFF {
+  fill: none;
+}
+.USBLOST-LED-ON {
+  fill: #e80;
+}
+.USBLOST-LED-OFF {
   fill: #aaa;
 }
 @font-face {
@@ -141,7 +147,7 @@
     kb.key("'","KB_APOSTROPHE",3,3,null,null,"",K2,"S=&quot;");
     kb.key("Enter","KB_ENTER",5,3,null,null,"",KW,"FS=16");
     kb.spacer(6);
-    kb.key("","",1,3,"doNothing()","doNothing()","",KLED,"CLS=CONTACTLOST-LED");
+    kb.key("","",1,3,"doNothing()","doNothing()","",KLED,"CLS1=USBLOST-LED","CLS2=CONTACTLOST-LED");
     kb.spacer(1);
     kb.key("Menu","",3,3,"panic()",kb.MENU,"",null,"FS=10");
     kb.endRow();

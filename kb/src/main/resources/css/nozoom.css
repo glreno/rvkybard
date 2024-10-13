@@ -30,6 +30,9 @@ http://www.apache.org/licenses/LICENSE-2.0
 .CONTACT-STATUS-TEXT {
   color: #D6D2CE;
 }
+.USB-STATUS-TEXT {
+  color: #D6D2CE;
+}
 .CAPSLOCK-LED-ON {
   fill: #DB1049;
 }

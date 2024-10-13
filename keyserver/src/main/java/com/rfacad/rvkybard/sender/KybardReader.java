@@ -37,12 +37,21 @@ public class KybardReader implements Runnable
         return lastRead;
     }
 
+    public void setLastRead(int n)
+    {
+        lastRead = n;
+    }
+
     public String getCurrentFlags()
     {
         int b = lastRead;
-        if ( b <= 0 )
+        if ( b == -2 )
         {
-            return("{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}");
+            return("{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false,\"USBLOST\":true}");
+        }
+        else if ( b <= 0 )
+        {
+            return("{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false,\"USBLOST\":false}");
         }
         StringBuilder buf=new StringBuilder();
         buf.append("{");
@@ -66,7 +75,7 @@ public class KybardReader implements Runnable
                 buf.append(on);
             }
         }
-        buf.append('}');
+        buf.append(",\"USBLOST\":false}");
         return buf.toString();
     }
 
@@ -90,6 +99,7 @@ public class KybardReader implements Runnable
                 lastRead=-2;// a flag indicating that there was a failure
             }
         }
+        lastRead=-2; // looks like we lost the USB connection
         LOG.debug("Thread exting");
     }
 

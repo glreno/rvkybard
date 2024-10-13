@@ -464,6 +464,10 @@ public class KybardJspHelper
         startRow();
         spacer(1);
         notKey("CONTACT-STATUS-TEXT",10,1,"connection status pending");
+        endRowThirds(1);
+        startRow();
+        spacer(1);
+        notKey("USB-STATUS-TEXT",10,1,"usb status pending");
         endRowThirds(2);
 
     }

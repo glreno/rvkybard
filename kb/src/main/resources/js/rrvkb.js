@@ -21,8 +21,9 @@ const asyncsend = async () => {
     u=u+'&k=';
     keysdown.forEach((x)=>{u=u+x+','});
     //console.log(u);
-    response = await fetch(u);
-    if ( response.ok )
+    oksofar=true;
+    response = await fetch(u).catch((error) => {oksofar=false;});
+    if ( oksofar && response.ok )
     {
         leds = await response.json();
         //console.log(leds);
@@ -31,14 +32,16 @@ const asyncsend = async () => {
         }
         setLedClass('CONTACT-LED',true);
         setLedClass('CONTACTLOST-LED',false);
-        setStatusText('Server connection OK');
+        setStatusText('Server connection OK',leds['USBLOST']?
+		'USB connection lost':'USB connection OK'
+	);
     }
     else
     {
         //console.log('not ok');
         setLedClass('CONTACT-LED',false);
         setLedClass('CONTACTLOST-LED',true);
-        setStatusText('Server connection LOST');
+        setStatusText('Server connection LOST','USB connection status unknown');
     }
 
 }
@@ -230,10 +233,15 @@ function setLedClass(baseclass,on) {
     }
 }
 
-function setStatusText(s) {
+function setStatusText(s1,s2) {
     const elems = document.getElementsByClassName('CONTACT-STATUS-TEXT');
     for (let i = 0; i < elems.length; i++)
     {
-        elems[i].innerHTML=s;
+        elems[i].innerHTML=s1;
+    }
+    const elems2 = document.getElementsByClassName('USB-STATUS-TEXT');
+    for (let i = 0; i < elems2.length; i++)
+    {
+        elems2[i].innerHTML=s2;
     }
 }
