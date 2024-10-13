@@ -26,6 +26,9 @@
 .kybard-menu-container {
     background-color: rgb(98,48,48);
 }
+.kbbuttonDown .depress {
+  fill: #888 !important;
+}
 .CAPSLOCK-LED-ON {
     stroke: #b00;
     fill: #b00;
@@ -128,7 +131,7 @@
     kb.spacer(2);
     kb.key("Del","KB_DELETE",3,3,null,null,"",null,"FS=12","TXTC=#400");
     kb.key("End","KB_END",3,3,null,null,"",null,"FS=12","TXTC=#400");
-    kb.key("Down","KB_PGDN",3,3,null,null,"",K2,"FS=24","TXTC=#400","S=Page");
+    kb.key("Down","KB_PGDN",3,3,null,null,"",K2,"FS=18","TXTC=#400","S=Page");
     kb.endRow();
 
     // Caps asdfghjkl;' enter
@@ -165,8 +168,8 @@
     kb.key(",","KB_COMMA",3,3,null,null,"",K2,"S=&lt;");
     kb.key(".",".",3,3,null,null,"",K2,"S=&gt;");
     kb.key("/","/",3,3,null,null,"",K2,"S=?");
-    kb.key("Shift","RIGHT_SHIFT",4,3,kb.SHIFT,kb.SHIFT,"",KW,"FS=16");
-    kb.spacer(8);
+    kb.key("Shift","RIGHT_SHIFT",6,3,kb.SHIFT,kb.SHIFT,"",KW,"FS=16");
+    kb.spacer(6);
     kb.key("UP","KB_UPARROW",3,3,null,null,"",KI,"FS=16","ARROWCOLOR=#000","ARROW=180","INC1="+DART+"arrow.svgt");
     kb.endRow();
 
@@ -177,8 +180,8 @@
     kb.key("Alt","LEFT_ALT",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=16","TXTC=#400");
     kb.key("","KB_SPACE",24,3,null,null,"",KW);
     kb.key("Alt","RIGHT_ALT",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=16","TXTC=#400");
-    kb.key("Ctrl","RIGHT_CTRL",3,3,kb.SHIFT,kb.SHIFT,"",null,"FS=16","TXTC=#400");
-    kb.spacer(5);
+    kb.key("Ctrl","RIGHT_CTRL",4,3,kb.SHIFT,kb.SHIFT,"",KW,"FS=16","TXTC=#400");
+    kb.spacer(4);
     kb.key("Left","KB_LEFTARROW",3,3,null,null,"",KI,"FS=16","ARROWCOLOR=#000","ARROW=90","INC1="+DART+"arrow.svgt");
     kb.key("Down","KB_DOWNARROW",3,3,null,null,"",KI,"FS=16","ARROWCOLOR=#000","ARROW=0","INC1="+DART+"arrow.svgt");
     kb.key("Right","KB_RIGHTARROW",3,3,null,null,"",KI,"FS=16","ARROWCOLOR=#000","ARROW=270","INC1="+DART+"arrow.svgt");

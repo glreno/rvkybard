@@ -26,6 +26,9 @@
 .kybard-menu-container {
     background-color: rgb(98,48,48);
 }
+.kbbuttonDown .depress {
+  fill: #21d5db !important;
+}
 .NUMLOCK-LED-ON {
   fill: #64d743;
 }

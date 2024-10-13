@@ -1,11 +1,11 @@
 <svg width="@{W}" height="@{H}">
 
-<circle fill="@{BORDC}" cx="8" cy="8" r="8"/>
-<circle fill="@{BORDC}" cx="@{W-8}" cy="8" r="8"/>
-<circle fill="@{BORDC}" cx="8" cy="@{H-8}" r="8"/>
-<circle fill="@{BORDC}" cx="@{W-8}" cy="@{H-8}" r="8"/>
-<rect fill="@{BORDC}" x="0" y="8" width="@{W}" height="@{H-16}"/>
-<rect fill="@{BORDC}" x="8" y="0" width="@{W-16}" height="@{H}"/>
+<circle class='depress' fill="@{BORDC}" cx="8" cy="8" r="8"/>
+<circle class='depress' fill="@{BORDC}" cx="@{W-8}" cy="8" r="8"/>
+<circle class='depress' fill="@{BORDC}" cx="8" cy="@{H-8}" r="8"/>
+<circle class='depress' fill="@{BORDC}" cx="@{W-8}" cy="@{H-8}" r="8"/>
+<rect class='depress' fill="@{BORDC}" x="0" y="8" width="@{W}" height="@{H-16}"/>
+<rect class='depress' fill="@{BORDC}" x="8" y="0" width="@{W-16}" height="@{H}"/>
 
 <circle fill="@{SHFBGC}" cx="12" cy="12" r="8"/>
 <circle fill="@{SHFBGC}" cx="@{W-12}" cy="12" r="8"/>

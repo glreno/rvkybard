@@ -9,9 +9,9 @@
       <stop offset="100%" stop-color="#fff" />
     </linearGradient>
   </defs>
-<circle fill="url(#grad1)" cx="@{stdW/2}" cy="50%" r="@{stdW/2}"/>
-<circle fill="url(#grad1)" cx="@{W-stdW/2}" cy="50%" r="@{stdW/2}"/>
-<rect fill="@{BORDC}" x="@{stdW/2}" y="0" width="@{W-stdW}" height="@{H}"/>
+<circle class='depress' fill="url(#grad1)" cx="@{stdW/2}" cy="50%" r="@{stdW/2}"/>
+<circle class='depress' fill="url(#grad1)" cx="@{W-stdW/2}" cy="50%" r="@{stdW/2}"/>
+<rect class='depress' fill="@{BORDC}" x="@{stdW/2}" y="0" width="@{W-stdW}" height="@{H}"/>
 <circle fill="@{BGC}" cx="@{stdW/2}" cy="50%" r="@{stdW/2-BORD}"/>
 <circle fill="@{BGC}" cx="@{W-stdW/2}" cy="50%" r="@{stdW/2-BORD}"/>
 <rect fill="@{BGC}" x="@{stdW/2}" y="@{BORD}" width="@{W-stdW}" height="@{H-BORD-BORD}"/>

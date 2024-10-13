@@ -10,10 +10,10 @@
     </linearGradient>
   </defs>
 <g style='fill:url(#grad1);fill-opacity:1'>
-<circle cx="@{stdW/2}" cy="50%" r="@{stdW/2}"/>
-<circle cx="@{W-stdW/2}" cy="50%" r="@{stdW/2}"/>
+<circle class='depress' cx="@{stdW/2}" cy="50%" r="@{stdW/2}"/>
+<circle class='depress' cx="@{W-stdW/2}" cy="50%" r="@{stdW/2}"/>
 </g>
-<rect fill=@{BORDC} x="@{stdW/2}" y="0" width="@{W-stdW}" height="@{H}"/>
+<rect class='depress' fill=@{BORDC} x="@{stdW/2}" y="0" width="@{W-stdW}" height="@{H}"/>
 <circle class="CAPSLOCK-LED CAPSLOCK-LED-OFF" cx="@{stdW/2}" cy="50%" r="@{stdW/2-BORD}"/>
 <circle class="CAPSLOCK-LED CAPSLOCK-LED-OFF" cx="@{W-stdW/2}" cy="50%" r="@{stdW/2-BORD}"/>
 <circle fill="@{BGC}" cx="@{stdW/2}" cy="50%" r="@{stdW/2-BORD-BORD}"/>
