@@ -3,13 +3,14 @@
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"Round",20*3,6*3,null);
+    kb.loadDefault("COPYRIGHTMESSAGE", "Diplomata font Copyright &copy; 2011 The Diplomata Project");
 
     // Default key SVG and size
     String DA="atari/keys/";
     String DS="std/keys/";
     String DART="std/keys/art/";
     String DK="artdeco/keys/";
-    kb.setDefaultSvg(DK+"key.svgt",3,3,"FS=28","BORD=4","BORDC=#CD7F32","BGC=#eec","TXTC=#000");
+    kb.setDefaultSvg(DK+"key.svgt",3,3,"FS=32","BORD=4","BORDC=#CD7F32","BGC=#eec","TXTC=#000");
     String K2=DK+"key2.svgt";
     String KI=DK+"keyi.svgt";
     String KW=DK+"keywide.svgt";
@@ -106,7 +107,7 @@
     kb.startRow();
     kb.key("Tab","KB_TAB",4,3,null,null,"",KW,"FS=16","TXTC=#400");
     kb.key("Q","Q");
-    kb.key("W","W");
+    kb.key("W","W",3,3,null,null,"",DK+"keyW.svgt");
     kb.key("E","E");
     kb.key("R","R");
     kb.key("T","T");
@@ -154,7 +155,7 @@
     kb.key("V","V");
     kb.key("B","B");
     kb.key("N","N");
-    kb.key("M","M");
+    kb.key("M","M",3,3,null,null,"",DK+"keyW.svgt");
     kb.key(",","KB_COMMA",3,3,null,null,"",K2,"S=&lt;");
     kb.key(".",".",3,3,null,null,"",K2,"S=&gt;");
     kb.key("/","/",3,3,null,null,"",K2,"S=?");
