@@ -33,8 +33,8 @@ const asyncsend = async () => {
         setLedClass('CONTACT-LED',true);
         setLedClass('CONTACTLOST-LED',false);
         setStatusText('Server connection OK',leds['USBLOST']?
-		'USB connection lost':'USB connection OK'
-	);
+            'USB connection lost':'USB connection OK'
+        );
     }
     else
     {

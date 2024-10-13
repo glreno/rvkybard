@@ -38,6 +38,12 @@
   fill: #DB1049;
 }
 .CONTACTLOST-LED-OFF {
+  fill: none;
+}
+.USBLOST-LED-ON {
+  fill: #FFC640;
+}
+.USBLOST-LED-OFF {
   fill: #D6D2CE;
 }
 </style>

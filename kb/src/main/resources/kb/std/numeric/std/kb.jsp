@@ -38,6 +38,12 @@
 .CONTACT-LED-OFF {
   fill: #aaa;
 }
+.USBLOST-LED-ON {
+  fill: #aaa;
+}
+.USBLOST-LED-OFF {
+  fill: #64d743;
+}
 
 </style>
 <script type="text/javascript" language="javascript">
@@ -94,7 +100,11 @@
     kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=CONTACT-LED");
     kb.key("0","KP_0",5,3,null,null,"",KP,"S=Insert");
     kb.key(".","KP_DOT",3,3,null,null,"",KP,"S=Del");
-    kb.endRowThirds(2);
+    kb.endRowThirds(1);
+    kb.startRow();
+    kb.spacer(1);
+    kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=USBLOST-LED");
+    kb.endRowThirds(1);
     kb.startRow();
     kb.spacer(1);
     kb.key("","",1,1,"doNothing()","doNothing()","",KLED,"CLS=NUMLOCK-LED");
