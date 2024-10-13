@@ -9,7 +9,7 @@
       <stop offset="100%" stop-color="#fff" />
     </linearGradient>
   </defs>
-<circle fill="url(#grad1)" cx="50%" cy="50%" r="@{W/2}"/>
+<circle class='depress' fill="url(#grad1)" cx="50%" cy="50%" r="@{W/2}"/>
 <circle fill="@{BGC}" cx="50%" cy="50%" r="@{W/2-BORD}"/>
 <g transform="translate(@{W/2},@{H/2})" >
 @include{TOP+INC1}

@@ -91,7 +91,17 @@ public class KybardPressServlet extends HttpServlet
         String q = req.getQueryString();
         byte flags = parseFlags(q);
         byte [] keys = parseKeys(q);
-        kybardSender.sendKeys(flags,keys);
+        try
+        {
+            kybardSender.sendKeys(flags,keys);
+        }
+        catch(IOException e)
+        {
+            // probably lost the USB connection!
+            // Inform the kybardReader, it's probably still sitting around waiting
+            kybardReader.setLastRead(-2);
+            LOG.debug("Failed to send key: {}",e.getMessage());
+        }
         // Read the state of the keyboard LEDs, send them as json list
         String leds = kybardReader.getCurrentFlags();
         PrintWriter out = resp.getWriter();

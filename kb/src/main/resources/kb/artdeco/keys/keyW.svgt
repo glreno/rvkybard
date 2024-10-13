@@ -9,7 +9,7 @@
       <stop offset="100%" stop-color="#fff" />
     </linearGradient>
   </defs>
-<circle fill="url(#grad1)" cx="50%" cy="50%" r="@{W/2}"/>
+<circle class='depress' fill="url(#grad1)" cx="50%" cy="50%" r="@{W/2}"/>
 <circle fill="@{BGC}" cx="50%" cy="50%" r="@{W/2-BORD}"/>
 <text x="60%" y="${H/2+FS*.15}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-family="Diplomata" transform="scale(.8,1)">@{name}</text>
 </svg>

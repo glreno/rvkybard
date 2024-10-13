@@ -34,10 +34,19 @@
 .kybard-menu-container {
     background-color: rgb(98,48,48);
 }
+.kbbuttonDown .depress {
+  fill: #21d5db !important;
+}
 .CONTACTLOST-LED-ON {
   fill: #DB1049;
 }
 .CONTACTLOST-LED-OFF {
+  fill: none;
+}
+.USBLOST-LED-ON {
+  fill: #FFC640;
+}
+.USBLOST-LED-OFF {
   fill: #D6D2CE;
 }
 </style>

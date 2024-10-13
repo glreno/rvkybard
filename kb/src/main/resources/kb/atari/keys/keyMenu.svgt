@@ -1,5 +1,12 @@
 <svg width="@{W}" height="@{H}">
 
+<circle class="USBLOST-LED" cx="8" cy="8" r="8"/>
+<circle class="USBLOST-LED" cx="8" cy="@{H-8}" r="8"/>
+<circle class="USBLOST-LED" cx="@{W-8}" cy="8" r="8"/>
+<circle class="USBLOST-LED" cx="@{W-8}" cy="@{H-8}" r="8"/>
+<rect class="USBLOST-LED" x="0" y="8" width="@{W}" height="@{H-16}"/>
+<rect class="USBLOST-LED" x="8" y="0" width="@{W-16}" height="@{H}"/>
+
 <circle class="CONTACTLOST-LED" cx="8" cy="8" r="8"/>
 <circle class="CONTACTLOST-LED" cx="8" cy="@{H-8}" r="8"/>
 <circle class="CONTACTLOST-LED" cx="@{W-8}" cy="8" r="8"/>

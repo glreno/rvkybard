@@ -35,7 +35,7 @@ public class KybardReaderTest
         verify(in,times(1)).close();
         // run() should NOT block here!
         kr.run();
-        assertEquals(-1,kr.getLastRead());
+        assertEquals(-2,kr.getLastRead());
     }
 
     @Test(timeout=5000)
@@ -52,7 +52,7 @@ public class KybardReaderTest
         verify(in,times(1)).close();
         // run() should NOT block here!
         kr.run();
-        assertEquals(-1,kr.getLastRead());
+        assertEquals(-2,kr.getLastRead());
     }
 
     @Test(timeout=5000)
@@ -119,9 +119,12 @@ public class KybardReaderTest
         assertEquals(-1,kr.getLastRead());
         kr.startThread();
         pause();
-        kr.shutdown();
         assertEquals(7,kr.getLastRead());
-        assertEquals("{\"NUMLOCK\":true,\"CAPSLOCK\":true,\"SCROLLLOCK\":true,\"COMPOSE\":false,\"KANA\":false}",kr.getCurrentFlags());
+        assertEquals("{\"NUMLOCK\":true,\"CAPSLOCK\":true,\"SCROLLLOCK\":true,\"COMPOSE\":false,\"KANA\":false,\"USBLOST\":false}",kr.getCurrentFlags());
+        kr.shutdown();
+        pause();
+        assertEquals(-2,kr.getLastRead());
+        assertEquals("{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false,\"USBLOST\":true}",kr.getCurrentFlags());
     }
 
     private void verifyFlags(int f,String expected)
@@ -133,14 +136,14 @@ public class KybardReaderTest
     @Test
     public void shouldDecodeFlags()
     {
-        verifyFlags(-2,"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}");
-        verifyFlags(-1,"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}");
-        verifyFlags(0,"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}");
-        verifyFlags(KybardLed.NUMLOCK.getBits(),"{\"NUMLOCK\":true,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}");
-        verifyFlags(KybardLed.CAPSLOCK.getBits(),"{\"NUMLOCK\":false,\"CAPSLOCK\":true,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false}");
-        verifyFlags(KybardLed.SCROLLLOCK.getBits(),"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":true,\"COMPOSE\":false,\"KANA\":false}");
-        verifyFlags(KybardLed.COMPOSE.getBits(),"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":true,\"KANA\":false}");
-        verifyFlags(KybardLed.KANA.getBits(),"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":true}");
+        verifyFlags(-2,"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false,\"USBLOST\":true}");
+        verifyFlags(-1,"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false,\"USBLOST\":false}");
+        verifyFlags(0,"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false,\"USBLOST\":false}");
+        verifyFlags(KybardLed.NUMLOCK.getBits(),"{\"NUMLOCK\":true,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false,\"USBLOST\":false}");
+        verifyFlags(KybardLed.CAPSLOCK.getBits(),"{\"NUMLOCK\":false,\"CAPSLOCK\":true,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":false,\"USBLOST\":false}");
+        verifyFlags(KybardLed.SCROLLLOCK.getBits(),"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":true,\"COMPOSE\":false,\"KANA\":false,\"USBLOST\":false}");
+        verifyFlags(KybardLed.COMPOSE.getBits(),"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":true,\"KANA\":false,\"USBLOST\":false}");
+        verifyFlags(KybardLed.KANA.getBits(),"{\"NUMLOCK\":false,\"CAPSLOCK\":false,\"SCROLLLOCK\":false,\"COMPOSE\":false,\"KANA\":true,\"USBLOST\":false}");
     }
 
     private void pause()
