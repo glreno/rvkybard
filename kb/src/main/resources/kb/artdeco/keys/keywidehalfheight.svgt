@@ -15,5 +15,5 @@
 <circle fill="@{BGC}" cx="@{stdW/2}" cy="50%" r="@{stdW/2-BORD}"/>
 <circle fill="@{BGC}" cx="@{W-stdW/2}" cy="50%" r="@{stdW/2-BORD}"/>
 <rect fill="@{BGC}" x="@{stdW/2}" y="@{BORD}" width="@{W-stdW}" height="@{H-BORD-BORD}"/>
-<text x="50%" y="${H/2+FS*.15}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
+<text x="50%" y="${H/2+FS*.15}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-family="Diplomata">@{name}</text>
 </svg>
