@@ -12,6 +12,7 @@ else
         echo "Removing rrvkb_usb from /etc/rc.local"
         \rm /etc/rc.local
         \grep -v rrvkb_usb /etc/rc.local.bak > /etc/rc.local
+        \chmod +x /etc/rc.local
     else
         echo "Unable to back up /etc/rc.local, not modifying it"
     fi
