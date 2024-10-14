@@ -1,0 +1,9 @@
+@code{keyW = W-cellW-2*gridGap;}
+@code{keyY = 2*cellH+1*gridGap;}
+@code{keyH = H-keyY;}
+<circle class='depress' fill="@{BGC}" cx="8" cy="@{keyY+8}" r="8"/>
+<circle class='depress' fill="@{BGC}" cx="8" cy="@{keyY+keyH-8}" r="8"/>
+<circle class='depress' fill="@{BGC}" cx="@{keyW-8}" cy="@{keyY+8}" r="8"/>
+<circle class='depress' fill="@{BGC}" cx="@{keyW-8}" cy="@{keyY+keyH-8}" r="8"/>
+<rect class='depress' fill="@{BGC}" x="0" y="@{keyY+8}" width="@{keyW}" height="@{keyH-16}"/>
+<rect class='depress' fill="@{BGC}" x="8" y="@{keyY+0}" width="@{keyW-16}" height="@{keyH}"/>
