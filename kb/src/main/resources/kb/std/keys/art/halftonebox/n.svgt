@@ -3,6 +3,8 @@
 <!-- The image will be centered on 0,0 -->
 
 @include{TOP+"std/keys/art/outline.svgt"}
-<!-- Southeast corner. -->
-<rect fill="@{BC}" x="@{-BP*BW/2}" y="@{-BP*BH/2}" width="@{BP*BW/2}" height="@{BP*BH/2}"/>
-
+<!-- 8x8 raster, centered -->
+@{raster(colour,BP,-4,-4,'# # # # ')}
+@{raster(colour,BP,-4,-3,' # # # #')}
+@{raster(colour,BP,-4,-2,'# # # # ')}
+@{raster(colour,BP,-4,-1,' # # # #')}

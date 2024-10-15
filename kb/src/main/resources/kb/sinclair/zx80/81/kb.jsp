@@ -10,16 +10,17 @@
     String DS="std/keys/";
     String DART="std/keys/art/";
     String DK="sinclair/zx80/keys/";
-    String BGC="#033D91";
+    //String BGC="#033d91";
+    String BGC="#10499f";
     String TXTC="#D6D2CE";
     String GOLDC="#E5A005";
-    kb.setDefaultSvg(DK+"key.svgt",5,5,"FS=18","FS2=12","BGC=#033D91","TXTC=#D6D2CE","GOLDC=#E5A005");
+    kb.setDefaultSvg(DK+"key.svgt",5,5,"FS=18","FSs=12","FSk=12","BGC="+BGC,"TXTC=#D6D2CE","GOLDC=#E5A005","OffsetYs=0");
     String KN=DK+"keyN.svgt";  // 123490 - large digit, with a gold word above the key
     String KNi=DK+"keyN.svgt"; // 5678 - large digit, with a gold arrow above the key
     String KL=DK+"keyL.svgt";  // LZMP - Letter, with a gold shifted char
     String KDOT=DK+"keyDot.svgt";  // . - Letter, with a gold shifted char
     String KK=DK+"keyL.svgt";  // YUIO HJK ZXCVN - Letter, gold shifted char, white command above
-    String KKi=DK+"keyL.svgt"; // QWERT ASDFG - Letter, gold icon, white command above
+    String KKi=DK+"keyLi.svgt"; // QWERT ASDFG - Letter, gold icon, white command above
     String KNL=DK+"keyNL.svgt"; // New Line - two-line label, gold command above
     String KSP=DK+"keySp.svgt"; // space - word space, gold pound sign, BLUE command above
 
@@ -85,29 +86,29 @@
     // qwertyuiop
     kb.startRow();
     kb.spacer(2+2);
-    kb.key("Q","Q",5,5,null,null,"",KKi,"Sk=NEW");
-    kb.key("W","W",5,5,null,null,"",KKi,"Sk=LOAD");
-    kb.key("E","E",5,5,null,null,"",KKi,"Sk=SAVE");
-    kb.key("R","R",5,5,null,null,"",KKi,"Sk=RUN");
-    kb.key("T","T",5,5,null,null,"",KKi,"Sk=CONT");
-    kb.key("Y","Y",5,5,null,null,"",KK,"Ss=\"","Sk=REM");
+    kb.key("Q","Q",5,5,null,null,"",KKi,"Sk=NEW","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/w.svgt");
+    kb.key("W","W",5,5,null,null,"",KKi,"Sk=LOAD","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/s.svgt");
+    kb.key("E","E",5,5,null,null,"",KKi,"Sk=SAVE","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/se.svgt");
+    kb.key("R","R",5,5,null,null,"",KKi,"Sk=RUN","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/sw.svgt");
+    kb.key("T","T",5,5,null,null,"",KKi,"Sk=CONT","BP=1.6","BW=8","BH=8","INC1="+DART+"halftonebox/s.svgt");
+    kb.key("Y","Y",5,5,null,null,"",KK,"Ss=\"","FSs=20","Sk=REM","OffsetYs=6");
     kb.key("U","U",5,5,null,null,"",KK,"Ss=$","Sk=IF");
     kb.key("I","I",5,5,null,null,"",KK,"Ss=(","Sk=INPUT");
     kb.key("O","O",5,5,null,null,"",KK,"Ss=)","Sk=PRINT");
-    kb.key("P","P",5,5,null,null,"",KL,"Ss=*");
+    kb.key("P","P",5,5,null,null,"",KL,"Ss=*","FSs=20","OffsetYs=6");
     kb.endRowThirds(5);
 
     // asdfghjkl newline
     kb.startRow();
     kb.spacer(2+3);
-    kb.key("A","A",5,5,null,null,"",KKi,"Sk=LIST");
-    kb.key("S","S",5,5,null,null,"",KKi,"Sk=STOP");
-    kb.key("D","D",5,5,null,null,"",KKi,"Sk=DIM");
-    kb.key("F","F",5,5,null,null,"",KKi,"Sk=FOR");
-    kb.key("G","G",5,5,null,null,"",KKi,"Sk=GOTO");
+    kb.key("A","A",5,5,null,null,"",KKi,"Sk=LIST","BP=1.6","BW=8","BH=8","INC1="+DART+"halftonebox/all.svgt");
+    kb.key("S","S",5,5,null,null,"",KKi,"Sk=STOP","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/slash.svgt");
+    kb.key("D","D",5,5,null,null,"",KKi,"Sk=DIM","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/ne.svgt");
+    kb.key("F","F",5,5,null,null,"",KKi,"Sk=FOR","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/nw.svgt");
+    kb.key("G","G",5,5,null,null,"",KKi,"Sk=GOTO","BP=1.6","BW=8","BH=8","INC1="+DART+"halftonebox/n.svgt");
     kb.key("H","H",5,5,null,null,"",KK,"Ss=**","Sk=POKE");
-    kb.key("J","J",5,5,null,null,"",KK,"Ss=-","Sk=RAND");
-    kb.key("K","K",5,5,null,null,"",KK,"Ss=+","Sk=LET");
+    kb.key("J","J",5,5,null,null,"",KK,"Ss=-","FSs=20","Sk=RAND");
+    kb.key("K","K",5,5,null,null,"",KK,"Ss=+","FSs=20","Sk=LET");
     kb.key("L","L",5,5,null,null,"",KL,"Ss==");
     kb.key("NEW LINE","KB_ENTER",5,5,null,null,"",KNL);
     kb.endRowThirds(5);
@@ -116,14 +117,14 @@
     kb.startRow();
     kb.spacer(2+1);
     kb.key("SHIFT","LEFT_SHIFT",5,5,kb.SHIFT,kb.SHIFT,"",null,"FS=12","TXTC="+GOLDC);
-    kb.key("Z","Z",5,5,null,null,"",KL,"Ss=:");
-    kb.key("X","X",5,5,null,null,"",KK,"Ss=;","Sk=CLEAR");
+    kb.key("Z","Z",5,5,null,null,"",KL,"Ss=:","FSs=20");
+    kb.key("X","X",5,5,null,null,"",KK,"Ss=;","FSs=20","Sk=CLEAR");
     kb.key("C","C",5,5,null,null,"",KK,"Ss=?","Sk=CLS");
     kb.key("V","V",5,5,null,null,"",KK,"Ss=/","Sk=GOSUB");
     kb.key("B","B",5,5,null,null,"",KK,"Ss=OR","Sk=RET");
     kb.key("N","N",5,5,null,null,"",KK,"Ss=<","Sk=NEXT");
     kb.key("M","M",5,5,null,null,"",KL,"Ss=>");
-    kb.key(".",".",5,5,null,null,"",KDOT,"Ss=,");
+    kb.key(".",".",5,5,null,null,"",KDOT,"Ss=,","FS=28","FSs=24");
     kb.key("SPACE","KB_SPACE",5,5,null,null,"",KSP,"FS=12","Ss=&pound;","Sk=BREAK");
     kb.endRowThirds(5);
 
