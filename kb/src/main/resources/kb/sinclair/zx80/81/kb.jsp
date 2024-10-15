@@ -88,8 +88,8 @@
     kb.spacer(2+2);
     kb.key("Q","Q",5,5,null,null,"",KKi,"Sk=NEW","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/w.svgt");
     kb.key("W","W",5,5,null,null,"",KKi,"Sk=LOAD","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/s.svgt");
-    kb.key("E","E",5,5,null,null,"",KKi,"Sk=SAVE","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/se.svgt");
-    kb.key("R","R",5,5,null,null,"",KKi,"Sk=RUN","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/sw.svgt");
+    kb.key("E","E",5,5,null,null,"",KKi,"Sk=SAVE","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/nw.svgt");
+    kb.key("R","R",5,5,null,null,"",KKi,"Sk=RUN","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/ne.svgt");
     kb.key("T","T",5,5,null,null,"",KKi,"Sk=CONT","BP=1.6","BW=8","BH=8","INC1="+DART+"halftonebox/s.svgt");
     kb.key("Y","Y",5,5,null,null,"",KK,"Ss=\"","FSs=20","Sk=REM","OffsetYs=6");
     kb.key("U","U",5,5,null,null,"",KK,"Ss=$","Sk=IF");
@@ -103,8 +103,8 @@
     kb.spacer(2+3);
     kb.key("A","A",5,5,null,null,"",KKi,"Sk=LIST","BP=1.6","BW=8","BH=8","INC1="+DART+"halftonebox/all.svgt");
     kb.key("S","S",5,5,null,null,"",KKi,"Sk=STOP","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/slash.svgt");
-    kb.key("D","D",5,5,null,null,"",KKi,"Sk=DIM","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/ne.svgt");
-    kb.key("F","F",5,5,null,null,"",KKi,"Sk=FOR","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/nw.svgt");
+    kb.key("D","D",5,5,null,null,"",KKi,"Sk=DIM","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/sw.svgt");
+    kb.key("F","F",5,5,null,null,"",KKi,"Sk=FOR","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/se.svgt");
     kb.key("G","G",5,5,null,null,"",KKi,"Sk=GOTO","BP=1.6","BW=8","BH=8","INC1="+DART+"halftonebox/n.svgt");
     kb.key("H","H",5,5,null,null,"",KK,"Ss=**","Sk=POKE");
     kb.key("J","J",5,5,null,null,"",KK,"Ss=-","FSs=20","Sk=RAND");

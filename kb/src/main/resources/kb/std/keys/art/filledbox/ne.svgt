@@ -4,5 +4,5 @@
 
 @include{TOP+"std/keys/art/outline.svgt"}
 <!-- Northeast corner. -->
-<rect fill="@{BC}" x="@{-BP*BW/2}" y="0" width="@{BP*BW/2}" height="@{BP*BH/2}"/>
+<rect fill="@{BC}" x="0" y="@{-BP*BH/2}" width="@{BP*BW/2}" height="@{BP*BH/2}"/>
 
