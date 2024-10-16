@@ -16,7 +16,7 @@
     String GOLDC="#E5A005";
     kb.setDefaultSvg(DK+"key.svgt",5,5,"FS=18","FSs=12","FSk=12","BGC="+BGC,"TXTC=#D6D2CE","GOLDC=#E5A005","OffsetYs=0");
     String KN=DK+"keyN.svgt";  // 123490 - large digit, with a gold word above the key
-    String KNi=DK+"keyN.svgt"; // 5678 - large digit, with a gold arrow above the key
+    String KNi=DK+"keyNi.svgt"; // 5678 - large digit, with a gold arrow above the key
     String KL=DK+"keyL.svgt";  // LZMP - Letter, with a gold shifted char
     String KDOT=DK+"keyDot.svgt";  // . - Letter, with a gold shifted char
     String KK=DK+"keyL.svgt";  // YUIO HJK ZXCVN - Letter, gold shifted char, white command above
@@ -74,10 +74,10 @@
     kb.key("2","2",5,5,null,null,"",KN,"FS=24","Ss=AND");
     kb.key("3","3",5,5,null,null,"",KN,"FS=24","Ss=THEN");
     kb.key("4","4",5,5,null,null,"",KN,"FS=24","Ss=TO");
-    kb.key("5","5",5,5,null,null,"",KNi,"FS=24","Ss=left");
-    kb.key("6","6",5,5,null,null,"",KNi,"FS=24","Ss=down");
-    kb.key("7","7",5,5,null,null,"",KNi,"FS=24","Ss=up");
-    kb.key("8","8",5,5,null,null,"",KNi,"FS=24","Ss=right");
+    kb.key("5","5",5,5,null,null,"",KNi,"FS=24","SX=5","SY=-1","SHAFTLENGTH=8","SHAFTWIDTH=8","ARROWLENGTH=16","ARROWWIDTH=12","ARROWCOLOR="+GOLDC,"ARROW=90","INC1="+DART+"arrowOutline.svgt");
+    kb.key("6","6",5,5,null,null,"",KNi,"FS=24","SX=0","SY=-3","SHAFTLENGTH=4","SHAFTWIDTH=14","ARROWLENGTH=8","ARROWWIDTH=24","ARROWCOLOR="+GOLDC,"ARROW=0","INC1="+DART+"arrowOutline.svgt");
+    kb.key("7","7",5,5,null,null,"",KNi,"FS=24","SX=0","SY=-1","SHAFTLENGTH=4","SHAFTWIDTH=14","ARROWLENGTH=8","ARROWWIDTH=24","ARROWCOLOR="+GOLDC,"ARROW=180","INC1="+DART+"arrowOutline.svgt");
+    kb.key("8","8",5,5,null,null,"",KNi,"FS=24","SX=-3","SY=-1","SHAFTLENGTH=8","SHAFTWIDTH=8","ARROWLENGTH=16","ARROWWIDTH=12","ARROWCOLOR="+GOLDC,"ARROW=270","INC1="+DART+"arrowOutline.svgt");
     kb.key("9","9",5,5,null,null,"",KN,"FS=24","Ss=HOME");
     kb.key("0","0",5,5,null,null,"",KN,"FS=24","Ss=RUBOUT");
     kb.key("Menu","",3,5,"panic()",kb.MENU,"",null,"FS=10");

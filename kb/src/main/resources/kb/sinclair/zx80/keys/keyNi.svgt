@@ -1,0 +1,7 @@
+<svg width="@{W}" height="@{H}">
+@include{TOP+'sinclair/zx80/keys/keyTemplate.svgt'}
+<text x="@{keyW/2}" y="@{keyY+keyH/2+FS*.1}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
+<g transform='translate(@{keyW*.5+SX},@{keyY-FSk*.75+SY})'>
+    @include{TOP+INC1;pxsz=P}
+</g>
+</svg>
