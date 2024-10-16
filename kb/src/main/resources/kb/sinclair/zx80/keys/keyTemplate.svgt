@@ -7,3 +7,4 @@
 <circle class='depress' fill="@{BGC}" cx="@{keyW-8}" cy="@{keyY+keyH-8}" r="8"/>
 <rect class='depress' fill="@{BGC}" x="0" y="@{keyY+8}" width="@{keyW}" height="@{keyH-16}"/>
 <rect class='depress' fill="@{BGC}" x="8" y="@{keyY+0}" width="@{keyW-16}" height="@{keyH}"/>
+<rect fill="@{BGC}" x="6" y="@{keyY+6}" width="@{keyW-12}" height="@{keyH-12}"/>

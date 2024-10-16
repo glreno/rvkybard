@@ -1,0 +1,24 @@
+<svg width="@{W}" height="@{H}">
+@code{keyW = W-cellW-2*gridGap;}
+@code{keyY = 2*cellH+1*gridGap;}
+@code{keyH = H-keyY;}
+
+<circle class='depress USBLOST-LED' fill="@{BGC}" cx="8" cy="@{keyY+8}" r="8"/>
+<circle class='depress USBLOST-LED' fill="@{BGC}" cx="8" cy="@{keyY+keyH-8}" r="8"/>
+<circle class='depress USBLOST-LED' fill="@{BGC}" cx="@{keyW-8}" cy="@{keyY+8}" r="8"/>
+<circle class='depress USBLOST-LED' fill="@{BGC}" cx="@{keyW-8}" cy="@{keyY+keyH-8}" r="8"/>
+<rect class='depress USBLOST-LED' fill="@{BGC}" x="0" y="@{keyY+8}" width="@{keyW}" height="@{keyH-16}"/>
+<rect class='depress USBLOST-LED' fill="@{BGC}" x="8" y="@{keyY+0}" width="@{keyW-16}" height="@{keyH}"/>
+
+<circle class='CONTACTLOST-LED' fill="none" cx="8" cy="@{keyY+8}" r="8"/>
+<circle class='CONTACTLOST-LED' fill="none" cx="8" cy="@{keyY+keyH-8}" r="8"/>
+<circle class='CONTACTLOST-LED' fill="none" cx="@{keyW-8}" cy="@{keyY+8}" r="8"/>
+<circle class='CONTACTLOST-LED' fill="none" cx="@{keyW-8}" cy="@{keyY+keyH-8}" r="8"/>
+<rect class='CONTACTLOST-LED' fill="none" x="0" y="@{keyY+8}" width="@{keyW}" height="@{keyH-16}"/>
+<rect class='CONTACTLOST-LED' fill="none" x="8" y="@{keyY+0}" width="@{keyW-16}" height="@{keyH}"/>
+
+
+<rect fill="@{BGC}" x="6" y="@{keyY+6}" width="@{keyW-12}" height="@{keyH-12}"/>
+
+<text x="@{keyW*.5}" y="@{keyY+keyH/2+FS*.1}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
+</svg>

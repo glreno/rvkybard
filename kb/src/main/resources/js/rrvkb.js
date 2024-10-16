@@ -170,6 +170,7 @@ function keyUpShiftDiff(elem,key,shifted) {
 */
 function keyDownRemap(elem,flags,key,shiftedflags,shifted,ctrlflags,ctrl) {
     //console.log('Down:'+key+" "+shifted+" "+ctrl);
+    elem.classList.add('kbbuttonDown');
     flagsdownstash.clear();
     flagsdown.forEach(x => flagsdownstash.add(x));
     flagsdown.clear();
@@ -201,6 +202,7 @@ function keyDownRemap(elem,flags,key,shiftedflags,shifted,ctrlflags,ctrl) {
     send();
 }
 function keyUpRemap(elem,key,shifted,ctrl) {
+    elem.classList.remove('kbbuttonDown');
     //console.log('Up '+key+' '+shifted+' '+ctrl);
     //console.log("Flags: "+[...flagsdown]);
     //console.log("Stash: "+[...flagsdownstash]);

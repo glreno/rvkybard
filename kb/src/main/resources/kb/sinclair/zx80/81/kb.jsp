@@ -2,7 +2,7 @@
     pageEncoding="US-ASCII"%>
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
-    KybardJspHelper kb=new KybardJspHelper(out,"ZX80ish",20*5,6*5,null);
+    KybardJspHelper kb=new KybardJspHelper(out,"ZX80ish",11*5+2,4*5+1,null);
     kb.setDefaultCellSize(12,12,1,2);
 
     // Default key SVG and size
@@ -23,6 +23,7 @@
     String KKi=DK+"keyLi.svgt"; // QWERT ASDFG - Letter, gold icon, white command above
     String KNL=DK+"keyNL.svgt"; // New Line - two-line label, gold command above
     String KSP=DK+"keySp.svgt"; // space - word space, gold pound sign, BLUE command above
+    String KMENU=DK+"keyMenu.svgt"; // rrvkb menu
 
     kb.startHtml();
 %>
@@ -47,7 +48,7 @@
   fill: #e80;
 }
 .USBLOST-LED-OFF {
-  fill: #aaa;
+  fill: <%=BGC%>;
 }
 </style>
 <script type="text/javascript" language="javascript">
@@ -80,7 +81,7 @@
     kb.key("8","8",5,5,null,null,"",KNi,"FS=24","SX=-3","SY=-1","SHAFTLENGTH=8","SHAFTWIDTH=8","ARROWLENGTH=16","ARROWWIDTH=12","ARROWCOLOR="+GOLDC,"ARROW=270","INC1="+DART+"arrowOutline.svgt");
     kb.key("9","9",5,5,null,null,"",KN,"FS=24","Ss=HOME");
     kb.key("0","0",5,5,null,null,"",KN,"FS=24","Ss=RUBOUT");
-    kb.key("Menu","",3,5,"panic()",kb.MENU,"",null,"FS=10");
+    kb.key("MENU","",5,5,"panic()",kb.MENU,"",KMENU,"FS=12");
     kb.endRowThirds(5);
 
     // qwertyuiop
@@ -124,7 +125,11 @@
     kb.key("B","B",5,5,null,null,"",KK,"Ss=OR","Sk=RET");
     kb.key("N","N",5,5,null,null,"",KK,"Ss=<","Sk=NEXT");
     kb.key("M","M",5,5,null,null,"",KL,"Ss=>");
-    kb.key(".",".",5,5,null,null,"",KDOT,"Ss=,","FS=28","FSs=24");
+    //  keyDownRemap(elem,flags,key,shiftedflags,shifted,ctrlflags,ctrl)
+    kb.key(".",".",5,5,
+        "keyDownRemap(this,[],'.',[],'KB_COMMA',[],'.')",
+        "keyUpRemap(this,'.','KB_COMMA','.')",
+        "",KDOT,"Ss=,","FS=28","FSs=24");
     kb.key("SPACE","KB_SPACE",5,5,null,null,"",KSP,"FS=12","Ss=&pound;","Sk=BREAK");
     kb.endRowThirds(5);
 
