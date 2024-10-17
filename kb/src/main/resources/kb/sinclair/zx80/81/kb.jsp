@@ -3,6 +3,7 @@
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
     KybardJspHelper kb=new KybardJspHelper(out,"ZX80ish",11*5+2,4*5+1,null);
+    kb.loadDefault("COPYRIGHTMESSAGE", "Sinclair ZX80 originally copyright/trademarks of Sinclair Research LTD 1980");
     kb.setDefaultCellSize(12,12,1,2);
 
     // Default key SVG and size

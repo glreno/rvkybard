@@ -66,7 +66,7 @@ public class KybardJspHelper
         this.gridCols=gridCols;
         this.gridRows=gridRows;
         this.menuCols=5*3;
-        this.menuRows=gridRows-1;
+        this.menuRows=5*3+1;
         top = new File("webapps/ROOT/kb"); // TODO we are assuming that we are running under Tomcat as the ROOT webapp!
         templateProcessor.loadDefault("TITLE", title);
         templateProcessor.loadDefault("INCLUDE_TITLE_IN_COPYRIGHT",true);
@@ -175,8 +175,8 @@ public class KybardJspHelper
         // The kbd pixel sizes are two gridGaps larger than they should be, to allow some overflows from the buttons
         templateProcessor.loadDefault("kbdW",(cellW+gridGap)*gridCols + gridGap);
         templateProcessor.loadDefault("kbdH",(cellH+gridGap)*gridRows + gridGap);
-        templateProcessor.loadDefault("menuW",(cellW+gridGap)*menuCols + gridGap);
-        templateProcessor.loadDefault("menuH",(cellH+gridGap)*menuRows + gridGap);
+        templateProcessor.loadDefault("menuW",(20+gridGap)*menuCols + gridGap);
+        templateProcessor.loadDefault("menuH",(20+gridGap)*menuRows + gridGap);
         templateProcessor.loadDefault("stdColSpan",keyColSpan);
         templateProcessor.loadDefault("stdRowSpan",keyRowSpan);
     }
@@ -448,6 +448,13 @@ public class KybardJspHelper
      * including the all important one calling closeMenu(), and then finally endKeyboard() */ 
     public void startMenu()
     {
+        keyColSpan=3;
+        keyRowSpan=3;
+        cellW=20;
+        cellH=20;
+        pixelSize=1;
+        gridGap=2;
+        templateProcessor.loadDefault("FS",48);
         setMouseMode(MouseMode.CLICK);
         // this calculation has to be in the ctor to get the numbers into the top style
         calculateDefaultSizes();
