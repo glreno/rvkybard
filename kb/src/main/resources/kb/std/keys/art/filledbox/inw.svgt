@@ -3,8 +3,13 @@
 <!-- The image will be centered on 0,0 -->
 
 @include{TOP+"std/keys/art/outline.svgt"}
-<!-- Northeast corner. -->
-<rect fill="@{BC}" x="0" y="@{-BP*BH/2}" width="@{BP*BW/2}" height="@{BP*BH/2}"/>
-<!-- Southwest corner. -->
-<rect fill="@{BC}" x="@{-BP*BW/2}" y="0" width="@{BP*BW/2}" height="@{BP*BH/2}"/>
+<!-- Inverse Northwest corner. -->
+<polygon fill="@{BC}" stroke="none" points="
+	0,0,
+	0,@{-BP*BH/2},
+	@{BP*BW/2},@{-BP*BH/2},
+	@{BP*BW/2},@{BP*BH/2},
+	@{-BP*BW/2},@{BP*BH/2},
+	@{-BP*BW/2},0,
+" />
 
