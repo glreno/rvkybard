@@ -1,6 +1,6 @@
 @code{keyW = W-cellW-2*gridGap;}
-@code{keyY = 2*cellH+1*gridGap;}
-@code{keyH = H-keyY;}
+@code{keyY = 1*cellH+1*gridGap;}
+@code{keyH = H-keyY-cellH-0*gridGap;}
 <circle class='depress' fill="@{BGC}" cx="8" cy="@{keyY+8}" r="8"/>
 <circle class='depress' fill="@{BGC}" cx="8" cy="@{keyY+keyH-8}" r="8"/>
 <circle class='depress' fill="@{BGC}" cx="@{keyW-8}" cy="@{keyY+8}" r="8"/>

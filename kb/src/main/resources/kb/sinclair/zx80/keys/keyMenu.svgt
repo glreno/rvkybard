@@ -1,7 +1,7 @@
 <svg width="@{W}" height="@{H}">
 @code{keyW = W-cellW-2*gridGap;}
-@code{keyY = 2*cellH+1*gridGap;}
-@code{keyH = H-keyY;}
+@code{keyY = 1*cellH+1*gridGap;}
+@code{keyH = H-keyY-cellH;}
 
 <circle class='depress USBLOST-LED' fill="@{BGC}" cx="8" cy="@{keyY+8}" r="8"/>
 <circle class='depress USBLOST-LED' fill="@{BGC}" cx="8" cy="@{keyY+keyH-8}" r="8"/>

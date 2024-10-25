@@ -2,7 +2,7 @@
     pageEncoding="US-ASCII"%>
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
-    KybardJspHelper kb=new KybardJspHelper(out,"ZX81ish",11*5+2,4*5+1,null);
+    KybardJspHelper kb=new KybardJspHelper(out,"ZX81ish",11*5+2,4*5+3,null);
     kb.loadDefault("COPYRIGHTMESSAGE", "Sinclair ZX81 originally copyright/trademarks of Sinclair Research LTD 1981");
     kb.setDefaultCellSize(12,12,1,2);
 
@@ -70,6 +70,8 @@
     // SHIFT+KEY gets you the red thing, in any mode
 
     // 1-9 0 and menu
+    kb.startRow();
+    kb.endRowThirds(2);
     kb.startRow();
     kb.spacer(2+0);
     kb.key("1","1",5,5,null,null,"",KKi,"FS=24","Ss=EDIT","INC1="+DART+"filledbox/nw.svgt");

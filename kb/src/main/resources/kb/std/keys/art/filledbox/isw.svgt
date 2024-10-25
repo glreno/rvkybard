@@ -3,7 +3,7 @@
 <!-- The image will be centered on 0,0 -->
 
 @include{TOP+"std/keys/art/outline.svgt"}
-<!-- Inverse Southwest corner. -->
+<!-- Inverse Southeast corner. -->
 <polygon fill="@{BC}" stroke="none" points="
 	0,0,
 	@{-BP*BW/2},0,

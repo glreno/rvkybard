@@ -2,7 +2,7 @@
     pageEncoding="US-ASCII"%>
 <%@ page import="com.rfacad.rvkybard.jsp.KybardJspHelper" %>
 <%
-    KybardJspHelper kb=new KybardJspHelper(out,"ZX80ish",11*5+2,4*5+1,null);
+    KybardJspHelper kb=new KybardJspHelper(out,"ZX80ish",11*5+2,4*5+3,null);
     kb.loadDefault("COPYRIGHTMESSAGE", "Sinclair ZX80 originally copyright/trademarks of Sinclair Research LTD 1980");
     kb.setDefaultCellSize(12,12,1,2);
 
@@ -71,15 +71,17 @@
 
     // 1-9 0 and menu
     kb.startRow();
+    kb.endRowThirds(2);
+    kb.startRow();
     kb.spacer(2+0);
     kb.key("1","1",5,5,null,null,"",KN,"FS=24","Ss=NOT");
     kb.key("2","2",5,5,null,null,"",KN,"FS=24","Ss=AND");
     kb.key("3","3",5,5,null,null,"",KN,"FS=24","Ss=THEN");
     kb.key("4","4",5,5,null,null,"",KN,"FS=24","Ss=TO");
-    kb.key("5","5",5,5,null,null,"",KNi,"FS=24","SX=5","SY=-1","SHAFTLENGTH=8","SHAFTWIDTH=8","ARROWLENGTH=16","ARROWWIDTH=12","ARROWCOLOR="+GOLDC,"ARROW=90","INC1="+DART+"arrowOutline.svgt");
-    kb.key("6","6",5,5,null,null,"",KNi,"FS=24","SX=0","SY=-3","SHAFTLENGTH=4","SHAFTWIDTH=14","ARROWLENGTH=8","ARROWWIDTH=24","ARROWCOLOR="+GOLDC,"ARROW=0","INC1="+DART+"arrowOutline.svgt");
-    kb.key("7","7",5,5,null,null,"",KNi,"FS=24","SX=0","SY=-1","SHAFTLENGTH=4","SHAFTWIDTH=14","ARROWLENGTH=8","ARROWWIDTH=24","ARROWCOLOR="+GOLDC,"ARROW=180","INC1="+DART+"arrowOutline.svgt");
-    kb.key("8","8",5,5,null,null,"",KNi,"FS=24","SX=-3","SY=-1","SHAFTLENGTH=8","SHAFTWIDTH=8","ARROWLENGTH=16","ARROWWIDTH=12","ARROWCOLOR="+GOLDC,"ARROW=270","INC1="+DART+"arrowOutline.svgt");
+    kb.key("5","5",5,5,null,null,"",KNi,"FS=24","SX=5","SY=0","SHAFTLENGTH=8","SHAFTWIDTH=7","ARROWLENGTH=16","ARROWWIDTH=11","ARROWCOLOR="+GOLDC,"ARROW=90","INC1="+DART+"arrowOutline.svgt");
+    kb.key("6","6",5,5,null,null,"",KNi,"FS=24","SX=0","SY=-3","SHAFTLENGTH=3","SHAFTWIDTH=14","ARROWLENGTH=7","ARROWWIDTH=24","ARROWCOLOR="+GOLDC,"ARROW=0","INC1="+DART+"arrowOutline.svgt");
+    kb.key("7","7",5,5,null,null,"",KNi,"FS=24","SX=0","SY=1","SHAFTLENGTH=3","SHAFTWIDTH=14","ARROWLENGTH=7","ARROWWIDTH=24","ARROWCOLOR="+GOLDC,"ARROW=180","INC1="+DART+"arrowOutline.svgt");
+    kb.key("8","8",5,5,null,null,"",KNi,"FS=24","SX=-3","SY=0","SHAFTLENGTH=8","SHAFTWIDTH=7","ARROWLENGTH=16","ARROWWIDTH=11","ARROWCOLOR="+GOLDC,"ARROW=270","INC1="+DART+"arrowOutline.svgt");
     kb.key("9","9",5,5,null,null,"",KN,"FS=24","Ss=HOME");
     kb.key("0","0",5,5,null,null,"",KN,"FS=24","Ss=RUBOUT");
     kb.key("MENU","",5,5,"panic()",kb.MENU,"",KMENU,"FS=12");
