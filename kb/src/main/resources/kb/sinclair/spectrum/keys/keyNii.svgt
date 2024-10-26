@@ -7,4 +7,7 @@
 <g transform='translate(@{keyW*.7},@{keyY+cellH})'>
 @include{TOP+INC1;colour=TXTC;BC=TXTC;pxsz=P}
 </g>
+<g transform='translate(@{keyW*.25+SX},@{keyY-FSf*.6+SY})'>
+    @include{TOP+INC2;pxsz=P}
+</g>
 </svg>

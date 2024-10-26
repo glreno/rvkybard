@@ -1,0 +1,4 @@
+<svg width="@{W}" height="@{H}">
+<rect x="0" y="@{FS*.1}" width="@{FS*4.1}" height="@{cellH}" fill="@{BGC}" />
+<text x="@{cellW*.25}" y="@{FS*.8}" dominant-baseline="middle" text-anchor="start" font-size="@{FS}" fill="@{TXTC}" font-weight="bold" font-family="sans-serif">@{name}</text>
+</svg>

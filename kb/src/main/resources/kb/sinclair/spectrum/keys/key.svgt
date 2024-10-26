@@ -1,4 +1,5 @@
 <svg width="@{W}" height="@{H}">
 @include{TOP+'sinclair/zx81/keys/keyTemplate.svgt'}
-<text x="@{keyW/2}" y="@{keyY+keyH/2+FS*.1}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-family="sans-serif">@{name}</text>
+<text x="@{keyW/2}" y="@{keyY+keyH/2-FS*.6}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-weight="bold" font-family="sans-serif">@{name}</text>
+<text x="@{keyW/2}" y="@{keyY+keyH/2+FSk*.6}" dominant-baseline="middle" text-anchor="middle" font-size="@{FSk}" fill="@{TXTC}" font-weight="bold" font-family="sans-serif">@{Sk}</text>
 </svg>
