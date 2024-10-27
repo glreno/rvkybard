@@ -58,11 +58,34 @@
 <%
     kb.startKeyboard();
 
+    // the Spectrum Stripes
+    // Order of the stripes is RED YELLOW GREEN BLUE
+    // These start at the same X as the start of the space key, at the bottom of the kb;
+    // and slope upwards to about the top of the P key, at the right edge.
+    // The space key is at grid-area: 18/49/span 5/span 7
+    // the P key is at     grid-area:  8/50/span 5/span 5
+    // and the keyboard grid is 57x23 12x12 squares with 2px gaps
+    // Thus the stripes in grid-area:  8/14/span 16/span 9
+    // and the svg size is 9*14 x 16*14 = 126x224
+    // In my 1024x434 picture of a real spectrum, the red stripe is at X=888 to 902, Y=134 to 167
+    // w=14px, 14/1024=1.3%; h=33px, 33/434=7.6%
+    // 1.3% * (57*14) = 10.3px; 7.6% * (23*14) = 24.5px
+    // ....and all that math is off because my keyboard is actually WIDER by a menu key.
+    // Move everything up by 3 grid cells (42px)
+
+%><div style="grid-area: 5/49/span 18/span 9;">
+<svg x='0' y='0' width='128' height='268'>
+<polygon style='fill:#F66254;' points=' 5,268 128,0  128,21 16,268'/>
+<polygon style='fill:#FFC35E;' points='15,268 128,20 128,41 26,268'/>
+<polygon style='fill:#619A49;' points='25,268 128,40 128,61 36,268'/>
+<polygon style='fill:#4A8FDA;' points='35,268 128,60 128,81 46,268'/>
+</svg></div><%
+
     //
     // Keyboard rows start here
     //
 
-    // The rules of ZX81 typing:
+    // The rules of Spectrum typing:
     // K gets you a digit, or the white command on the key.
     // SYMBOL-SHIFT gets you the red thing on the key
     // E gets you the green function above the key - or set INK color
@@ -89,7 +112,6 @@
     kb.spacer(10);
     kb.key("BLACK","0",5,5,null,null,"",KC,"FS=10","TXTC=#000","BGC=#FFF");
     kb.endRowThirds(1);
-
     // 1-9 0 and menu
     kb.startRow();
     kb.spacer(2+0);
