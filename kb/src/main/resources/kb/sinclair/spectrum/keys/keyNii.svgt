@@ -3,7 +3,7 @@
 <text x="@{keyW*.25}" y="@{keyY+FS*.8}" dominant-baseline="middle" text-anchor="middle" font-size="@{FS}" fill="@{TXTC}" font-weight="bold" font-family="sans-serif">@{name}</text>
 <text x="@{FSf/4}" y="@{keyY-FSf*.6}" dominant-baseline="middle" text-anchor="start" font-size="@{FSf}" fill="@{TXTC}" font-weight="bold" font-family="sans-serif">@{Sf}</text>
 <text x="@{FSe/4}" y="@{keyY+keyH+FSe*.8}" dominant-baseline="middle" text-anchor="start" font-size="@{FSe}" fill="@{REDC}" font-weight="bold" font-family="sans-serif">@{Se}</text>
-<text x="@{keyW*.7+OffsetXs}" y="@{keyY+cellH*2+FSs*.6+OffsetYs}" dominant-baseline="middle" text-anchor="middle" font-size="@{FSs}" fill="@{REDC}" font-family="sans-serif">@{Ss}</text>
+<text x="@{keyW*.7+OffsetXs}" y="@{keyY+cellH*2+FSs*.6+OffsetYs}" dominant-baseline="middle" text-anchor="middle" font-size="@{FSs}" fill="@{REDC}" font-weight="bold" font-family="sans-serif">@{Ss}</text>
 <g transform='translate(@{keyW*.7},@{keyY+cellH})'>
 @include{TOP+INC1;colour=TXTC;BC=TXTC;pxsz=P}
 </g>
