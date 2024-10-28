@@ -95,7 +95,7 @@
     // G gets you the graphic icon on a number key (and limits letter keys to upper case)
     // G+SHIFT (either one) gets you the inverse graphics char
     // L gets you a digit or lower case letter
-    // L+CAPS-SHIFT gets you upper case letter or an white edit more above a number key
+    // L+CAPS-SHIFT gets you upper case letter or an white mode above a number key
 
     // Color labels
     kb.startRow();
