@@ -1,0 +1,14 @@
+<!-- An arrow. It is ARROWLENGTH+SHAFTLENGTH px long, ARROWWIDTH px wide, and pointed down unless rotated. -->
+<!-- expected parameters: ARROW (rotation in degrees), ARROWCOLOR (color), ARROWLENGTH, ARROWWIDTH -->
+<!-- SHAFTLENGTH, SHAFTWIDTH. The center is where the shaft and point meet. -->
+<g transform="rotate(@{ARROW})" >
+<polygon style="fill:none; stroke:@{ARROWCOLOR}; stroke-width:2" points="
+	0,@{ARROWLENGTH},
+	@{-ARROWWIDTH/2},0,
+	@{-SHAFTWIDTH/2},0,
+	@{-SHAFTWIDTH/2},@{-SHAFTLENGTH},
+	@{SHAFTWIDTH/2},@{-SHAFTLENGTH},
+	@{SHAFTWIDTH/2},0,
+	@{ARROWWIDTH/2},0,
+" />
+</g>

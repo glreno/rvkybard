@@ -40,8 +40,8 @@ http://www.apache.org/licenses/LICENSE-2.0
 <style>
 .kybard-menu-container {
   display: grid;
-  grid-template-columns: repeat(@{menuCols}, @{cellW}px);
-  grid-template-rows: repeat(@{menuRows}, @{cellH}px);
+  grid-template-columns: repeat(@{menuCols}, 20px);
+  grid-template-rows: repeat(@{menuRows}, 20px);
   gap: @{gridGap}px;
   width: @{menuW}px;
   height: @{menuH}px;

@@ -97,8 +97,8 @@
     kb.key("T","T",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"circle.svgt");
     kb.key("Y","Y",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/w.svgt");
     kb.key("U","U",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/s.svgt");
-    kb.key("I","I",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/nw.svgt");
-    kb.key("O","O",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/ne.svgt");
+    kb.key("I","I",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/se.svgt");
+    kb.key("O","O",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/sw.svgt");
     kb.key("P","P",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"suits/club.svgt");
     kb.key("-","-",3,3,"keyDownRemap(this,[],'-',['LEFT_SHIFT'],'-',[],'KB_UPARROW')","keyUpRemap(this,'-','-','KB_UPARROW')","",K3,"S=_","ARROWCOLOR=#000","ARROW=180","INC1="+DART+"arrow.svgt");
     kb.key("=","=",3,3,"keyDownRemap(this,[],'=',['LEFT_SHIFT'],'KB_BACKSLASH',[],'KB_DOWNARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_DOWNARROW')","",K3,"S=|","ARROWCOLOR=#000","ARROW=0","FIXSY=4","INC1="+DART+"arrow.svgt");
@@ -118,8 +118,8 @@
     kb.key("G","G",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/backslash.svgt");
     kb.key("H","H",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/triangle.svgt");
     kb.key("J","J",3,3,null,null,"",K3,"BC=#000","BP=1.8","BW=8","BH=8","INC1="+DART+"outerbox/backtriangle.svgt");
-    kb.key("K","K",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/sw.svgt");
-    kb.key("L","L",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/se.svgt");
+    kb.key("K","K",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/ne.svgt");
+    kb.key("L","L",3,3,null,null,"",K3,"BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"filledbox/nw.svgt");
     kb.key(";",";",3,3,null,null,"",K3,"S=:","FIXLY=-2","BC=#000","BP=1.6","BW=8","BH=8","INC1="+DART+"suits/spade.svgt");
     kb.key("+","+",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'=',[],'KB_BACKSLASH',[],'KB_LEFTARROW')","keyUpRemap(this,'=','KB_BACKSLASH','KB_LEFTARROW')","",K3,"S=\\","ARROWCOLOR=#000","ARROW=90","FIXSY=6","INC1="+DART+"arrow.svgt");
     kb.key("*","*",3,3,"keyDownRemap(this,['LEFT_SHIFT'],'8',['LEFT_SHIFT'],'6',[],'KB_RIGHTARROW')","keyUpRemap(this,'8','6','KB_RIGHTARROW')","",K3,"S=^","ARROWCOLOR=#000","ARROW=270","FIXSY=6","INC1="+DART+"arrow.svgt");

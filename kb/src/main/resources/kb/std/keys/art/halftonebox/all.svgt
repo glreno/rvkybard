@@ -1,0 +1,14 @@
+<!-- Box graphic - a bit of lineart, with a square around it -->
+<!-- Expected parameters: BP (pixel size), BW BH (Box width & height, in pixels), BC (color) -->
+<!-- The image will be centered on 0,0 -->
+
+@include{TOP+"std/keys/art/outline.svgt"}
+<!-- 8x8 raster, centered -->
+@{raster(colour,BP,-4,-4,'# # # # ')}
+@{raster(colour,BP,-4,-3,' # # # #')}
+@{raster(colour,BP,-4,-2,'# # # # ')}
+@{raster(colour,BP,-4,-1,' # # # #')}
+@{raster(colour,BP,-4, 0,'# # # # ')}
+@{raster(colour,BP,-4, 1,' # # # #')}
+@{raster(colour,BP,-4, 2,'# # # # ')}
+@{raster(colour,BP,-4, 3,' # # # #')}
