@@ -15,7 +15,7 @@
 
 <groupId>com.rfacad.rrvkb</groupId>
 <artifactId>rrvkb</artifactId>
-<version>1.01dev</version>
+<version>1.02</version>
 <packaging>pom</packaging>
 
 <name>rrvkb</name>
@@ -39,7 +39,7 @@
 </modules>
 
 <properties>
-    <rrvkb.version>1.01dev</rrvkb.version>
+    <rrvkb.version>1.02</rrvkb.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
